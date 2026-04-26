@@ -1,0 +1,1694 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Criar o seu secretário digital · Proteína Lúdica</title>
+<meta name="description" content="Um secretário digital que escreve por si. Em 7 passos.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ═══════════════════════════════════════════
+   PALETA LAURISSILVA DIGITAL
+   ═══════════════════════════════════════════ */
+:root {
+  --bg: #0B0E0C;
+  --bg-2: #131814;
+  --bg-3: #1B221D;
+  --moss: #8FAA6B;          /* verde musgo */
+  --moss-bright: #A8C685;
+  --moss-deep: #5F7548;
+  --ochre: #C8A86B;          /* ocre */
+  --ochre-bright: #DCBE7E;
+  --text: #E8EAE5;
+  --text-soft: #B8BDB3;
+  --text-mute: #6E7569;
+  --line: #2A3128;
+  --danger: #E08470;
+  --warn: #D4A656;
+  --ok: #8FAA6B;
+
+  --serif: 'Fraunces', Georgia, serif;
+  --sans: 'Geist', -apple-system, system-ui, sans-serif;
+  --mono: 'Geist Mono', 'SF Mono', Consolas, monospace;
+
+  --radius: 4px;
+  --radius-lg: 12px;
+  --shadow: 0 1px 0 rgba(255,255,255,0.04) inset, 0 12px 40px rgba(0,0,0,0.4);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.55;
+  letter-spacing: -0.005em;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Texturas de fundo subtis */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 15% 8%, rgba(143,170,107,0.06), transparent 40%),
+    radial-gradient(circle at 85% 92%, rgba(200,168,107,0.05), transparent 45%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ═══════════════════════════════════════════
+   TIPOGRAFIA
+   ═══════════════════════════════════════════ */
+h1, h2, h3 {
+  font-family: var(--serif);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+h1 { font-size: clamp(2rem, 5vw, 3.4rem); }
+h2 { font-size: clamp(1.5rem, 3.5vw, 2.2rem); }
+h3 { font-size: clamp(1.15rem, 2vw, 1.4rem); }
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ochre);
+  margin-bottom: 1rem;
+  display: inline-block;
+}
+
+.lead {
+  font-size: 1.15rem;
+  color: var(--text-soft);
+  max-width: 60ch;
+}
+
+code, .mono { font-family: var(--mono); }
+
+/* ═══════════════════════════════════════════
+   LAYOUT BASE
+   ═══════════════════════════════════════════ */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* ═══════════════════════════════════════════
+   HEADER
+   ═══════════════════════════════════════════ */
+.site-header {
+  border-bottom: 1px solid var(--line);
+  padding: 1rem 0;
+  background: rgba(11,14,12,0.85);
+  backdrop-filter: blur(12px);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.brand {
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--text);
+  text-decoration: none;
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+.brand-mark {
+  display: inline-block;
+  width: 8px; height: 8px;
+  background: var(--moss);
+  border-radius: 50%;
+  vertical-align: middle;
+}
+.brand-tag {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--text-mute);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.header-cta {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--text-mute);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════════
+   PROGRESSO DOS PASSOS
+   ═══════════════════════════════════════════ */
+.steps-bar {
+  background: var(--bg-2);
+  border-bottom: 1px solid var(--line);
+  padding: 1rem 0;
+  position: sticky;
+  top: 65px;
+  z-index: 49;
+}
+.steps {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  align-items: center;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.steps::-webkit-scrollbar { display: none; }
+.step {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--text-mute);
+  white-space: nowrap;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--radius);
+  transition: all 0.25s ease;
+}
+.step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px; height: 22px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  font-size: 0.65rem;
+}
+.step.active {
+  color: var(--moss-bright);
+  background: rgba(143,170,107,0.08);
+}
+.step.active .step-num {
+  border-color: var(--moss);
+  background: var(--moss);
+  color: var(--bg);
+}
+.step.done .step-num {
+  border-color: var(--moss-deep);
+  color: var(--moss-deep);
+}
+.step.done {
+  color: var(--text-soft);
+}
+
+/* ═══════════════════════════════════════════
+   ECRÃS DOS PASSOS
+   ═══════════════════════════════════════════ */
+main { padding: 3rem 0 8rem; min-height: calc(100vh - 200px); }
+.screen { display: none; animation: fadeIn 0.4s ease; }
+.screen.active { display: block; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.screen-head { margin-bottom: 2.5rem; }
+.screen-head .eyebrow + h1 { margin-top: 0.3rem; }
+
+/* ═══════════════════════════════════════════
+   PASSO 0 — TRADUTOR
+   ═══════════════════════════════════════════ */
+.tradutor-hero {
+  text-align: left;
+  padding: 3rem 0 1rem;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 3rem;
+}
+.tradutor-hero h1 {
+  max-width: 22ch;
+  margin-bottom: 1.5rem;
+}
+.tradutor-hero h1 em {
+  font-style: italic;
+  color: var(--moss-bright);
+}
+.tradutor-explain {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+.explain-card {
+  border-left: 2px solid var(--moss);
+  padding-left: 1.5rem;
+}
+.explain-card .num {
+  font-family: var(--serif);
+  font-size: 2rem;
+  color: var(--ochre);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.explain-card h3 { margin-bottom: 0.5rem; color: var(--text); }
+.explain-card p { color: var(--text-soft); font-size: 0.95rem; }
+
+.path-choice {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1rem;
+  margin-top: 3rem;
+}
+.path-card {
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+  padding: 2rem;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.path-card:hover {
+  border-color: var(--moss);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+.path-card .label {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ochre);
+}
+.path-card h3 { margin-bottom: 0.3rem; }
+.path-card p { color: var(--text-soft); font-size: 0.9rem; }
+.path-card .arrow { margin-top: 1rem; color: var(--moss); font-family: var(--serif); }
+
+/* ═══════════════════════════════════════════
+   PASSO 1 — PLATAFORMA
+   ═══════════════════════════════════════════ */
+.platforms {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+.platform-card {
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  position: relative;
+}
+.platform-card:hover {
+  border-color: var(--moss);
+  background: var(--bg-3);
+  transform: translateY(-2px);
+}
+.platform-card.selected {
+  border-color: var(--moss);
+  background: rgba(143,170,107,0.08);
+}
+.platform-card.selected::after {
+  content: '✓';
+  position: absolute;
+  top: 0.8rem; right: 0.8rem;
+  width: 22px; height: 22px;
+  background: var(--moss);
+  color: var(--bg);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.platform-card h3 {
+  font-family: var(--sans);
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 0.3rem;
+  color: var(--text);
+}
+.platform-card p {
+  color: var(--text-mute);
+  font-size: 0.85rem;
+}
+
+.quiz-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--bg-2);
+  border: 1px dashed var(--ochre);
+  color: var(--ochre-bright);
+  padding: 0.9rem 1.4rem;
+  border-radius: var(--radius);
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin: 1rem 0 2rem;
+}
+.quiz-trigger:hover {
+  background: rgba(200,168,107,0.08);
+  transform: translateX(2px);
+}
+
+/* ═══════════════════════════════════════════
+   PASSO 2 — PONTO DE PARTIDA
+   ═══════════════════════════════════════════ */
+.start-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+@media (max-width: 720px) { .start-grid { grid-template-columns: 1fr; } }
+
+.start-card {
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+  padding: 2rem;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+}
+.start-card:hover {
+  border-color: var(--moss);
+  background: var(--bg-3);
+}
+.start-card .badge {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.2rem 0.5rem;
+  background: rgba(143,170,107,0.12);
+  color: var(--moss-bright);
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+}
+.start-card h3 { margin-bottom: 0.5rem; }
+.start-card .catalog {
+  margin-top: 1.2rem;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.start-card .catalog li {
+  font-size: 0.88rem;
+  color: var(--text-soft);
+  padding-left: 1rem;
+  position: relative;
+}
+.start-card .catalog li::before {
+  content: '·';
+  position: absolute;
+  left: 0;
+  color: var(--ochre);
+}
+
+/* ═══════════════════════════════════════════
+   PASSO 3 — PREENCHER (split layout)
+   ═══════════════════════════════════════════ */
+.fill-layout {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 2.5rem;
+  margin-top: 2rem;
+}
+@media (max-width: 960px) { .fill-layout { grid-template-columns: 1fr; } }
+
+.fill-progress {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--text-mute);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+.fill-progress-bar {
+  height: 2px;
+  background: var(--line);
+  margin-top: 0.4rem;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.fill-progress-bar span {
+  display: block;
+  height: 100%;
+  width: 17.6%;  /* 3/17 */
+  background: linear-gradient(90deg, var(--moss-deep), var(--moss));
+}
+
+.section-title {
+  font-family: var(--serif);
+  font-size: 1.6rem;
+  margin-bottom: 0.4rem;
+}
+.section-hint {
+  color: var(--text-mute);
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+}
+
+label.field {
+  display: block;
+  margin-bottom: 1.5rem;
+}
+label.field > span {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-soft);
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+label.field input,
+label.field textarea {
+  width: 100%;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  color: var(--text);
+  padding: 0.8rem 1rem;
+  border-radius: var(--radius);
+  font: inherit;
+  font-size: 0.95rem;
+  transition: border-color 0.2s;
+}
+label.field input:focus,
+label.field textarea:focus {
+  outline: none;
+  border-color: var(--moss);
+}
+label.field textarea {
+  min-height: 110px;
+  resize: vertical;
+  font-family: var(--sans);
+}
+
+.rgpd-warn {
+  background: rgba(212,166,86,0.08);
+  border: 1px solid rgba(212,166,86,0.3);
+  color: var(--warn);
+  padding: 0.8rem 1rem;
+  border-radius: var(--radius);
+  font-size: 0.85rem;
+  margin-top: 0.6rem;
+  display: none;
+  font-family: var(--mono);
+}
+.rgpd-warn.show { display: block; animation: fadeIn 0.3s ease; }
+
+.example-panel {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  height: fit-content;
+  position: sticky;
+  top: 145px;
+}
+.example-panel .head {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ochre);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.example-panel .head::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: var(--ochre);
+  border-radius: 50%;
+}
+.example-panel h4 {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+}
+.example-panel p {
+  font-size: 0.85rem;
+  color: var(--text-soft);
+  line-height: 1.6;
+}
+.example-panel .quote {
+  border-left: 2px solid var(--moss);
+  padding-left: 1rem;
+  margin-top: 1rem;
+  color: var(--text);
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.95rem;
+}
+
+/* ═══════════════════════════════════════════
+   PASSO 4 — GRÁTIS (output)
+   ═══════════════════════════════════════════ */
+.output-block {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  margin: 2rem 0;
+  position: relative;
+}
+.output-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--line);
+}
+.output-head .label {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ochre);
+}
+.copy-btn {
+  background: transparent;
+  border: 1px solid var(--moss-deep);
+  color: var(--moss-bright);
+  padding: 0.4rem 0.9rem;
+  border-radius: var(--radius);
+  font: inherit;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: all 0.2s;
+}
+.copy-btn:hover {
+  background: var(--moss);
+  color: var(--bg);
+  border-color: var(--moss);
+}
+.copy-btn.copied {
+  background: var(--ochre);
+  border-color: var(--ochre);
+  color: var(--bg);
+}
+.output-text {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: var(--text-soft);
+  white-space: pre-wrap;
+  max-height: 420px;
+  overflow-y: auto;
+}
+.output-text::-webkit-scrollbar { width: 6px; }
+.output-text::-webkit-scrollbar-track { background: var(--bg); }
+.output-text::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
+
+.upgrade-banner {
+  background:
+    linear-gradient(135deg, rgba(143,170,107,0.1), rgba(200,168,107,0.08));
+  border: 1px solid var(--ochre);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  margin-top: 2rem;
+}
+.upgrade-banner h3 {
+  font-family: var(--serif);
+  margin-bottom: 0.6rem;
+}
+.upgrade-banner p { color: var(--text-soft); margin-bottom: 1.5rem; max-width: 60ch; }
+.upgrade-tiers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+@media (max-width: 720px) { .upgrade-tiers { grid-template-columns: 1fr; } }
+.tier-mini {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  padding: 1.2rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.2s;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+}
+.tier-mini:hover { border-color: var(--moss); }
+.tier-mini .price {
+  font-family: var(--serif);
+  font-size: 1.6rem;
+  color: var(--moss-bright);
+}
+.tier-mini .name {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ochre);
+  margin-bottom: 0.4rem;
+}
+.tier-mini .desc {
+  font-size: 0.85rem;
+  color: var(--text-soft);
+  margin-top: 0.4rem;
+}
+
+/* ═══════════════════════════════════════════
+   PASSO 5 / 6 — PAYWALL
+   ═══════════════════════════════════════════ */
+.paywall-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 2.5rem;
+  margin-top: 2rem;
+}
+@media (max-width: 880px) { .paywall-grid { grid-template-columns: 1fr; } }
+
+.checkout-box {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+}
+.checkout-box .price-big {
+  font-family: var(--serif);
+  font-size: 3.4rem;
+  color: var(--moss-bright);
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  margin-bottom: 0.4rem;
+  line-height: 1;
+}
+.checkout-box .price-big small {
+  font-size: 1.1rem;
+  color: var(--text-mute);
+  font-family: var(--sans);
+}
+.checkout-box .tier-tag {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ochre);
+  margin-bottom: 1.5rem;
+  display: inline-block;
+}
+.includes {
+  list-style: none;
+  margin: 1.5rem 0 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.includes li {
+  font-size: 0.92rem;
+  color: var(--text-soft);
+  padding-left: 1.6rem;
+  position: relative;
+  line-height: 1.5;
+}
+.includes li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--moss);
+  font-weight: 600;
+}
+.pay-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.btn-pay {
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  border-radius: var(--radius);
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  text-align: center;
+  transition: all 0.2s;
+}
+.btn-pay-primary {
+  background: var(--moss);
+  color: var(--bg);
+}
+.btn-pay-primary:hover { background: var(--moss-bright); }
+.btn-pay-secondary {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--line);
+}
+.btn-pay-secondary:hover { border-color: var(--moss); }
+.refund-note {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--text-mute);
+  text-align: center;
+  margin-top: 1rem;
+  letter-spacing: 0.05em;
+}
+
+.preview-pdf {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.preview-pdf .head {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ochre);
+  margin-bottom: 1rem;
+}
+.pdf-page {
+  background: var(--text);
+  color: var(--bg);
+  padding: 1.5rem;
+  border-radius: 4px;
+  filter: blur(4px);
+  font-family: var(--serif);
+  min-height: 400px;
+  user-select: none;
+}
+.pdf-page h4 { margin-bottom: 0.5rem; font-size: 1.3rem; }
+.pdf-page p { font-size: 0.85rem; line-height: 1.6; margin-bottom: 0.8rem; }
+.preview-pdf::after {
+  content: '🔒  Disponível após pagamento';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  color: var(--text);
+  background: linear-gradient(180deg, rgba(11,14,12,0.7), rgba(11,14,12,0.95));
+  letter-spacing: 0.1em;
+}
+
+/* Premium 49€ — chat IA mockup */
+.chat-mockup {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  min-height: 400px;
+}
+.chat-mockup .head {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ochre);
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--line);
+}
+.bubble {
+  max-width: 85%;
+  padding: 0.7rem 1rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+.bubble.ia {
+  background: var(--bg-3);
+  color: var(--text);
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+}
+.bubble.user {
+  background: var(--moss-deep);
+  color: var(--text);
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+.chat-input-mock {
+  margin-top: auto;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0.7rem 1rem;
+  font-size: 0.85rem;
+  color: var(--text-mute);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.chat-input-mock::after {
+  content: '↵';
+  margin-left: auto;
+  color: var(--moss);
+}
+
+/* ═══════════════════════════════════════════
+   FOOTER NAV
+   ═══════════════════════════════════════════ */
+.nav-footer {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: rgba(11,14,12,0.95);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--line);
+  padding: 1rem 0;
+  z-index: 40;
+}
+.nav-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.4rem;
+  border-radius: var(--radius);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+.btn-primary { background: var(--moss); color: var(--bg); }
+.btn-primary:hover { background: var(--moss-bright); }
+.btn-ghost {
+  background: transparent;
+  color: var(--text-soft);
+  border: 1px solid var(--line);
+}
+.btn-ghost:hover { border-color: var(--moss); color: var(--text); }
+.btn-ghost:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.nav-info {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--text-mute);
+  letter-spacing: 0.05em;
+}
+
+/* ═══════════════════════════════════════════
+   FLOATING HELP — ASSISTIDO 290€
+   ═══════════════════════════════════════════ */
+.float-help {
+  position: fixed;
+  bottom: 100px;
+  right: 1.5rem;
+  background: linear-gradient(135deg, var(--ochre), var(--ochre-bright));
+  color: var(--bg);
+  border: none;
+  padding: 0.85rem 1.2rem;
+  border-radius: 100px;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 8px 28px rgba(200,168,107,0.25);
+  z-index: 41;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.float-help:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 38px rgba(200,168,107,0.35);
+}
+.float-help .icon {
+  font-size: 1rem;
+}
+
+/* ═══════════════════════════════════════════
+   MODAL
+   ═══════════════════════════════════════════ */
+.modal-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(6px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 1.5rem;
+}
+.modal-backdrop.show { display: flex; }
+.modal {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  max-width: 520px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+.modal h3 { margin-bottom: 1rem; }
+.modal p { color: var(--text-soft); margin-bottom: 1rem; font-size: 0.95rem; }
+.modal-close {
+  position: absolute;
+  top: 1rem; right: 1rem;
+  background: transparent;
+  border: none;
+  color: var(--text-mute);
+  font-size: 1.3rem;
+  cursor: pointer;
+  padding: 0.3rem;
+}
+.modal-close:hover { color: var(--text); }
+
+.quiz-question {
+  margin-bottom: 1.5rem;
+}
+.quiz-question p { color: var(--text); margin-bottom: 0.8rem; font-weight: 500; }
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.quiz-options button {
+  background: var(--bg-3);
+  border: 1px solid var(--line);
+  color: var(--text);
+  padding: 0.7rem 1rem;
+  border-radius: var(--radius);
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+.quiz-options button:hover { border-color: var(--moss); background: var(--bg); }
+.quiz-options button.selected { border-color: var(--moss); background: rgba(143,170,107,0.1); }
+
+.quiz-result {
+  background: rgba(143,170,107,0.08);
+  border-left: 3px solid var(--moss);
+  padding: 1.2rem;
+  margin-top: 1rem;
+  border-radius: var(--radius);
+  display: none;
+}
+.quiz-result.show { display: block; }
+.quiz-result .label {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ochre);
+  margin-bottom: 0.5rem;
+}
+.quiz-result h4 { margin-bottom: 0.5rem; font-family: var(--serif); }
+
+/* Reset hint */
+.reset-hint {
+  position: fixed;
+  bottom: 1rem; left: 1.5rem;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--text-mute);
+  letter-spacing: 0.08em;
+  z-index: 39;
+  opacity: 0.6;
+}
+.reset-hint kbd {
+  background: var(--bg-3);
+  border: 1px solid var(--line);
+  padding: 0.1rem 0.4rem;
+  border-radius: 3px;
+  font-family: var(--mono);
+}
+
+/* Utilities */
+.muted { color: var(--text-mute); }
+.flex-row { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
+.mt-2 { margin-top: 2rem; }
+.mb-1 { margin-bottom: 1rem; }
+
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════ HEADER ═══════════════════════════════════════════ -->
+<header class="site-header">
+  <div class="container header-row">
+    <a href="/" class="brand">
+      <span class="brand-mark"></span>
+      Proteína Lúdica
+      <span class="brand-tag">/ criar</span>
+    </a>
+    <span class="header-cta">Protótipo · v2.2</span>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════ STEPS BAR ═══════════════════════════════════════════ -->
+<div class="steps-bar">
+  <div class="container">
+    <div class="steps" id="stepsBar">
+      <div class="step active" data-step="0"><span class="step-num">0</span> Tradutor</div>
+      <div class="step" data-step="1"><span class="step-num">1</span> Ferramenta</div>
+      <div class="step" data-step="2"><span class="step-num">2</span> Partida</div>
+      <div class="step" data-step="3"><span class="step-num">3</span> Preencher</div>
+      <div class="step" data-step="4"><span class="step-num">4</span> Grátis</div>
+      <div class="step" data-step="5"><span class="step-num">5</span> Básico 19€</div>
+      <div class="step" data-step="6"><span class="step-num">6</span> Premium 49€</div>
+    </div>
+  </div>
+</div>
+
+<main>
+  <div class="container">
+
+    <!-- ═══════════════════════════════════════════ PASSO 0 — TRADUTOR ═══════════════════════════════════════════ -->
+    <section class="screen active" data-screen="0">
+      <div class="tradutor-hero">
+        <span class="eyebrow">60 segundos para perceber</span>
+        <h1>Um secretário digital <em>que escreve por si</em>.</h1>
+        <p class="lead">Imagine um colaborador que sabe como o senhor trabalha, conhece os seus doentes, escreve as suas notas, e nunca falha um detalhe. Mas vive dentro de uma ferramenta que o senhor já usa.</p>
+      </div>
+
+      <div class="tradutor-explain">
+        <div class="explain-card">
+          <span class="num">1</span>
+          <h3>Responde a 17 perguntas</h3>
+          <p>Sobre quem é, como trabalha, e o que quer que o secretário faça por si. Como uma ficha de admissão de um novo colaborador.</p>
+        </div>
+        <div class="explain-card">
+          <span class="num">2</span>
+          <h3>Escolhe a ferramenta</h3>
+          <p>Claude, ChatGPT, Gemini, Microsoft Copilot. A que o senhor já usa ou que melhor encaixa no seu trabalho do dia-a-dia.</p>
+        </div>
+        <div class="explain-card">
+          <span class="num">3</span>
+          <h3>Recebe a configuração</h3>
+          <p>Um conjunto de instruções para colar dentro da ferramenta. A partir daí, o secretário trabalha por si.</p>
+        </div>
+      </div>
+
+      <h2 style="margin-top: 3rem;">Para quem é isto?</h2>
+      <div class="path-choice">
+        <button class="path-card" data-go="1">
+          <span class="label">→ Para si</span>
+          <h3>Sou um profissional</h3>
+          <p>Médico, advogado, contabilista, arquitecto. Quero um secretário digital para mim.</p>
+          <span class="arrow">Continuar →</span>
+        </button>
+        <button class="path-card" onclick="alert('Em produção: redirecciona para formulário de contacto Equipa.\\n\\nO segmento Equipa (990€ provisório) usa contacto directo, não wizard self-service.')">
+          <span class="label">↗ Para a sua equipa</span>
+          <h3>Sou de uma clínica ou escritório</h3>
+          <p>Queremos secretários digitais com regras comuns para vários colegas.</p>
+          <span class="arrow">Falar com o Roberto →</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════ PASSO 1 — PLATAFORMA ═══════════════════════════════════════════ -->
+    <section class="screen" data-screen="1">
+      <div class="screen-head">
+        <span class="eyebrow">Passo 1 de 7</span>
+        <h1>Onde quer que viva o seu secretário?</h1>
+        <p class="lead">Cada ferramenta tem vantagens diferentes. Se já usa uma destas no seu trabalho, escolha-a. Se não tem certeza, abra o quiz abaixo.</p>
+      </div>
+
+      <button class="quiz-trigger" onclick="openQuiz()">
+        🧭 Responder a 3 perguntas e receber recomendação
+      </button>
+
+      <div class="platforms">
+        <button class="platform-card" data-platform="claude" onclick="selectPlatform(this)">
+          <h3>Claude Projects</h3>
+          <p>Forte em raciocínio clínico longo. Privado por defeito.</p>
+        </button>
+        <button class="platform-card" data-platform="gpt" onclick="selectPlatform(this)">
+          <h3>ChatGPT Custom GPTs</h3>
+          <p>Maior comunidade. Conversation Starters integrados.</p>
+        </button>
+        <button class="platform-card" data-platform="gemini" onclick="selectPlatform(this)">
+          <h3>Google Gemini Gems</h3>
+          <p>Liga ao Gmail e Drive sem setup. Bom se já usa Workspace.</p>
+        </button>
+        <button class="platform-card" data-platform="copilot" onclick="selectPlatform(this)">
+          <h3>Microsoft Copilot Agents</h3>
+          <p>Integra Outlook, Teams, SharePoint. Ideal para clínicas com M365.</p>
+        </button>
+        <button class="platform-card" data-platform="perplexity" onclick="selectPlatform(this)">
+          <h3>Perplexity Spaces</h3>
+          <p>Forte em pesquisa em tempo real e fontes citadas.</p>
+        </button>
+        <button class="platform-card" data-platform="mistral" onclick="selectPlatform(this)">
+          <h3>Mistral Le Chat</h3>
+          <p>Modelo europeu. Útil se o tema "soberania de dados" pesa para si.</p>
+        </button>
+        <button class="platform-card" data-platform="other" onclick="selectPlatform(this)">
+          <h3>Outro / Universal</h3>
+          <p>Recebe a configuração em formato genérico para colar onde quiser.</p>
+        </button>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════ PASSO 2 — PARTIDA ═══════════════════════════════════════════ -->
+    <section class="screen" data-screen="2">
+      <div class="screen-head">
+        <span class="eyebrow">Passo 2 de 7</span>
+        <h1>De onde quer começar?</h1>
+        <p class="lead">Pode partir de um dos secretários já feitos por nós (e depois adaptar) ou começar com um modelo em branco e construir tudo de raiz.</p>
+      </div>
+
+      <div class="start-grid">
+        <button class="start-card" data-start="catalog" onclick="goToStep(3)">
+          <span class="badge">Mais rápido</span>
+          <h3>Clonar do catálogo</h3>
+          <p class="muted" style="font-size:0.9rem">Parte de um secretário pronto. As 17 secções já vêm preenchidas. O senhor só ajusta o que muda no seu caso.</p>
+          <ul class="catalog">
+            <li>Dr. Escriba — médicos de família + urgência</li>
+            <li>Dr. Escriba · Internato — internos de especialidade</li>
+            <li>Assistente de Clínica — clínicas privadas</li>
+            <li>RehabAssist — fisiatras + reabilitação domiciliária</li>
+            <li>Assistente de Saúde — pessoas com doenças crónicas</li>
+          </ul>
+        </button>
+        <button class="start-card" data-start="blank" onclick="goToStep(3)">
+          <span class="badge">Mais flexível</span>
+          <h3>Modelo em branco</h3>
+          <p class="muted" style="font-size:0.9rem">Começa com as 17 secções vazias. Cada uma tem exemplo real ao lado para o senhor não ficar parado. Recomendado para profissões fora da saúde.</p>
+        </button>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════ PASSO 3 — PREENCHER ═══════════════════════════════════════════ -->
+    <section class="screen" data-screen="3">
+      <div class="screen-head">
+        <span class="eyebrow">Passo 3 de 7</span>
+        <h1>Preencha as 17 perguntas</h1>
+        <p class="lead">Uma de cada vez, sem pressa. O senhor pode parar e voltar mais tarde — guardamos no seu navegador automaticamente.</p>
+      </div>
+
+      <div class="fill-progress">
+        Pergunta 3 de 17 — Bloco 1 · Identidade
+        <div class="fill-progress-bar"><span></span></div>
+      </div>
+
+      <div class="fill-layout">
+        <div class="fill-form">
+          <h2 class="section-title">Quem é o seu público?</h2>
+          <p class="section-hint">Descreva em 2-3 frases a pessoa típica que vai falar com o seu secretário. Idade, contexto, o que procura. Não diga nomes nem dados pessoais — descreva o tipo, não a pessoa.</p>
+
+          <label class="field">
+            <span>Público-alvo principal</span>
+            <textarea id="rgpd-input" placeholder="Ex: doentes idosos da Madeira, com pelo menos uma doença crónica, que vivem com a família e usam o telemóvel mas não estão à vontade com tecnologia."></textarea>
+            <div class="rgpd-warn" id="rgpd-warn">⚠ Detectámos um possível dado pessoal. Lembre-se: não use nomes completos, NIF, datas de nascimento ou moradas.</div>
+          </label>
+
+          <label class="field">
+            <span>Idade típica (intervalo)</span>
+            <input type="text" placeholder="Ex: 65-85 anos">
+          </label>
+
+          <label class="field">
+            <span>O que esta pessoa procura quando contacta o seu secretário?</span>
+            <textarea placeholder="Ex: tirar uma dúvida sobre a medicação, perceber um exame, pedir orientação para uma situação que não é urgência."></textarea>
+          </label>
+        </div>
+
+        <aside class="example-panel">
+          <div class="head">Exemplo · Dr. Roberto IA</div>
+          <h4>Como o Dr. Roberto preencheu esta secção</h4>
+          <p>O secretário do Dr. Roberto serve sobretudo idosos da Madeira (65-85 anos), muitos com doença renal crónica, hipertensão ou diabetes. Vivem com a família, usam o WhatsApp através de filhos ou netos.</p>
+          <div class="quote">"Procuram explicações simples, em vocabulário do dia-a-dia, sobre o que o médico disse na consulta. Não querem diagnóstico, querem perceber."</div>
+        </aside>
+      </div>
+
+      <div class="flex-row mt-2">
+        <button class="btn btn-ghost" onclick="goToStep(2)">← Voltar</button>
+        <button class="btn btn-primary" onclick="goToStep(4)">Saltar para o output (demo) →</button>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════ PASSO 4 — GRÁTIS ═══════════════════════════════════════════ -->
+    <section class="screen" data-screen="4">
+      <div class="screen-head">
+        <span class="eyebrow">Plano Grátis · 0€</span>
+        <h1>O seu secretário digital está pronto.</h1>
+        <p class="lead">Aqui está a configuração para colar na ferramenta que escolheu. <strong>Sem guia de instalação</strong> nem PDF — esses estão nos planos pagos abaixo.</p>
+      </div>
+
+      <div class="output-block">
+        <div class="output-head">
+          <span class="label">Configuração para colar na sua ferramenta</span>
+          <button class="copy-btn" id="copyBtn" onclick="copyOutput()">Copiar tudo</button>
+        </div>
+        <div class="output-text" id="outputText">// IDENTIDADE
+Nome: Secretário do Dr. Roberto
+Missão: Apoiar utentes de cuidados primários da Madeira entre consultas, com explicações simples e literacia em saúde.
+
+// PÚBLICO
+Idosos (65-85), maioria com doença crónica.
+Familiares cuidadores.
+Linguagem simples, "você", "o senhor", "a senhora".
+
+// LIMITES (RED LINES)
+Não diagnostica.
+Não prescreve.
+Não substitui consulta.
+Em sinais de emergência → SNS 24 (808 24 24 24) ou 112.
+
+// FECHO
+Termina sempre com pergunta aberta de cuidado:
+"Mais alguma coisa que o tenha estado a preocupar?"
+
+[... continua com mais 13 secções nos planos pagos ...]</div>
+      </div>
+
+      <div class="upgrade-banner">
+        <h3>Quer o pacote completo?</h3>
+        <p>Os planos pagos incluem o guia passo-a-passo para colar na sua ferramenta, PDF formatado para arquivo, lista de verificação RGPD e modelos de consentimento para os doentes.</p>
+        <div class="upgrade-tiers">
+          <button class="tier-mini" onclick="goToStep(5)">
+            <div class="name">Básico · self-service</div>
+            <div class="price">19€</div>
+            <div class="desc">Configuração + guia de instalação + PDF + RGPD. Para quem se desenrasca com computadores.</div>
+          </button>
+          <button class="tier-mini" onclick="goToStep(6)">
+            <div class="name">Premium · com IA a ajudar</div>
+            <div class="price">49€</div>
+            <div class="desc">Tudo do Básico + uma IA conversa consigo enquanto preenche as 17 perguntas. Para quem prefere ser guiado.</div>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════ PASSO 5 — BÁSICO 19€ ═══════════════════════════════════════════ -->
+    <section class="screen" data-screen="5">
+      <div class="screen-head">
+        <span class="eyebrow">Plano Básico · self-service</span>
+        <h1>19€ · pagamento único</h1>
+      </div>
+
+      <div class="paywall-grid">
+        <div class="checkout-box">
+          <span class="tier-tag">Básico</span>
+          <div class="price-big">19<small>€</small></div>
+          <p class="muted" style="margin-bottom:1.5rem">Pagamento único. Sem assinatura. Reembolso 7 dias sem perguntas.</p>
+
+          <ul class="includes">
+            <li>Configuração completa (17 secções)</li>
+            <li>Guia de instalação específico para a sua ferramenta (Claude / ChatGPT / Gemini / Copilot)</li>
+            <li>PDF formatado para arquivo e impressão</li>
+            <li>Lista de verificação RGPD adaptada à sua actividade</li>
+            <li>Modelo de consentimento informado para os seus doentes</li>
+            <li>Link para retomar e refazer durante 30 dias</li>
+          </ul>
+
+          <div class="pay-buttons">
+            <button class="btn-pay btn-pay-primary" onclick="alert('Em produção: abre Stripe Checkout.')">Pagar com cartão · Stripe</button>
+            <button class="btn-pay btn-pay-secondary" onclick="alert('Em produção: abre IfthenPay → MB WAY ou Multibanco.')">Pagar com MB WAY · Multibanco</button>
+          </div>
+
+          <p class="refund-note">Pagamento seguro · Reembolso 7 dias</p>
+        </div>
+
+        <div class="preview-pdf">
+          <div class="head">Pré-visualização do PDF</div>
+          <div class="pdf-page">
+            <h4>Secretário Digital · Dr. Roberto IA</h4>
+            <p>Configuração completa para Claude Projects · v1.0 · Abril 2026</p>
+            <p>Bloco 1 — Identidade<br>Bloco 2 — Personalidade<br>Bloco 3 — Funcionamento<br>Bloco 4 — Segurança e fecho</p>
+            <p>Página 1 de 18 · Lista de verificação RGPD inclusa.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex-row mt-2">
+        <button class="btn btn-ghost" onclick="goToStep(4)">← Voltar ao output grátis</button>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════ PASSO 6 — PREMIUM 49€ ═══════════════════════════════════════════ -->
+    <section class="screen" data-screen="6">
+      <div class="screen-head">
+        <span class="eyebrow">Plano Premium · com IA a ajudar</span>
+        <h1>49€ · pagamento único</h1>
+      </div>
+
+      <div class="paywall-grid">
+        <div class="checkout-box">
+          <span class="tier-tag">Premium</span>
+          <div class="price-big">49<small>€</small></div>
+          <p class="muted" style="margin-bottom:1.5rem">Para quem prefere ser guiado por uma conversa em vez de preencher um formulário.</p>
+
+          <ul class="includes">
+            <li><strong>Tudo do plano Básico (19€)</strong></li>
+            <li>Uma IA conversa consigo enquanto preenche as 17 perguntas</li>
+            <li>Sugestões em tempo real conforme escreve</li>
+            <li>Detecta inconsistências entre secções e avisa</li>
+            <li>Adapta o vocabulário à sua área profissional automaticamente</li>
+            <li>Sessão guardada — pode parar e voltar quando quiser</li>
+          </ul>
+
+          <div class="pay-buttons">
+            <button class="btn-pay btn-pay-primary" onclick="alert('Em produção: abre Stripe Checkout.')">Pagar com cartão · Stripe</button>
+            <button class="btn-pay btn-pay-secondary" onclick="alert('Em produção: abre IfthenPay → MB WAY ou Multibanco.')">Pagar com MB WAY · Multibanco</button>
+          </div>
+
+          <p class="refund-note">Pagamento seguro · Reembolso 7 dias</p>
+        </div>
+
+        <div class="chat-mockup">
+          <div class="head">Pré-visualização · IA a ajudar</div>
+          <div class="bubble ia">Olá. Vamos começar pela identidade do seu secretário. Como gostaria que ele se chamasse?</div>
+          <div class="bubble user">Pode chamar-se "Secretário do Dr. Roberto"</div>
+          <div class="bubble ia">Bom nome — direto e claro. Para quem é que este secretário vai trabalhar? Médicos como o senhor, doentes, ou os dois?</div>
+          <div class="bubble user">Doentes meus, sobretudo idosos.</div>
+          <div class="bubble ia">Perfeito. Então o tom vai ser muito importante. Já agora, na Madeira ou no continente?</div>
+          <div class="chat-input-mock">Escreva a sua resposta...</div>
+        </div>
+      </div>
+
+      <div class="flex-row mt-2">
+        <button class="btn btn-ghost" onclick="goToStep(4)">← Voltar ao output grátis</button>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<!-- ═══════════════════════════════════════════ FLOATING HELP — ASSISTIDO 290€ ═══════════════════════════════════════════ -->
+<button class="float-help" onclick="openAssistido()">
+  <span class="icon">✋</span>
+  Prefere que façamos por si? · 290€
+</button>
+
+<!-- ═══════════════════════════════════════════ NAV FOOTER ═══════════════════════════════════════════ -->
+<div class="nav-footer">
+  <div class="container nav-row">
+    <button class="btn btn-ghost" id="prevBtn" onclick="prevStep()" disabled>← Voltar</button>
+    <span class="nav-info" id="navInfo">Passo 0 de 6</span>
+    <button class="btn btn-primary" id="nextBtn" onclick="nextStep()">Continuar →</button>
+  </div>
+</div>
+
+<!-- Reset hint -->
+<div class="reset-hint">Carregue em <kbd>R</kbd> para reiniciar a demo</div>
+
+<!-- ═══════════════════════════════════════════ MODAL — QUIZ ═══════════════════════════════════════════ -->
+<div class="modal-backdrop" id="quizModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeQuiz()">×</button>
+    <h3>Qual a melhor ferramenta para si?</h3>
+    <p class="muted">3 perguntas. Responda como puder.</p>
+
+    <div class="quiz-question">
+      <p>1. Já paga alguma destas ferramentas?</p>
+      <div class="quiz-options">
+        <button onclick="setQuiz(1, 'claude')">Sim — Claude Pro</button>
+        <button onclick="setQuiz(1, 'gpt')">Sim — ChatGPT Plus</button>
+        <button onclick="setQuiz(1, 'm365')">Sim — Microsoft 365</button>
+        <button onclick="setQuiz(1, 'gws')">Sim — Google Workspace</button>
+        <button onclick="setQuiz(1, 'no')">Nenhuma</button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p>2. Quer que o secretário leia automaticamente os seus emails e ficheiros?</p>
+      <div class="quiz-options">
+        <button onclick="setQuiz(2, 'yes')">Sim, ligado ao meu email/drive</button>
+        <button onclick="setQuiz(2, 'no')">Não, só conversa quando eu pergunto</button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <p>3. Vai usar sozinho ou em clínica/escritório?</p>
+      <div class="quiz-options">
+        <button onclick="setQuiz(3, 'solo')">Sozinho</button>
+        <button onclick="setQuiz(3, 'clinic')">Em clínica/escritório com colegas</button>
+      </div>
+    </div>
+
+    <div class="quiz-result" id="quizResult">
+      <div class="label">Recomendação</div>
+      <h4 id="quizRecTitle"></h4>
+      <p id="quizRecText"></p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ MODAL — ASSISTIDO ═══════════════════════════════════════════ -->
+<div class="modal-backdrop" id="assistidoModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeAssistido()">×</button>
+    <span class="eyebrow">Plano Assistido</span>
+    <h3 style="margin-top:0.5rem">Eu faço por si.</h3>
+    <p>Para quem prefere conversar 1 hora comigo (Roberto Gouveia) e ter a ficha preenchida sem mexer em nada.</p>
+
+    <ul class="includes">
+      <li>1 hora de chamada comigo, gravada se quiser</li>
+      <li>Ficha das 17 secções preenchida na altura</li>
+      <li>Configuração entregue no seu email no próprio dia</li>
+      <li>14 dias de suporte por email para ajustes</li>
+    </ul>
+
+    <div style="background:rgba(200,168,107,0.08); border:1px solid var(--ochre); padding:1rem; border-radius:var(--radius); margin:1.5rem 0">
+      <div style="font-family:var(--mono); font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--ochre); margin-bottom:0.5rem">Preço Madeira · primeiros 10</div>
+      <div style="font-family:var(--serif); font-size:1.8rem; color:var(--moss-bright)">290€</div>
+      <p class="muted" style="font-size:0.8rem; margin-top:0.3rem">Fora da Madeira: 490€</p>
+    </div>
+
+    <button class="btn btn-primary" style="width:100%" onclick="alert('Em produção: abre formulário de contacto com calendário.')">Pedir chamada comigo →</button>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+// NAVEGAÇÃO ENTRE PASSOS
+// ═══════════════════════════════════════════
+let currentStep = 0;
+const totalSteps = 7;
+
+function goToStep(n) {
+  if (n < 0 || n > 6) return;
+  currentStep = n;
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelector(`[data-screen="${n}"]`).classList.add('active');
+
+  document.querySelectorAll('.step').forEach((el, i) => {
+    el.classList.remove('active', 'done');
+    if (i === n) el.classList.add('active');
+    else if (i < n) el.classList.add('done');
+  });
+
+  document.getElementById('prevBtn').disabled = (n === 0);
+  document.getElementById('navInfo').textContent = `Passo ${n} de 6`;
+
+  const next = document.getElementById('nextBtn');
+  if (n === 6) { next.textContent = 'Reiniciar ↻'; next.onclick = resetDemo; }
+  else { next.textContent = 'Continuar →'; next.onclick = nextStep; }
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function nextStep() { goToStep(Math.min(currentStep + 1, 6)); }
+function prevStep() { goToStep(Math.max(currentStep - 1, 0)); }
+
+// Click directly on step labels
+document.querySelectorAll('.step').forEach(el => {
+  el.style.cursor = 'pointer';
+  el.addEventListener('click', () => goToStep(parseInt(el.dataset.step)));
+});
+
+// Path cards on step 0
+document.querySelectorAll('[data-go]').forEach(el => {
+  el.addEventListener('click', () => goToStep(parseInt(el.dataset.go)));
+});
+
+// ═══════════════════════════════════════════
+// SELECÇÃO DE PLATAFORMA
+// ═══════════════════════════════════════════
+function selectPlatform(card) {
+  document.querySelectorAll('.platform-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  setTimeout(() => goToStep(2), 350);
+}
+
+// ═══════════════════════════════════════════
+// DETECTOR RGPD
+// ═══════════════════════════════════════════
+const rgpdInput = document.getElementById('rgpd-input');
+const rgpdWarn = document.getElementById('rgpd-warn');
+
+const rgpdPatterns = [
+  /\b\d{9}\b/,                                 // NIF / 9 digits
+  /\b\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}\b/,     // dates
+  /\bSr\.?[a]?\s+[A-ZÁÉÍÓÚÂÊÔÃÕ][a-záéíóúâêôãõ]+\s+[A-ZÁÉÍÓÚÂÊÔÃÕ]/,  // Sr. First Last
+  /\bDr\.?[a]?\s+[A-ZÁÉÍÓÚÂÊÔÃÕ][a-záéíóúâêôãõ]+\s+[A-ZÁÉÍÓÚÂÊÔÃÕ]/    // Dr. First Last
+];
+
+if (rgpdInput) {
+  rgpdInput.addEventListener('input', () => {
+    const v = rgpdInput.value;
+    const hit = rgpdPatterns.some(p => p.test(v));
+    rgpdWarn.classList.toggle('show', hit);
+  });
+}
+
+// ═══════════════════════════════════════════
+// COPY TO CLIPBOARD
+// ═══════════════════════════════════════════
+function copyOutput() {
+  const text = document.getElementById('outputText').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = 'Copiado ✓';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Copiar tudo';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+
+// ═══════════════════════════════════════════
+// QUIZ MODAL
+// ═══════════════════════════════════════════
+const quizAnswers = {};
+
+function openQuiz() {
+  document.getElementById('quizModal').classList.add('show');
+  document.getElementById('quizResult').classList.remove('show');
+  document.querySelectorAll('#quizModal .quiz-options button').forEach(b => b.classList.remove('selected'));
+  Object.keys(quizAnswers).forEach(k => delete quizAnswers[k]);
+}
+function closeQuiz() { document.getElementById('quizModal').classList.remove('show'); }
+
+function setQuiz(q, val) {
+  quizAnswers[q] = val;
+  // mark selected (within question group)
+  const allQuestions = document.querySelectorAll('#quizModal .quiz-question');
+  const targetQ = allQuestions[q-1];
+  targetQ.querySelectorAll('button').forEach(b => b.classList.remove('selected'));
+  event.target.classList.add('selected');
+
+  if (Object.keys(quizAnswers).length >= 3) {
+    showQuizResult();
+  }
+}
+
+function showQuizResult() {
+  let title = '', text = '';
+  if (quizAnswers[1] === 'claude') {
+    title = 'Claude Projects';
+    text = 'Já paga Pro. Forte em raciocínio clínico longo. Privacidade boa por defeito.';
+  } else if (quizAnswers[1] === 'gpt') {
+    title = 'ChatGPT Custom GPTs';
+    text = 'Aproveita a sua licença Plus. Maior comunidade de exemplos.';
+  } else if (quizAnswers[1] === 'm365') {
+    title = 'Microsoft Copilot Agents';
+    text = 'Liga ao Outlook, Teams e SharePoint que já tem.';
+  } else if (quizAnswers[1] === 'gws') {
+    title = 'Google Gemini Gems';
+    text = 'Liga ao Gmail e Drive sem setup adicional.';
+  } else if (quizAnswers[2] === 'yes') {
+    title = 'Gemini ou Copilot';
+    text = 'Para o secretário ler emails e ficheiros automaticamente, escolha conforme já usa Google ou Microsoft.';
+  } else if (quizAnswers[3] === 'clinic') {
+    title = 'Microsoft Copilot ou Google Gemini';
+    text = 'Ambos têm gestão central de utilizadores e licenças por colega.';
+  } else {
+    title = 'Claude Projects';
+    text = 'Melhor ponto de partida neutro. Sem integrações obrigatórias, privado por defeito.';
+  }
+  document.getElementById('quizRecTitle').textContent = title;
+  document.getElementById('quizRecText').textContent = text;
+  document.getElementById('quizResult').classList.add('show');
+}
+
+// ═══════════════════════════════════════════
+// ASSISTIDO MODAL
+// ═══════════════════════════════════════════
+function openAssistido() { document.getElementById('assistidoModal').classList.add('show'); }
+function closeAssistido() { document.getElementById('assistidoModal').classList.remove('show'); }
+
+// Close on backdrop click
+document.querySelectorAll('.modal-backdrop').forEach(m => {
+  m.addEventListener('click', (e) => {
+    if (e.target === m) m.classList.remove('show');
+  });
+});
+
+// ═══════════════════════════════════════════
+// RESET
+// ═══════════════════════════════════════════
+function resetDemo() {
+  currentStep = 0;
+  goToStep(0);
+  document.querySelectorAll('.platform-card').forEach(c => c.classList.remove('selected'));
+  if (rgpdInput) rgpdInput.value = '';
+  if (rgpdWarn) rgpdWarn.classList.remove('show');
+  Object.keys(quizAnswers).forEach(k => delete quizAnswers[k]);
+}
+
+document.addEventListener('keydown', (e) => {
+  const tag = document.activeElement.tagName.toLowerCase();
+  if (tag === 'input' || tag === 'textarea') return;
+  if (e.key === 'r' || e.key === 'R') resetDemo();
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-backdrop.show').forEach(m => m.classList.remove('show'));
+  }
+});
+
+// init
+goToStep(0);
+</script>
+
+</body>
+</html>
