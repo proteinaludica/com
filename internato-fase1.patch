@@ -1,0 +1,382 @@
+diff --git a/index.html b/index.html
+index 046a6b4..45f1897 100644
+--- a/index.html
++++ b/index.html
+@@ -445,6 +445,91 @@ body.dark .calc-mini .cmsel{background:#0f1117;border-color:#2a2d40;color:#dde1f
+ .dx-today:hover{background:#1a1916;color:#fff;border-color:#1a1916}
+ body.dark .dx-today{background:#1e2235;border-color:#2a2d40;color:#dde1f0}
+ body.dark .dx-today:hover{background:#2a3050;color:#fff}
++
++/* ═══════════════════════════════════════════════════════════════════
++ * INTERNATO MGF — Fase 1 (esqueleto)
++ * Toggle SOAP/Internato no header + painel-base com 4 tabs internas:
++ * Logbook, Avaliações, Diário, Journal Club. Paleta amber/copper para
++ * distinguir de S/O/P sem partir o tema actual. Namespace dx_int_*.
++ * ═══════════════════════════════════════════════════════════════════ */
++.hdr-mode-tog{display:inline-flex;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);border-radius:6px;overflow:hidden;font-size:12px;font-family:inherit;margin-right:4px}
++.hdr-mode-tog button{padding:4px 12px;background:transparent;color:#bbb;border:none;cursor:pointer;font:inherit;font-size:12px;letter-spacing:0.2px;transition:all .15s}
++.hdr-mode-tog button:hover{color:#fff}
++.hdr-mode-tog button.on{background:#bda060;color:#1a1916;font-weight:600}
++.hdr-mode-tog button:focus-visible{outline:2px solid #2563eb;outline-offset:1px}
++
++body.dx-mode-internato .tabs[aria-label="Secções SOAP"]{display:none !important}
++body.dx-mode-internato #panel-s,
++body.dx-mode-internato #panel-o,
++body.dx-mode-internato #panel-p,
++body.dx-mode-internato #panel-r{display:none !important}
++body:not(.dx-mode-internato) #tabs-internato,
++body:not(.dx-mode-internato) #panel-internato{display:none !important}
++
++#tabs-internato{display:flex;background:#fff;border-bottom:1px solid var(--bd)}
++#tabs-internato .tab-int{padding:11px 18px 9px;font-size:13px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;display:flex;align-items:center;gap:6px;user-select:none;transition:color .1s}
++#tabs-internato .tab-int.on{color:#7a5c20;border-bottom-color:#bda060;font-weight:500}
++#tabs-internato .tib{width:18px;height:18px;border-radius:4px;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;background:#fbf3da;color:#7a5c20}
++#tabs-internato .tab-int.on .tib{background:#bda060;color:#fff}
++
++@media (max-width:600px){
++  #tabs-internato{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch}
++  #tabs-internato .tab-int{flex:1 1 0;min-width:0;padding:10px 6px 8px;font-size:12px;gap:4px;justify-content:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
++  #tabs-internato .tib{width:15px;height:15px;font-size:10px;flex-shrink:0}
++}
++
++#panel-internato{padding:14px}
++#panel-internato .panel-int{display:none}
++#panel-internato .panel-int.on{display:block}
++
++.int-profile{background:#fbf3da;border:1px solid #e5cf8c;border-radius:10px;padding:12px 16px;margin-bottom:14px;display:flex;flex-wrap:wrap;gap:14px;align-items:center}
++.int-profile .ip-grp{display:flex;align-items:center;gap:6px}
++.int-profile .ip-l{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:#7a5c20}
++.int-profile input,.int-profile select{padding:5px 9px;border:1px solid #d5c79a;border-radius:5px;font-size:13px;background:#fff;color:#1a1916;font-family:inherit;outline:none}
++.int-profile input:focus,.int-profile select:focus{border-color:#bda060;background:#fff}
++.int-profile .ip-note{margin-left:auto;font-size:11px;color:#7a5c20;font-style:italic;opacity:.85}
++
++.int-stub{background:#fff;border:1px dashed var(--bd);border-radius:10px;padding:26px 18px;text-align:center;color:var(--muted);font-size:13px;line-height:1.6}
++.int-stub h3{font-family:Georgia,'Times New Roman',serif;color:#7a5c20;font-size:18px;margin-bottom:8px;font-weight:600;letter-spacing:-.2px}
++.int-stub p{max-width:60ch;margin:0 auto}
++.int-stub .int-fase{font-family:'SF Mono',Consolas,monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#7a5c20;margin-top:14px;display:inline-block;padding:3px 10px;background:#fbf3da;border:1px solid #e5cf8c;border-radius:4px}
++
++.om-card{background:#fff;border:1px solid var(--bd);border-radius:10px;padding:14px 16px;margin-bottom:12px}
++.om-card .om-h{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:#7a5c20;margin-bottom:12px;display:flex;align-items:center;gap:8px}
++.om-card .om-h::before{content:'';width:3px;height:14px;background:#bda060;border-radius:2px}
++.om-fld{margin-bottom:14px}
++.om-fld:last-child{margin-bottom:0}
++.om-fld>label{display:block;font-size:12px;font-weight:500;color:#1a1916;margin-bottom:6px}
++.om-fld>label .opt{font-weight:400;color:var(--muted);font-size:11px}
++.om-scale{display:flex;gap:4px;flex-wrap:wrap}
++.om-scale-btn{flex:1 1 80px;min-width:60px;padding:8px 6px;border:1px solid var(--bd);border-radius:6px;background:#faf9f7;font-family:inherit;font-size:13px;cursor:pointer;text-align:center;transition:all .15s;display:flex;flex-direction:column;justify-content:center;gap:2px}
++.om-scale-btn:hover{border-color:#bda060;background:#fff}
++.om-scale-btn.on{background:#bda060;color:#fff;border-color:#bda060}
++.om-scale-btn .num{font-family:'SF Mono',Consolas,monospace;font-size:14px;font-weight:600;line-height:1.1}
++.om-scale-btn .lbl{font-size:9px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);line-height:1.2}
++.om-scale-btn.on .lbl{color:rgba(255,255,255,0.9)}
++.om-fld textarea{width:100%;padding:8px 10px;background:#faf9f7;border:1px solid var(--bd);border-radius:7px;font-family:inherit;font-size:13px;line-height:1.5;resize:vertical;color:#1a1916;outline:none}
++.om-fld textarea:focus{border-color:#bda060;background:#fff}
++
++body.dark #tabs-internato{background:#1a1d2e;border-color:#2a2d40}
++body.dark #tabs-internato .tab-int{color:#7a80a0}
++body.dark #tabs-internato .tab-int.on{color:#dcc480;border-bottom-color:#bda060}
++body.dark #tabs-internato .tib{background:#3a2d10;color:#dcc480}
++body.dark .int-profile{background:#2a2010;border-color:#5a4020}
++body.dark .int-profile .ip-l{color:#dcc480}
++body.dark .int-profile .ip-note{color:#dcc480}
++body.dark .int-profile input,body.dark .int-profile select{background:#1a1d2e;border-color:#3a3d50;color:#dde1f0}
++body.dark .int-stub{background:#1a1d2e;border-color:#2a2d40;color:#9098a8}
++body.dark .int-stub h3{color:#dcc480}
++body.dark .int-stub .int-fase{background:#2a2010;border-color:#5a4020;color:#dcc480}
++body.dark .om-card{background:#1a1d2e;border-color:#2a2d40}
++body.dark .om-card .om-h{color:#dcc480}
++body.dark .om-fld>label{color:#dde1f0}
++body.dark .om-scale-btn{background:#1e2235;border-color:#2a2d40;color:#dde1f0}
++body.dark .om-scale-btn:hover{border-color:#bda060;background:#262a42}
++body.dark .om-scale-btn.on{background:#bda060;color:#1a1916}
++body.dark .om-fld textarea{background:#0f1117;border-color:#2a2d40;color:#dde1f0}
++body.dark .om-fld textarea:focus{border-color:#bda060;background:#1a1d2e}
+ </style>
+ </head>
+ <body>
+@@ -456,6 +541,10 @@ body.dark .dx-today:hover{background:#2a3050;color:#fff}
+     <div class="hdr-s" id="hdr-sub">SOAP</div>
+   </div>
+   <div class="hdr-ctrls" role="toolbar" aria-label="Controlos da aplicação">
++    <div class="hdr-mode-tog" id="hdr-mode-tog" role="tablist" aria-label="Modo da aplicação">
++      <button type="button" data-mode="soap" class="on" onclick="dxModeSet('soap')" role="tab" aria-selected="true" title="Modo SOAP — registo clínico">SOAP</button>
++      <button type="button" data-mode="internato" onclick="dxModeSet('internato')" role="tab" aria-selected="false" title="Modo Internato MGF — logbook, avaliações, diário, journal club">Internato</button>
++    </div>
+     <span class="save-ind" id="save-ind" title="Estado da gravação local"><span class="dot"></span><span id="save-ind-tx">guardado</span></span>
+     <span class="hdr-btn" id="btn-new-soap" role="button" tabindex="0" onclick="dxNewSOAP()" title="Limpar tudo e iniciar novo SOAP">＋ Novo SOAP</span>
+     <span class="hdr-btn" id="btn-tpl" role="button" tabindex="0" onclick="dxOpenTemplates()" title="Templates guardados">📋 Templates</span>
+@@ -3072,6 +3161,107 @@ body.dark .dx-today:hover{background:#2a3050;color:#fff}
+ </div>
+ </div>
+ 
++<!-- ═══════════════════════════════════════════════════════════════════
++     INTERNATO MGF — Fase 1 (esqueleto)
++     Painel-base com 4 tabs internas + perfil interno + rubricas OM.
++     Visível apenas quando body.dx-mode-internato (ver dxModeSet).
++     ═══════════════════════════════════════════════════════════════════ -->
++<div id="tabs-internato" role="tablist" aria-label="Secções Internato MGF">
++  <div class="tab-int on" id="tab-int-log" role="tab" tabindex="0" aria-selected="true" aria-controls="pi-log" onclick="dxIntTab('log')"><div class="tib" aria-hidden="true">L</div>Logbook</div>
++  <div class="tab-int" id="tab-int-aval" role="tab" tabindex="-1" aria-selected="false" aria-controls="pi-aval" onclick="dxIntTab('aval')"><div class="tib" aria-hidden="true">A</div>Avaliações</div>
++  <div class="tab-int" id="tab-int-dia" role="tab" tabindex="-1" aria-selected="false" aria-controls="pi-dia" onclick="dxIntTab('dia')"><div class="tib" aria-hidden="true">D</div>Diário</div>
++  <div class="tab-int" id="tab-int-jc" role="tab" tabindex="-1" aria-selected="false" aria-controls="pi-jc" onclick="dxIntTab('jc')"><div class="tib" aria-hidden="true">J</div>Journal Club</div>
++</div>
++
++<div id="panel-internato" role="region" aria-label="Internato MGF">
++  <div class="int-profile" role="region" aria-label="Perfil do interno">
++    <div class="ip-grp"><span class="ip-l">Iniciais</span><input type="text" id="int-prof-init" maxlength="5" placeholder="RG" oninput="dxIntProfileSave()" autocomplete="off" style="width:64px;text-align:center;text-transform:uppercase;letter-spacing:1px"></div>
++    <div class="ip-grp"><span class="ip-l">Ano</span>
++      <select id="int-prof-year" onchange="dxIntProfileSave()" aria-label="Ano de internato">
++        <option value="">—</option>
++        <option value="1">Ano 1</option>
++        <option value="2">Ano 2</option>
++        <option value="3">Ano 3</option>
++        <option value="4">Ano 4</option>
++      </select>
++    </div>
++    <div class="ip-grp"><span class="ip-l">USF / UCSP</span><input type="text" id="int-prof-usf" maxlength="80" placeholder="ex.: USF Cidade Velha" oninput="dxIntProfileSave()" autocomplete="off" style="width:240px"></div>
++    <div class="ip-note">Perfil único por navegador. Sincronização cloud chega em fase posterior.</div>
++  </div>
++
++  <!-- LOGBOOK -->
++  <div class="panel-int on" id="pi-log" role="tabpanel" aria-labelledby="tab-int-log">
++    <div class="int-stub">
++      <h3>Logbook clínico</h3>
++      <p>Registo dos actos clínicos exigidos pela Ordem dos Médicos durante o internato (consultas programadas, urgências, visitas domiciliárias, intervenções, reuniões formativas). Entradas datadas, com tipo e descrição breve.</p>
++      <span class="int-fase">Fase 2 — em construção</span>
++    </div>
++  </div>
++
++  <!-- AVALIAÇÕES (rubricas OM) -->
++  <div class="panel-int" id="pi-aval" role="tabpanel" aria-labelledby="tab-int-aval">
++    <div class="om-card">
++      <div class="om-h">Nova avaliação formativa</div>
++
++      <div class="om-fld">
++        <label>Instrumento <span class="opt">conforme regulamento OM para MGF</span></label>
++        <div class="om-scale" role="radiogroup" aria-label="Instrumento de avaliação">
++          <button type="button" class="om-scale-btn" role="radio" aria-checked="false" onclick="dxOMSelect(this,'instr','minicex')"><span class="num">Mini-CEX</span><span class="lbl">consulta observada</span></button>
++          <button type="button" class="om-scale-btn" role="radio" aria-checked="false" onclick="dxOMSelect(this,'instr','dops')"><span class="num">DOPS</span><span class="lbl">procedimento</span></button>
++          <button type="button" class="om-scale-btn" role="radio" aria-checked="false" onclick="dxOMSelect(this,'instr','cbd')"><span class="num">CbD</span><span class="lbl">discussão de caso</span></button>
++          <button type="button" class="om-scale-btn" role="radio" aria-checked="false" onclick="dxOMSelect(this,'instr','msf')"><span class="num">MSF</span><span class="lbl">multi-source</span></button>
++        </div>
++      </div>
++
++      <div class="om-fld">
++        <label>Pontuação global <span class="opt">escala 1–6</span></label>
++        <div class="om-scale" role="radiogroup" aria-label="Pontuação global 1 a 6">
++          <button type="button" class="om-scale-btn" role="radio" aria-checked="false" onclick="dxOMSelect(this,'score','1')"><span class="num">1</span><span class="lbl">muito abaixo</span></button>
++          <button type="button" class="om-scale-btn" role="radio" aria-checked="false" onclick="dxOMSelect(this,'score','2')"><span class="num">2</span><span class="lbl">abaixo</span></button>
++          <button type="button" class="om-scale-btn" role="radio" aria-checked="false" onclick="dxOMSelect(this,'score','3')"><span class="num">3</span><span class="lbl">limiar</span></button>
++          <button type="button" class="om-scale-btn" role="radio" aria-checked="false" onclick="dxOMSelect(this,'score','4')"><span class="num">4</span><span class="lbl">esperado</span></button>
++          <button type="button" class="om-scale-btn" role="radio" aria-checked="false" onclick="dxOMSelect(this,'score','5')"><span class="num">5</span><span class="lbl">acima</span></button>
++          <button type="button" class="om-scale-btn" role="radio" aria-checked="false" onclick="dxOMSelect(this,'score','6')"><span class="num">6</span><span class="lbl">excelente</span></button>
++        </div>
++      </div>
++
++      <div class="om-fld">
++        <label>Notas <span class="opt">pontos fortes, áreas a desenvolver, combinados para próxima avaliação</span></label>
++        <textarea id="int-aval-notes" rows="3" placeholder="ex.: boa relação interna; aprofundar gestão de polimedicação no idoso; rever guideline ESC HF 2021 antes da próxima sessão."></textarea>
++      </div>
++
++      <div style="display:flex;gap:8px;justify-content:flex-end;align-items:center">
++        <span id="int-aval-count" style="font-size:11px;color:var(--muted);margin-right:auto"></span>
++        <button class="btn-c" type="button" onclick="dxOMSave()" style="background:#bda060;color:#fff;border-color:#bda060;padding:7px 16px;font-weight:500">Guardar avaliação</button>
++      </div>
++    </div>
++
++    <div class="int-stub" style="margin-top:14px">
++      <h3>Histórico e relatório periódico</h3>
++      <p>Lista das avaliações guardadas, filtros por instrumento e período, exportação para reunião com tutor / orientador formativo.</p>
++      <span class="int-fase">Fase 2 — em construção</span>
++    </div>
++  </div>
++
++  <!-- DIÁRIO -->
++  <div class="panel-int" id="pi-dia" role="tabpanel" aria-labelledby="tab-int-dia">
++    <div class="int-stub">
++      <h3>Diário formativo</h3>
++      <p>Reflexão pessoal sobre práticas e aprendizagens. Componente da carteira do interno conforme regulamento OM. Entradas datadas, ditado por voz disponível.</p>
++      <span class="int-fase">Fase 2 — em construção</span>
++    </div>
++  </div>
++
++  <!-- JOURNAL CLUB -->
++  <div class="panel-int" id="pi-jc" role="tabpanel" aria-labelledby="tab-int-jc">
++    <div class="int-stub">
++      <h3>Journal Club</h3>
++      <p>Apontamentos sobre artigos discutidos em sessão. Suporte a citações DOI / PubMed, templates CASP / AMSTAR para apreciação crítica.</p>
++      <span class="int-fase">Fase 2 — em construção</span>
++    </div>
++  </div>
++</div>
++
+ </div><!-- /main -->
+ </div><!-- wrapper -->
+ </div><!-- wrap -->
+@@ -8702,5 +8892,166 @@ function relAdd(el, kind){
+ })();
+ </script>
+ 
++<!-- ═══════════════════════════════════════════════════════════════════
++     INTERNATO MGF — Fase 1 (esqueleto) — JS
++     Não toca em nada do v9.5 SOAP. Auto-save dx_autosave_v1 inalterado.
++     Toggle, tabs, perfil, rubrica OM. Namespace localStorage dx_int_*.
++     ═══════════════════════════════════════════════════════════════════ -->
++<script>
++(function(){
++  'use strict';
++
++  var KEY_MODE       = 'dx_int_mode';
++  var KEY_TAB        = 'dx_int_tab';
++  var KEY_PROF_INIT  = 'dx_int_profile_initials';
++  var KEY_PROF_YEAR  = 'dx_int_profile_year';
++  var KEY_PROF_USF   = 'dx_int_profile_usf';
++  var KEY_AVAL_INSTR = 'dx_int_aval_current_instr';
++  var KEY_AVAL_SCORE = 'dx_int_aval_current_score';
++  var KEY_AVAL_NOTES = 'dx_int_aval_current_notes';
++  var KEY_AVAL_LIST  = 'dx_int_avaliacoes';
++
++  function lsGet(k, dflt){ try { var v = localStorage.getItem(k); return v == null ? dflt : v; } catch(e){ return dflt; } }
++  function lsSet(k, v){ try { localStorage.setItem(k, v); } catch(e){} }
++
++  // ── Modo (SOAP / Internato) ─────────────────────────────────────────
++  window.dxModeSet = function(mode){
++    if (mode !== 'soap' && mode !== 'internato') return;
++    var b = document.body;
++    if (mode === 'internato') b.classList.add('dx-mode-internato');
++    else b.classList.remove('dx-mode-internato');
++    lsSet(KEY_MODE, mode);
++    var tog = document.getElementById('hdr-mode-tog');
++    if (tog) {
++      tog.querySelectorAll('button').forEach(function(btn){
++        var on = btn.dataset.mode === mode;
++        btn.classList.toggle('on', on);
++        btn.setAttribute('aria-selected', on ? 'true' : 'false');
++      });
++    }
++    var sub = document.getElementById('hdr-sub');
++    if (sub) sub.textContent = mode === 'internato' ? 'Internato MGF' : 'SOAP';
++  };
++
++  // ── Tabs internas ───────────────────────────────────────────────────
++  var INT_TABS = ['log','aval','dia','jc'];
++  window.dxIntTab = function(t){
++    if (INT_TABS.indexOf(t) < 0) return;
++    INT_TABS.forEach(function(k){
++      var tab = document.getElementById('tab-int-' + k);
++      var pan = document.getElementById('pi-' + k);
++      var on = (k === t);
++      if (tab) {
++        tab.classList.toggle('on', on);
++        tab.setAttribute('aria-selected', on ? 'true' : 'false');
++        tab.setAttribute('tabindex', on ? '0' : '-1');
++      }
++      if (pan) pan.classList.toggle('on', on);
++    });
++    lsSet(KEY_TAB, t);
++  };
++
++  // ── Perfil interno (1 perfil por navegador, namespacing dx_int_profile_*) ──
++  window.dxIntProfileSave = function(){
++    var i = (document.getElementById('int-prof-init')||{}).value || '';
++    var y = (document.getElementById('int-prof-year')||{}).value || '';
++    var u = (document.getElementById('int-prof-usf')||{}).value || '';
++    lsSet(KEY_PROF_INIT, i.toUpperCase().slice(0,5));
++    lsSet(KEY_PROF_YEAR, y);
++    lsSet(KEY_PROF_USF, u);
++  };
++  function dxIntProfileLoad(){
++    var ie = document.getElementById('int-prof-init');
++    var ye = document.getElementById('int-prof-year');
++    var ue = document.getElementById('int-prof-usf');
++    if (ie) ie.value = lsGet(KEY_PROF_INIT, '');
++    if (ye) ye.value = lsGet(KEY_PROF_YEAR, '');
++    if (ue) ue.value = lsGet(KEY_PROF_USF, '');
++  }
++
++  // ── Avaliações OM (Mini-CEX / DOPS / CbD / MSF + escala 1-6) ────────
++  window.dxOMSelect = function(btn, dim, val){
++    var fld = btn.closest && btn.closest('.om-fld');
++    if (!fld) return;
++    fld.querySelectorAll('.om-scale-btn').forEach(function(b){
++      b.classList.remove('on');
++      b.setAttribute('aria-checked', 'false');
++    });
++    btn.classList.add('on');
++    btn.setAttribute('aria-checked', 'true');
++    if (dim === 'instr') lsSet(KEY_AVAL_INSTR, val);
++    else if (dim === 'score') lsSet(KEY_AVAL_SCORE, val);
++  };
++
++  function dxOMRestore(){
++    var instr = lsGet(KEY_AVAL_INSTR, '');
++    var score = lsGet(KEY_AVAL_SCORE, '');
++    var notes = lsGet(KEY_AVAL_NOTES, '');
++    document.querySelectorAll('#pi-aval .om-scale-btn').forEach(function(b){
++      var oc = b.getAttribute('onclick') || '';
++      var m = oc.match(/'(instr|score)','([^']+)'/);
++      if (!m) return;
++      if ((m[1] === 'instr' && m[2] === instr) || (m[1] === 'score' && m[2] === score)) {
++        b.classList.add('on');
++        b.setAttribute('aria-checked', 'true');
++      }
++    });
++    var ne = document.getElementById('int-aval-notes');
++    if (ne) {
++      ne.value = notes;
++      ne.addEventListener('input', function(){ lsSet(KEY_AVAL_NOTES, ne.value); });
++    }
++  }
++
++  function dxIntAvalCount(){
++    var n = 0;
++    try { n = (JSON.parse(lsGet(KEY_AVAL_LIST, '[]')) || []).length; } catch(e){}
++    var el = document.getElementById('int-aval-count');
++    if (el) el.textContent = n ? (n + ' avaliações guardadas') : '';
++  }
++
++  window.dxOMSave = function(){
++    var instr = lsGet(KEY_AVAL_INSTR, '');
++    var score = lsGet(KEY_AVAL_SCORE, '');
++    var notes = lsGet(KEY_AVAL_NOTES, '');
++    if (!instr || !score) {
++      alert('Indique instrumento e pontuação antes de guardar.');
++      return;
++    }
++    var list;
++    try { list = JSON.parse(lsGet(KEY_AVAL_LIST, '[]')) || []; } catch(e){ list = []; }
++    list.unshift({
++      ts: Date.now(),
++      instr: instr,
++      score: score,
++      notes: notes,
++      year: lsGet(KEY_PROF_YEAR, '')
++    });
++    if (list.length > 200) list = list.slice(0, 200);
++    lsSet(KEY_AVAL_LIST, JSON.stringify(list));
++    lsSet(KEY_AVAL_INSTR, '');
++    lsSet(KEY_AVAL_SCORE, '');
++    lsSet(KEY_AVAL_NOTES, '');
++    document.querySelectorAll('#pi-aval .om-scale-btn').forEach(function(b){
++      b.classList.remove('on');
++      b.setAttribute('aria-checked', 'false');
++    });
++    var ne = document.getElementById('int-aval-notes');
++    if (ne) ne.value = '';
++    dxIntAvalCount();
++    alert('Avaliação guardada (' + list.length + ' no total).\nHistórico filtrável e exportação chegam na Fase 2.');
++  };
++
++  // ── Init ────────────────────────────────────────────────────────────
++  document.addEventListener('DOMContentLoaded', function(){
++    dxIntProfileLoad();
++    dxOMRestore();
++    dxIntAvalCount();
++    window.dxModeSet(lsGet(KEY_MODE, 'soap'));
++    window.dxIntTab(lsGet(KEY_TAB, 'log'));
++  });
++})();
++</script>
++
+ </body>
+ </html>
