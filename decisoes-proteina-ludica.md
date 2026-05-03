@@ -1,7 +1,7 @@
-# Proteína Lúdica — Registo de Decisões v2.3
+# Proteína Lúdica — Registo de Decisões v2.4
 
 > Memória viva do projecto. Anexar a novos chats para arranque sem ruído.
-> **Última actualização:** 26 Abril 2026 — auditoria de jargão e inversão da regra de tratamento ("você" e "o senhor" passam a estar reservados ao oral; em escrita pública aplica-se 3.ª pessoa singular impessoal).
+> **Última actualização:** 3 Maio 2026 — registadas duas secções novas: *Arquitectura plataforma — racional* (porque catálogo na plataforma própria + à medida em terceiras) e *Protocolo de validação com médicos (Maio 2026)*.
 >
 > **Este ficheiro substitui o `decisoes-proteina-ludica.md` anterior.**
 
@@ -335,6 +335,97 @@ Os chats no Claude podem desaparecer por qualquer motivo técnico; a pasta local
 
 ---
 
+## Arquitectura plataforma — racional
+
+A Proteína Lúdica opera **dois modelos paralelos**, decisão deliberada:
+
+| Modelo | Onde vive | Segmentos | Porquê |
+|---|---|---|---|
+| **Plataforma própria** | App/PWA da Proteína Lúdica (ex: Dr. Escriba IA · SOAP v8.0) | Catálogo (A) | Volume justifica; UI portuguesa; controlo da experiência; ditado e features clínicas |
+| **Plataformas terceiras** | Claude Projects, ChatGPT Custom GPTs, Gemini Gems, Copilot, Perplexity, Mistral, Universal | À medida — Individual (B.1) | Custos LLM recaem no cliente; stateless verdadeiro; venda única (19€/49€/290€) |
+
+### Porque o "à medida" não é plataforma própria
+
+- **Custos de LLM** — chamar APIs directamente custa ~0,01-0,05€ por nota. 200 notas/mês × cliente pode passar 30€. Receita única de 19€/49€ não cobre. Plataformas terceiras cobram ao próprio cliente
+- **Princípio stateless** — *"Zero dados clínicos no servidor"* (regra absoluta). Plataforma própria com persistência colide
+- **Compliance** — empurrar para plataforma terceira transfere parte do consentimento e da responsabilidade para o utilizador
+- **Time-to-market** — wizard a gerar configuração lança em semanas; app própria com SOAP/ditado/histórico leva meses
+- **Modelo de receita** — *"à medida"* é venda única, não subscrição. Faz sentido para arquitecto, advogado, contabilista que quer um secretário só dele e fica com ele
+
+### Posição estratégica
+
+A Proteína Lúdica **não vende tecnologia LLM** (commodity da Anthropic/OpenAI/Google) **nem é dona dos dados** (ficam com o profissional). Vende **conhecimento aplicado** — saber traduzir 17 perguntas + caso real numa configuração que faz o agente comportar-se como secretário fiável.
+
+Defensável a longo prazo:
+- LLMs vão baratear → margem do "à medida" melhora sem fazer nada
+- Plataformas vão multiplicar-se → o expert que sabe gerar configuração para todas continua útil
+- Propriedade intelectual real está nas **17 secções + exemplos preenchidos + metodologia**, não no código
+
+### Quando reavaliar
+
+Manter os dois modelos como estão até:
+1. **Primeira venda Equipa real (990€)** — aí avaliar se gateway próprio (`app.proteinaludica.com` como router para LLMs) faz sentido para esse tier. Adiado para o fim do roadmap actual
+2. **Cliente com pedido de integração clínica** (SClínico, ALERT, Glintt) — plataforma terceira não chega
+3. **Padrão repetido em 5+ clientes "à medida" do mesmo nicho** — promove-se a catálogo (ex: *Dr. Defensor* para advogados). Janela: 6-12 meses após primeiros pilotos
+
+### Riscos macro a vigiar
+
+| Risco | Probabilidade | Mitigação |
+|---|---|---|
+| OpenAI / Anthropic apertarem ToS para uso clínico | Média | Diversificação entre 7 plataformas; configuração é portátil |
+| Plataforma X deixa de existir | Baixa | Wizard regenera configuração para outra plataforma |
+| AI Act classificar secretário como dispositivo médico | Média a longo prazo | Posicionamento "não-clínico" registado em todos os materiais; reforço dos *red lines* |
+| Plataformas integrarem nativamente "templates de profissão" | Alta a 2-3 anos | Propriedade intelectual fica nas 17 secções + exemplos preenchidos |
+
+---
+
+## Protocolo de validação com médicos (Maio 2026)
+
+Sessão estruturada e gravada com 5 médicos. ~40 min cada.
+
+### Quem (5 perfis-alvo)
+
+- 2 médicos de família 45-65 anos que **viram a v1 e não perceberam** — referência para comparar
+- 1 especialista (fisiatra, internista) — testa o tom para fora da família/urgência
+- 1 gestor de clínica privada — testa o caminho Equipa
+- 1 médico que nunca tenha usado IA — teste mais duro
+
+### Tarefas a pedir (sem explicar nada antes)
+
+1. *"Está nesta página. O que faria?"* — ver se entram no wizard sozinhos
+2. *"Imagine que quer um secretário só para si. Faça."* — percorrer passos 0→3
+3. *"Decida entre grátis, 19€ ou 49€. Justifique."* — testa se a diferença é clara
+4. *"Explique a um colega, em duas frases, o que é isto."* — teste-rei do conceito
+
+### Métricas e metas
+
+| Métrica | Meta |
+|---|---|
+| Tempo até *"percebi o que isto é"* | < 2 min |
+| Termos sublinhados como pouco claros | < 3 por médico |
+| Conseguem escolher plataforma sem ajuda | 4/5 |
+| Conseguem reformular o conceito a um colega | 4/5 |
+| Dizem *"agente IA"* ou *"prompt"* na conversa | 0/5 (sinal de que o vocabulário pegou) |
+| *"Isto eu pago"* sem ser perguntado | 2/5 — forte sinal comercial |
+
+### Como conduzir
+
+- **Ambiente real**: casa ou consultório do médico, não estúdio
+- **Telemóvel + portátil**: testar ambos (mobile é onde aterra de email; portátil é onde se preenche)
+- **Pensar alto**: pedir verbalização contínua — *"Diga o que está a pensar"*
+- **Não ajudar**: a fricção é o sinal. Anotar onde param e voltam atrás
+- **Gravar áudio** (com consentimento explícito)
+
+### Output após as 5 sessões — secção a criar no `decisoes.md`
+
+*"Resultados validação Maio 2026"* com:
+- Conceito passou? (sim/não)
+- Os 3 piores termos a refazer
+- 17 secções ficam ou reduzem para 7-9
+- Diferença 19€/49€ é clara ou precisa de reformulação
+
+---
+
 ## Decisões expressamente rejeitadas (não voltar a propor)
 
 - "Família Sombra" como naming unificador dos secretários — rejeitada
@@ -375,6 +466,12 @@ Os chats no Claude podem desaparecer por qualquer motivo técnico; a pasta local
 ---
 
 ## Changelog
+
+**v2.4 · 3 Maio 2026:**
+- Nova secção **Arquitectura plataforma — racional** entre "Princípios transversais" e "Decisões expressamente rejeitadas". Documenta porque a Proteína Lúdica opera dois modelos paralelos (catálogo na plataforma própria · Dr. Escriba IA SOAP v8.0; à medida em plataformas terceiras), os custos de LLM e o princípio stateless que justificam a separação, a posição estratégica ("expert da configuração", não vendedora de tecnologia LLM), critérios para reavaliar (primeira venda Equipa, integração clínica, padrão repetido em 5+ clientes do mesmo nicho), e tabela de riscos macro
+- Nova secção **Protocolo de validação com médicos (Maio 2026)**. 5 perfis-alvo definidos (2 médicos de família que não perceberam a v1, 1 especialista, 1 gestor de clínica, 1 médico sem experiência IA), 4 tarefas sem instruções prévias, 6 métricas com metas concretas, modo de condução (ambiente real, mobile + desktop, pensar alto, não ajudar, gravar áudio), e estrutura do output a registar após as sessões
+- **Decisão de roadmap**: gateway próprio para tier Equipa adiado para depois da primeira venda Equipa real. Não é prioridade actual
+- **Decisão de roadmap**: produtização de clientes "à medida" para catálogo só após 6-12 meses de pilotos reais, quando aparecer padrão repetido em 5+ clientes do mesmo nicho
 
 **v2.3 · 26 Abril 2026:**
 - **Inversão da regra de tratamento.** *"Você"* e *"o senhor / a senhora"* eram regra em v2.0-v2.2 mas pertencem ao registo oral em PT-PT. Em escrita pública aplica-se 3.ª pessoa singular impessoal (padrão de sites institucionais portugueses: gov.pt, CGD, IEFP, IRN, Ordem dos Médicos)
