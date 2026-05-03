@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-PT">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -205,7 +205,7 @@
 
   .medida { background: var(--surface); border-top: 0.5px solid var(--border); }
   .medida-tag { display: inline-block; font-family: var(--font-mono); font-size: 11px; color: var(--accent); background: var(--accent-light); padding: 5px 12px; border-radius: 3px; letter-spacing: 0.05em; margin-bottom: 1rem; }
-  .tiers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 4rem; }
+  .tiers-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; margin-top: 4rem; }
   .tier { background: var(--bg); border: 0.5px solid var(--border); border-radius: 12px; padding: 2rem; display: flex; flex-direction: column; position: relative; }
   .tier.recommended { background: var(--ink); color: white; border-color: var(--ink); }
   .tier.recommended::before { content: 'Recomendado'; position: absolute; top: -12px; left: 2rem; background: var(--accent-glow); color: var(--ink); font-family: var(--font-mono); font-size: 10px; padding: 4px 12px; border-radius: 3px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; }
@@ -228,8 +228,16 @@
   .tier.recommended .tier-cta-main:hover { background: white; }
   .tier-cta-ghost { background: transparent; color: var(--ink); border: 0.5px solid var(--border-strong); }
   .tier-cta-ghost:hover { border-color: var(--accent); color: var(--accent); }
-  .madeira-note { margin-top: 2rem; padding: 1.25rem 1.5rem; background: var(--accent-light); border-radius: 8px; font-size: 14px; color: var(--accent); display: flex; align-items: center; gap: 10px; line-height: 1.5; }
-  .madeira-note strong { font-weight: 500; }
+  .equipa-bloco { margin-top: 3rem; }
+  .equipa-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: 12px; padding: 2.5rem; display: grid; grid-template-columns: 1fr auto; gap: 2.5rem; align-items: center; }
+  .equipa-tag { display: inline-block; font-family: var(--font-mono); font-size: 11px; color: var(--amber-dark); background: var(--amber-light); padding: 5px 12px; border-radius: 3px; letter-spacing: 0.05em; margin-bottom: 1rem; }
+  .equipa-card h3 { font-family: var(--font-head); font-size: 1.7rem; font-weight: 400; margin-bottom: 0.6rem; letter-spacing: -0.01em; line-height: 1.15; }
+  .equipa-desc { font-size: 15px; color: var(--ink2); line-height: 1.6; max-width: 60ch; }
+  .equipa-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 1rem; min-width: 180px; }
+  .equipa-price { font-family: var(--font-head); font-size: 2rem; color: var(--ink); letter-spacing: -0.02em; line-height: 1; text-align: right; }
+  .equipa-price-sub { display: block; font-family: var(--font-mono); font-size: 10px; color: var(--muted); letter-spacing: 0.05em; margin-top: 4px; font-weight: normal; }
+  .equipa-cta { display: inline-block; padding: 11px 22px; background: var(--ink); color: white; border-radius: 6px; font-family: var(--font-body); font-size: 14px; font-weight: 500; text-decoration: none; transition: background 0.2s; white-space: nowrap; }
+  .equipa-cta:hover { background: var(--ink2); }
 
   .faq { background: var(--bg2); }
   .faq-list { margin-top: 3rem; max-width: 800px; }
@@ -295,6 +303,9 @@
   .footer-bottom a { color: rgba(255,255,255,0.5); text-decoration: none; }
   .footer-bottom a:hover { color: rgba(255,255,255,0.9); }
 
+  @media (max-width: 1080px) {
+    .tiers-grid { grid-template-columns: repeat(2, 1fr); }
+  }
   @media (max-width: 860px) {
     nav { padding: 1rem 1.25rem; }
     .nav-links li:not(:last-child) { display: none; }
@@ -304,6 +315,9 @@
     .portas { grid-template-columns: 1fr; }
     .como-grid, .eg-grid { grid-template-columns: 1fr; }
     .tiers-grid { grid-template-columns: 1fr; }
+    .equipa-card { grid-template-columns: 1fr; gap: 1.5rem; padding: 2rem; }
+    .equipa-actions { align-items: flex-start; min-width: 0; }
+    .equipa-price { text-align: left; }
     .empresa-grid, .contact-inner { grid-template-columns: 1fr; gap: 2.5rem; }
     .catalogo-grid { grid-template-columns: 1fr; }
     .footer-inner { grid-template-columns: 1fr 1fr; gap: 2rem; }
@@ -356,7 +370,7 @@
       <a class="porta porta-a" href="#medida">
         <div class="porta-label">Opção 1 · Nós fazemos</div>
         <div class="porta-title">Quero um pronto<br>a usar</div>
-        <div class="porta-desc">Conversamos 1 hora. Fazemos o seu secretário. Entregamos-lhe pronto a trabalhar. O senhor só tem de o usar.</div>
+        <div class="porta-desc">Conversamos 1 hora. Fazemos o seu secretário. Entregamos-lhe pronto a trabalhar. Só tem de usar.</div>
         <div class="porta-foot">
           <div class="porta-price">
             desde 290€
@@ -367,13 +381,13 @@
       </a>
 
       <a class="porta porta-b" href="/criar">
-        <div class="porta-label">Opção 2 · Faça você</div>
+        <div class="porta-label">Opção 2 · Faça por conta própria</div>
         <div class="porta-title">Quero tentar<br>sozinho</div>
-        <div class="porta-desc">Para quem já mexe com computadores. Respondemos a 17 perguntas simples. Recebe tudo pronto para pôr a funcionar.</div>
+        <div class="porta-desc">Para quem já mexe com computadores. Responde a 17 perguntas simples. Recebe tudo pronto para pôr a funcionar.</div>
         <div class="porta-foot">
           <div class="porta-price">
-            19€
-            <span class="porta-price-sub">Só pagos se gostar · 29€ normal</span>
+            a partir de 19€
+            <span class="porta-price-sub">19€ Básico · 49€ com IA a guiar</span>
           </div>
           <span class="porta-arrow">Começar →</span>
         </div>
@@ -385,13 +399,13 @@
 <section class="explicar" id="explicar">
   <div class="container">
     <div class="section-label">Primeiro · o que é isto</div>
-    <h2 class="section-title">Um secretário<br>que vive no <em>computador.</em></h2>
+    <h2 class="section-title">Um secretário<br>sempre <em>à mão.</em></h2>
     <p class="section-sub">Se nunca ouviu falar disto, não se preocupe. É mais simples do que parece.</p>
 
     <div class="explicar-intro">
-      <p>Imagine que tem um <strong>secretário</strong> que conhece a sua maneira de trabalhar. Sabe as frases que o senhor usa, os exames que costuma pedir, o tipo de relatórios que escreve.</p>
-      <p>A diferença é que este secretário <strong>vive dentro do computador</strong>. Está lá 24 horas por dia. Nunca adoece. Nunca vai de férias. Custa muito menos.</p>
-      <p>O senhor dita-lhe o que precisa — por escrito ou a falar — e ele <strong>escreve tudo no seu estilo</strong>. Depois é só copiar para onde precisar.</p>
+      <p>Imagine que tem um <strong>secretário</strong> que conhece a sua maneira de trabalhar. Sabe as frases que costuma usar, os exames que costuma pedir, o tipo de relatórios que escreve.</p>
+      <p>A diferença é que este secretário é uma <strong>ferramenta</strong>. Abre-se quando se precisa, no telemóvel ou no computador. Está disponível 24 horas por dia. Não adoece. Nunca vai de férias. Custa muito menos.</p>
+      <p>Basta ditar o que precisa — por escrito ou a falar — e ele <strong>escreve tudo no seu estilo</strong>. Depois é só copiar para onde precisar.</p>
     </div>
   </div>
 </section>
@@ -400,20 +414,20 @@
   <div class="container">
     <div class="section-label">Como é que funciona</div>
     <h2 class="section-title">Três <em>passos.</em></h2>
-    <p class="section-sub">Não é preciso saber nada de computadores. Nós tratamos da parte difícil. O senhor só usa.</p>
+    <p class="section-sub">Não é preciso saber nada de computadores. Nós tratamos da parte difícil. Só fica a usar.</p>
 
     <div class="como-grid">
 
       <div class="como-step">
         <div class="como-num">1</div>
         <div class="como-title">Uma conversa<br>de 1 hora</div>
-        <p class="como-desc">Nós ligamos-lhe. Perguntamos como o senhor trabalha: como escreve as notas, que doentes vê, que problemas resolve. <strong>Apanhamos tudo.</strong></p>
+        <p class="como-desc">Nós ligamos. Perguntamos como trabalha: como escreve as notas, que doentes vê, que problemas resolve. <strong>Apanhamos tudo.</strong></p>
       </div>
 
       <div class="como-step">
         <div class="como-num">2</div>
         <div class="como-title">Montamos o<br>seu secretário</div>
-        <p class="como-desc">Com o que nos contou, criamos um secretário digital que <strong>trabalha como o senhor</strong>. Testamos para ter a certeza que está bem feito.</p>
+        <p class="como-desc">Com o que nos contou, criamos um secretário digital que <strong>trabalha à sua maneira</strong>. Testamos para ter a certeza que está bem feito.</p>
       </div>
 
       <div class="como-step">
@@ -479,12 +493,12 @@
       <div class="agente-card indisponivel">
         <div class="agente-head">
           <div class="agente-ic ic-internato">In</div>
-          <span class="agente-status st-soon">Em breve</span>
+          <span class="agente-status st-piloto">Em piloto</span>
         </div>
         <div class="agente-body">
           <div class="agente-name">Dr. Escriba · Internato</div>
-          <div class="agente-para-quem">Para · médicos em formação</div>
-          <p class="agente-desc">Versão para internos de especialidade. Ajuda a escrever notas durante o internato, a preparar apresentações de casos e a organizar rotinas.</p>
+          <div class="agente-para-quem">Para · internos de medicina geral e familiar</div>
+          <p class="agente-desc">Modo dentro do Dr. Escriba: alterna entre SOAP e Internato. Logbook, avaliações da Ordem dos Médicos (Mini-CEX, DOPS, CbD, MSF), diário formativo e Journal Club. Em piloto desde Maio 2026.</p>
         </div>
         <div class="agente-foot">
           <span class="agente-price agente-price-muted">Preço a definir</span>
@@ -564,56 +578,80 @@
   <div class="container">
     <span class="medida-tag">● Opção 1 · nós fazemos por si</span>
     <h2 class="section-title">Um secretário digital<br>feito <em>só para si.</em></h2>
-    <p class="section-sub">Ninguém conhece o seu trabalho como o senhor. Conversamos, aprendemos, construímos. Entregamos pronto a trabalhar. Três níveis, escolha o que mais lhe serve.</p>
+    <p class="section-sub">Ninguém conhece melhor o seu próprio trabalho. Conversamos, aprendemos, construímos. Entregamos pronto a trabalhar. Três níveis, à escolha.</p>
 
     <div class="tiers-grid">
 
       <div class="tier">
-        <div class="tier-name">Sozinho</div>
-        <div class="tier-sub">Faz você com o nosso modelo</div>
+        <div class="tier-name">Grátis</div>
+        <div class="tier-sub">Faz por conta própria</div>
         <div class="tier-price">0€</div>
-        <div class="tier-price-note">Grátis</div>
+        <div class="tier-price-note">Sem ajuda humana</div>
         <ul class="tier-list">
-          <li>Um modelo com 17 perguntas</li>
-          <li>Vídeo de 10 minutos a explicar</li>
-          <li>Pode fazer ao seu ritmo</li>
-          <li>Sem ninguém a acompanhar</li>
+          <li>17 perguntas para responder</li>
+          <li>Configuração entregue para colar</li>
+          <li>Sem guia de instalação</li>
+          <li>Sem acompanhamento</li>
         </ul>
         <a href="/criar" class="tier-cta tier-cta-ghost">Começar grátis →</a>
       </div>
 
-      <div class="tier recommended">
-        <div class="tier-name">Com a nossa ajuda</div>
-        <div class="tier-sub">Conversa de 1 hora</div>
-        <div class="tier-price">290€</div>
-        <div class="tier-price-note">Preço Madeira · primeiros 10 clientes</div>
+      <div class="tier">
+        <div class="tier-name">Básico</div>
+        <div class="tier-sub">Self-service com guia</div>
+        <div class="tier-price">19€</div>
+        <div class="tier-price-note">Pagamento único</div>
         <ul class="tier-list">
-          <li>Uma chamada de 1 hora connosco</li>
-          <li>Apanhamos tudo o que o senhor diz</li>
-          <li>Entregamos o secretário pronto</li>
-          <li>14 dias a tirar dúvidas por email</li>
+          <li>Tudo o que tem o Grátis</li>
+          <li>Guia de instalação na sua ferramenta</li>
+          <li>PDF formatado para arquivo</li>
+          <li>Lista de verificação RGPD</li>
         </ul>
-        <a href="#contacto" class="tier-cta tier-cta-main">Quero falar →</a>
+        <a href="/criar" class="tier-cta tier-cta-ghost">Começar →</a>
+      </div>
+
+      <div class="tier recommended">
+        <div class="tier-name">Premium</div>
+        <div class="tier-sub">Com IA a guiar o preenchimento</div>
+        <div class="tier-price">49€</div>
+        <div class="tier-price-note">Pagamento único</div>
+        <ul class="tier-list">
+          <li>Tudo o que tem o Básico</li>
+          <li>IA acompanha o preenchimento das 17 perguntas</li>
+          <li>Sugestões à medida que escreve</li>
+          <li>Avisa quando uma resposta contradiz outra</li>
+        </ul>
+        <a href="/criar" class="tier-cta tier-cta-main">Começar →</a>
       </div>
 
       <div class="tier">
-        <div class="tier-name">Feito por nós</div>
-        <div class="tier-sub">Nós instalamos tudo</div>
-        <div class="tier-price">990€</div>
-        <div class="tier-price-note">Preço Madeira · primeiros 10 clientes</div>
+        <div class="tier-name">Assistido</div>
+        <div class="tier-sub">Conversa de 1 hora connosco</div>
+        <div class="tier-price">290€</div>
+        <div class="tier-price-note">Madeira · primeiros 10 · 490€ depois</div>
         <ul class="tier-list">
-          <li>Tudo o que tem o nível acima</li>
-          <li>Instalamos no seu computador</li>
-          <li>Ensinamos-lhe a usar (90 min)</li>
-          <li>30 dias de apoio, qualquer dúvida</li>
+          <li>Uma chamada de 1 hora connosco</li>
+          <li>Apanhamos tudo o que disser</li>
+          <li>Entregamos o secretário pronto</li>
+          <li>14 dias a tirar dúvidas por email</li>
         </ul>
         <a href="#contacto" class="tier-cta tier-cta-ghost">Quero falar →</a>
       </div>
 
     </div>
 
-    <div class="madeira-note">
-      <strong>●</strong>&nbsp;&nbsp;<strong>Preço de abertura na Madeira.</strong>&nbsp; É para os 10 primeiros clientes aqui da ilha. Depois volta ao preço normal (490€ e 1.490€).
+    <div class="equipa-bloco">
+      <div class="equipa-card">
+        <div>
+          <span class="equipa-tag">Para a sua equipa</span>
+          <h3>Equipa</h3>
+          <p class="equipa-desc">Para clínicas, escritórios e gabinetes — qualquer profissão, não só saúde. Um secretário "mãe" com regras comuns + versões adaptadas a cada papel (médico, enfermeira, recepção; advogado, associado, secretária; etc.).</p>
+        </div>
+        <div class="equipa-actions">
+          <div class="equipa-price">desde 990€<span class="equipa-price-sub">Preço provisório · ajustado ao primeiro projecto real</span></div>
+          <a href="#contacto" class="equipa-cta">Falar connosco →</a>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -632,7 +670,7 @@
           <span class="faq-q-icon">+</span>
         </div>
         <div class="faq-a">
-          Não. Se o senhor sabe mandar uma mensagem pelo telemóvel, consegue usar. Nós instalamos, nós explicamos. Se tiver dúvidas, ligamos-lhe de volta e ajudamos.
+          Não. Quem sabe mandar uma mensagem pelo telemóvel, consegue usar. Nós instalamos, nós explicamos. Em caso de dúvida, ligamos de volta e ajudamos.
         </div>
       </div>
 
@@ -652,7 +690,7 @@
           <span class="faq-q-icon">+</span>
         </div>
         <div class="faq-a">
-          <strong>Não e nunca.</strong> A decisão é sempre do médico. O secretário só trata da papelada: escrever notas, organizar informação, preparar documentos. Quem decide o que fazer ao doente é o senhor.
+          <strong>Não e nunca.</strong> A decisão é sempre do médico. O secretário só trata da papelada: escrever notas, organizar informação, preparar documentos. Quem decide o que fazer ao doente é sempre o médico.
         </div>
       </div>
 
@@ -662,7 +700,7 @@
           <span class="faq-q-icon">+</span>
         </div>
         <div class="faq-a">
-          Na Opção 1 (fazemos nós) — entre <strong>3 e 7 dias</strong> depois da conversa. Na Opção 2 (faz o senhor) — uns <strong>15 a 30 minutos</strong> para responder às perguntas e já fica pronto.
+          Na Opção 1 (fazemos nós) — entre <strong>3 e 7 dias</strong> depois da conversa. Na Opção 2 (faz por conta própria) — uns <strong>15 a 30 minutos</strong> para responder às perguntas e já fica pronto.
         </div>
       </div>
 
@@ -723,7 +761,7 @@
         <h2 class="section-title" style="margin-bottom:1.5rem">Proteína<br><em>Lúdica.</em></h2>
         <p>Somos uma pequena empresa sediada em <strong>Seixal, Madeira</strong>.</p>
         <p>Quem cá está é <strong>médico a trabalhar todos os dias</strong> — em cuidados primários, em urgência, em consultório. Só fazemos coisas para problemas que conhecemos por dentro.</p>
-        <p>O nome é propositado. <strong>Proteína</strong> para dizer "coisa séria, que alimenta". <strong>Lúdica</strong> para dizer "feito com gosto, não pesado". O tempo do senhor é a coisa mais cara que tem. Não vale a pena perdê-lo com ferramentas que não servem.</p>
+        <p>O nome é propositado. <strong>Proteína</strong> para dizer "coisa séria, que alimenta". <strong>Lúdica</strong> para dizer "feito com gosto, não pesado". O seu tempo é a coisa mais cara que tem. Não vale a pena perdê-lo com ferramentas que não servem.</p>
       </div>
       <div class="empresa-meta">
         <div class="meta-row">
@@ -808,8 +846,10 @@
           <div class="form-row">
             <label for="ci-tipo">O que lhe interessa?</label>
             <select id="ci-tipo">
-              <option>Quero um secretário pronto a usar (desde 290€)</option>
-              <option>Quero tentar sozinho (19€)</option>
+              <option>Quero um secretário pronto a usar (Assistido 290€)</option>
+              <option>Quero tentar sozinho (Básico 19€)</option>
+              <option>Quero a versão guiada por IA (Premium 49€)</option>
+              <option>Quero para a minha clínica/escritório (Equipa 990€)</option>
               <option>Interessa-me um dos já prontos</option>
               <option>Sou de outra profissão</option>
               <option>Só quero saber mais</option>
@@ -846,6 +886,7 @@
       <h5>Os que temos</h5>
       <a href="https://drescribaai.proteinaludica.com">Dr. Escriba</a>
       <a href="#catalogo">Dr. Escriba Internato</a>
+      <a href="#catalogo">Assistente de Clínica</a>
       <a href="#catalogo">RehabAssist</a>
       <a href="#catalogo">Assistente de Saúde</a>
     </div>
