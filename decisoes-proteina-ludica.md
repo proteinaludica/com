@@ -1,7 +1,7 @@
-# Proteína Lúdica — Registo de Decisões v2.5
+# Proteína Lúdica — Registo de Decisões v2.6
 
 > Memória viva do projecto. Anexar a novos chats para arranque sem ruído.
-> **Última actualização:** 3 Maio 2026 — v2.5 funde dois trabalhos paralelos da mesma data: secções novas *Arquitectura plataforma — racional* e *Protocolo de validação com médicos (Maio 2026)*, e Fase 1 do Internato MGF aplicada ao `index.html` v9.5 do Dr. Escriba IA (toggle SOAP/Internato no header, painel-base com 4 tabs internas, namespace `localStorage` `dx_int_*`).
+> **Última actualização:** 5 Maio 2026 — item 2 do roadmap (4 ficheiros de demonstração da saída do wizard) concluído. Decisão sobre 17 vs 7-9 secções: manter 17 como estrutura única, reavaliar após validação com médicos.
 >
 > **Este ficheiro substitui o `decisoes-proteina-ludica.md` anterior.**
 
@@ -198,9 +198,9 @@ Organizadas em 4 blocos:
 
 **5 obrigatórias mínimas:** 1 (nome), 2 (missão), 13 (red lines), 14 (emergências), 16 (fecho).
 
-**Exemplo completo preenchido** existe no ficheiro `17-seccoes-exemplo.html` (Dr. Roberto IA).
+**Exemplo completo preenchido** existe no ficheiro `17-seccoes-exemplo.html` (Dr. Roberto IA), e nos 4 ficheiros de demonstração da pasta `outputs/` (mesmo conteúdo, formatado por plataforma).
 
-**Questão em aberto:** confirmação de que 17 é o número certo vs reduzir para 7-9 core. Frameworks consagradas de Gems/GPTs usam 6-9 componentes. Decisão a tomar após protótipo.
+**Decisão (5 Maio 2026):** as 17 secções ficam como estrutura única em todos os tiers. Ver secção *"Decisão sobre número de secções"* para racional completo. Reabrir só se a validação com médicos mostrar abandono por excesso de perguntas.
 
 ---
 
@@ -234,14 +234,19 @@ Organizadas em 4 blocos:
 
 ## Ficheiros já gerados
 
-| Ficheiro | Estado (3 Maio 2026) | Notas |
+| Ficheiro | Estado (5 Maio 2026) | Notas |
 |---|---|---|
-| `index.html` (institucional) | **Alinhado v2.1 — revisão de tratamento pendente** | Vocabulário "secretário digital", pirâmide dupla (Individual 0/19/49/290€ + Equipa 990€), paleta Laurissilva, FAQ 6 perguntas, Rede 2027. A passagem para 3.ª p.s. impessoal ainda não foi aplicada. **Atenção:** o `index.html` actualmente no repo `proteinaludica/proteinaludica.com` é o do **Dr. Escriba IA v9.5 + Fase 1 Internato** (uploaded para sessão de trabalho); o institucional vive separado e precisa de ser reposto antes de qualquer deploy. |
+| `index-institucional.html` | **Alinhado v2.5** | Landing institucional (873 linhas). Auditoria editorial e re-arquitectura de preços feitas em PR #4 (Maio 2026): pirâmide Individual 0/19/49/290€ + Equipa 990€ separada, vocabulário "secretário digital", 3.ª p.s. impessoal, paleta Laurissilva, FAQ 6 perguntas, Rede 2027. Pronto para servir como `index.html` quando o pendente bloqueador 21 estiver resolvido. |
+| `index.html` | **Workspace temporário** | Cópia do Dr. Escriba IA v9.5 + Fase 1 Internato. **Não é o institucional.** Antes de qualquer deploy é preciso (a) repor `index-institucional.html` como `index.html`, (b) mover o Dr. Escriba IA para o repo / domínio próprio. Ver pendente bloqueador 21. |
 | `wizard-criar.html` | **Alinhado v2.3** | 7 passos navegáveis (0-6), tradutor inicial, escolha de plataforma com quiz, detector RGPD, paywall diferenciado por tier, floating help para Assistido 290€. Auditoria de jargão (Abril 2026) e reescrita em 3.ª pessoa singular impessoal. |
-| `17-seccoes-exemplo.html` | **Alinhado** | Exemplo completo Dr. Roberto IA (Ponta Delgada, código `med46316`, 8 etapas onboarding, red lines), TOC sticky, componentes do "agente completo" |
+| `17-seccoes-exemplo.html` | **Alinhado** (vive fora deste repo) | Exemplo completo Dr. Roberto IA (Ponta Delgada, código `med46316`, 8 etapas onboarding, red lines), TOC sticky, componentes do "agente completo" |
+| `outputs/gemini-gems.html` | **v2.5 · Maio 2026** | Demonstração 1/4 da saída do wizard. Plataforma Google Gemini Gems. 6 secções (3 Grátis + 3 Básico). 861 linhas. |
+| `outputs/custom-gpt.html` | **v2.5 · Maio 2026** | Demonstração 2/4. Plataforma ChatGPT Custom GPTs. 7 secções (4 Grátis + 3 Básico) com Conversation Starters + nota Capabilities. 989 linhas. |
+| `outputs/claude-projects.html` | **v2.5 · Maio 2026** | Demonstração 3/4. Plataforma Claude Projects. 5 secções (mais enxuta — sem Description, Conversation Starters ou Capabilities; destaque para privacidade por defeito). 852 linhas. |
+| `outputs/copilot-agents.html` | **v2.5 · Maio 2026** | Demonstração 4/4. Plataforma Microsoft Copilot Agents. 7 secções com 4 Topics (frases-gatilho clicáveis) + Actions Power Automate sugeridas. 1055 linhas. |
 | `internato-fase1.patch` | **v2.4 (3 Maio 2026)** | Diff de 382 linhas com a Fase 1 do Internato (toggle + painel + 4 tabs + JS `dx_int_*`). Aplicar no repo `drescribia` (Dr. Escriba V9f) sobre o `index.html` v9.5 base via `git apply`. |
 
-**Pendente de produzir:** ficheiro de demonstração da saída do wizard (agente completo para o Dr. Roberto IA em cada plataforma: Gemini Gems, Custom GPT, Claude Projects, Copilot Agents) — ver item 2 dos próximos passos.
+**Item 2 do roadmap concluído:** os 4 ficheiros de demonstração da saída do wizard estão prontos. Servem para validar formato com médicos antes de codificar o produto real em Next.js.
 
 ---
 
@@ -293,11 +298,11 @@ Os chats no Claude podem desaparecer por qualquer motivo técnico; a pasta local
 
 ## Próximos passos imediatos (ordem)
 
-1. ~~Actualizar `index.html` com estrutura de 5 níveis de preço na secção #medida.~~ ✅ **Feito (21 Abril 2026).**
-2. **Criar ficheiro de demonstração** da saída completa do wizard (título + descrição + system prompt + ficheiros + prompts de teste) para o Dr. Roberto IA em cada plataforma (Gemini Gems, Custom GPT, Claude Projects, Copilot Agents), para validar antes de codificar.
-3. ~~Refazer `wizard-criar.html` com nova linguagem ("secretário digital"), 5 níveis de preço, paywall com 3 saídas distintas.~~ ✅ **Feito (21 Abril 2026).**
-4. **Decidir número final de secções** (17 vs 7-9 core) após ver o wizard actualizado e o ficheiro de demonstração.
-5. **Testar wizard actualizado** com 3-5 médicos amigos que não perceberam a V1 (preferencialmente os mesmos, para comparar).
+1. ~~Actualizar `index.html` com estrutura de 5 níveis de preço na secção #medida.~~ ✅ **Feito (21 Abril 2026, refinado v2.5 — 3 Maio).**
+2. ~~**Criar ficheiro de demonstração** da saída completa do wizard para o Dr. Roberto IA em cada plataforma (Gemini Gems, Custom GPT, Claude Projects, Copilot Agents).~~ ✅ **Feito (5 Maio 2026, v2.5).** Pasta `outputs/` com os 4 ficheiros — ver tabela acima.
+3. ~~Refazer `wizard-criar.html` com nova linguagem ("secretário digital"), 5 níveis de preço, paywall com 3 saídas distintas.~~ ✅ **Feito (21 Abril 2026, refinado v2.3 — 26 Abril).**
+4. ~~**Decidir número final de secções** (17 vs 7-9 core).~~ ✅ **Decidido v2.6 (5 Maio 2026): manter as 17 secções como estrutura única.** Reavaliar apenas após validação com médicos. Razões registadas na secção *"Decisão sobre número de secções"* abaixo.
+5. **Testar wizard + ficheiros de demonstração** com 3-5 médicos amigos que não perceberam a V1 (preferencialmente os mesmos, para comparar). Protocolo registado na secção *"Protocolo de validação com médicos (Maio 2026)"*. **Próximo passo prioritário.**
 6. **Produção de vídeo/áudio/imagens** (pausada, retomar quando homepage e wizard estiverem validados com utilizadores reais).
 7. **Desenvolvimento Next.js** do wizard real (só depois da validação HTML com médicos).
 
@@ -333,6 +338,41 @@ Os chats no Claude podem desaparecer por qualquer motivo técnico; a pasta local
 - Pseudonimização obrigatória (iniciais + idade)
 - Nunca aceita: nome completo, nº utente, nº processo, data nascimento, morada
 - RGPD aplicado desde o design
+
+---
+
+## Decisão sobre número de secções (5 Maio 2026)
+
+**Decisão: manter as 17 secções como estrutura única em todos os tiers.** A diferenciação por preço fica na entrega (ficheiros · prompts · guia · IA a guiar), não no número de secções. Reavaliar apenas após validação com médicos.
+
+### Por que 17 e não 7-9 (frameworks consagradas)
+
+Os 4 ficheiros de demonstração construídos em Maio 2026 mostraram que cada secção tem propósito visível e nenhuma é redundante:
+
+| Bloco | Secções | Por que cada uma é necessária |
+|---|---|---|
+| **Identidade** | 1-4 | Sem isto o secretário fica genérico — perde o "tempero" madeirense (contexto local), o público-alvo definido |
+| **Personalidade** | 5-7 | Voz/tom/estilo são diferenciadores fortes — secretário pedagógico vs secretário robótico |
+| **Funcionamento** | 8-12 | Onboarding em 8 etapas + protocolo de reconhecimento + tarefas específicas + fontes oficiais — o que faz o secretário **funcionar bem** |
+| **Segurança e fecho** | 13-17 | Red lines + emergências + RGPD + fecho dinâmico + continuidade + integração local + limite de turno + registo interno — o que faz o secretário **ser usado em saúde com segurança** |
+
+### Argumentos a favor de manter 17
+
+1. **Frameworks 6-9 são para LLM apps genéricas.** Os secretários da Proteína Lúdica são especializados — red lines clínicos, RGPD reforçado, protocolo de reconhecimento. Precisam dos 17.
+2. **Manter duas versões do questionário (Básico 7-9 vs Premium 17) seria pesadelo de manutenção.** Duplicaria todo o conteúdo do wizard, dos ficheiros de demonstração e das fichas dos secretários do catálogo.
+3. **A diferenciação por preço já está bem definida na entrega.** Ver tabela de tiers Individual em "Arquitectura de negócio".
+4. **Especialização é a vantagem competitiva.** Reduzir para 7-9 aproximaria a Proteína Lúdica de qualquer ferramenta de criação de Custom GPTs — apaga o diferencial.
+
+### Quando reabrir
+
+- Se na validação com médicos (item 5 dos próximos passos) **4/5 disserem que são demasiadas perguntas e abandonam**, reduzir para versão core de 9 (manter 5 obrigatórias mínimas + adicionar 4 para cobrir saúde de forma minimamente segura: 3 Público-alvo, 8 Onboarding, 11 Fontes, 15 Integração local).
+- Se **2/5 ou menos** abandonarem por excesso de perguntas, manter 17 e considerar melhorias na UX do wizard (auto-save mais visível, indicador de progresso, possibilidade de saltar e voltar).
+
+### Histórico
+
+- v2.0 (Abril 2026): 17 secções definidas como estrutura.
+- v2.5 (3 Maio 2026): hipótese aberta de reduzir para 7-9 core no tier Básico.
+- v2.6 (5 Maio 2026): decidido manter 17. Hipótese de redução adiada para depois da validação real com médicos.
 
 ---
 
@@ -443,7 +483,7 @@ Sessão estruturada e gravada com 5 médicos. ~40 min cada.
 
 ## Pendentes (em aberto)
 
-1. Confirmar número de secções (17 vs 7-9 core) após protótipo
+1. ~~Confirmar número de secções (17 vs 7-9 core) após protótipo.~~ ✅ **Decidido v2.6 (5 Maio 2026): manter 17.** Reabrir só se validação com médicos mostrar abandono por excesso de perguntas.
 2. Tagline final (actual: "Um secretário digital que escreve por si.")
 3. Logo e símbolo próprio
 4. Landing page finalizada com pirâmide dupla (individual + equipa)
@@ -468,6 +508,18 @@ Sessão estruturada e gravada com 5 médicos. ~40 min cada.
 ---
 
 ## Changelog
+
+**v2.6 · 5 Maio 2026:**
+
+- **Item 2 do roadmap concluído:** 4 ficheiros de demonstração da saída do wizard `/criar` produzidos e mergeados em `main` (PRs #5 #6 #7 #8). Pasta `outputs/` com:
+  - `gemini-gems.html` (861 linhas · 6 secções)
+  - `custom-gpt.html` (989 linhas · 7 secções, com Conversation Starters)
+  - `claude-projects.html` (852 linhas · 5 secções, mais enxuta, destaque para privacidade)
+  - `copilot-agents.html` (1055 linhas · 7 secções, com 4 Topics + Actions Power Automate)
+  Todos alinhados com a v2.5 (Laurissilva + Fraunces/Geist + lang pt-PT + 0 ocorrências de termos proibidos).
+- **Decisão sobre número de secções:** manter 17 como estrutura única. Hipótese de reduzir para 7-9 no Básico (que vinha aberta desde v2.0) é fechada com fundamentação registada em nova secção dedicada. Reabrir só após validação real com médicos. Pendente 1 actualizado.
+- **Tabela "Ficheiros já gerados" reescrita:** distingue agora `index-institucional.html` (alinhado v2.5, pronto para servir como `index.html`) do `index.html` actual (workspace temporário Dr. Escriba IA, sujeito ao bloqueador 21). Adiciona linha por cada ficheiro de demonstração.
+- **Próximo passo prioritário:** item 5 do roadmap — testar wizard + ficheiros de demonstração com 5 médicos amigos (protocolo registado em "Protocolo de validação com médicos").
 
 **v2.5 · 3 Maio 2026:** versão fundida — duas iniciativas paralelas da mesma data convergem para um único registo. Fica em aberto a possibilidade de futuras v2.5.x para correcções pontuais sem desalinhar trabalho concorrente.
 
