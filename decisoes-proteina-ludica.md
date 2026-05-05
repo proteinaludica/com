@@ -1,7 +1,7 @@
-# Proteína Lúdica — Registo de Decisões v2.6
+# Proteína Lúdica — Registo de Decisões v2.6.1
 
 > Memória viva do projecto. Anexar a novos chats para arranque sem ruído.
-> **Última actualização:** 5 Maio 2026 — item 2 do roadmap (4 ficheiros de demonstração da saída do wizard) concluído. Decisão sobre 17 vs 7-9 secções: manter 17 como estrutura única, reavaliar após validação com médicos.
+> **Última actualização:** 5 Maio 2026 — bloqueador 21 resolvido. `index.html` deste repo é agora a landing institucional alinhada v2.5. O Dr. Escriba IA workspace e o `internato-fase1.patch` foram removidos (a versão produtiva do Dr. Escriba IA vive no repo `drescribia`).
 >
 > **Este ficheiro substitui o `decisoes-proteina-ludica.md` anterior.**
 
@@ -234,19 +234,19 @@ Organizadas em 4 blocos:
 
 ## Ficheiros já gerados
 
-| Ficheiro | Estado (5 Maio 2026) | Notas |
+| Ficheiro | Estado (5 Maio 2026 · v2.6.1) | Notas |
 |---|---|---|
-| `index-institucional.html` | **Alinhado v2.5** | Landing institucional (873 linhas). Auditoria editorial e re-arquitectura de preços feitas em PR #4 (Maio 2026): pirâmide Individual 0/19/49/290€ + Equipa 990€ separada, vocabulário "secretário digital", 3.ª p.s. impessoal, paleta Laurissilva, FAQ 6 perguntas, Rede 2027. Pronto para servir como `index.html` quando o pendente bloqueador 21 estiver resolvido. |
-| `index.html` | **Workspace temporário** | Cópia do Dr. Escriba IA v9.5 + Fase 1 Internato. **Não é o institucional.** Antes de qualquer deploy é preciso (a) repor `index-institucional.html` como `index.html`, (b) mover o Dr. Escriba IA para o repo / domínio próprio. Ver pendente bloqueador 21. |
+| `index.html` | **Alinhado v2.5 · landing institucional** | Landing institucional (914 linhas). Pirâmide Individual 0/19/49/290€ + Equipa 990€ separada, vocabulário "secretário digital", 3.ª p.s. impessoal, paleta Laurissilva, FAQ 6 perguntas, Rede 2027. Era `index-institucional.html` até v2.6; renomeado e a substituir o workspace Dr. Escriba IA na resolução do bloqueador 21 (5 Maio 2026). |
 | `wizard-criar.html` | **Alinhado v2.3** | 7 passos navegáveis (0-6), tradutor inicial, escolha de plataforma com quiz, detector RGPD, paywall diferenciado por tier, floating help para Assistido 290€. Auditoria de jargão (Abril 2026) e reescrita em 3.ª pessoa singular impessoal. |
-| `17-seccoes-exemplo.html` | **Alinhado** (vive fora deste repo) | Exemplo completo Dr. Roberto IA (Ponta Delgada, código `med46316`, 8 etapas onboarding, red lines), TOC sticky, componentes do "agente completo" |
 | `outputs/gemini-gems.html` | **v2.5 · Maio 2026** | Demonstração 1/4 da saída do wizard. Plataforma Google Gemini Gems. 6 secções (3 Grátis + 3 Básico). 861 linhas. |
 | `outputs/custom-gpt.html` | **v2.5 · Maio 2026** | Demonstração 2/4. Plataforma ChatGPT Custom GPTs. 7 secções (4 Grátis + 3 Básico) com Conversation Starters + nota Capabilities. 989 linhas. |
 | `outputs/claude-projects.html` | **v2.5 · Maio 2026** | Demonstração 3/4. Plataforma Claude Projects. 5 secções (mais enxuta — sem Description, Conversation Starters ou Capabilities; destaque para privacidade por defeito). 852 linhas. |
 | `outputs/copilot-agents.html` | **v2.5 · Maio 2026** | Demonstração 4/4. Plataforma Microsoft Copilot Agents. 7 secções com 4 Topics (frases-gatilho clicáveis) + Actions Power Automate sugeridas. 1055 linhas. |
-| `internato-fase1.patch` | **v2.4 (3 Maio 2026)** | Diff de 382 linhas com a Fase 1 do Internato (toggle + painel + 4 tabs + JS `dx_int_*`). Aplicar no repo `drescribia` (Dr. Escriba V9f) sobre o `index.html` v9.5 base via `git apply`. |
+| `17-seccoes-exemplo.html` | **Alinhado** (vive fora deste repo) | Exemplo completo Dr. Roberto IA (Ponta Delgada, código `med46316`, 8 etapas onboarding, red lines), TOC sticky, componentes do "agente completo" |
 
 **Item 2 do roadmap concluído:** os 4 ficheiros de demonstração da saída do wizard estão prontos. Servem para validar formato com médicos antes de codificar o produto real em Next.js.
+
+**Bloqueador 21 resolvido (5 Maio 2026 · v2.6.1):** o `index.html` deste repo é agora a landing institucional. O workspace Dr. Escriba IA + Fase 1 Internato e o ficheiro `internato-fase1.patch` foram removidos. A versão produtiva do Dr. Escriba IA vive no repo separado `drescribia`. Quando este repo for apontado a Vercel (`proteinaludica.com`), serve a landing certa. O Dr. Escriba IA continua a viver em `drescribaai.proteinaludica.com` apontado ao seu repo próprio.
 
 ---
 
@@ -487,7 +487,7 @@ Sessão estruturada e gravada com 5 médicos. ~40 min cada.
 2. Tagline final (actual: "Um secretário digital que escreve por si.")
 3. Logo e símbolo próprio
 4. Landing page finalizada com pirâmide dupla (individual + equipa)
-5. Deploy Vercel apontado a `proteinaludica.com` — **bloqueado** pelo pendente 21 (repor `index.html` institucional)
+5. Deploy Vercel apontado a `proteinaludica.com` — desbloqueado em 5 Maio 2026 (v2.6.1). Pode ser feito quando se quiser.
 6. Script do vídeo-guia de 10 min (incluído no tier Básico 19€ — reavaliar formato)
 7. Contrato de subcontratante RGPD para Assistido (290€) e Equipa (990€)
 8. Validação com TOC do modelo de facturação
@@ -503,11 +503,21 @@ Sessão estruturada e gravada com 5 médicos. ~40 min cada.
 18. **Preço final do tier Equipa** — após primeiro cliente real
 19. **Arquitectura técnica mãe + papéis** — como se implementa em cada plataforma (Copilot, Claude, Gemini)
 20. **Modelo de manutenção do tier Equipa** — quem paga actualizações quando a clínica muda regras?
-21. **🔴 BLOQUEADOR — Repor `index.html` institucional antes de qualquer deploy.** O `index.html` actualmente em `proteinaludica/proteinaludica.com` é o do Dr. Escriba IA v9.5 + Fase 1 Internato (workspace temporário de edição), não o institucional com pirâmide dupla / FAQ / Rede 2027. Antes de apontar o domínio `proteinaludica.com` para Vercel, é preciso (a) repor o `index.html` institucional original, (b) mover o Dr. Escriba IA actual para o repo / domínio próprio (`drescribaai.proteinaludica.com`), (c) confirmar via grep que `proteinaludica.com/` serve a landing certa
+21. ~~**🔴 BLOQUEADOR — Repor `index.html` institucional antes de qualquer deploy.**~~ ✅ **Resolvido v2.6.1 (5 Maio 2026).** O `index.html` deste repo é agora a landing institucional alinhada v2.5. O workspace Dr. Escriba IA + Fase 1 Internato e o `internato-fase1.patch` foram removidos. A versão produtiva do Dr. Escriba IA continua a viver no repo `drescribia` (separado).
 
 ---
 
 ## Changelog
+
+**v2.6.1 · 5 Maio 2026:**
+
+- **Bloqueador 21 resolvido.** Limpeza estrutural do repo `proteinaludica/proteinaludica.com`:
+  - Apagado o `index.html` workspace (Dr. Escriba IA v9.5 + Fase 1 Internato, 618 KB) — esta versão vivia aqui temporariamente como espaço de edição. A versão produtiva continua no repo `drescribia`
+  - Apagado o ficheiro `internato-fase1.patch` (382 linhas) — patch já entregue para aplicação no `drescribia`
+  - Renomeado `index-institucional.html` → `index.html` — a landing institucional alinhada v2.5 ocupa agora o nome canónico
+- **Pendente 21 fechado** com remissão. Pendente 5 (deploy Vercel) deixa de estar bloqueado.
+- **Convenção da v2.5 honrada:** versão `v2.6.1` (não `v2.7`) por ser correcção/limpeza estrutural, não nova decisão.
+- **Próximo passo prioritário (mesma posição):** item 5 do roadmap — validação com 5 médicos.
 
 **v2.6 · 5 Maio 2026:**
 
