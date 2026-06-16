@@ -4,7 +4,7 @@
 //   RESEND_API_KEY  — chave da API Resend (secreta · obrigatória)
 //   CONTACT_FROM    — remetente verificado no Resend, ex: "Proteína Lúdica <ola@proteinaludica.com>"
 //                     (enquanto o domínio não estiver verificado, usar "onboarding@resend.dev")
-//   CONTACT_TO      — (opcional) destino; por defeito geral@proteinaludica.com
+//   CONTACT_TO      — (opcional) destino; por defeito info@proteinaludica.com
 //
 // Sem dependências externas: usa o fetch nativo do Node 18+ na Vercel.
 
@@ -47,7 +47,7 @@ module.exports = async (req, res) => {
       return res.status(500).json({ ok: false, error: 'Serviço de email não configurado.' });
     }
 
-    const to = process.env.CONTACT_TO || 'geral@proteinaludica.com';
+    const to = process.env.CONTACT_TO || 'info@proteinaludica.com';
     const from = process.env.CONTACT_FROM || 'Proteína Lúdica <onboarding@resend.dev>';
 
     // Para o subject: remover quebras de linha (evita injecção de cabeçalhos) e limitar tamanho.
