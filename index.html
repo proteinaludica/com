@@ -506,7 +506,7 @@
     <div class="footer-col">
       <h5>Empresa</h5>
       <a onclick="showView('portaa')">Porta A</a>
-      <a href="mailto:geral@proteinaludica.com">Email</a>
+      <a href="mailto:info@proteinaludica.com">Email</a>
       <a href="/privacidade">Privacidade</a>
       <a href="/termos">Termos</a>
     </div>
@@ -542,7 +542,7 @@
           <div class="contact-item-icon">@</div>
           <div class="contact-item-content">
             <span class="contact-item-label">Email</span>
-            <span class="contact-item-value"><a href="mailto:geral@proteinaludica.com">geral@proteinaludica.com</a></span>
+            <span class="contact-item-value"><a href="mailto:info@proteinaludica.com">info@proteinaludica.com</a></span>
           </div>
         </div>
         <div class="contact-item">
@@ -668,7 +668,7 @@
     </div>
     <div class="footer-col">
       <h5>Empresa</h5>
-      <a href="mailto:geral@proteinaludica.com">Email</a>
+      <a href="mailto:info@proteinaludica.com">Email</a>
       <a href="/privacidade">Privacidade</a>
       <a href="/termos">Termos</a>
     </div>
@@ -779,12 +779,12 @@ document.querySelectorAll('input[name="problema"]').forEach(radio => {
         } else {
           var msg = (res.j && res.j.error) ? res.j.error : 'Não foi possível enviar.';
           status.className = 'form-status erro';
-          status.innerHTML = msg + ' Pode escrever para <a href="mailto:geral@proteinaludica.com">geral@proteinaludica.com</a>.';
+          status.innerHTML = msg + ' Pode escrever para <a href="mailto:info@proteinaludica.com">info@proteinaludica.com</a>.';
         }
       })
       .catch(function () {
         status.className = 'form-status erro';
-        status.innerHTML = 'Falha de ligação. Pode escrever para <a href="mailto:geral@proteinaludica.com">geral@proteinaludica.com</a>.';
+        status.innerHTML = 'Falha de ligação. Pode escrever para <a href="mailto:info@proteinaludica.com">info@proteinaludica.com</a>.';
       })
       .finally(function () {
         btn.disabled = false;
