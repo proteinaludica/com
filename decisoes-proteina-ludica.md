@@ -1,7 +1,7 @@
-# Proteína Lúdica — Registo de Decisões v2.7.2
+# Proteína Lúdica — Registo de Decisões v2.7.3
 
 > Memória viva do projecto. Anexar a novos chats para arranque sem ruído.
-> **Última actualização:** 16 Junho 2026 (v2.7.2) — site `proteinaludica.com` em produção na Vercel ligado ao repo certo. Formulário de contacto a entregar em `info@proteinaludica.com` via Resend (domínio verificado, DNS no Squarespace). Páginas `/privacidade` e `/termos` criadas. Rota `/criar` operacional. **Decisões desta sessão:** corrigido o bug do card "Dr. Escriba IA" (apontava para o wizard); **subdomínio `drescribaai.proteinaludica.com` abandonado** — a app Dr. Escriba IA v8.32 passa a viver **definitivamente** em `proteinaludica.com/dr-escriba`; os 5 cards "Em desenvolvimento" do catálogo passam a ligar à Porta A.
+> **Última actualização:** 16 Junho 2026 (v2.7.3) — site `proteinaludica.com` em produção na Vercel ligado ao repo certo. Formulário de contacto a entregar em `info@proteinaludica.com` via Resend (domínio verificado, DNS no Squarespace). Páginas `/privacidade` e `/termos` criadas. Rota `/criar` operacional. **Correcção importante:** o subdomínio do Dr. Escriba estava escrito errado neste doc (`drescribaai`, com "aa"); o nome real é **`drescribia.proteinaludica.com`** (= nome do repo) e **está vivo**. Tudo o que v2.7.1/v2.7.2 disseram sobre "subdomínio morto/abandonado" estava errado (era o typo). O card "Dr. Escriba IA" volta a apontar para `https://drescribia.proteinaludica.com` e a cópia `dr-escriba.html` foi removida.
 >
 > **Este ficheiro substitui o `decisoes-proteina-ludica.md` anterior.**
 
@@ -87,7 +87,7 @@ Secretários digitais estandardizados por especialidade. Nomes públicos simplif
 
 | Secretário | Público | Estado |
 |---|---|---|
-| **Dr. Escriba** | Médicos de família + urgência | Disponível (1€/dia) — servido **definitivamente** em `proteinaludica.com/dr-escriba` (v8.32) desde 16 Jun 2026. Subdomínio `drescribaai.proteinaludica.com` abandonado |
+| **Dr. Escriba** | Médicos de família + urgência | Disponível (1€/dia) — app em produção (SOAP) em `drescribia.proteinaludica.com`, mantida no repo `drescribia`. O card no `index.html` aponta para lá |
 | **Dr. Escriba · Internato** | Internos de especialidade (MGF) | **Fase 1 implementada (3 Maio 2026)** — modo dentro do Dr. Escriba IA via toggle SOAP/Internato; tabs Logbook · Avaliações · Diário · Journal Club; rubricas OM (Mini-CEX/DOPS/CbD/MSF) funcionais; restantes 3 tabs em Fase 2 |
 | **Assistente de Clínica** | Clínicas privadas pequenas | Piloto no Funchal |
 | **RehabAssist** | Fisiatras + doentes em casa | A ser construído |
@@ -217,8 +217,7 @@ Organizadas em 4 blocos:
 **Domínios:**
 - `proteinaludica.com` — home institucional
 - `proteinaludica.com/criar` — wizard (dentro do site principal)
-- `proteinaludica.com/dr-escriba` — app Dr. Escriba IA v8.32 (servida deste repo desde 16 Jun 2026; casa **definitiva** do Dr. Escriba)
-- ~~`drescribaai.proteinaludica.com`~~ — **abandonado (16 Jun 2026).** Estava em baixo (connection refused) e foi substituído por `/dr-escriba`. Registo DNS a remover no Squarespace quando der jeito (não bloqueia nada).
+- `drescribia.proteinaludica.com` — app Dr. Escriba IA (SOAP) **em produção**, mantida no repo `drescribia`. CNAME → Vercel no Squarespace. (Atenção: NÃO é `drescribaai` — esse nome com "aa" nunca existiu; era um typo neste doc.)
 - `drescriba-internato.proteinaludica.com` — ficha Internato (pendente)
 - `rehabassist.proteinaludica.com` — ficha RehabAssist (pendente)
 - `gestordesaude.proteinaludica.com` — ficha Assistente de Saúde (pendente)
@@ -235,10 +234,9 @@ Organizadas em 4 blocos:
 
 ## Ficheiros já gerados
 
-| Ficheiro | Estado (16 Junho 2026 · v2.7.1) | Notas |
+| Ficheiro | Estado (16 Junho 2026 · v2.7.3) | Notas |
 |---|---|---|
-| `index.html` | **Em produção · SPA do PR #11 + fixes v2.7 + v2.7.1** | Estrutura SPA de 3 *views* (Porta A / Porta B / wizard) introduzida no PR #11 (Maio 2026) e mantida por decisão expressa em Junho 2026. Em v2.7 acrescentou-se: FAQ acessível por teclado (`<button aria-expanded>`), claim de privacidade reescrito (com pseudonimização), registo impessoal em todo o texto visível, formulário Porta A ligado a `/api/contact` (Resend), honeypot + consentimento RGPD, rodapés com `/privacidade` e `/termos`, email `info@proteinaludica.com` em todas as ocorrências. **v2.7.1:** corrigido bug do card "Dr. Escriba IA" (tinha `onclick="showView('wizard')"` — mandava para o wizard); agora abre `/dr-escriba`, com link "Abrir →". |
-| `dr-escriba.html` | **Novo · v2.7.1 (16 Junho 2026) · em produção** | App Dr. Escriba IA v8.32 (accordion + analítica), ficheiro HTML autónomo (~601 KB, scripts inline, CSP própria; usa cdnjs e tessdata p/ OCR Tesseract). Servida em `proteinaludica.com/dr-escriba` (via `cleanUrls`, sem rewrite). É a **casa definitiva** do Dr. Escriba — o subdomínio `drescribaai.proteinaludica.com` foi abandonado (16 Jun 2026). |
+| `index.html` | **Em produção · SPA do PR #11 + fixes v2.7 / v2.7.1 / v2.7.3** | Estrutura SPA de 3 *views* (Porta A / Porta B / wizard) introduzida no PR #11 (Maio 2026) e mantida por decisão expressa em Junho 2026. Em v2.7 acrescentou-se: FAQ acessível por teclado (`<button aria-expanded>`), claim de privacidade reescrito (com pseudonimização), registo impessoal em todo o texto visível, formulário Porta A ligado a `/api/contact` (Resend), honeypot + consentimento RGPD, rodapés com `/privacidade` e `/termos`, email `info@proteinaludica.com` em todas as ocorrências. **v2.7.1:** corrigido bug do card "Dr. Escriba IA" (tinha `onclick="showView('wizard')"`). **v2.7.3:** card aponta para `https://drescribia.proteinaludica.com` (o subdomínio real e vivo, corrigindo o typo `drescribaai`/`/dr-escriba`). Os 5 cards "Em desenvolvimento" abrem a Porta A (v2.7.2). |
 | `wizard-criar.html` | **Em produção · alinhado v2.3** | 7 passos navegáveis (0-6), tradutor inicial, escolha de plataforma com quiz, detector RGPD, paywall diferenciado por tier, floating help para Assistido 290€. Servido em `/criar` via rewrite no `vercel.json`. |
 | `privacidade.html` | **Novo · v2.7 (Junho 2026)** | Política de privacidade RGPD: responsável, dados recolhidos, finalidade, fundamento (consentimento), retenção, subcontratantes, direitos do titular, CNPD, secção específica sobre dados de doentes (sem retenção, pseudonimização). 129 linhas. |
 | `termos.html` | **Novo · v2.7 (Junho 2026) — base, a rever por advogado** | Objecto do serviço, aviso não-clínico em destaque, preços/pagamento (Stripe/MB WAY), reembolso 7 dias, responsabilidades do cliente (pseudonimização), propriedade, limitação de responsabilidade, lei portuguesa. 132 linhas. |
@@ -252,7 +250,7 @@ Organizadas em 4 blocos:
 
 **Item 2 do roadmap concluído:** os 4 ficheiros de demonstração da saída do wizard estão prontos. Servem para validar formato com médicos antes de codificar o produto real em Next.js. Continuam acessíveis directamente em `proteinaludica.com/outputs/<plataforma>` mas ainda não ligados a partir do site.
 
-**Bloqueador 21 resolvido (5 Maio 2026 · v2.6.1):** o `index.html` deste repo é agora a landing. A versão produtiva do Dr. Escriba IA vive no repo separado `drescribia`. *(Actualização v2.7.2: passou a ser servida em `proteinaludica.com/dr-escriba`; o subdomínio `drescribaai.proteinaludica.com` foi abandonado.)*
+**Bloqueador 21 resolvido (5 Maio 2026 · v2.6.1):** o `index.html` deste repo é agora a landing. A versão produtiva do Dr. Escriba IA vive no repo separado `drescribia` e está em produção em `drescribia.proteinaludica.com`. *(v2.7.3: confirmado vivo; o nome `drescribaai` que circulou neste doc era um typo.)*
 
 **Deploy Vercel resolvido (16 Junho 2026 · v2.7):** o projecto Vercel `web` estava ligado ao repo errado (`proteinaludica/web`, esqueleto). Foi reapontado para `proteinaludica/proteinaludica.com` (também conhecido como `proteinaludica/com` após renomeação). Production branch = `main`. Domínio `proteinaludica.com` em produção; `www` faz 308 → apex.
 
@@ -515,7 +513,7 @@ Sessão estruturada e gravada com 5 médicos. ~40 min cada.
 19. **Arquitectura técnica mãe + papéis** — como se implementa em cada plataforma (Copilot, Claude, Gemini)
 20. **Modelo de manutenção do tier Equipa** — quem paga actualizações quando a clínica muda regras?
 21. ~~**🔴 BLOQUEADOR — Repor `index.html` institucional antes de qualquer deploy.**~~ ✅ **Resolvido v2.6.1 (5 Maio 2026).** O `index.html` deste repo é agora a landing institucional alinhada v2.5. O workspace Dr. Escriba IA + Fase 1 Internato e o `internato-fase1.patch` foram removidos. A versão produtiva do Dr. Escriba IA continua a viver no repo `drescribia` (separado).
-22. ~~**Subdomínio `drescribaai.proteinaludica.com` em baixo.**~~ ✅ **Decidido v2.7.2 (16 Jun 2026): subdomínio abandonado.** `/dr-escriba` neste site é a casa definitiva. Resta apenas remover o registo DNS no Squarespace (cosmético, não bloqueia).
+22. ~~**Subdomínio `drescribaai.proteinaludica.com` em baixo / abandonado.**~~ ❌ **Falso alarme — corrigido em v2.7.3 (16 Jun 2026).** O subdomínio real é `drescribia.proteinaludica.com` (sem "aa"), está **vivo** e é a casa do Dr. Escriba IA. O "morto" era um typo. NÃO apagar o CNAME `drescribia` no Squarespace. Nada a fazer.
 23. ~~**Cards "Em desenvolvimento" do catálogo sem acção.**~~ ✅ **Resolvido v2.7.2 (16 Jun 2026):** os 5 cards (`Internato`, `Dr. Família`, `NephoHealth`, `Guia de Saúde`, `Alojamento Local`) passam a ligar à Porta A (`onclick="showView('portaa')"`); removido o `pointer-events: none` do CSS `.agente-card.indisponivel`.
 
 ---
@@ -538,13 +536,24 @@ Sessão estruturada e gravada com 5 médicos. ~40 min cada.
 - DNS gerido no **Squarespace** (não na Vercel — o domínio está hospedado no Squarespace). Os 4 registos (DKIM em `resend._domainkey`, MX e SPF em `send`, DMARC em `_dmarc`) vivem lá.
 - DMARC actual: `p=none` (modo observação). Subir para `p=quarantine` quando houver volume.
 
-**Rotas vivas:** `/`, `/criar` (rewrite para `/wizard-criar`), `/dr-escriba` (app Dr. Escriba IA v8.32, via `cleanUrls`), `/privacidade`, `/termos`, `/outputs/<plataforma>`, `/api/contact` (POST → email via Resend).
+**Rotas vivas:** `/`, `/criar` (rewrite para `/wizard-criar`), `/privacidade`, `/termos`, `/outputs/<plataforma>`, `/api/contact` (POST → email via Resend). *(O card "Dr. Escriba IA" abre o subdomínio externo `drescribia.proteinaludica.com`, fora deste repo.)*
 
 **Email oficial:** `info@proteinaludica.com` (NÃO `geral@`, nem `contacto@` — registar isto para o futuro).
 
 ---
 
 ## Changelog
+
+**v2.7.3 · 16 Junho 2026 (correcção factual):**
+
+- **O "subdomínio morto" era um typo.** Durante a tentativa de apagar o registo DNS, o agente do browser no Squarespace reparou que não existe nenhum `drescribaai` — existe sim um CNAME **`drescribia`** (= nome do repo) → Vercel. Teste confirmou: `https://drescribia.proteinaludica.com` está **vivo** e serve a app "Dr. Escriba IA · SOAP". O `connection refused` da v2.7.1 foi por ter testado o nome errado (`drescribaai`, com "aa").
+- **Reversão das decisões erradas de v2.7.1/v2.7.2** sobre o Dr. Escriba:
+  - Card "Dr. Escriba IA" volta a apontar para `https://drescribia.proteinaludica.com` (o subdomínio real).
+  - Removido `dr-escriba.html` deste repo (era uma cópia duplicada, ia divergir da app mantida no repo `drescribia`).
+  - Arquitectura original restaurada: app no repo `drescribia` + subdomínio; `proteinaludica.com` fica só institucional + wizard.
+- **NÃO apagar o CNAME `drescribia` no Squarespace** — é a app de produção. Pendente 22 fechado como falso alarme.
+- Mantém-se de v2.7.2: os 5 cards "Em desenvolvimento" abrem a Porta A (essa decisão estava certa).
+- **Lição:** o nome `drescribaai` estava errado no doc desde, pelo menos, a v2.5 (ver changelog dessa versão). Daqui para a frente: `drescribia.proteinaludica.com`.
 
 **v2.7.2 · 16 Junho 2026:**
 
