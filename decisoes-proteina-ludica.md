@@ -1,7 +1,7 @@
-# Proteína Lúdica — Registo de Decisões v2.6.1
+# Proteína Lúdica — Registo de Decisões v2.7
 
 > Memória viva do projecto. Anexar a novos chats para arranque sem ruído.
-> **Última actualização:** 5 Maio 2026 — bloqueador 21 resolvido. `index.html` deste repo é agora a landing institucional alinhada v2.5. O Dr. Escriba IA workspace e o `internato-fase1.patch` foram removidos (a versão produtiva do Dr. Escriba IA vive no repo `drescribia`).
+> **Última actualização:** 16 Junho 2026 — site `proteinaludica.com` em produção na Vercel ligado ao repo certo. Formulário de contacto a entregar em `info@proteinaludica.com` via Resend (domínio verificado, DNS no Squarespace). Páginas `/privacidade` e `/termos` criadas. Rota `/criar` operacional.
 >
 > **Este ficheiro substitui o `decisoes-proteina-ludica.md` anterior.**
 
@@ -234,19 +234,25 @@ Organizadas em 4 blocos:
 
 ## Ficheiros já gerados
 
-| Ficheiro | Estado (5 Maio 2026 · v2.6.1) | Notas |
+| Ficheiro | Estado (16 Junho 2026 · v2.7) | Notas |
 |---|---|---|
-| `index.html` | **Alinhado v2.5 · landing institucional** | Landing institucional (914 linhas). Pirâmide Individual 0/19/49/290€ + Equipa 990€ separada, vocabulário "secretário digital", 3.ª p.s. impessoal, paleta Laurissilva, FAQ 6 perguntas, Rede 2027. Era `index-institucional.html` até v2.6; renomeado e a substituir o workspace Dr. Escriba IA na resolução do bloqueador 21 (5 Maio 2026). |
-| `wizard-criar.html` | **Alinhado v2.3** | 7 passos navegáveis (0-6), tradutor inicial, escolha de plataforma com quiz, detector RGPD, paywall diferenciado por tier, floating help para Assistido 290€. Auditoria de jargão (Abril 2026) e reescrita em 3.ª pessoa singular impessoal. |
-| `outputs/gemini-gems.html` | **v2.5 · Maio 2026** | Demonstração 1/4 da saída do wizard. Plataforma Google Gemini Gems. 6 secções (3 Grátis + 3 Básico). 861 linhas. |
+| `index.html` | **Em produção · SPA do PR #11 + fixes v2.7** | Estrutura SPA de 3 *views* (Porta A / Porta B / wizard) introduzida no PR #11 (Maio 2026) e mantida por decisão expressa em Junho 2026. Em v2.7 acrescentou-se: FAQ acessível por teclado (`<button aria-expanded>`), claim de privacidade reescrito (com pseudonimização), registo impessoal em todo o texto visível, formulário Porta A ligado a `/api/contact` (Resend), honeypot + consentimento RGPD, rodapés com `/privacidade` e `/termos`, email `info@proteinaludica.com` em todas as ocorrências. |
+| `wizard-criar.html` | **Em produção · alinhado v2.3** | 7 passos navegáveis (0-6), tradutor inicial, escolha de plataforma com quiz, detector RGPD, paywall diferenciado por tier, floating help para Assistido 290€. Servido em `/criar` via rewrite no `vercel.json`. |
+| `privacidade.html` | **Novo · v2.7 (Junho 2026)** | Política de privacidade RGPD: responsável, dados recolhidos, finalidade, fundamento (consentimento), retenção, subcontratantes, direitos do titular, CNPD, secção específica sobre dados de doentes (sem retenção, pseudonimização). 129 linhas. |
+| `termos.html` | **Novo · v2.7 (Junho 2026) — base, a rever por advogado** | Objecto do serviço, aviso não-clínico em destaque, preços/pagamento (Stripe/MB WAY), reembolso 7 dias, responsabilidades do cliente (pseudonimização), propriedade, limitação de responsabilidade, lei portuguesa. 132 linhas. |
+| `api/contact.js` | **Novo · v2.7 (Junho 2026)** | Função serverless Vercel, sem dependências (`fetch` nativo Node 18+). Valida campos, limites por campo (nome 120, email 200, tipo 200, mensagem 5000), honeypot anti-spam, sanitização do subject contra header injection (`\r\n`), envio via Resend. Env vars: `RESEND_API_KEY`, `CONTACT_FROM`, `CONTACT_TO` (default `info@proteinaludica.com`). |
+| `vercel.json` | **Novo · v2.7 (Junho 2026)** | `cleanUrls: true`, `trailingSlash: false`, rewrite `/criar → /wizard-criar` (sem `.html` — quirk do `cleanUrls`, corrigido no PR #14). |
+| `outputs/gemini-gems.html` | **v2.5 · Maio 2026** | Demonstração 1/4 da saída do wizard. Plataforma Google Gemini Gems. 6 secções (3 Grátis + 3 Básico). 861 linhas. Acessível em `/outputs/gemini-gems`. |
 | `outputs/custom-gpt.html` | **v2.5 · Maio 2026** | Demonstração 2/4. Plataforma ChatGPT Custom GPTs. 7 secções (4 Grátis + 3 Básico) com Conversation Starters + nota Capabilities. 989 linhas. |
 | `outputs/claude-projects.html` | **v2.5 · Maio 2026** | Demonstração 3/4. Plataforma Claude Projects. 5 secções (mais enxuta — sem Description, Conversation Starters ou Capabilities; destaque para privacidade por defeito). 852 linhas. |
 | `outputs/copilot-agents.html` | **v2.5 · Maio 2026** | Demonstração 4/4. Plataforma Microsoft Copilot Agents. 7 secções com 4 Topics (frases-gatilho clicáveis) + Actions Power Automate sugeridas. 1055 linhas. |
 | `17-seccoes-exemplo.html` | **Alinhado** (vive fora deste repo) | Exemplo completo Dr. Roberto IA (Ponta Delgada, código `med46316`, 8 etapas onboarding, red lines), TOC sticky, componentes do "agente completo" |
 
-**Item 2 do roadmap concluído:** os 4 ficheiros de demonstração da saída do wizard estão prontos. Servem para validar formato com médicos antes de codificar o produto real em Next.js.
+**Item 2 do roadmap concluído:** os 4 ficheiros de demonstração da saída do wizard estão prontos. Servem para validar formato com médicos antes de codificar o produto real em Next.js. Continuam acessíveis directamente em `proteinaludica.com/outputs/<plataforma>` mas ainda não ligados a partir do site.
 
-**Bloqueador 21 resolvido (5 Maio 2026 · v2.6.1):** o `index.html` deste repo é agora a landing institucional. O workspace Dr. Escriba IA + Fase 1 Internato e o ficheiro `internato-fase1.patch` foram removidos. A versão produtiva do Dr. Escriba IA vive no repo separado `drescribia`. Quando este repo for apontado a Vercel (`proteinaludica.com`), serve a landing certa. O Dr. Escriba IA continua a viver em `drescribaai.proteinaludica.com` apontado ao seu repo próprio.
+**Bloqueador 21 resolvido (5 Maio 2026 · v2.6.1):** o `index.html` deste repo é agora a landing. A versão produtiva do Dr. Escriba IA vive no repo separado `drescribia` e continua em `drescribaai.proteinaludica.com`.
+
+**Deploy Vercel resolvido (16 Junho 2026 · v2.7):** o projecto Vercel `web` estava ligado ao repo errado (`proteinaludica/web`, esqueleto). Foi reapontado para `proteinaludica/proteinaludica.com` (também conhecido como `proteinaludica/com` após renomeação). Production branch = `main`. Domínio `proteinaludica.com` em produção; `www` faz 308 → apex.
 
 ---
 
@@ -302,9 +308,12 @@ Os chats no Claude podem desaparecer por qualquer motivo técnico; a pasta local
 2. ~~**Criar ficheiro de demonstração** da saída completa do wizard para o Dr. Roberto IA em cada plataforma (Gemini Gems, Custom GPT, Claude Projects, Copilot Agents).~~ ✅ **Feito (5 Maio 2026, v2.5).** Pasta `outputs/` com os 4 ficheiros — ver tabela acima.
 3. ~~Refazer `wizard-criar.html` com nova linguagem ("secretário digital"), 5 níveis de preço, paywall com 3 saídas distintas.~~ ✅ **Feito (21 Abril 2026, refinado v2.3 — 26 Abril).**
 4. ~~**Decidir número final de secções** (17 vs 7-9 core).~~ ✅ **Decidido v2.6 (5 Maio 2026): manter as 17 secções como estrutura única.** Reavaliar apenas após validação com médicos. Razões registadas na secção *"Decisão sobre número de secções"* abaixo.
-5. **Testar wizard + ficheiros de demonstração** com 3-5 médicos amigos que não perceberam a V1 (preferencialmente os mesmos, para comparar). Protocolo registado na secção *"Protocolo de validação com médicos (Maio 2026)"*. **Próximo passo prioritário.**
+5. **Testar wizard + ficheiros de demonstração** com 3-5 médicos amigos que não perceberam a V1 (preferencialmente os mesmos, para comparar). Protocolo registado na secção *"Protocolo de validação com médicos (Maio 2026)"*. **Próximo passo prioritário.** O site está agora em produção (`proteinaludica.com`) e o formulário de contacto entrega em `info@`, por isso o protocolo pode arrancar com material a sério.
 6. **Produção de vídeo/áudio/imagens** (pausada, retomar quando homepage e wizard estiverem validados com utilizadores reais).
 7. **Desenvolvimento Next.js** do wizard real (só depois da validação HTML com médicos).
+8. **`termos.html` — revisão por advogado.** Versão base está em produção; a redacção legal precisa de validação profissional antes de ser tratada como vinculativa.
+9. **Ligar `outputs/*.html` a partir do site.** As 4 demos existem mas não têm entrada visível na homepage nem no wizard.
+10. **Subir DMARC** de `p=none` para `p=quarantine` quando houver volume estável de envio (umas semanas após o lançamento).
 
 ---
 
@@ -507,7 +516,59 @@ Sessão estruturada e gravada com 5 médicos. ~40 min cada.
 
 ---
 
+## Estado operacional (16 Junho 2026)
+
+**Repo de produção:** `proteinaludica/proteinaludica.com` (também aparece como `proteinaludica/com` após renomeação). Branch de produção: `main`.
+
+**Vercel:**
+- Projecto: `web` (anteriormente ligado a `proteinaludica/web`, esqueleto — reapontado em 16 Junho 2026).
+- Framework: "Other" (sem build/install/output overrides). Deploy estático + funções `/api` auto-detectadas.
+- Domínio: `proteinaludica.com` (apex, Production). `www → 308 → apex`.
+- Env vars (Production, Sensitive):
+  - `RESEND_API_KEY` — chave da API Resend (definida pelo Roberto).
+  - `CONTACT_FROM` = `Proteína Lúdica <info@proteinaludica.com>`.
+  - `CONTACT_TO` = `info@proteinaludica.com` (também é o default no código).
+
+**Resend:**
+- Domínio `proteinaludica.com` verificado em 16 Junho 2026 (eu-west-1 / Ireland).
+- DNS gerido no **Squarespace** (não na Vercel — o domínio está hospedado no Squarespace). Os 4 registos (DKIM em `resend._domainkey`, MX e SPF em `send`, DMARC em `_dmarc`) vivem lá.
+- DMARC actual: `p=none` (modo observação). Subir para `p=quarantine` quando houver volume.
+
+**Rotas vivas:** `/`, `/criar` (rewrite para `/wizard-criar`), `/privacidade`, `/termos`, `/outputs/<plataforma>`, `/api/contact` (POST → email via Resend).
+
+**Email oficial:** `info@proteinaludica.com` (NÃO `geral@`, nem `contacto@` — registar isto para o futuro).
+
+---
+
 ## Changelog
+
+**v2.7 · 16 Junho 2026:**
+
+- **Site em produção.** Após 6 semanas de pausa, sessão de 3 h pôs o `proteinaludica.com` a servir conteúdo certo a partir do repo certo.
+- **Decisão expressa: manter a SPA do PR #11.** Um restauro inicial à versão institucional v2.5 (914 linhas) foi revertido por instrução do Roberto. A SPA de 3 *views* (Porta A · Porta B · wizard) fica como `index.html`, com fixes em cima:
+  - FAQ acessível por teclado (`<button aria-expanded>` + listener sincronizado, ícone com `aria-hidden`).
+  - FAQ "Os dados estão seguros?" reescrita para corrigir claim factualmente errado ("não vão para lado nenhum") — substituído por "não guardamos nada" + regra de pseudonimização (iniciais + idade).
+  - Registo impessoal em todo o texto visível (substituição de "você", "o senhor", "chateia", "contactá-lo" — alinhamento com v2.3).
+  - Formulário Porta A operacional: honeypot anti-spam, checkbox de consentimento RGPD obrigatório a apontar para `/privacidade`, mensagem de estado acessível (`role=status`, `aria-live`), envio real via `fetch` para `/api/contact`.
+  - Email `info@proteinaludica.com` em todas as ocorrências (substitui `geral@` e `contacto@` que coexistiam em ficheiros diferentes).
+  - Rodapés ligam a `/privacidade` e `/termos`.
+- **Páginas legais novas:**
+  - `privacidade.html` — política RGPD completa, com secção própria sobre dados de doentes (zero retenção, pseudonimização).
+  - `termos.html` — base sólida com aviso não-clínico em destaque, alinhada com `decisoes.md`. **Pendente: revisão por advogado** antes de ser tratada como vinculativa.
+- **Função serverless `api/contact.js`** — sem dependências (`fetch` nativo do Node 18+), valida campos, limita tamanho por campo (defesa contra payloads grandes), honeypot, sanitização do subject contra header injection (`\r\n` no nome), envia via Resend. Falha controlada (`500 {"ok":false,"error":"..."}`) quando `RESEND_API_KEY` ausente.
+- **`vercel.json`** — `cleanUrls: true`, `trailingSlash: false`, rewrite `/criar → /wizard-criar` (sem `.html` — quirk descoberto durante o deploy: com `cleanUrls`, destinos terminados em `.html` devolvem 404).
+- **Deploy reconciliado.** O projecto Vercel `web` estava ligado a `proteinaludica/web` (esqueleto). Reapontado para `proteinaludica/proteinaludica.com`. Production = `main`.
+- **Resend (`info@proteinaludica.com`)** — domínio verificado, com correcção pelo caminho do DKIM (erro de OCR de um carácter detectado e corrigido antes do `Verify`).
+- **PRs desta sessão:**
+  - PR #11 — SPA (já tinha sido mergeado antes desta sessão; mantido por decisão).
+  - PR #12 — fechado pelo GitHub após force-push + renomeação de repo (irrecuperável; substituído pelo #13).
+  - PR #13 — *Fixes ao index (FAQ a11y, consent, registo, info@) + páginas legais + função serverless.* Mergeado em rebase, 4 commits limpos.
+  - PR #14 — *vercel.json: corrigir rewrite `/criar`.* Mergeado.
+- **Lições para a próxima sessão:**
+  - Nunca pressupor que o repo Vercel é o que o nome do projecto sugere — verificar Settings → Git.
+  - DKIM transcrito de imagem é frágil — sempre usar o botão **Copy** da Resend, nunca OCR/transcrição.
+  - O domínio `proteinaludica.com` vive no **Squarespace** (não Vercel) — DNS records futuros vão lá.
+  - A extensão da Vercel não consegue mexer em DNS fora da Vercel.
 
 **v2.6.1 · 5 Maio 2026:**
 
