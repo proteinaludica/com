@@ -131,7 +131,7 @@
     cursor: pointer; color: inherit; display: flex; flex-direction: column;
   }
   .agente-card:hover { transform: translateY(-2px); border-color: var(--border-strong); box-shadow: 0 8px 30px rgba(13,15,11,0.06); }
-  .agente-card.indisponivel { opacity: 0.75; pointer-events: none; }
+  .agente-card.indisponivel { opacity: 0.75; }
   .agente-head { padding: 1.5rem 1.5rem 1rem; display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
   .agente-ic { width: 48px; height: 48px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: var(--font-head); font-size: 1.25rem; font-weight: 500; flex-shrink: 0; }
   .ic-escriba { background: var(--accent-light); color: var(--accent); }
@@ -331,7 +331,7 @@
         </div>
       </div>
 
-      <div class="agente-card indisponivel">
+      <div class="agente-card indisponivel" onclick="showView('portaa')">
         <div class="agente-head">
           <div class="agente-ic ic-escriba">In</div>
           <span class="agente-status st-dev">Em desenvolvimento</span>
@@ -346,7 +346,7 @@
         </div>
       </div>
 
-      <div class="agente-card indisponivel">
+      <div class="agente-card indisponivel" onclick="showView('portaa')">
         <div class="agente-head">
           <div class="agente-ic ic-familia">Fam</div>
           <span class="agente-status st-dev">Em desenvolvimento</span>
@@ -361,7 +361,7 @@
         </div>
       </div>
 
-      <div class="agente-card indisponivel">
+      <div class="agente-card indisponivel" onclick="showView('portaa')">
         <div class="agente-head">
           <div class="agente-ic ic-nepho">Np</div>
           <span class="agente-status st-dev">Em desenvolvimento</span>
@@ -376,7 +376,7 @@
         </div>
       </div>
 
-      <div class="agente-card indisponivel">
+      <div class="agente-card indisponivel" onclick="showView('portaa')">
         <div class="agente-head">
           <div class="agente-ic ic-guia">Gd</div>
           <span class="agente-status st-dev">Em desenvolvimento</span>
@@ -391,7 +391,7 @@
         </div>
       </div>
 
-      <div class="agente-card indisponivel">
+      <div class="agente-card indisponivel" onclick="showView('portaa')">
         <div class="agente-head">
           <div class="agente-ic" style="background: #F0E8D8; color: #8B6F47;">Al</div>
           <span class="agente-status st-dev">Personalizado</span>
