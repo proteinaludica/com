@@ -212,6 +212,15 @@
   }
   .btn-submit:hover { background: var(--accent2); }
   .btn-submit:active { opacity: 0.9; }
+  .btn-submit:disabled { opacity: 0.6; cursor: progress; }
+  .form-consent { display: flex; align-items: flex-start; gap: 10px; margin-top: 1rem; margin-bottom: 0.5rem; }
+  .form-consent input { width: auto; margin: 3px 0 0; flex-shrink: 0; }
+  .form-consent label { font-family: var(--font-body); font-size: 13px; color: var(--ink2); text-transform: none; letter-spacing: 0; font-weight: normal; margin: 0; line-height: 1.5; }
+  .form-consent label a { color: var(--accent); text-decoration: underline; }
+  .form-status { margin-top: 0.75rem; font-size: 14px; line-height: 1.5; min-height: 1.2em; }
+  .form-status.ok { color: var(--accent); }
+  .form-status.erro { color: #B23A2E; }
+  .form-status a { color: inherit; text-decoration: underline; }
 
   .success-message { display: none; padding: 2rem; background: var(--accent-light); border: 0.5px solid var(--accent); border-radius: 8px; margin-top: 1rem; }
   .success-message.show { display: block; animation: fadeIn 0.4s ease; }
@@ -290,7 +299,7 @@
       </div>
       <div class="porta porta-b" onclick="showView('wizard')">
         <span class="porta-label">Self-service</span>
-        <h2 class="porta-title">Você <em>cria</em></h2>
+        <h2 class="porta-title">Crie <em>sozinho</em></h2>
         <p class="porta-desc">Preencha um formulário, o IA ajuda. Sai com o seu secretário pronto em 20 minutos.</p>
         <div class="porta-foot">
           <span class="porta-arrow">Começar →</span>
@@ -433,48 +442,48 @@
 
     <div class="faq-list">
       <div class="faq-item">
-        <button class="faq-q">
+        <button type="button" class="faq-q" aria-expanded="false">
           <span>Onde "vive" o meu secretário?</span>
-          <span class="faq-q-icon">+</span>
+          <span class="faq-q-icon" aria-hidden="true">+</span>
         </button>
         <div class="faq-a">
-          O secretário fica na sua conta pessoal. Se usa Gemini (Google), fica no Gemini. Se prefere Claude, fica no Claude. Ou noutra plataforma à sua escolha. Nós apenas damos a configuração — é você quem decide onde o usar.
+          O secretário fica na sua conta pessoal. Se usar Gemini (Google), fica no Gemini. Se preferir Claude, fica no Claude. Ou noutra ferramenta à sua escolha. Nós damos apenas a configuração — quem decide onde a usar é o cliente.
         </div>
       </div>
       <div class="faq-item">
-        <button class="faq-q">
-          <span>Os meus dados estão seguros?</span>
-          <span class="faq-q-icon">+</span>
+        <button type="button" class="faq-q" aria-expanded="false">
+          <span>Os dados dos meus doentes ficam protegidos?</span>
+          <span class="faq-q-icon" aria-hidden="true">+</span>
         </button>
         <div class="faq-a">
-          Sim. Não guardamos dados suas. O secretário funciona apenas dentro da ferramenta que escolher. A protecção de dados cumpre RGPD português e europeu. Pode usar sem medo.
+          Sim — foi a primeira preocupação. <strong>Nós não guardamos nada:</strong> nenhum dado de doentes fica nos nossos servidores. O secretário funciona dentro da ferramenta que escolher (Claude, ChatGPT, Gemini), todas com servidores na Europa e regras de privacidade europeias (RGPD). E há uma regra de ouro que ensinamos: <strong>nunca escrever o nome completo, o número de utente ou a morada</strong> — bastam as iniciais e a idade. O secretário foi feito para trabalhar assim. Entregamos também os modelos de consentimento prontos para os doentes, caso queira usá-los.
         </div>
       </div>
       <div class="faq-item">
-        <button class="faq-q">
-          <span>Consigo mudar o secretário depois?</span>
-          <span class="faq-q-icon">+</span>
+        <button type="button" class="faq-q" aria-expanded="false">
+          <span>Posso mudar o secretário depois?</span>
+          <span class="faq-q-icon" aria-hidden="true">+</span>
         </button>
         <div class="faq-a">
-          Claro. O secretário é seu. Pode guardar a configuração, mudar o que quer, ou começar de novo quando quiser. Já o tem na sua conta — está nas suas mãos.
+          Claro. O secretário é seu. Pode guardar a configuração, mudar o que quiser, ou começar de novo quando lhe convier. Já está na sua conta — fica nas suas mãos.
         </div>
       </div>
       <div class="faq-item">
-        <button class="faq-q">
+        <button type="button" class="faq-q" aria-expanded="false">
           <span>Quanto custa?</span>
-          <span class="faq-q-icon">+</span>
+          <span class="faq-q-icon" aria-hidden="true">+</span>
         </button>
         <div class="faq-a">
-          Depende. Existe um nível grátis com o secretário básico. Os níveis pagos (19€, 49€) adicionam funcionalidades e ajuda para configurar. Primeira vez? Comece grátis. Pague só se precisar de mais.
+          Depende. Há um nível grátis com a configuração base. Os níveis pagos (19€, 49€) acrescentam o guia de instalação e ajuda para preencher. Para quem prefere falar antes, há o plano de 290€ (preço Madeira) com chamada de uma hora.
         </div>
       </div>
       <div class="faq-item">
-        <button class="faq-q">
+        <button type="button" class="faq-q" aria-expanded="false">
           <span>Qual é a diferença entre "Porta A" e "Porta B"?</span>
-          <span class="faq-q-icon">+</span>
+          <span class="faq-q-icon" aria-hidden="true">+</span>
         </button>
         <div class="faq-a">
-          <strong>Porta A:</strong> Nós ajudamos do início ao fim. Marca uma chamada, conta o que precisa, nós configuramos tudo. <strong>Porta B:</strong> Você preenche o formulário (com ajuda da IA se quiser), e sai com o secretário pronto. Escolha conforme o seu tempo e confiança.
+          <strong>Porta A:</strong> ajudamos do início ao fim. Marca uma chamada, conta o que precisa, configuramos tudo por si. <strong>Porta B:</strong> preenche o formulário (com ajuda de IA se quiser) e sai com o secretário pronto. Escolha conforme o tempo disponível e a familiaridade com computadores.
         </div>
       </div>
     </div>
@@ -497,7 +506,9 @@
     <div class="footer-col">
       <h5>Empresa</h5>
       <a onclick="showView('portaa')">Porta A</a>
-      <a href="mailto:contacto@proteinaludica.com">Email</a>
+      <a href="mailto:geral@proteinaludica.com">Email</a>
+      <a href="/privacidade">Privacidade</a>
+      <a href="/termos">Termos</a>
     </div>
   </div>
 </footer>
@@ -531,7 +542,7 @@
           <div class="contact-item-icon">@</div>
           <div class="contact-item-content">
             <span class="contact-item-label">Email</span>
-            <span class="contact-item-value"><a href="mailto:contacto@proteinaludica.com">contacto@proteinaludica.com</a></span>
+            <span class="contact-item-value"><a href="mailto:geral@proteinaludica.com">geral@proteinaludica.com</a></span>
           </div>
         </div>
         <div class="contact-item">
@@ -551,7 +562,7 @@
       </div>
 
       <p style="margin-top: 2rem; color: var(--muted); font-size: 15px;">
-        <strong>Que esperar?</strong> Falamos do seu dia-a-dia. O que é que o chateia. O que é repetido. Quanto tempo gasta em papelada. Depois é apenas preencher um formulário simples — e o secretário fica pronto. Nós cuidamos de tudo.
+        <strong>O que esperar?</strong> Falamos do dia-a-dia. O que mais incomoda. O que se repete. Quanto tempo gasta em papelada. Depois é só preencher um formulário simples — e o secretário fica pronto. Cuidamos do resto.
       </p>
     </div>
 
@@ -560,7 +571,8 @@
         <h3>Deixe as suas informações</h3>
         <p>Preenchemos um formulário rápido. Depois marcamos a chamada.</p>
 
-        <form id="contactForm" onsubmit="handleSubmit(event)">
+        <form id="contactForm" novalidate>
+          <input type="text" id="ci-website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute; left:-9999px; width:1px; height:1px; opacity:0;">
           <div class="form-row">
             <label for="nome">Nome completo *</label>
             <input type="text" id="nome" name="nome" required placeholder="Seu nome">
@@ -582,7 +594,7 @@
           </div>
 
           <div class="form-row">
-            <label>O que o chateia mais? *</label>
+            <label>O que mais incomoda? *</label>
             <div class="radio-group">
               <div class="radio-item">
                 <input type="radio" id="pb1" name="problema" value="Escrever notas e relatórios" required>
@@ -621,14 +633,20 @@
 
           <div class="form-row">
             <label for="mensagem">Adicione uma mensagem (opcional)</label>
-            <textarea id="mensagem" name="mensagem" placeholder="Algo que quer que eu saiba..."></textarea>
+            <textarea id="mensagem" name="mensagem" placeholder="Algo que queira que saibamos antes da chamada..."></textarea>
+          </div>
+
+          <div class="form-row form-consent">
+            <input type="checkbox" id="ci-rgpd" required>
+            <label for="ci-rgpd">Autorizo o contacto sobre este pedido. Os dados servem apenas para responder e não são partilhados com terceiros. Ver a <a href="/privacidade">política de privacidade</a>.</label>
           </div>
 
           <button type="submit" class="btn-submit">Enviar e agendar chamada</button>
+          <p class="form-status" id="ci-status" role="status" aria-live="polite"></p>
 
           <div class="success-message" id="successMsg">
             <h4>Recebido!</h4>
-            <p>Obrigado. Vou contactá-lo em breve para marcar a chamada. Até lá.</p>
+            <p>Obrigado. Respondemos em 24 horas para marcar a chamada.</p>
           </div>
         </form>
       </div>
@@ -650,7 +668,9 @@
     </div>
     <div class="footer-col">
       <h5>Empresa</h5>
-      <a href="mailto:contacto@proteinaludica.com">Email</a>
+      <a href="mailto:geral@proteinaludica.com">Email</a>
+      <a href="/privacidade">Privacidade</a>
+      <a href="/termos">Termos</a>
     </div>
   </div>
 </footer>
@@ -699,21 +719,88 @@ document.querySelectorAll('input[name="problema"]').forEach(radio => {
   });
 });
 
-function handleSubmit(event) {
-  event.preventDefault();
-  const form = document.getElementById('contactForm');
-  const successMsg = document.getElementById('successMsg');
-  form.style.display = 'none';
-  successMsg.classList.add('show');
-}
+// Envia o formulário para /api/contact (função serverless) e mostra estado.
+(function () {
+  var form = document.getElementById('contactForm');
+  if (!form) return;
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var status = document.getElementById('ci-status');
+    var success = document.getElementById('successMsg');
+    var btn = form.querySelector('.btn-submit');
+
+    if (!document.getElementById('ci-rgpd').checked) {
+      status.className = 'form-status erro';
+      status.textContent = 'É preciso autorizar o contacto para enviar.';
+      return;
+    }
+
+    var problema = (form.querySelector('input[name="problema"]:checked') || {}).value || '';
+    var outro = document.getElementById('outro').value || '';
+    var plataforma = document.getElementById('plataforma').value || '';
+    var profissao = document.getElementById('profissao').value || '';
+    var telefone = document.getElementById('telefone').value || '';
+    var mensagem = document.getElementById('mensagem').value || '';
+
+    var partesTipo = [];
+    if (problema) partesTipo.push(problema === 'Outro' ? 'Outro: ' + outro : problema);
+    if (plataforma) partesTipo.push('Plataforma: ' + plataforma);
+
+    var partesMsg = [];
+    if (profissao) partesMsg.push('Profissão: ' + profissao);
+    if (telefone) partesMsg.push('Telefone: ' + telefone);
+    if (mensagem) partesMsg.push('', mensagem);
+
+    var dados = {
+      nome: document.getElementById('nome').value,
+      email: document.getElementById('email').value,
+      tipo: partesTipo.join(' · '),
+      mensagem: partesMsg.join('\n'),
+      consentimento: true,
+      website: document.getElementById('ci-website').value
+    };
+
+    var textoOriginal = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'A enviar…';
+    status.className = 'form-status';
+    status.textContent = '';
+
+    fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(dados)
+    })
+      .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+      .then(function (res) {
+        if (res.ok && res.j && res.j.ok) {
+          form.style.display = 'none';
+          success.classList.add('show');
+        } else {
+          var msg = (res.j && res.j.error) ? res.j.error : 'Não foi possível enviar.';
+          status.className = 'form-status erro';
+          status.innerHTML = msg + ' Pode escrever para <a href="mailto:geral@proteinaludica.com">geral@proteinaludica.com</a>.';
+        }
+      })
+      .catch(function () {
+        status.className = 'form-status erro';
+        status.innerHTML = 'Falha de ligação. Pode escrever para <a href="mailto:geral@proteinaludica.com">geral@proteinaludica.com</a>.';
+      })
+      .finally(function () {
+        btn.disabled = false;
+        btn.textContent = textoOriginal;
+      });
+  });
+})();
 
 // ───────────────────────────────────────────
-// FAQ
+// FAQ — acessível por teclado (mantém aria-expanded em sincronia)
 // ───────────────────────────────────────────
 document.querySelectorAll('.faq-q').forEach(btn => {
   btn.addEventListener('click', () => {
     const item = btn.closest('.faq-item');
-    item.classList.toggle('open');
+    const aberto = item.classList.toggle('open');
+    btn.setAttribute('aria-expanded', aberto ? 'true' : 'false');
   });
 });
 </script>
