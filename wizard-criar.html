@@ -1,1693 +1,1706 @@
 <!DOCTYPE html>
-<html lang="pt-PT">
+<html lang="pt">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Criar o seu secretário digital · Proteína Lúdica</title>
-<meta name="description" content="Um secretário digital que escreve por si. Em 7 passos.">
+<title>Criar assistente digital IA — Proteína Lúdica · protótipo</title>
+<meta name="description" content="Protótipo clicável do wizard /criar da Proteína Lúdica. 5 ecrãs + sucesso. Para validação com médicos antes de desenvolvimento.">
+<meta name="robots" content="noindex, nofollow">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Geist:wght@300..600&family=Geist+Mono:wght@400..600&display=swap" rel="stylesheet">
 
 <style>
-/* ═══════════════════════════════════════════
-   PALETA LAURISSILVA DIGITAL
-   ═══════════════════════════════════════════ */
-:root {
-  --bg: #0B0E0C;
-  --bg-2: #131814;
-  --bg-3: #1B221D;
-  --moss: #8FAA6B;          /* verde musgo */
-  --moss-bright: #A8C685;
-  --moss-deep: #5F7548;
-  --ochre: #C8A86B;          /* ocre */
-  --ochre-bright: #DCBE7E;
-  --text: #E8EAE5;
-  --text-soft: #B8BDB3;
-  --text-mute: #6E7569;
-  --line: #2A3128;
-  --danger: #E08470;
-  --warn: #D4A656;
-  --ok: #8FAA6B;
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  --serif: 'Fraunces', Georgia, serif;
-  --sans: 'Geist', -apple-system, system-ui, sans-serif;
-  --mono: 'Geist Mono', 'SF Mono', Consolas, monospace;
+  :root {
+    --bg: #F5F2EC;
+    --bg2: #EDEAE2;
+    --bg3: #E4E0D5;
+    --surface: #FDFBF6;
+    --ink: #0D0F0B;
+    --ink2: #3A3D35;
+    --muted: #7A7D72;
+    --muted2: #A5A89E;
+    --accent: #2D5A1B;
+    --accent2: #3D7A26;
+    --accent-light: #EAF3DE;
+    --amber: #C47B0A;
+    --amber2: #E08A0A;
+    --amber-light: #FDF3DC;
+    --amber-dark: #8A5507;
+    --red: #8B1A1A;
+    --red-light: #FBEDED;
+    --border: rgba(13,15,11,0.10);
+    --border-strong: rgba(13,15,11,0.20);
+    --shadow-sm: 0 1px 2px rgba(13,15,11,0.04);
+    --shadow: 0 2px 8px rgba(13,15,11,0.06);
+    --shadow-lg: 0 8px 24px rgba(13,15,11,0.08);
+    --font-head: 'Fraunces', 'Instrument Serif', Georgia, serif;
+    --font-body: 'Geist', -apple-system, sans-serif;
+    --font-mono: 'Geist Mono', 'JetBrains Mono', monospace;
+  }
 
-  --radius: 4px;
-  --radius-lg: 12px;
-  --shadow: 0 1px 0 rgba(255,255,255,0.04) inset, 0 12px 40px rgba(0,0,0,0.4);
-}
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.55;
+    min-height: 100vh;
+  }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+  /* ─── TOP BAR ─── */
+  .topbar {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(245,242,236,0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 0.5px solid var(--border);
+  }
+  .topbar-inner {
+    max-width: 1100px; margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 2rem;
+  }
+  .logo {
+    font-family: var(--font-head);
+    font-size: 17px;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .logo em { color: var(--accent); font-style: italic; }
+  .logo-sub {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    display: block;
+    margin-top: 2px;
+  }
 
-html { scroll-behavior: smooth; }
+  .progress {
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .progress-bar {
+    display: flex; gap: 4px;
+  }
+  .progress-dot {
+    width: 24px; height: 3px; border-radius: 2px;
+    background: var(--border-strong);
+    transition: background 0.3s;
+  }
+  .progress-dot.active { background: var(--accent); }
+  .progress-dot.done { background: var(--accent2); }
 
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--sans);
-  font-size: 16px;
-  line-height: 1.55;
-  letter-spacing: -0.005em;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
+  .demo-reset {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: none;
+    border: 0.5px solid var(--border);
+    padding: 6px 12px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .demo-reset:hover { color: var(--ink); border-color: var(--border-strong); }
 
-/* Texturas de fundo subtis */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background:
-    radial-gradient(circle at 15% 8%, rgba(143,170,107,0.06), transparent 40%),
-    radial-gradient(circle at 85% 92%, rgba(200,168,107,0.05), transparent 45%);
-  pointer-events: none;
-  z-index: 0;
-}
+  /* ─── DEMO BANNER ─── */
+  .demo-banner {
+    background: var(--amber-light);
+    border-bottom: 0.5px solid var(--amber);
+    color: var(--amber-dark);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-align: center;
+    padding: 6px 2rem;
+  }
+  .demo-banner strong { color: var(--amber-dark); font-weight: 500; }
 
-/* ═══════════════════════════════════════════
-   TIPOGRAFIA
-   ═══════════════════════════════════════════ */
-h1, h2, h3 {
-  font-family: var(--serif);
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-}
-h1 { font-size: clamp(2rem, 5vw, 3.4rem); }
-h2 { font-size: clamp(1.5rem, 3.5vw, 2.2rem); }
-h3 { font-size: clamp(1.15rem, 2vw, 1.4rem); }
+  /* ─── SCREENS ─── */
+  .screen { display: none; min-height: calc(100vh - 120px); padding: 3rem 2rem 5rem; }
+  .screen.active { display: block; animation: fadeIn 0.4s ease both; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .screen-inner { max-width: 1000px; margin: 0 auto; }
 
-.eyebrow {
-  font-family: var(--mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--ochre);
-  margin-bottom: 1rem;
-  display: inline-block;
-}
+  /* ─── HEADINGS ─── */
+  .step-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+  h1.screen-title {
+    font-family: var(--font-head);
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    line-height: 1.08;
+    margin-bottom: 0.8rem;
+  }
+  h1.screen-title em { color: var(--accent); font-style: italic; }
+  .screen-sub {
+    font-size: 16px;
+    color: var(--ink2);
+    max-width: 600px;
+    margin-bottom: 2.5rem;
+  }
 
-.lead {
-  font-size: 1.15rem;
-  color: var(--text-soft);
-  max-width: 60ch;
-}
+  /* ─── ECRÃ 1: PLATAFORMAS ─── */
+  .platform-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .platform-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 8px;
+    padding: 1.4rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    font-family: inherit;
+    color: inherit;
+    width: 100%;
+  }
+  .platform-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+  .platform-card.selected {
+    border-color: var(--accent);
+    background: var(--accent-light);
+  }
+  .platform-badge {
+    width: 36px; height: 36px;
+    border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 500;
+    color: white;
+  }
+  .b-claude { background: #C96442; }
+  .b-gpt { background: #0D9373; }
+  .b-gemini { background: #1E5EDC; }
+  .b-copilot { background: #0078D4; }
+  .b-perplexity { background: #21808D; }
+  .b-mistral { background: #F54900; }
+  .b-other { background: var(--muted); }
+  .platform-name {
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+  }
+  .platform-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.45;
+    min-height: 2.7em;
+  }
 
-code, .mono { font-family: var(--mono); }
+  .platform-card-solo {
+    grid-column: span 3;
+    background: var(--bg2);
+    border-style: dashed;
+  }
+  .platform-card-solo:hover { background: var(--bg3); }
+  .platform-card-solo .platform-desc { min-height: auto; }
 
-/* ═══════════════════════════════════════════
-   LAYOUT BASE
-   ═══════════════════════════════════════════ */
-.container {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 1.5rem;
-  position: relative;
-  z-index: 1;
-}
+  .btn-secondary-wide {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: transparent;
+    border: 0.5px solid var(--border-strong);
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: var(--ink2);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-secondary-wide:hover { border-color: var(--accent); color: var(--accent); }
 
-/* ═══════════════════════════════════════════
-   HEADER
-   ═══════════════════════════════════════════ */
-.site-header {
-  border-bottom: 1px solid var(--line);
-  padding: 1rem 0;
-  background: rgba(11,14,12,0.85);
-  backdrop-filter: blur(12px);
-  position: sticky;
-  top: 0;
-  z-index: 50;
-}
-.header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.brand {
-  font-family: var(--serif);
-  font-size: 1.2rem;
-  font-weight: 500;
-  color: var(--text);
-  text-decoration: none;
-  display: flex;
-  align-items: baseline;
-  gap: 0.5rem;
-}
-.brand-mark {
-  display: inline-block;
-  width: 8px; height: 8px;
-  background: var(--moss);
-  border-radius: 50%;
-  vertical-align: middle;
-}
-.brand-tag {
-  font-family: var(--mono);
-  font-size: 0.7rem;
-  color: var(--text-mute);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-.header-cta {
-  font-family: var(--mono);
-  font-size: 0.75rem;
-  color: var(--text-mute);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
+  /* ─── ECRÃ 2: TEMPLATE ─── */
+  .template-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+  .template-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    padding: 1.75rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    font-family: inherit;
+    color: inherit;
+    width: 100%;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+  }
+  .template-card.featured {
+    background: var(--amber-light);
+    border-color: var(--amber);
+  }
+  .template-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+  .template-card.featured:hover { border-color: var(--amber-dark); }
+  .template-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.8rem;
+  }
+  .template-card.featured .template-tag { color: var(--amber-dark); }
+  .template-title {
+    font-family: var(--font-head);
+    font-size: 1.6rem;
+    font-weight: 400;
+    line-height: 1.1;
+    margin-bottom: 0.8rem;
+    letter-spacing: -0.01em;
+  }
+  .template-desc {
+    font-size: 14px;
+    color: var(--ink2);
+    line-height: 1.5;
+    margin-bottom: 1.25rem;
+  }
+  .template-list {
+    list-style: none;
+    font-size: 13px;
+    color: var(--ink2);
+    margin-top: auto;
+  }
+  .template-list li {
+    padding: 4px 0;
+    padding-left: 18px;
+    position: relative;
+  }
+  .template-list li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 12px;
+    width: 8px; height: 1px;
+    background: var(--muted);
+  }
+  .template-card.featured .template-list li::before { background: var(--amber-dark); }
 
-/* ═══════════════════════════════════════════
-   PROGRESSO DOS PASSOS
-   ═══════════════════════════════════════════ */
-.steps-bar {
-  background: var(--bg-2);
-  border-bottom: 1px solid var(--line);
-  padding: 1rem 0;
-  position: sticky;
-  top: 65px;
-  z-index: 49;
-}
-.steps {
-  display: flex;
-  justify-content: space-between;
-  gap: 0.5rem;
-  align-items: center;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-.steps::-webkit-scrollbar { display: none; }
-.step {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-family: var(--mono);
-  font-size: 0.7rem;
-  color: var(--text-mute);
-  white-space: nowrap;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  padding: 0.3rem 0.6rem;
-  border-radius: var(--radius);
-  transition: all 0.25s ease;
-}
-.step-num {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 22px; height: 22px;
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  font-size: 0.65rem;
-}
-.step.active {
-  color: var(--moss-bright);
-  background: rgba(143,170,107,0.08);
-}
-.step.active .step-num {
-  border-color: var(--moss);
-  background: var(--moss);
-  color: var(--bg);
-}
-.step.done .step-num {
-  border-color: var(--moss-deep);
-  color: var(--moss-deep);
-}
-.step.done {
-  color: var(--text-soft);
-}
+  .template-skip {
+    background: var(--bg2);
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .template-skip-text { font-size: 13px; color: var(--ink2); }
+  .template-skip-link {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 0.5px solid var(--accent);
+    padding-bottom: 2px;
+    cursor: pointer;
+  }
 
-/* ═══════════════════════════════════════════
-   ECRÃS DOS PASSOS
-   ═══════════════════════════════════════════ */
-main { padding: 3rem 0 8rem; min-height: calc(100vh - 200px); }
-.screen { display: none; animation: fadeIn 0.4s ease; }
-.screen.active { display: block; }
+  /* ─── ECRÃ 3: PREENCHER ─── */
+  .section-progress {
+    display: flex; align-items: center; gap: 1rem;
+    margin-bottom: 2rem;
+    padding: 1rem 1.25rem;
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 8px;
+  }
+  .section-pbar {
+    flex: 1; height: 4px;
+    background: var(--bg3);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .section-pbar-fill {
+    height: 100%;
+    background: var(--accent);
+    width: 17.6%;
+    transition: width 0.3s;
+  }
+  .section-counter {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+  .section-counter strong { color: var(--ink); font-weight: 500; }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+  .fill-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 2rem;
+  }
+  .fill-main {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    padding: 2rem;
+  }
+  .fill-title {
+    font-family: var(--font-head);
+    font-size: 1.75rem;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.4rem;
+  }
+  .fill-guide {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+  .fill-field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .fill-field textarea, .fill-field input {
+    width: 100%;
+    padding: 12px 14px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ink);
+    background: var(--bg);
+    border: 0.5px solid var(--border-strong);
+    border-radius: 6px;
+    resize: vertical;
+    transition: border-color 0.2s;
+  }
+  .fill-field textarea { min-height: 140px; }
+  .fill-field textarea:focus, .fill-field input:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: white;
+  }
+  .fill-field + .fill-field { margin-top: 1.25rem; }
 
-.screen-head { margin-bottom: 2.5rem; }
-.screen-head .eyebrow + h1 { margin-top: 0.3rem; }
+  .rgpd-warn {
+    display: none;
+    background: var(--amber-light);
+    border-left: 3px solid var(--amber);
+    padding: 10px 14px;
+    border-radius: 0 4px 4px 0;
+    font-size: 13px;
+    color: var(--amber-dark);
+    margin-top: 10px;
+  }
+  .rgpd-warn.show { display: block; animation: fadeIn 0.3s ease; }
+  .rgpd-warn strong { font-weight: 500; }
 
-/* ═══════════════════════════════════════════
-   PASSO 0 — TRADUTOR
-   ═══════════════════════════════════════════ */
-.tradutor-hero {
-  text-align: left;
-  padding: 3rem 0 1rem;
-  border-bottom: 1px solid var(--line);
-  margin-bottom: 3rem;
-}
-.tradutor-hero h1 {
-  max-width: 22ch;
-  margin-bottom: 1.5rem;
-}
-.tradutor-hero h1 em {
-  font-style: italic;
-  color: var(--moss-bright);
-}
-.tradutor-explain {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-  margin: 3rem 0;
-}
-.explain-card {
-  border-left: 2px solid var(--moss);
-  padding-left: 1.5rem;
-}
-.explain-card .num {
-  font-family: var(--serif);
-  font-size: 2rem;
-  color: var(--ochre);
-  display: block;
-  margin-bottom: 0.5rem;
-}
-.explain-card h3 { margin-bottom: 0.5rem; color: var(--text); }
-.explain-card p { color: var(--text-soft); font-size: 0.95rem; }
+  .fill-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 0.5px solid var(--border);
+  }
+  .fill-nav-left { display: flex; gap: 10px; }
 
-.path-choice {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 1rem;
-  margin-top: 3rem;
-}
-.path-card {
-  border: 1px solid var(--line);
-  background: var(--bg-2);
-  padding: 2rem;
-  border-radius: var(--radius-lg);
-  cursor: pointer;
-  transition: all 0.25s ease;
-  text-align: left;
-  font: inherit;
-  color: inherit;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-.path-card:hover {
-  border-color: var(--moss);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow);
-}
-.path-card .label {
-  font-family: var(--mono);
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--ochre);
-}
-.path-card h3 { margin-bottom: 0.3rem; }
-.path-card p { color: var(--text-soft); font-size: 0.9rem; }
-.path-card .arrow { margin-top: 1rem; color: var(--moss); font-family: var(--serif); }
+  .fill-aside {
+    background: var(--bg2);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    height: fit-content;
+    position: sticky;
+    top: 100px;
+  }
+  .aside-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+  }
+  .aside-title {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+  }
+  .aside-example {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.55;
+    color: var(--ink2);
+    margin-bottom: 1rem;
+  }
+  .aside-hint {
+    font-size: 13px;
+    color: var(--ink2);
+    line-height: 1.5;
+  }
+  .aside-hint strong { color: var(--ink); font-weight: 500; }
 
-/* ═══════════════════════════════════════════
-   PASSO 1 — PLATAFORMA
-   ═══════════════════════════════════════════ */
-.platforms {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 1rem;
-  margin: 2rem 0;
-}
-.platform-card {
-  border: 1px solid var(--line);
-  background: var(--bg-2);
-  padding: 1.5rem;
-  border-radius: var(--radius-lg);
-  cursor: pointer;
-  transition: all 0.25s ease;
-  font: inherit;
-  color: inherit;
-  text-align: left;
-  position: relative;
-}
-.platform-card:hover {
-  border-color: var(--moss);
-  background: var(--bg-3);
-  transform: translateY(-2px);
-}
-.platform-card.selected {
-  border-color: var(--moss);
-  background: rgba(143,170,107,0.08);
-}
-.platform-card.selected::after {
-  content: '✓';
-  position: absolute;
-  top: 0.8rem; right: 0.8rem;
-  width: 22px; height: 22px;
-  background: var(--moss);
-  color: var(--bg);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.8rem;
-  font-weight: 600;
-}
-.platform-card h3 {
-  font-family: var(--sans);
-  font-size: 1rem;
-  font-weight: 500;
-  margin-bottom: 0.3rem;
-  color: var(--text);
-}
-.platform-card p {
-  color: var(--text-mute);
-  font-size: 0.85rem;
-}
+  .demo-skip {
+    margin-top: 2rem;
+    padding: 1rem 1.25rem;
+    background: var(--bg2);
+    border: 0.5px dashed var(--border-strong);
+    border-radius: 6px;
+    font-size: 12px;
+    color: var(--muted);
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .demo-skip button {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    background: transparent;
+    border: 0.5px solid var(--accent);
+    padding: 6px 12px;
+    border-radius: 3px;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .demo-skip button:hover { background: var(--accent); color: white; }
 
-.quiz-trigger {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  background: var(--bg-2);
-  border: 1px dashed var(--ochre);
-  color: var(--ochre-bright);
-  padding: 0.9rem 1.4rem;
-  border-radius: var(--radius);
-  font: inherit;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  margin: 1rem 0 2rem;
-}
-.quiz-trigger:hover {
-  background: rgba(200,168,107,0.08);
-  transform: translateX(2px);
-}
+  /* ─── ECRÃ 4: OUTPUT ─── */
+  .output-inner { max-width: 720px; margin: 0 auto; }
+  .output-title {
+    font-family: var(--font-head);
+    font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    line-height: 1.1;
+    margin-bottom: 0.6rem;
+    text-align: center;
+  }
+  .output-title em { color: var(--accent); font-style: italic; }
+  .output-sub {
+    font-size: 15px;
+    color: var(--ink2);
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
 
-/* ═══════════════════════════════════════════
-   PASSO 2 — PONTO DE PARTIDA
-   ═══════════════════════════════════════════ */
-.start-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-  margin-top: 2rem;
-}
-@media (max-width: 720px) { .start-grid { grid-template-columns: 1fr; } }
+  .code-box {
+    background: #1A1D18;
+    border-radius: 8px;
+    position: relative;
+    margin-bottom: 2rem;
+  }
+  .code-box-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 16px;
+    border-bottom: 0.5px solid rgba(255,255,255,0.08);
+  }
+  .code-box-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.05em;
+  }
+  .code-copy-btn {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: #A5D48E;
+    background: rgba(165,212,142,0.08);
+    border: 0.5px solid rgba(165,212,142,0.3);
+    padding: 5px 12px;
+    border-radius: 3px;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: all 0.2s;
+  }
+  .code-copy-btn:hover { background: rgba(165,212,142,0.15); }
+  .code-copy-btn.copied { color: #8FAA6B; }
+  .code-content {
+    max-height: 320px;
+    overflow-y: auto;
+    padding: 1.25rem 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.65;
+    color: #D8D8D0;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .code-content::-webkit-scrollbar { width: 8px; }
+  .code-content::-webkit-scrollbar-track { background: transparent; }
+  .code-content::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
 
-.start-card {
-  border: 1px solid var(--line);
-  background: var(--bg-2);
-  padding: 2rem;
-  border-radius: var(--radius-lg);
-  cursor: pointer;
-  transition: all 0.25s ease;
-  font: inherit;
-  color: inherit;
-  text-align: left;
-}
-.start-card:hover {
-  border-color: var(--moss);
-  background: var(--bg-3);
-}
-.start-card .badge {
-  display: inline-block;
-  font-family: var(--mono);
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  padding: 0.2rem 0.5rem;
-  background: rgba(143,170,107,0.12);
-  color: var(--moss-bright);
-  border-radius: var(--radius);
-  margin-bottom: 1rem;
-}
-.start-card h3 { margin-bottom: 0.5rem; }
-.start-card .catalog {
-  margin-top: 1.2rem;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
-.start-card .catalog li {
-  font-size: 0.88rem;
-  color: var(--text-soft);
-  padding-left: 1rem;
-  position: relative;
-}
-.start-card .catalog li::before {
-  content: '·';
-  position: absolute;
-  left: 0;
-  color: var(--ochre);
-}
+  /* ─── UPGRADE CTA ─── */
+  .upgrade-block {
+    background: var(--amber-light);
+    border: 0.5px solid var(--amber);
+    border-radius: 10px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+  }
+  .upgrade-tag {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--amber-dark);
+    background: white;
+    border: 0.5px solid var(--amber);
+    padding: 3px 10px;
+    border-radius: 3px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .upgrade-title {
+    font-family: var(--font-head);
+    font-size: 1.5rem;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.8rem;
+    color: var(--ink);
+  }
+  .upgrade-list {
+    list-style: none;
+    margin-bottom: 1.5rem;
+  }
+  .upgrade-list li {
+    font-size: 14px;
+    color: var(--ink2);
+    padding: 6px 0;
+    padding-left: 22px;
+    position: relative;
+  }
+  .upgrade-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0; top: 6px;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .upgrade-buy {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem;
+    padding-top: 1.25rem;
+    border-top: 0.5px solid var(--amber);
+    flex-wrap: wrap;
+  }
+  .upgrade-price {
+    font-family: var(--font-head);
+    font-size: 1.5rem;
+    color: var(--amber-dark);
+  }
+  .upgrade-price-old {
+    font-size: 14px;
+    color: var(--muted);
+    text-decoration: line-through;
+    margin-left: 8px;
+    font-family: var(--font-body);
+  }
+  .upgrade-price-note {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--amber-dark);
+    letter-spacing: 0.05em;
+    margin-top: 2px;
+    font-weight: normal;
+  }
+  .btn-primary {
+    background: var(--amber);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.01em;
+  }
+  .btn-primary:hover { background: var(--amber2); transform: translateY(-1px); }
 
-/* ═══════════════════════════════════════════
-   PASSO 3 — PREENCHER (split layout)
-   ═══════════════════════════════════════════ */
-.fill-layout {
-  display: grid;
-  grid-template-columns: 1fr 360px;
-  gap: 2.5rem;
-  margin-top: 2rem;
-}
-@media (max-width: 960px) { .fill-layout { grid-template-columns: 1fr; } }
+  .btn-accent {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 11px 22px;
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-accent:hover { background: var(--accent2); }
 
-.fill-progress {
-  font-family: var(--mono);
-  font-size: 0.75rem;
-  color: var(--text-mute);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-bottom: 1.5rem;
-}
-.fill-progress-bar {
-  height: 2px;
-  background: var(--line);
-  margin-top: 0.4rem;
-  border-radius: 2px;
-  overflow: hidden;
-}
-.fill-progress-bar span {
-  display: block;
-  height: 100%;
-  width: 17.6%;  /* 3/17 */
-  background: linear-gradient(90deg, var(--moss-deep), var(--moss));
-}
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink2);
+    border: 0.5px solid var(--border-strong);
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
 
-.section-title {
-  font-family: var(--serif);
-  font-size: 1.6rem;
-  margin-bottom: 0.4rem;
-}
-.section-hint {
-  color: var(--text-mute);
-  font-size: 0.9rem;
-  margin-bottom: 2rem;
-}
+  .upsell-link {
+    text-align: center;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+  .upsell-link a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 0.5px solid var(--accent);
+    padding-bottom: 1px;
+  }
 
-label.field {
-  display: block;
-  margin-bottom: 1.5rem;
-}
-label.field > span {
-  display: block;
-  font-size: 0.85rem;
-  color: var(--text-soft);
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-}
-label.field input,
-label.field textarea {
-  width: 100%;
-  background: var(--bg-2);
-  border: 1px solid var(--line);
-  color: var(--text);
-  padding: 0.8rem 1rem;
-  border-radius: var(--radius);
-  font: inherit;
-  font-size: 0.95rem;
-  transition: border-color 0.2s;
-}
-label.field input:focus,
-label.field textarea:focus {
-  outline: none;
-  border-color: var(--moss);
-}
-label.field textarea {
-  min-height: 110px;
-  resize: vertical;
-  font-family: var(--sans);
-}
+  .guarantee {
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+  .guarantee strong { color: var(--accent); font-weight: 500; }
 
-.rgpd-warn {
-  background: rgba(212,166,86,0.08);
-  border: 1px solid rgba(212,166,86,0.3);
-  color: var(--warn);
-  padding: 0.8rem 1rem;
-  border-radius: var(--radius);
-  font-size: 0.85rem;
-  margin-top: 0.6rem;
-  display: none;
-  font-family: var(--mono);
-}
-.rgpd-warn.show { display: block; animation: fadeIn 0.3s ease; }
+  /* ─── ECRÃ 5: PAYWALL ─── */
+  .paywall-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    max-width: 900px; margin: 0 auto;
+  }
+  .paywall-preview { position: relative; }
+  .pdf-mockup {
+    background: white;
+    border: 0.5px solid var(--border);
+    border-radius: 6px;
+    padding: 2rem;
+    aspect-ratio: 210 / 297;
+    display: flex; flex-direction: column;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+  }
+  .pdf-cover-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 2rem;
+  }
+  .pdf-cover-title {
+    font-family: var(--font-head);
+    font-size: 1.7rem;
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+  .pdf-cover-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 3rem;
+  }
+  .pdf-blur-section {
+    filter: blur(4px);
+    opacity: 0.55;
+    pointer-events: none;
+    user-select: none;
+  }
+  .pdf-section-head {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .pdf-blur-lines {
+    display: flex; flex-direction: column; gap: 5px;
+  }
+  .pdf-blur-line {
+    height: 6px;
+    background: var(--bg3);
+    border-radius: 2px;
+  }
+  .pdf-blur-line.short { width: 60%; }
+  .pdf-blur-line.med { width: 80%; }
+  .pdf-footer-mark {
+    margin-top: auto;
+    padding-top: 1rem;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-align: right;
+  }
 
-.example-panel {
-  background: var(--bg-2);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  padding: 1.5rem;
-  height: fit-content;
-  position: sticky;
-  top: 145px;
-}
-.example-panel .head {
-  font-family: var(--mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ochre);
-  margin-bottom: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-.example-panel .head::before {
-  content: '';
-  width: 6px; height: 6px;
-  background: var(--ochre);
-  border-radius: 50%;
-}
-.example-panel h4 {
-  font-family: var(--serif);
-  font-size: 1.1rem;
-  margin-bottom: 0.8rem;
-}
-.example-panel p {
-  font-size: 0.85rem;
-  color: var(--text-soft);
-  line-height: 1.6;
-}
-.example-panel .quote {
-  border-left: 2px solid var(--moss);
-  padding-left: 1rem;
-  margin-top: 1rem;
-  color: var(--text);
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: 0.95rem;
-}
+  .preview-caption {
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    margin-top: 1rem;
+  }
 
-/* ═══════════════════════════════════════════
-   PASSO 4 — GRÁTIS (output)
-   ═══════════════════════════════════════════ */
-.output-block {
-  background: var(--bg-2);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  padding: 1.5rem;
-  margin: 2rem 0;
-  position: relative;
-}
-.output-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--line);
-}
-.output-head .label {
-  font-family: var(--mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ochre);
-}
-.copy-btn {
-  background: transparent;
-  border: 1px solid var(--moss-deep);
-  color: var(--moss-bright);
-  padding: 0.4rem 0.9rem;
-  border-radius: var(--radius);
-  font: inherit;
-  font-family: var(--mono);
-  font-size: 0.75rem;
-  cursor: pointer;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  transition: all 0.2s;
-}
-.copy-btn:hover {
-  background: var(--moss);
-  color: var(--bg);
-  border-color: var(--moss);
-}
-.copy-btn.copied {
-  background: var(--ochre);
-  border-color: var(--ochre);
-  color: var(--bg);
-}
-.output-text {
-  font-family: var(--mono);
-  font-size: 0.85rem;
-  line-height: 1.7;
-  color: var(--text-soft);
-  white-space: pre-wrap;
-  max-height: 420px;
-  overflow-y: auto;
-}
-.output-text::-webkit-scrollbar { width: 6px; }
-.output-text::-webkit-scrollbar-track { background: var(--bg); }
-.output-text::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
+  .paywall-form { max-width: 400px; }
+  .paywall-form .screen-title { font-size: 2rem; }
+  .paywall-form .screen-sub { margin-bottom: 2rem; }
 
-.upgrade-banner {
-  background:
-    linear-gradient(135deg, rgba(143,170,107,0.1), rgba(200,168,107,0.08));
-  border: 1px solid var(--ochre);
-  border-radius: var(--radius-lg);
-  padding: 2rem;
-  margin-top: 2rem;
-}
-.upgrade-banner h3 {
-  font-family: var(--serif);
-  margin-bottom: 0.6rem;
-}
-.upgrade-banner p { color: var(--text-soft); margin-bottom: 1.5rem; max-width: 60ch; }
-.upgrade-tiers {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-}
-@media (max-width: 720px) { .upgrade-tiers { grid-template-columns: 1fr; } }
-.tier-mini {
-  background: var(--bg-2);
-  border: 1px solid var(--line);
-  padding: 1.2rem;
-  border-radius: var(--radius);
-  cursor: pointer;
-  transition: all 0.2s;
-  font: inherit;
-  color: inherit;
-  text-align: left;
-}
-.tier-mini:hover { border-color: var(--moss); }
-.tier-mini .price {
-  font-family: var(--serif);
-  font-size: 1.6rem;
-  color: var(--moss-bright);
-}
-.tier-mini .name {
-  font-family: var(--mono);
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--ochre);
-  margin-bottom: 0.4rem;
-}
-.tier-mini .desc {
-  font-size: 0.85rem;
-  color: var(--text-soft);
-  margin-top: 0.4rem;
-}
+  .paywall-includes {
+    background: var(--bg2);
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+  .paywall-includes-title {
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+  }
+  .paywall-includes ul {
+    list-style: none;
+    font-size: 13px;
+    color: var(--ink2);
+  }
+  .paywall-includes li {
+    padding: 3px 0;
+    padding-left: 18px;
+    position: relative;
+  }
+  .paywall-includes li::before {
+    content: '✓';
+    position: absolute;
+    left: 0; top: 3px;
+    color: var(--accent);
+  }
 
-/* ═══════════════════════════════════════════
-   PASSO 5 / 6 — PAYWALL
-   ═══════════════════════════════════════════ */
-.paywall-grid {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 2.5rem;
-  margin-top: 2rem;
-}
-@media (max-width: 880px) { .paywall-grid { grid-template-columns: 1fr; } }
+  .form-row { margin-bottom: 1rem; }
+  .form-row label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 5px;
+    font-family: var(--font-mono);
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+  .form-row input {
+    width: 100%;
+    padding: 11px 14px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--ink);
+    background: var(--surface);
+    border: 0.5px solid var(--border-strong);
+    border-radius: 6px;
+  }
 
-.checkout-box {
-  background: var(--bg-2);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  padding: 2rem;
-}
-.checkout-box .price-big {
-  font-family: var(--serif);
-  font-size: 3.4rem;
-  color: var(--moss-bright);
-  display: flex;
-  align-items: baseline;
-  gap: 0.4rem;
-  margin-bottom: 0.4rem;
-  line-height: 1;
-}
-.checkout-box .price-big small {
-  font-size: 1.1rem;
-  color: var(--text-mute);
-  font-family: var(--sans);
-}
-.checkout-box .tier-tag {
-  font-family: var(--mono);
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--ochre);
-  margin-bottom: 1.5rem;
-  display: inline-block;
-}
-.includes {
-  list-style: none;
-  margin: 1.5rem 0 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.7rem;
-}
-.includes li {
-  font-size: 0.92rem;
-  color: var(--text-soft);
-  padding-left: 1.6rem;
-  position: relative;
-  line-height: 1.5;
-}
-.includes li::before {
-  content: '✓';
-  position: absolute;
-  left: 0;
-  color: var(--moss);
-  font-weight: 600;
-}
-.pay-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-.btn-pay {
-  display: block;
-  width: 100%;
-  padding: 1rem;
-  border-radius: var(--radius);
-  font: inherit;
-  font-weight: 500;
-  cursor: pointer;
-  border: none;
-  text-align: center;
-  transition: all 0.2s;
-}
-.btn-pay-primary {
-  background: var(--moss);
-  color: var(--bg);
-}
-.btn-pay-primary:hover { background: var(--moss-bright); }
-.btn-pay-secondary {
-  background: transparent;
-  color: var(--text);
-  border: 1px solid var(--line);
-}
-.btn-pay-secondary:hover { border-color: var(--moss); }
-.refund-note {
-  font-family: var(--mono);
-  font-size: 0.7rem;
-  color: var(--text-mute);
-  text-align: center;
-  margin-top: 1rem;
-  letter-spacing: 0.05em;
-}
+  .pay-buttons { display: flex; flex-direction: column; gap: 10px; margin-bottom: 1rem; }
+  .btn-pay {
+    display: flex; align-items: center; justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 14px 20px;
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+  }
+  .btn-mbway {
+    background: #D5006D;
+    color: white;
+  }
+  .btn-mbway:hover { background: #BF0062; }
+  .btn-card {
+    background: var(--ink);
+    color: white;
+  }
+  .btn-card:hover { background: var(--ink2); }
+  .pay-icon {
+    width: 26px; height: 16px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    background: rgba(255,255,255,0.18);
+    border-radius: 2px;
+    padding: 2px 4px;
+  }
 
-.preview-pdf {
-  background: var(--bg-2);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  padding: 1.5rem;
-  position: relative;
-  overflow: hidden;
-}
-.preview-pdf .head {
-  font-family: var(--mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ochre);
-  margin-bottom: 1rem;
-}
-.pdf-page {
-  background: var(--text);
-  color: var(--bg);
-  padding: 1.5rem;
-  border-radius: 4px;
-  filter: blur(4px);
-  font-family: var(--serif);
-  min-height: 400px;
-  user-select: none;
-}
-.pdf-page h4 { margin-bottom: 0.5rem; font-size: 1.3rem; }
-.pdf-page p { font-size: 0.85rem; line-height: 1.6; margin-bottom: 0.8rem; }
-.preview-pdf::after {
-  content: '🔒  Disponível após pagamento';
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--mono);
-  font-size: 0.85rem;
-  color: var(--text);
-  background: linear-gradient(180deg, rgba(11,14,12,0.7), rgba(11,14,12,0.95));
-  letter-spacing: 0.1em;
-}
+  .form-check {
+    display: flex; align-items: flex-start; gap: 8px;
+    font-size: 12px;
+    color: var(--ink2);
+    margin-bottom: 1rem;
+  }
+  .form-check input { margin-top: 2px; flex-shrink: 0; }
+  .form-check a { color: var(--accent); }
 
-/* Premium 49€ — chat IA mockup */
-.chat-mockup {
-  background: var(--bg-2);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-  min-height: 400px;
-}
-.chat-mockup .head {
-  font-family: var(--mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--ochre);
-  padding-bottom: 0.8rem;
-  border-bottom: 1px solid var(--line);
-}
-.bubble {
-  max-width: 85%;
-  padding: 0.7rem 1rem;
-  border-radius: 12px;
-  font-size: 0.9rem;
-  line-height: 1.5;
-}
-.bubble.ia {
-  background: var(--bg-3);
-  color: var(--text);
-  align-self: flex-start;
-  border-bottom-left-radius: 4px;
-}
-.bubble.user {
-  background: var(--moss-deep);
-  color: var(--text);
-  align-self: flex-end;
-  border-bottom-right-radius: 4px;
-}
-.chat-input-mock {
-  margin-top: auto;
-  background: var(--bg);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 0.7rem 1rem;
-  font-size: 0.85rem;
-  color: var(--text-mute);
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-}
-.chat-input-mock::after {
-  content: '↵';
-  margin-left: auto;
-  color: var(--moss);
-}
+  .trust-row {
+    display: flex; align-items: center; justify-content: center;
+    gap: 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    padding-top: 1rem;
+    border-top: 0.5px solid var(--border);
+  }
+  .trust-row span { display: flex; align-items: center; gap: 5px; }
 
-/* ═══════════════════════════════════════════
-   FOOTER NAV
-   ═══════════════════════════════════════════ */
-.nav-footer {
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
-  background: rgba(11,14,12,0.95);
-  backdrop-filter: blur(10px);
-  border-top: 1px solid var(--line);
-  padding: 1rem 0;
-  z-index: 40;
-}
-.nav-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-}
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.7rem 1.4rem;
-  border-radius: var(--radius);
-  font: inherit;
-  font-size: 0.9rem;
-  font-weight: 500;
-  cursor: pointer;
-  border: none;
-  transition: all 0.2s;
-  text-decoration: none;
-}
-.btn-primary { background: var(--moss); color: var(--bg); }
-.btn-primary:hover { background: var(--moss-bright); }
-.btn-ghost {
-  background: transparent;
-  color: var(--text-soft);
-  border: 1px solid var(--line);
-}
-.btn-ghost:hover { border-color: var(--moss); color: var(--text); }
-.btn-ghost:disabled { opacity: 0.3; cursor: not-allowed; }
+  /* ─── ECRÃ 6: SUCESSO ─── */
+  .success-inner {
+    max-width: 560px;
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 3rem;
+  }
+  .success-check {
+    width: 72px; height: 72px;
+    background: var(--accent-light);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 2rem;
+    position: relative;
+  }
+  .success-check::after {
+    content: '';
+    width: 28px; height: 16px;
+    border-left: 3px solid var(--accent);
+    border-bottom: 3px solid var(--accent);
+    transform: rotate(-45deg) translate(3px, -3px);
+  }
+  .success-title {
+    font-family: var(--font-head);
+    font-size: 2.2rem;
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    margin-bottom: 0.8rem;
+  }
+  .success-title em { color: var(--accent); font-style: italic; }
+  .success-text {
+    font-size: 15px;
+    color: var(--ink2);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+  .success-email { color: var(--ink); font-weight: 500; }
 
-.nav-info {
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  color: var(--text-mute);
-  letter-spacing: 0.05em;
-}
+  .success-actions {
+    display: flex; flex-direction: column; gap: 10px;
+    margin-bottom: 2rem;
+  }
+  .success-retoma {
+    background: var(--bg2);
+    border-radius: 8px;
+    padding: 1.25rem;
+    font-size: 13px;
+    color: var(--ink2);
+    text-align: left;
+  }
+  .success-retoma-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 5px;
+  }
+  .success-retoma code {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    background: var(--surface);
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin-top: 6px;
+    color: var(--accent);
+    border: 0.5px solid var(--border);
+  }
 
-/* ═══════════════════════════════════════════
-   FLOATING HELP — ASSISTIDO 290€
-   ═══════════════════════════════════════════ */
-.float-help {
-  position: fixed;
-  bottom: 100px;
-  right: 1.5rem;
-  background: linear-gradient(135deg, var(--ochre), var(--ochre-bright));
-  color: var(--bg);
-  border: none;
-  padding: 0.85rem 1.2rem;
-  border-radius: 100px;
-  font: inherit;
-  font-size: 0.85rem;
-  font-weight: 500;
-  cursor: pointer;
-  box-shadow: 0 8px 28px rgba(200,168,107,0.25);
-  z-index: 41;
-  transition: all 0.25s ease;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-.float-help:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 14px 38px rgba(200,168,107,0.35);
-}
-.float-help .icon {
-  font-size: 1rem;
-}
+  /* ─── MODAL (3 perguntas) ─── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(13,15,11,0.5);
+    z-index: 100;
+    align-items: center; justify-content: center;
+    padding: 1rem;
+  }
+  .modal-overlay.open { display: flex; animation: fadeIn 0.2s ease; }
+  .modal {
+    background: var(--bg);
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 520px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+  }
+  .modal-title {
+    font-family: var(--font-head);
+    font-size: 1.5rem;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.8rem;
+  }
+  .modal-q {
+    margin: 1.25rem 0;
+    padding-bottom: 1.25rem;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .modal-q:last-of-type { border-bottom: none; }
+  .modal-q-title {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 0.6rem;
+  }
+  .modal-q-opts {
+    display: flex; flex-wrap: wrap; gap: 6px;
+  }
+  .modal-q-opt {
+    background: var(--surface);
+    border: 0.5px solid var(--border-strong);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .modal-q-opt:hover { border-color: var(--accent); }
+  .modal-q-opt.active { background: var(--accent); color: white; border-color: var(--accent); }
+  .modal-result {
+    background: var(--accent-light);
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-top: 1.25rem;
+    display: none;
+  }
+  .modal-result.show { display: block; animation: fadeIn 0.3s ease; }
+  .modal-result-title {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .modal-result-text {
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .modal-actions {
+    display: flex; gap: 10px; justify-content: flex-end;
+    margin-top: 1.5rem;
+  }
 
-/* ═══════════════════════════════════════════
-   MODAL
-   ═══════════════════════════════════════════ */
-.modal-backdrop {
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,0.7);
-  backdrop-filter: blur(6px);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
-  padding: 1.5rem;
-}
-.modal-backdrop.show { display: flex; }
-.modal {
-  background: var(--bg-2);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  padding: 2rem;
-  max-width: 520px;
-  width: 100%;
-  max-height: 90vh;
-  overflow-y: auto;
-  position: relative;
-}
-.modal h3 { margin-bottom: 1rem; }
-.modal p { color: var(--text-soft); margin-bottom: 1rem; font-size: 0.95rem; }
-.modal-close {
-  position: absolute;
-  top: 1rem; right: 1rem;
-  background: transparent;
-  border: none;
-  color: var(--text-mute);
-  font-size: 1.3rem;
-  cursor: pointer;
-  padding: 0.3rem;
-}
-.modal-close:hover { color: var(--text); }
-
-.quiz-question {
-  margin-bottom: 1.5rem;
-}
-.quiz-question p { color: var(--text); margin-bottom: 0.8rem; font-weight: 500; }
-.quiz-options {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-.quiz-options button {
-  background: var(--bg-3);
-  border: 1px solid var(--line);
-  color: var(--text);
-  padding: 0.7rem 1rem;
-  border-radius: var(--radius);
-  text-align: left;
-  cursor: pointer;
-  font: inherit;
-  font-size: 0.9rem;
-  transition: all 0.2s;
-}
-.quiz-options button:hover { border-color: var(--moss); background: var(--bg); }
-.quiz-options button.selected { border-color: var(--moss); background: rgba(143,170,107,0.1); }
-
-.quiz-result {
-  background: rgba(143,170,107,0.08);
-  border-left: 3px solid var(--moss);
-  padding: 1.2rem;
-  margin-top: 1rem;
-  border-radius: var(--radius);
-  display: none;
-}
-.quiz-result.show { display: block; }
-.quiz-result .label {
-  font-family: var(--mono);
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--ochre);
-  margin-bottom: 0.5rem;
-}
-.quiz-result h4 { margin-bottom: 0.5rem; font-family: var(--serif); }
-
-/* Reset hint */
-.reset-hint {
-  position: fixed;
-  bottom: 1rem; left: 1.5rem;
-  font-family: var(--mono);
-  font-size: 0.65rem;
-  color: var(--text-mute);
-  letter-spacing: 0.08em;
-  z-index: 39;
-  opacity: 0.6;
-}
-.reset-hint kbd {
-  background: var(--bg-3);
-  border: 1px solid var(--line);
-  padding: 0.1rem 0.4rem;
-  border-radius: 3px;
-  font-family: var(--mono);
-}
-
-/* Utilities */
-.muted { color: var(--text-mute); }
-.flex-row { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
-.mt-2 { margin-top: 2rem; }
-.mb-1 { margin-bottom: 1rem; }
-
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 860px) {
+    .platform-grid { grid-template-columns: repeat(2, 1fr); }
+    .platform-card-solo { grid-column: span 2; }
+    .template-grid { grid-template-columns: 1fr; }
+    .fill-grid { grid-template-columns: 1fr; }
+    .fill-aside { position: static; }
+    .paywall-grid { grid-template-columns: 1fr; }
+    .paywall-preview { max-width: 380px; margin: 0 auto; }
+    .topbar-inner { padding: 1rem; gap: 1rem; flex-wrap: wrap; }
+    .screen { padding: 2rem 1.25rem 4rem; }
+  }
+  @media (max-width: 520px) {
+    .platform-grid { grid-template-columns: 1fr; }
+    .platform-card-solo { grid-column: span 1; }
+    .progress-dot { width: 16px; }
+    .logo-sub { display: none; }
+    h1.screen-title { font-size: 1.7rem; }
+    .fill-main, .fill-aside { padding: 1.25rem; }
+    .upgrade-block, .pdf-mockup { padding: 1.25rem; }
+  }
 </style>
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════ HEADER ═══════════════════════════════════════════ -->
-<header class="site-header">
-  <div class="container header-row">
-    <a href="/" class="brand">
-      <span class="brand-mark"></span>
-      Proteína Lúdica
-      <span class="brand-tag">/ criar</span>
+<div class="demo-banner">
+  <strong>Protótipo clicável</strong> · Dados não são guardados · <strong>R</strong> para recomeçar
+</div>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="logo" href="#" onclick="return false">
+      Proteína <em>Lúdica</em>
+      <span class="logo-sub">Criar assistente digital IA · /criar</span>
     </a>
-    <span class="header-cta">Protótipo · v2.2</span>
+    <div class="progress">
+      <span id="stepLabel">1 / 4</span>
+      <div class="progress-bar" id="progressBar">
+        <div class="progress-dot active"></div>
+        <div class="progress-dot"></div>
+        <div class="progress-dot"></div>
+        <div class="progress-dot"></div>
+      </div>
+    </div>
+    <button class="demo-reset" onclick="resetDemo()">↻ Reiniciar</button>
   </div>
 </header>
 
-<!-- ═══════════════════════════════════════════ STEPS BAR ═══════════════════════════════════════════ -->
-<div class="steps-bar">
-  <div class="container">
-    <div class="steps" id="stepsBar">
-      <div class="step active" data-step="0"><span class="step-num">0</span> Tradutor</div>
-      <div class="step" data-step="1"><span class="step-num">1</span> Ferramenta</div>
-      <div class="step" data-step="2"><span class="step-num">2</span> Partida</div>
-      <div class="step" data-step="3"><span class="step-num">3</span> Preencher</div>
-      <div class="step" data-step="4"><span class="step-num">4</span> Grátis</div>
-      <div class="step" data-step="5"><span class="step-num">5</span> Básico 19€</div>
-      <div class="step" data-step="6"><span class="step-num">6</span> Premium 49€</div>
-    </div>
-  </div>
-</div>
+<!-- ════════════════════════════════════════════ -->
+<!-- ECRÃ 1: PLATAFORMA                          -->
+<!-- ════════════════════════════════════════════ -->
+<section class="screen active" id="screen-1">
+  <div class="screen-inner">
+    <div class="step-label">Passo 1 de 4</div>
+    <h1 class="screen-title">Onde queres que o teu assistente digital IA <em>viva?</em></h1>
+    <p class="screen-sub">Cada plataforma tem vantagens diferentes. Escolhe a que já usas — ou pede-nos para escolher por ti.</p>
 
-<main>
-  <div class="container">
-
-    <!-- ═══════════════════════════════════════════ PASSO 0 — TRADUTOR ═══════════════════════════════════════════ -->
-    <section class="screen active" data-screen="0">
-      <div class="tradutor-hero">
-        <span class="eyebrow">60 segundos para perceber</span>
-        <h1>Um secretário digital <em>que escreve por si</em>.</h1>
-        <p class="lead">Imagine um colaborador que sabe como trabalha, conhece os seus doentes, escreve as suas notas, e nunca falha um detalhe. Mas funciona dentro de uma ferramenta que já usa.</p>
-      </div>
-
-      <div class="tradutor-explain">
-        <div class="explain-card">
-          <span class="num">1</span>
-          <h3>Responde a 17 perguntas</h3>
-          <p>Sobre quem é, como trabalha, e o que quer que o secretário faça por si. Como uma ficha de admissão de um novo colaborador.</p>
-        </div>
-        <div class="explain-card">
-          <span class="num">2</span>
-          <h3>Escolhe a ferramenta</h3>
-          <p>Claude, ChatGPT, Gemini, Microsoft Copilot. A que já usa ou a que melhor encaixa no seu dia-a-dia.</p>
-        </div>
-        <div class="explain-card">
-          <span class="num">3</span>
-          <h3>Recebe a configuração</h3>
-          <p>Um conjunto de instruções para colar dentro da ferramenta. A partir daí, o secretário trabalha por si.</p>
-        </div>
-      </div>
-
-      <h2 style="margin-top: 3rem;">Para quem é isto?</h2>
-      <div class="path-choice">
-        <button class="path-card" data-go="1">
-          <span class="label">→ Para si</span>
-          <h3>Sou um profissional</h3>
-          <p>Médico, advogado, contabilista, arquitecto. Quero um secretário digital para mim.</p>
-          <span class="arrow">Continuar →</span>
-        </button>
-        <button class="path-card" onclick="alert('Em produção: redirecciona para formulário de contacto Equipa.\\n\\nO segmento Equipa (990€ provisório) usa contacto directo, não este formulário automático.')">
-          <span class="label">↗ Para a sua equipa</span>
-          <h3>Sou de uma clínica ou escritório</h3>
-          <p>Queremos secretários digitais com regras comuns para vários colegas.</p>
-          <span class="arrow">Falar com o Roberto →</span>
-        </button>
-      </div>
-    </section>
-
-    <!-- ═══════════════════════════════════════════ PASSO 1 — PLATAFORMA ═══════════════════════════════════════════ -->
-    <section class="screen" data-screen="1">
-      <div class="screen-head">
-        <span class="eyebrow">Passo 1 de 7</span>
-        <h1>Em qual destas ferramentas vai usar o seu secretário?</h1>
-        <p class="lead">Cada ferramenta tem vantagens diferentes. Se já usa uma destas no seu trabalho, escolha-a. Se não tem certeza, abra o quiz abaixo.</p>
-      </div>
-
-      <button class="quiz-trigger" onclick="openQuiz()">
-        🧭 Responder a 3 perguntas e receber recomendação
+    <div class="platform-grid">
+      <button class="platform-card" onclick="selectPlatform('claude','Claude Projects')">
+        <div class="platform-badge b-claude">C</div>
+        <div class="platform-name">Claude Projects</div>
+        <div class="platform-desc">Melhor para texto longo e raciocínio clínico detalhado.</div>
       </button>
 
-      <div class="platforms">
-        <button class="platform-card" data-platform="claude" onclick="selectPlatform(this)">
-          <h3>Claude Projects</h3>
-          <p>Indicada para conversas clínicas longas e detalhadas. Privado por defeito.</p>
-        </button>
-        <button class="platform-card" data-platform="gpt" onclick="selectPlatform(this)">
-          <h3>ChatGPT Custom GPTs</h3>
-          <p>Maior comunidade. Vem com sugestões prontas para começar a conversa.</p>
-        </button>
-        <button class="platform-card" data-platform="gemini" onclick="selectPlatform(this)">
-          <h3>Google Gemini Gems</h3>
-          <p>Liga ao Gmail e ao Drive sem ter de configurar nada. Bom se já usa Workspace.</p>
-        </button>
-        <button class="platform-card" data-platform="copilot" onclick="selectPlatform(this)">
-          <h3>Microsoft Copilot Agents</h3>
-          <p>Liga ao Outlook, ao Teams e ao SharePoint. Ideal para clínicas com M365.</p>
-        </button>
-        <button class="platform-card" data-platform="perplexity" onclick="selectPlatform(this)">
-          <h3>Perplexity Spaces</h3>
-          <p>Faz pesquisa actualizada na hora, com indicação das fontes.</p>
-        </button>
-        <button class="platform-card" data-platform="mistral" onclick="selectPlatform(this)">
-          <h3>Mistral Le Chat</h3>
-          <p>Modelo europeu. Útil se o tema "soberania de dados" pesa para si.</p>
-        </button>
-        <button class="platform-card" data-platform="other" onclick="selectPlatform(this)">
-          <h3>Outro / Universal</h3>
-          <p>Recebe a configuração em formato genérico para colar onde quiser.</p>
-        </button>
-      </div>
-    </section>
+      <button class="platform-card" onclick="selectPlatform('gpt','ChatGPT Custom GPTs')">
+        <div class="platform-badge b-gpt">G</div>
+        <div class="platform-name">ChatGPT Custom GPTs</div>
+        <div class="platform-desc">Mais integrações, plugins e acções disponíveis.</div>
+      </button>
 
-    <!-- ═══════════════════════════════════════════ PASSO 2 — PARTIDA ═══════════════════════════════════════════ -->
-    <section class="screen" data-screen="2">
-      <div class="screen-head">
-        <span class="eyebrow">Passo 2 de 7</span>
-        <h1>De onde quer começar?</h1>
-        <p class="lead">Pode partir de um dos secretários já feitos por nós (e depois adaptar) ou começar com um modelo em branco e construir tudo de raiz.</p>
+      <button class="platform-card" onclick="selectPlatform('gemini','Google Gemini Gems')">
+        <div class="platform-badge b-gemini">◆</div>
+        <div class="platform-name">Google Gemini Gems</div>
+        <div class="platform-desc">Se já usas Gmail, Drive e Documentos Google.</div>
+      </button>
+
+      <button class="platform-card" onclick="selectPlatform('copilot','Microsoft Copilot Agents')">
+        <div class="platform-badge b-copilot">M</div>
+        <div class="platform-name">Microsoft Copilot</div>
+        <div class="platform-desc">Se já usas Teams, Outlook e SharePoint no M365.</div>
+      </button>
+
+      <button class="platform-card" onclick="selectPlatform('perplexity','Perplexity Spaces')">
+        <div class="platform-badge b-perplexity">P</div>
+        <div class="platform-name">Perplexity Spaces</div>
+        <div class="platform-desc">Se precisas de citações e fontes verificáveis.</div>
+      </button>
+
+      <button class="platform-card" onclick="selectPlatform('mistral','Mistral Le Chat')">
+        <div class="platform-badge b-mistral">M</div>
+        <div class="platform-name">Mistral Le Chat</div>
+        <div class="platform-desc">LLM europeu. Privacidade máxima, dados na UE.</div>
+      </button>
+
+      <button class="platform-card platform-card-solo" onclick="selectPlatform('outro','Outro / não sei')">
+        <div style="display:flex; align-items:center; gap:1rem;">
+          <div class="platform-badge b-other">?</div>
+          <div>
+            <div class="platform-name">Outro / não sei</div>
+            <div class="platform-desc">Recebes um bloco universal que funciona em qualquer LLM. Cola no campo de instructions da tua plataforma.</div>
+          </div>
+        </div>
+      </button>
+    </div>
+
+    <button class="btn-secondary-wide" onclick="openQuizModal()">
+      Responder a 3 perguntas e receber recomendação →
+    </button>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- ECRÃ 2: TEMPLATE                             -->
+<!-- ════════════════════════════════════════════ -->
+<section class="screen" id="screen-2">
+  <div class="screen-inner">
+    <div class="step-label">Passo 2 de 4</div>
+    <h1 class="screen-title">Partir do <em>quê?</em></h1>
+    <p class="screen-sub">Podes clonar um assistente digital IA pronto e só mudar o que importa. Ou começar em branco se tens ideia própria.</p>
+
+    <div class="template-grid">
+      <button class="template-card" onclick="selectTemplate('catalogo')">
+        <div class="template-tag">Catálogo · 5 assistentes digitais IA prontos</div>
+        <div class="template-title">Partir de um<br>assistente digital IA pronto</div>
+        <div class="template-desc">As 17 secções já pré-preenchidas com o assistente digital IA que escolheres. Só editas o que é específico de ti.</div>
+        <ul class="template-list">
+          <li>Dr. Escriba IA · MGF + Urgência</li>
+          <li>Dr. Escriba IA · Internato</li>
+          <li>RehabAssist · Reabilitação</li>
+          <li>Assistente de Saúde · 12 semanas</li>
+          <li>Assistente Clínico · gestão</li>
+        </ul>
+      </button>
+
+      <button class="template-card featured" onclick="selectTemplate('branco')">
+        <div class="template-tag">Branco · 17 secções</div>
+        <div class="template-title">Template em<br>branco</div>
+        <div class="template-desc">Para profissionais que querem construir algo próprio do zero. A estrutura das 17 secções está definida, os campos estão vazios — tu preenches.</div>
+        <ul class="template-list">
+          <li>Identidade e persona</li>
+          <li>Protocolo de reconhecimento</li>
+          <li>Onboarding em etapas</li>
+          <li>Regras de segurança e red lines</li>
+          <li>Fecho dinâmico</li>
+          <li>+ 12 outras secções</li>
+        </ul>
+      </button>
+    </div>
+
+    <div class="template-skip">
+      <div class="template-skip-text">
+        Já tens um assistente digital IA a funcionar e só queres os materiais de RGPD e guia de configuração?
+      </div>
+      <span class="template-skip-link" onclick="goTo(4); updatePaymentState();">Ir direto ao upgrade →</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- ECRÃ 3: PREENCHER                            -->
+<!-- ════════════════════════════════════════════ -->
+<section class="screen" id="screen-3">
+  <div class="screen-inner">
+    <div class="step-label">Passo 3 de 4</div>
+    <h1 class="screen-title">Preencher as <em>17 secções</em></h1>
+    <p class="screen-sub">Uma secção por ecrã. Guardamos o que escreves — podes sair e voltar quando quiseres.</p>
+
+    <div class="section-progress">
+      <div class="section-counter">Secção <strong>3</strong> de 17 · <span style="color:var(--ink)">Protocolo de reconhecimento</span></div>
+      <div class="section-pbar"><div class="section-pbar-fill"></div></div>
+    </div>
+
+    <div class="fill-grid">
+      <div class="fill-main">
+        <div class="fill-title">Protocolo de reconhecimento</div>
+        <div class="fill-guide">Um código ou palavra secreta que distingue o profissional do utente comum. Muda a conversa para modo técnico.</div>
+
+        <div class="fill-field">
+          <label for="f-code">Código ou gesto de reconhecimento</label>
+          <input type="text" id="f-code" placeholder="ex: med46316" oninput="checkRGPD(this)">
+        </div>
+
+        <div class="fill-field">
+          <label for="f-behaviour">O que acontece quando o código é detectado?</label>
+          <textarea id="f-behaviour" placeholder="Descreve em 2-3 frases o comportamento do assistente digital IA no modo técnico. Ex: muda a linguagem para técnica, apresenta relatório estruturado, etc." oninput="checkRGPD(this)"></textarea>
+        </div>
+
+        <div class="fill-field">
+          <label for="f-exit">Palavra para regressar ao modo normal</label>
+          <input type="text" id="f-exit" placeholder="ex: fim" oninput="checkRGPD(this)">
+        </div>
+
+        <div class="rgpd-warn" id="rgpdWarn">
+          <strong>Atenção RGPD:</strong> detectámos o que parece ser um dado pessoal identificável (nome completo, número de utente, data de nascimento ou similar). Para respeitar a privacidade dos teus doentes, usa apenas iniciais + idade — ex: <em>"M.A., 62a"</em>. Este aviso aparece só para ti, não bloqueia.
+        </div>
+
+        <div class="fill-nav">
+          <div class="fill-nav-left">
+            <button class="btn-ghost" onclick="alert('Demo: voltaria à secção 2.')">← Voltar</button>
+            <button class="btn-ghost" onclick="alert('Demo: pediria email para enviar link de retoma.')">Guardar e continuar depois</button>
+          </div>
+          <button class="btn-accent" onclick="goTo(4)">Próximo →</button>
+        </div>
       </div>
 
-      <div class="start-grid">
-        <button class="start-card" data-start="catalog" onclick="goToStep(3)">
-          <span class="badge">Mais rápido</span>
-          <h3>Clonar do catálogo</h3>
-          <p class="muted" style="font-size:0.9rem">Parte de um secretário pronto. As 17 secções já vêm preenchidas. Só é preciso ajustar o que muda no seu caso.</p>
-          <ul class="catalog">
-            <li>Dr. Escriba — médicos de família + urgência</li>
-            <li>Dr. Escriba · Internato — internos de especialidade</li>
-            <li>Assistente de Clínica — clínicas privadas</li>
-            <li>RehabAssist — fisiatras + reabilitação domiciliária</li>
-            <li>Assistente de Saúde — pessoas com doenças crónicas</li>
+      <aside class="fill-aside">
+        <div class="aside-label">Exemplo real</div>
+        <div class="aside-title">Médico de Família Digital · Ponta Delgada</div>
+        <div class="aside-example">Ao detectar o código <strong>med46316</strong>, interrompe a conversa pedagógica e passa a linguagem técnica. Apresenta painel biométrico (IMC, TA, glicémia com contexto prandial), vigilância preventiva (rastreios atrasados a negrito) e checklist para utente. Ao digitar <strong>fim</strong>, regressa ao modo utente e omite qualquer menção ao código.</div>
+
+        <div class="aside-hint">
+          <strong>Dica.</strong> Usa um código que só tu saibas — não algo óbvio. Pode ser o teu nº profissional, uma palavra sem sentido, ou frase curta. Serve para o assistente digital IA saber quando estás tu a falar e não um doente.
+        </div>
+      </aside>
+    </div>
+
+    <div class="demo-skip">
+      <div>No protótipo real preencherias todas as 17 secções. Para esta demo:</div>
+      <button onclick="goTo(4)">Saltar para output ⏭</button>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- ECRÃ 4: OUTPUT (grátis)                      -->
+<!-- ════════════════════════════════════════════ -->
+<section class="screen" id="screen-4">
+  <div class="screen-inner output-inner">
+    <div class="step-label" style="text-align:center">Passo 4 de 4 · Grátis</div>
+    <h1 class="output-title">O teu assistente digital IA está <em>pronto.</em></h1>
+    <p class="output-sub">Copia o bloco abaixo e cola no campo de <em>instructions</em> da tua plataforma.</p>
+
+    <div class="code-box">
+      <div class="code-box-header">
+        <div class="code-box-label">system-instructions.md</div>
+        <button class="code-copy-btn" id="copyBtn" onclick="copyCode()">Copiar tudo</button>
+      </div>
+      <div class="code-content" id="codeContent"># SYSTEM PROMPT · Assistente digital IA
+Gerado por Proteína Lúdica · proteinaludica.com/criar
+
+## 1. Identidade e persona
+[Identidade do assistente digital IA, missão, voz e tom — preenchido pelo utilizador]
+
+## 2. Contexto e público-alvo
+[Quem usa o assistente digital IA, em que situação, com que frequência]
+
+## 3. Protocolo de reconhecimento
+Código: med46316
+Comportamento técnico: ao detectar o código, interrompe a conversa
+pedagógica e passa a linguagem técnica objectiva. Apresenta painel
+estruturado com os dados biométricos, vigilância preventiva e checklist
+de preparação para consulta.
+Palavra de saída: fim
+
+## 4. Onboarding do utente
+[Sequência de 8 etapas de primeiro contacto]
+
+## 5. Regras de segurança clínica
+- Diagnóstico interdito (só triagem de gravidade)
+- Prescrição interdita (excepto paracetamol para dor ligeira)
+- Interpretação de análises interdita
+- Valores acima de 200mg/dl em jejum → alerta urgente
+- Dor no peito, falta de ar súbita, quedas → 112
+
+## 6. Fontes oficiais
+Prontuário Terapêutico do Infarmed · SNS24 · DGS
+
+## 7. Red lines
+[Limites éticos e legais — o que o assistente digital IA nunca faz]
+
+## 8. Fecho dinâmico
+[4 variações de despedida para não ser robotizado]
+
+[... mais 9 secções ...]
+
+---
+Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
+    </div>
+
+    <div class="upgrade-block">
+      <span class="upgrade-tag">Kit completo · RGPD incluído</span>
+      <div class="upgrade-title">Configurar e pôr a correr sem voltas</div>
+      <ul class="upgrade-list">
+        <li>Guia visual passo-a-passo para <span id="platformNameUp">a tua plataforma</span> (com printscreens)</li>
+        <li>Checklist RGPD clínico · pseudonimização · zero-retention · EU-only</li>
+        <li>Template de consentimento para doentes + disclaimer não-clínico</li>
+        <li>PDF A4 formatado · capa · índice · pronto a imprimir</li>
+        <li>Link de retoma 30 dias · edita e re-gera sem pagar outra vez</li>
+      </ul>
+      <div class="upgrade-buy">
+        <div class="upgrade-price">
+          19€ <span class="upgrade-price-old">29€</span>
+          <span class="upgrade-price-note">Preço de lançamento · primeiras 100 vendas</span>
+        </div>
+        <button class="btn-primary" onclick="goTo(5)">Obter kit completo →</button>
+      </div>
+    </div>
+
+    <div class="upsell-link">
+      Preferes que alguém faça isto por ti? <a onclick="alert('Demo: redirecionaria para /#medida — serviço à medida.')">Assistente digital IA à medida desde 290€ →</a>
+    </div>
+
+    <div class="guarantee">● <strong>Reembolso 7 dias sem perguntas</strong> · pagamento seguro</div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- ECRÃ 5: PAYWALL                              -->
+<!-- ════════════════════════════════════════════ -->
+<section class="screen" id="screen-5">
+  <div class="screen-inner">
+    <div class="paywall-grid">
+
+      <div class="paywall-preview">
+        <div class="pdf-mockup">
+          <div class="pdf-cover-tag">Kit de assistente digital IA</div>
+          <div class="pdf-cover-title">Médico de Família<br>Digital</div>
+          <div class="pdf-cover-sub">Configurado para Claude Projects</div>
+
+          <div class="pdf-blur-section">
+            <div class="pdf-section-head">Guia de configuração</div>
+            <div class="pdf-blur-lines">
+              <div class="pdf-blur-line"></div>
+              <div class="pdf-blur-line med"></div>
+              <div class="pdf-blur-line"></div>
+              <div class="pdf-blur-line short"></div>
+            </div>
+          </div>
+
+          <div style="height:1.5rem"></div>
+
+          <div class="pdf-blur-section">
+            <div class="pdf-section-head">Checklist RGPD clínico</div>
+            <div class="pdf-blur-lines">
+              <div class="pdf-blur-line med"></div>
+              <div class="pdf-blur-line"></div>
+              <div class="pdf-blur-line short"></div>
+            </div>
+          </div>
+
+          <div class="pdf-footer-mark">Proteína Lúdica · 2026</div>
+        </div>
+        <div class="preview-caption">↑ Preview · PDF completo após pagamento</div>
+      </div>
+
+      <div class="paywall-form">
+        <div class="step-label">Finalizar</div>
+        <h1 class="screen-title">Kit completo<br><em>19€</em></h1>
+
+        <div class="paywall-includes">
+          <div class="paywall-includes-title">Incluído:</div>
+          <ul>
+            <li>Guia de configuração · <span id="platformName">plataforma escolhida</span></li>
+            <li>Checklist RGPD clínico</li>
+            <li>Template de consentimento para doentes</li>
+            <li>Disclaimer não-clínico</li>
+            <li>Link de retoma 30 dias</li>
           </ul>
-        </button>
-        <button class="start-card" data-start="blank" onclick="goToStep(3)">
-          <span class="badge">Mais flexível</span>
-          <h3>Modelo em branco</h3>
-          <p class="muted" style="font-size:0.9rem">Começa com as 17 secções vazias. Cada uma tem um exemplo real ao lado para não ficar parado. Recomendado para profissões fora da saúde.</p>
-        </button>
-      </div>
-    </section>
-
-    <!-- ═══════════════════════════════════════════ PASSO 3 — PREENCHER ═══════════════════════════════════════════ -->
-    <section class="screen" data-screen="3">
-      <div class="screen-head">
-        <span class="eyebrow">Passo 3 de 7</span>
-        <h1>Preencha as 17 perguntas</h1>
-        <p class="lead">Uma de cada vez, sem pressa. Pode parar e voltar mais tarde — fica tudo guardado no seu computador, sem precisar de carregar em botão nenhum.</p>
-      </div>
-
-      <div class="fill-progress">
-        Pergunta 3 de 17 — Bloco 1 · Identidade
-        <div class="fill-progress-bar"><span></span></div>
-      </div>
-
-      <div class="fill-layout">
-        <div class="fill-form">
-          <h2 class="section-title">Quem é o seu público?</h2>
-          <p class="section-hint">Descreva em 2-3 frases a pessoa típica que vai falar com o seu secretário. Idade, contexto, o que procura. Não diga nomes nem dados pessoais — descreva o tipo, não a pessoa.</p>
-
-          <label class="field">
-            <span>Público-alvo principal</span>
-            <textarea id="rgpd-input" placeholder="Ex: doentes idosos da Madeira, com pelo menos uma doença crónica, que vivem com a família e usam o telemóvel mas não estão à vontade com tecnologia."></textarea>
-            <div class="rgpd-warn" id="rgpd-warn">⚠ Detectámos um possível dado pessoal. Lembre-se: não use nomes completos, NIF, datas de nascimento ou moradas.</div>
-          </label>
-
-          <label class="field">
-            <span>Idade típica (intervalo)</span>
-            <input type="text" placeholder="Ex: 65-85 anos">
-          </label>
-
-          <label class="field">
-            <span>O que esta pessoa procura quando contacta o seu secretário?</span>
-            <textarea placeholder="Ex: tirar uma dúvida sobre a medicação, perceber um exame, pedir orientação para uma situação que não é urgência."></textarea>
-          </label>
         </div>
 
-        <aside class="example-panel">
-          <div class="head">Exemplo · Dr. Roberto IA</div>
-          <h4>Como o Dr. Roberto preencheu esta secção</h4>
-          <p>O secretário do Dr. Roberto serve sobretudo idosos da Madeira (65-85 anos), muitos com doença renal crónica, hipertensão ou diabetes. Vivem com a família, usam o WhatsApp através de filhos ou netos.</p>
-          <div class="quote">"Procuram explicações simples, em vocabulário do dia-a-dia, sobre o que o médico disse na consulta. Não querem diagnóstico, querem perceber."</div>
-        </aside>
-      </div>
-
-      <div class="flex-row mt-2">
-        <button class="btn btn-ghost" onclick="goToStep(2)">← Voltar</button>
-        <button class="btn btn-primary" onclick="goToStep(4)">Saltar para o resultado final (demonstração) →</button>
-      </div>
-    </section>
-
-    <!-- ═══════════════════════════════════════════ PASSO 4 — GRÁTIS ═══════════════════════════════════════════ -->
-    <section class="screen" data-screen="4">
-      <div class="screen-head">
-        <span class="eyebrow">Plano Grátis · 0€</span>
-        <h1>O seu secretário digital está pronto.</h1>
-        <p class="lead">Aqui está a configuração para colar na ferramenta que escolheu. <strong>Sem guia de instalação</strong> nem PDF — esses estão nos planos pagos abaixo.</p>
-      </div>
-
-      <div class="output-block">
-        <div class="output-head">
-          <span class="label">Configuração para colar na sua ferramenta</span>
-          <button class="copy-btn" id="copyBtn" onclick="copyOutput()">Copiar tudo</button>
+        <div class="form-row">
+          <label for="f-email">Email para entrega</label>
+          <input type="email" id="f-email" placeholder="medico@clinica.pt">
         </div>
-        <div class="output-text" id="outputText">// IDENTIDADE
-Nome: Secretário do Dr. Roberto
-Missão: Apoiar utentes de cuidados primários da Madeira entre consultas, com explicações simples e literacia em saúde.
 
-// PÚBLICO
-Idosos (65-85), maioria com doença crónica.
-Familiares cuidadores.
-Linguagem simples e cuidada. Tratamento adaptado a doentes idosos da Madeira.
-
-// LIMITES (RED LINES)
-Não diagnostica.
-Não prescreve.
-Não substitui consulta.
-Em sinais de emergência → SNS 24 (808 24 24 24) ou 112.
-
-// FECHO
-Termina sempre com pergunta aberta de cuidado:
-"Mais alguma coisa que o tenha estado a preocupar?"
-
-[... continua com mais 13 secções nos planos pagos ...]</div>
-      </div>
-
-      <div class="upgrade-banner">
-        <h3>Quer o pacote completo?</h3>
-        <p>Os planos pagos incluem o guia passo-a-passo para colar na sua ferramenta, PDF formatado para arquivo, lista de verificação RGPD e modelos de consentimento para os doentes.</p>
-        <div class="upgrade-tiers">
-          <button class="tier-mini" onclick="goToStep(5)">
-            <div class="name">Básico · faz por conta própria</div>
-            <div class="price">19€</div>
-            <div class="desc">Configuração + guia de instalação + PDF + RGPD. Para quem se desenrasca com computadores.</div>
+        <div class="pay-buttons">
+          <button class="btn-pay btn-mbway" onclick="goTo(6)">
+            <span class="pay-icon">MB</span>
+            Pagar com MB WAY · 19€
           </button>
-          <button class="tier-mini" onclick="goToStep(6)">
-            <div class="name">Premium · com IA a ajudar</div>
-            <div class="price">49€</div>
-            <div class="desc">Tudo do Básico + uma IA acompanha o preenchimento das 17 perguntas. Para quem prefere ser guiado.</div>
+          <button class="btn-pay btn-card" onclick="goTo(6)">
+            <span class="pay-icon">VISA</span>
+            Pagar com cartão · 19€
           </button>
         </div>
-      </div>
-    </section>
 
-    <!-- ═══════════════════════════════════════════ PASSO 5 — BÁSICO 19€ ═══════════════════════════════════════════ -->
-    <section class="screen" data-screen="5">
-      <div class="screen-head">
-        <span class="eyebrow">Plano Básico · faz por conta própria</span>
-        <h1>19€ · pagamento único</h1>
-      </div>
-
-      <div class="paywall-grid">
-        <div class="checkout-box">
-          <span class="tier-tag">Básico</span>
-          <div class="price-big">19<small>€</small></div>
-          <p class="muted" style="margin-bottom:1.5rem">Pagamento único. Sem assinatura. Reembolso 7 dias sem perguntas.</p>
-
-          <ul class="includes">
-            <li>Configuração completa (17 secções)</li>
-            <li>Guia de instalação específico para a sua ferramenta (Claude / ChatGPT / Gemini / Copilot)</li>
-            <li>PDF formatado para arquivo e impressão</li>
-            <li>Lista de verificação RGPD adaptada à sua actividade</li>
-            <li>Modelo de consentimento informado para os seus doentes</li>
-            <li>Link para retomar e refazer durante 30 dias</li>
-          </ul>
-
-          <div class="pay-buttons">
-            <button class="btn-pay btn-pay-primary" onclick="alert('Em produção: abre Stripe Checkout.')">Pagar com cartão · Stripe</button>
-            <button class="btn-pay btn-pay-secondary" onclick="alert('Em produção: abre IfthenPay → MB WAY ou Multibanco.')">Pagar com MB WAY · Multibanco</button>
-          </div>
-
-          <p class="refund-note">Pagamento seguro · Reembolso 7 dias</p>
+        <div class="form-check">
+          <input type="checkbox" id="f-terms" checked>
+          <label for="f-terms" style="font-family:var(--font-body); font-size:12px; letter-spacing:0; text-transform:none; font-weight:400;">
+            Aceito os <a href="#" onclick="return false">termos</a> e a <a href="#" onclick="return false">política de privacidade</a>.
+          </label>
         </div>
 
-        <div class="preview-pdf">
-          <div class="head">Pré-visualização do PDF</div>
-          <div class="pdf-page">
-            <h4>Secretário Digital · Dr. Roberto IA</h4>
-            <p>Configuração completa para Claude Projects · v1.0 · Abril 2026</p>
-            <p>Bloco 1 — Identidade<br>Bloco 2 — Personalidade<br>Bloco 3 — Funcionamento<br>Bloco 4 — Segurança e fecho</p>
-            <p>Página 1 de 18 · Lista de verificação RGPD inclusa.</p>
-          </div>
+        <div class="trust-row">
+          <span>● Stripe + IfthenPay</span>
+          <span>● Reembolso 7 dias</span>
+          <span>● UE</span>
         </div>
       </div>
 
-      <div class="flex-row mt-2">
-        <button class="btn btn-ghost" onclick="goToStep(4)">← Voltar ao resultado grátis</button>
-      </div>
-    </section>
-
-    <!-- ═══════════════════════════════════════════ PASSO 6 — PREMIUM 49€ ═══════════════════════════════════════════ -->
-    <section class="screen" data-screen="6">
-      <div class="screen-head">
-        <span class="eyebrow">Plano Premium · com IA a ajudar</span>
-        <h1>49€ · pagamento único</h1>
-      </div>
-
-      <div class="paywall-grid">
-        <div class="checkout-box">
-          <span class="tier-tag">Premium</span>
-          <div class="price-big">49<small>€</small></div>
-          <p class="muted" style="margin-bottom:1.5rem">Para quem prefere ser guiado por uma conversa em vez de preencher um formulário.</p>
-
-          <ul class="includes">
-            <li><strong>Tudo do plano Básico (19€)</strong></li>
-            <li>Uma IA acompanha o preenchimento das 17 perguntas</li>
-            <li>Vai dando sugestões à medida que escreve</li>
-            <li>Avisa quando uma resposta contradiz outra</li>
-            <li>Ajusta as palavras à sua profissão sem ser preciso pedir</li>
-            <li>Trabalho guardado — pode parar e voltar quando quiser</li>
-          </ul>
-
-          <div class="pay-buttons">
-            <button class="btn-pay btn-pay-primary" onclick="alert('Em produção: abre Stripe Checkout.')">Pagar com cartão · Stripe</button>
-            <button class="btn-pay btn-pay-secondary" onclick="alert('Em produção: abre IfthenPay → MB WAY ou Multibanco.')">Pagar com MB WAY · Multibanco</button>
-          </div>
-
-          <p class="refund-note">Pagamento seguro · Reembolso 7 dias</p>
-        </div>
-
-        <div class="chat-mockup">
-          <div class="head">Pré-visualização · IA a ajudar</div>
-          <div class="bubble ia">Olá. Vamos começar pela identidade do seu secretário. Como gostaria que ele se chamasse?</div>
-          <div class="bubble user">Pode chamar-se "Secretário do Dr. Roberto"</div>
-          <div class="bubble ia">Bom nome — directo e claro. Para quem é que este secretário vai trabalhar? Médicos, doentes, ou ambos?</div>
-          <div class="bubble user">Doentes meus, sobretudo idosos.</div>
-          <div class="bubble ia">Perfeito. Então o tom vai ser muito importante. Já agora, na Madeira ou no continente?</div>
-          <div class="chat-input-mock">Escreva a sua resposta...</div>
-        </div>
-      </div>
-
-      <div class="flex-row mt-2">
-        <button class="btn btn-ghost" onclick="goToStep(4)">← Voltar ao resultado grátis</button>
-      </div>
-    </section>
-
+    </div>
   </div>
-</main>
+</section>
 
-<!-- ═══════════════════════════════════════════ FLOATING HELP — ASSISTIDO 290€ ═══════════════════════════════════════════ -->
-<button class="float-help" onclick="openAssistido()">
-  <span class="icon">✋</span>
-  Prefere que façamos por si? · 290€
-</button>
+<!-- ════════════════════════════════════════════ -->
+<!-- ECRÃ 6: SUCESSO                              -->
+<!-- ════════════════════════════════════════════ -->
+<section class="screen" id="screen-6">
+  <div class="screen-inner success-inner">
+    <div class="success-check"></div>
+    <h1 class="success-title">Pagamento <em>confirmado.</em></h1>
+    <p class="success-text">
+      Enviámos o teu kit completo para <span class="success-email" id="successEmail">o teu email</span>.<br>
+      Também o podes descarregar já:
+    </p>
 
-<!-- ═══════════════════════════════════════════ NAV FOOTER ═══════════════════════════════════════════ -->
-<div class="nav-footer">
-  <div class="container nav-row">
-    <button class="btn btn-ghost" id="prevBtn" onclick="prevStep()" disabled>← Voltar</button>
-    <span class="nav-info" id="navInfo">Passo 0 de 6</span>
-    <button class="btn btn-primary" id="nextBtn" onclick="nextStep()">Continuar →</button>
+    <div class="success-actions">
+      <button class="btn-primary" onclick="alert('Demo: descarregaria o PDF.')">↓ Descarregar PDF</button>
+      <button class="btn-ghost" onclick="resetDemo()">↻ Recomeçar protótipo</button>
+    </div>
+
+    <div class="success-retoma">
+      <div class="success-retoma-title">Link de retoma · 30 dias</div>
+      Guarda este link para editares o teu assistente digital IA e re-gerar o PDF sem pagar outra vez:
+      <code>proteinaludica.com/criar/retomar/a7f3-9b2c-x8d1</code>
+    </div>
   </div>
-</div>
+</section>
 
-<!-- Reset hint -->
-<div class="reset-hint">Carregue em <kbd>R</kbd> para começar de novo</div>
-
-<!-- ═══════════════════════════════════════════ MODAL — QUIZ ═══════════════════════════════════════════ -->
-<div class="modal-backdrop" id="quizModal">
+<!-- ════════════════════════════════════════════ -->
+<!-- MODAL: 3 perguntas                          -->
+<!-- ════════════════════════════════════════════ -->
+<div class="modal-overlay" id="quizModal" onclick="if(event.target===this) closeQuizModal()">
   <div class="modal">
-    <button class="modal-close" onclick="closeQuiz()">×</button>
-    <h3>Qual a melhor ferramenta para si?</h3>
-    <p class="muted">3 perguntas. Responda como puder.</p>
+    <div class="modal-title">Deixa-nos recomendar</div>
+    <p style="font-size:14px; color:var(--ink2); margin-bottom:0.5rem;">Três perguntas rápidas.</p>
 
-    <div class="quiz-question">
-      <p>1. Já paga alguma destas ferramentas?</p>
-      <div class="quiz-options">
-        <button onclick="setQuiz(1, 'claude')">Sim — Claude Pro</button>
-        <button onclick="setQuiz(1, 'gpt')">Sim — ChatGPT Plus</button>
-        <button onclick="setQuiz(1, 'm365')">Sim — Microsoft 365</button>
-        <button onclick="setQuiz(1, 'gws')">Sim — Google Workspace</button>
-        <button onclick="setQuiz(1, 'no')">Nenhuma</button>
+    <div class="modal-q">
+      <div class="modal-q-title">1. Já tens licença paga de alguma destas?</div>
+      <div class="modal-q-opts" data-q="1">
+        <button class="modal-q-opt" onclick="selectQuiz(this,1,'none')">Nenhuma</button>
+        <button class="modal-q-opt" onclick="selectQuiz(this,1,'claude')">Claude Pro</button>
+        <button class="modal-q-opt" onclick="selectQuiz(this,1,'gpt')">ChatGPT Plus</button>
+        <button class="modal-q-opt" onclick="selectQuiz(this,1,'gws')">Google Workspace</button>
+        <button class="modal-q-opt" onclick="selectQuiz(this,1,'m365')">Microsoft 365</button>
       </div>
     </div>
 
-    <div class="quiz-question">
-      <p>2. Quer que o secretário leia os seus emails e ficheiros sem ter de os enviar de cada vez?</p>
-      <div class="quiz-options">
-        <button onclick="setQuiz(2, 'yes')">Sim, ligado ao meu email/drive</button>
-        <button onclick="setQuiz(2, 'no')">Não, só conversa quando eu pergunto</button>
+    <div class="modal-q">
+      <div class="modal-q-title">2. Precisas que leia o teu email, Drive ou SharePoint?</div>
+      <div class="modal-q-opts" data-q="2">
+        <button class="modal-q-opt" onclick="selectQuiz(this,2,'yes')">Sim</button>
+        <button class="modal-q-opt" onclick="selectQuiz(this,2,'no')">Não</button>
+        <button class="modal-q-opt" onclick="selectQuiz(this,2,'maybe')">Talvez</button>
       </div>
     </div>
 
-    <div class="quiz-question">
-      <p>3. Vai usar sozinho ou em clínica/escritório?</p>
-      <div class="quiz-options">
-        <button onclick="setQuiz(3, 'solo')">Sozinho</button>
-        <button onclick="setQuiz(3, 'clinic')">Em clínica/escritório com colegas</button>
+    <div class="modal-q">
+      <div class="modal-q-title">3. Quantas pessoas vão usar?</div>
+      <div class="modal-q-opts" data-q="3">
+        <button class="modal-q-opt" onclick="selectQuiz(this,3,'solo')">Só eu</button>
+        <button class="modal-q-opt" onclick="selectQuiz(this,3,'team')">2-10 (equipa)</button>
+        <button class="modal-q-opt" onclick="selectQuiz(this,3,'clinic')">10+ (clínica)</button>
       </div>
     </div>
 
-    <div class="quiz-result" id="quizResult">
-      <div class="label">Recomendação</div>
-      <h4 id="quizRecTitle"></h4>
-      <p id="quizRecText"></p>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════ MODAL — ASSISTIDO ═══════════════════════════════════════════ -->
-<div class="modal-backdrop" id="assistidoModal">
-  <div class="modal">
-    <button class="modal-close" onclick="closeAssistido()">×</button>
-    <span class="eyebrow">Plano Assistido</span>
-    <h3 style="margin-top:0.5rem">Eu faço por si.</h3>
-    <p>Para quem prefere conversar 1 hora comigo (Roberto Gouveia) e ter a ficha preenchida sem mexer em nada.</p>
-
-    <ul class="includes">
-      <li>1 hora de chamada comigo, gravada se quiser</li>
-      <li>Ficha das 17 secções preenchida na altura</li>
-      <li>Configuração entregue no seu email no próprio dia</li>
-      <li>14 dias de suporte por email para ajustes</li>
-    </ul>
-
-    <div style="background:rgba(200,168,107,0.08); border:1px solid var(--ochre); padding:1rem; border-radius:var(--radius); margin:1.5rem 0">
-      <div style="font-family:var(--mono); font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--ochre); margin-bottom:0.5rem">Preço Madeira · primeiros 10</div>
-      <div style="font-family:var(--serif); font-size:1.8rem; color:var(--moss-bright)">290€</div>
-      <p class="muted" style="font-size:0.8rem; margin-top:0.3rem">Fora da Madeira: 490€</p>
+    <div class="modal-result" id="modalResult">
+      <div class="modal-result-title">Recomendação</div>
+      <div class="modal-result-text" id="modalResultText">—</div>
     </div>
 
-    <button class="btn btn-primary" style="width:100%" onclick="alert('Em produção: abre formulário de contacto com calendário.')">Pedir chamada comigo →</button>
+    <div class="modal-actions">
+      <button class="btn-ghost" onclick="closeQuizModal()">Fechar</button>
+    </div>
   </div>
 </div>
 
 <script>
-// ═══════════════════════════════════════════
-// NAVEGAÇÃO ENTRE PASSOS
-// ═══════════════════════════════════════════
-let currentStep = 0;
-const totalSteps = 7;
+  // ─────────── STATE ───────────
+  const state = {
+    current: 1,
+    platform: null,
+    platformLabel: null,
+    template: null,
+    quiz: { 1: null, 2: null, 3: null }
+  };
 
-function goToStep(n) {
-  if (n < 0 || n > 6) return;
-  currentStep = n;
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.querySelector(`[data-screen="${n}"]`).classList.add('active');
+  // ─────────── NAVIGATION ───────────
+  function goTo(n) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById('screen-' + n);
+    if (target) target.classList.add('active');
+    state.current = n;
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
-  document.querySelectorAll('.step').forEach((el, i) => {
-    el.classList.remove('active', 'done');
-    if (i === n) el.classList.add('active');
-    else if (i < n) el.classList.add('done');
-  });
+  function updateProgress() {
+    const n = state.current;
+    const label = document.getElementById('stepLabel');
+    const dots = document.querySelectorAll('.progress-dot');
 
-  document.getElementById('prevBtn').disabled = (n === 0);
-  document.getElementById('navInfo').textContent = `Passo ${n} de 6`;
+    // progress behaves 1..4 (screens 1-4), screen 5 = "pagamento", screen 6 = "concluído"
+    if (n <= 4) {
+      label.textContent = n + ' / 4';
+    } else if (n === 5) {
+      label.textContent = 'pagamento';
+    } else {
+      label.textContent = 'concluído ✓';
+    }
 
-  const next = document.getElementById('nextBtn');
-  if (n === 6) { next.textContent = 'Reiniciar ↻'; next.onclick = resetDemo; }
-  else { next.textContent = 'Continuar →'; next.onclick = nextStep; }
+    dots.forEach((d, i) => {
+      d.classList.remove('active', 'done');
+      if (i + 1 < n) d.classList.add('done');
+      else if (i + 1 === n) d.classList.add('active');
+    });
+    if (n >= 5) dots.forEach(d => d.classList.add('done'));
+  }
 
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+  // ─────────── PLATAFORMA ───────────
+  function selectPlatform(id, label) {
+    state.platform = id;
+    state.platformLabel = label;
+    document.getElementById('platformName').textContent = label;
+    document.getElementById('platformNameUp').textContent = label;
+    goTo(2);
+  }
 
-function nextStep() { goToStep(Math.min(currentStep + 1, 6)); }
-function prevStep() { goToStep(Math.max(currentStep - 1, 0)); }
+  // ─────────── TEMPLATE ───────────
+  function selectTemplate(id) {
+    state.template = id;
+    goTo(3);
+  }
 
-// Click directly on step labels
-document.querySelectorAll('.step').forEach(el => {
-  el.style.cursor = 'pointer';
-  el.addEventListener('click', () => goToStep(parseInt(el.dataset.step)));
-});
+  // ─────────── RGPD DETECTOR ───────────
+  function checkRGPD(input) {
+    const val = input.value;
+    const warn = document.getElementById('rgpdWarn');
+    // detecta NIF 9 dígitos, CC com letra, datas DD/MM/AAAA, nomes próprios completos
+    const hasNIF = /\b\d{9}\b/.test(val);
+    const hasCC = /\b\d{8}\s?[A-Z]{1,2}\d{0,3}\b/.test(val);
+    const hasDate = /\b\d{1,2}\/\d{1,2}\/(?:19|20)\d{2}\b/.test(val);
+    const hasFullName = /\b(?:Sr\.?|Sra\.?|Dr\.?|Dra\.?|D\.?)\s+[A-ZÁÉÍÓÚÂÊÎÔÛÃÕÇ][a-záéíóúâêîôûãõç]+\s+[A-ZÁÉÍÓÚÂÊÎÔÛÃÕÇ][a-záéíóúâêîôûãõç]+/.test(val);
 
-// Path cards on step 0
-document.querySelectorAll('[data-go]').forEach(el => {
-  el.addEventListener('click', () => goToStep(parseInt(el.dataset.go)));
-});
+    if (hasNIF || hasCC || hasDate || hasFullName) {
+      warn.classList.add('show');
+    } else {
+      // limpa só se nenhuma das 3 inputs tem alerta
+      const allInputs = document.querySelectorAll('#screen-3 input, #screen-3 textarea');
+      let any = false;
+      allInputs.forEach(i => {
+        const v = i.value;
+        if (/\b\d{9}\b/.test(v)) any = true;
+        if (/\b\d{8}\s?[A-Z]{1,2}\d{0,3}\b/.test(v)) any = true;
+        if (/\b\d{1,2}\/\d{1,2}\/(?:19|20)\d{2}\b/.test(v)) any = true;
+        if (/\b(?:Sr\.?|Sra\.?|Dr\.?|Dra\.?|D\.?)\s+[A-ZÁÉÍÓÚÂÊÎÔÛÃÕÇ][a-záéíóúâêîôûãõç]+\s+[A-ZÁÉÍÓÚÂÊÎÔÛÃÕÇ][a-záéíóúâêîôûãõç]+/.test(v)) any = true;
+      });
+      if (!any) warn.classList.remove('show');
+    }
+  }
 
-// ═══════════════════════════════════════════
-// SELECÇÃO DE PLATAFORMA
-// ═══════════════════════════════════════════
-function selectPlatform(card) {
-  document.querySelectorAll('.platform-card').forEach(c => c.classList.remove('selected'));
-  card.classList.add('selected');
-  setTimeout(() => goToStep(2), 350);
-}
-
-// ═══════════════════════════════════════════
-// DETECTOR RGPD
-// ═══════════════════════════════════════════
-const rgpdInput = document.getElementById('rgpd-input');
-const rgpdWarn = document.getElementById('rgpd-warn');
-
-const rgpdPatterns = [
-  /\b\d{9}\b/,                                 // NIF / 9 digits
-  /\b\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}\b/,     // dates
-  /\bSr\.?[a]?\s+[A-ZÁÉÍÓÚÂÊÔÃÕ][a-záéíóúâêôãõ]+\s+[A-ZÁÉÍÓÚÂÊÔÃÕ]/,  // Sr. First Last
-  /\bDr\.?[a]?\s+[A-ZÁÉÍÓÚÂÊÔÃÕ][a-záéíóúâêôãõ]+\s+[A-ZÁÉÍÓÚÂÊÔÃÕ]/    // Dr. First Last
-];
-
-if (rgpdInput) {
-  rgpdInput.addEventListener('input', () => {
-    const v = rgpdInput.value;
-    const hit = rgpdPatterns.some(p => p.test(v));
-    rgpdWarn.classList.toggle('show', hit);
-  });
-}
-
-// ═══════════════════════════════════════════
-// COPY TO CLIPBOARD
-// ═══════════════════════════════════════════
-function copyOutput() {
-  const text = document.getElementById('outputText').textContent;
-  navigator.clipboard.writeText(text).then(() => {
+  // ─────────── COPY ───────────
+  function copyCode() {
     const btn = document.getElementById('copyBtn');
-    btn.textContent = 'Copiado ✓';
-    btn.classList.add('copied');
-    setTimeout(() => {
-      btn.textContent = 'Copiar tudo';
-      btn.classList.remove('copied');
-    }, 2000);
+    const content = document.getElementById('codeContent').textContent;
+    try {
+      navigator.clipboard.writeText(content).then(() => {
+        btn.textContent = '✓ Copiado';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = 'Copiar tudo';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    } catch(e) {
+      btn.textContent = 'Seleccionar texto manual';
+    }
+  }
+
+  // ─────────── PAYMENT ───────────
+  function updatePaymentState() {
+    // usa state.platformLabel se definido
+    if (state.platformLabel) {
+      document.getElementById('platformName').textContent = state.platformLabel;
+    }
+  }
+
+  // ─────────── SUCCESS ───────────
+  function goToSuccess() {
+    const email = document.getElementById('f-email').value || 'o teu email';
+    document.getElementById('successEmail').textContent = email;
+    goTo(6);
+  }
+  // hook nos botões de pagamento
+  document.querySelectorAll('.btn-mbway, .btn-card').forEach(btn => {
+    btn.addEventListener('click', goToSuccess);
   });
-}
 
-// ═══════════════════════════════════════════
-// QUIZ MODAL
-// ═══════════════════════════════════════════
-const quizAnswers = {};
-
-function openQuiz() {
-  document.getElementById('quizModal').classList.add('show');
-  document.getElementById('quizResult').classList.remove('show');
-  document.querySelectorAll('#quizModal .quiz-options button').forEach(b => b.classList.remove('selected'));
-  Object.keys(quizAnswers).forEach(k => delete quizAnswers[k]);
-}
-function closeQuiz() { document.getElementById('quizModal').classList.remove('show'); }
-
-function setQuiz(q, val) {
-  quizAnswers[q] = val;
-  // mark selected (within question group)
-  const allQuestions = document.querySelectorAll('#quizModal .quiz-question');
-  const targetQ = allQuestions[q-1];
-  targetQ.querySelectorAll('button').forEach(b => b.classList.remove('selected'));
-  event.target.classList.add('selected');
-
-  if (Object.keys(quizAnswers).length >= 3) {
-    showQuizResult();
+  // ─────────── RESET ───────────
+  function resetDemo() {
+    state.current = 1;
+    state.platform = null;
+    state.platformLabel = null;
+    state.template = null;
+    state.quiz = { 1: null, 2: null, 3: null };
+    document.querySelectorAll('input, textarea').forEach(el => el.value = '');
+    document.querySelectorAll('.modal-q-opt').forEach(el => el.classList.remove('active'));
+    document.getElementById('modalResult').classList.remove('show');
+    document.getElementById('rgpdWarn').classList.remove('show');
+    goTo(1);
+    closeQuizModal();
   }
-}
 
-function showQuizResult() {
-  let title = '', text = '';
-  if (quizAnswers[1] === 'claude') {
-    title = 'Claude Projects';
-    text = 'Já paga Pro. Indicada para conversas clínicas longas e detalhadas. Privacidade cuidada por defeito.';
-  } else if (quizAnswers[1] === 'gpt') {
-    title = 'ChatGPT Custom GPTs';
-    text = 'Aproveita a sua licença Plus. Maior comunidade de exemplos.';
-  } else if (quizAnswers[1] === 'm365') {
-    title = 'Microsoft Copilot Agents';
-    text = 'Liga ao Outlook, Teams e SharePoint que já tem.';
-  } else if (quizAnswers[1] === 'gws') {
-    title = 'Google Gemini Gems';
-    text = 'Liga ao Gmail e ao Drive sem trabalho extra de preparação.';
-  } else if (quizAnswers[2] === 'yes') {
-    title = 'Gemini ou Copilot';
-    text = 'Para o secretário poder ler os seus emails e ficheiros sem trabalho extra, escolha consoante já trabalhe com Google ou Microsoft.';
-  } else if (quizAnswers[3] === 'clinic') {
-    title = 'Microsoft Copilot ou Google Gemini';
-    text = 'Ambos têm gestão central de utilizadores e licenças por colega.';
-  } else {
-    title = 'Claude Projects';
-    text = 'Melhor ponto de partida neutro. Não obriga a ligar a nada de fora, é privado à partida.';
+  // ─────────── MODAL ───────────
+  function openQuizModal() {
+    document.getElementById('quizModal').classList.add('open');
   }
-  document.getElementById('quizRecTitle').textContent = title;
-  document.getElementById('quizRecText').textContent = text;
-  document.getElementById('quizResult').classList.add('show');
-}
+  function closeQuizModal() {
+    document.getElementById('quizModal').classList.remove('open');
+  }
+  function selectQuiz(el, q, val) {
+    // desmarca outros
+    el.parentNode.querySelectorAll('.modal-q-opt').forEach(o => o.classList.remove('active'));
+    el.classList.add('active');
+    state.quiz[q] = val;
+    // mostra recomendação se todas respondidas
+    if (state.quiz[1] && state.quiz[2] && state.quiz[3]) {
+      showQuizResult();
+    }
+  }
+  function showQuizResult() {
+    const q = state.quiz;
+    let rec = '';
+    // lógica simples de recomendação
+    if (q[1] === 'claude') rec = 'Claude Projects. Já tens Pro e é o mais forte em raciocínio clínico longo.';
+    else if (q[1] === 'm365') rec = 'Microsoft Copilot Agents. Integra-se com o Outlook e SharePoint que já usas.';
+    else if (q[1] === 'gws') rec = 'Google Gemini Gems. Liga directo ao teu Gmail e Drive sem setup.';
+    else if (q[1] === 'gpt') rec = 'ChatGPT Custom GPTs. Aproveita a licença Plus que já tens.';
+    else if (q[2] === 'yes') rec = 'Gemini (se usas Google) ou Copilot (se usas M365). Ambos lêem emails e ficheiros sem ficheiro-a-ficheiro.';
+    else if (q[3] === 'solo') rec = 'Claude Projects. Sem licenças de equipa, melhor para uso individual e privado.';
+    else if (q[3] === 'clinic') rec = 'Microsoft Copilot ou Google Gemini. Ambos têm gestão central e licenças por utilizador.';
+    else rec = 'Claude Projects. Melhor ponto de partida neutro — sem integrações obrigatórias, privado por defeito.';
 
-// ═══════════════════════════════════════════
-// ASSISTIDO MODAL
-// ═══════════════════════════════════════════
-function openAssistido() { document.getElementById('assistidoModal').classList.add('show'); }
-function closeAssistido() { document.getElementById('assistidoModal').classList.remove('show'); }
+    document.getElementById('modalResultText').textContent = rec;
+    document.getElementById('modalResult').classList.add('show');
+  }
 
-// Close on backdrop click
-document.querySelectorAll('.modal-backdrop').forEach(m => {
-  m.addEventListener('click', (e) => {
-    if (e.target === m) m.classList.remove('show');
+  // ─────────── KEYBOARD ───────────
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'r' || e.key === 'R') {
+      // só se não estiver a escrever num input
+      const tag = document.activeElement.tagName.toLowerCase();
+      if (tag !== 'input' && tag !== 'textarea') resetDemo();
+    }
+    if (e.key === 'Escape') closeQuizModal();
   });
-});
 
-// ═══════════════════════════════════════════
-// RESET
-// ═══════════════════════════════════════════
-function resetDemo() {
-  currentStep = 0;
-  goToStep(0);
-  document.querySelectorAll('.platform-card').forEach(c => c.classList.remove('selected'));
-  if (rgpdInput) rgpdInput.value = '';
-  if (rgpdWarn) rgpdWarn.classList.remove('show');
-  Object.keys(quizAnswers).forEach(k => delete quizAnswers[k]);
-}
-
-document.addEventListener('keydown', (e) => {
-  const tag = document.activeElement.tagName.toLowerCase();
-  if (tag === 'input' || tag === 'textarea') return;
-  if (e.key === 'r' || e.key === 'R') resetDemo();
-  if (e.key === 'Escape') {
-    document.querySelectorAll('.modal-backdrop.show').forEach(m => m.classList.remove('show'));
-  }
-});
-
-// init
-goToStep(0);
+  // init
+  updateProgress();
 </script>
 
 </body>
