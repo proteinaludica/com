@@ -1,18 +1,23 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-PT">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Proteína Lúdica — Secretários digitais para profissionais | Madeira, Portugal</title>
-<meta name="description" content="Um secretário digital que escreve por si. Para médicos e outros profissionais com muita papelada. Em português. Na Madeira.">
+
+<title>Proteína Lúdica — Assistentes digitais IA para profissionais | Madeira, Portugal</title>
+<meta name="description" content="Assistentes digitais IA para médicos e profissionais de saúde. Tratam da papelada, organizam a informação — sempre com a sua voz. Em português, na Madeira.">
 <meta name="author" content="Proteína Lúdica LDA">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://proteinaludica.com">
+
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://proteinaludica.com">
-<meta property="og:title" content="Proteína Lúdica — Secretários digitais">
-<meta property="og:description" content="Um secretário digital que escreve por si. Para médicos e outros profissionais com muita papelada.">
+<meta property="og:title" content="Proteína Lúdica — Assistentes digitais IA">
+<meta property="og:description" content="Assistentes digitais IA para médicos e profissionais de saúde. Tratam da papelada, sempre com a sua voz. Em português, na Madeira.">
 <meta property="og:locale" content="pt_PT">
+<meta name="theme-color" content="#2D5A1B">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D5A1B'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' font-style='italic' fill='%23F5F2EC' text-anchor='middle'%3EL%3C/text%3E%3C/svg%3E">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Geist:wght@300..600&family=Geist+Mono:wght@400..600&display=swap" rel="stylesheet">
@@ -34,7 +39,8 @@
   html { scroll-behavior: smooth; }
   body {
     background: var(--bg); color: var(--ink);
-    font-family: var(--font-body); font-size: 17px; line-height: 1.65;
+    font-family: var(--font-body);
+    font-size: 17px; line-height: 1.65;
     overflow-x: hidden;
   }
 
@@ -46,25 +52,19 @@
     backdrop-filter: blur(12px);
     border-bottom: 0.5px solid var(--border);
   }
-  .logo { display: flex; flex-direction: column; text-decoration: none; cursor: pointer; }
+  .logo { display: flex; flex-direction: column; text-decoration: none; }
   .logo-name { font-family: var(--font-head); font-size: 19px; font-weight: 400; letter-spacing: -0.01em; color: var(--ink); line-height: 1; }
   .logo-name em { font-style: italic; color: var(--accent); }
   .logo-sub { font-family: var(--font-mono); font-size: 9px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 3px; }
   .nav-links { display: flex; align-items: center; gap: 1.75rem; list-style: none; }
-  .nav-links a { font-size: 14px; color: var(--ink2); text-decoration: none; transition: color 0.2s; cursor: pointer; }
+  .nav-links a { font-size: 14px; color: var(--ink2); text-decoration: none; transition: color 0.2s; }
   .nav-links a:hover { color: var(--accent); }
   .nav-cta { font-family: var(--font-body); font-size: 14px; font-weight: 500; color: white; background: var(--accent); padding: 9px 20px; border-radius: 5px; text-decoration: none; transition: background 0.2s; }
   .nav-cta:hover { background: var(--accent2); }
 
-  .view { display: none; }
-  .view.active { display: block; }
-
-  /* ───────────────────────────────────────────
-     HOMEPAGE
-     ─────────────────────────────────────────── */
   .hero {
-    min-height: 100vh; display: flex; align-items: center;
-    padding: 8rem 2.5rem 4rem;
+    min-height: 72vh; display: flex; align-items: center;
+    padding: 9rem 2.5rem 5rem;
     position: relative; overflow: hidden;
   }
   .hero-bg-text {
@@ -99,7 +99,7 @@
     background: var(--surface); border: 0.5px solid var(--border); border-radius: 12px;
     padding: 2rem; text-decoration: none; transition: all 0.3s;
     display: flex; flex-direction: column; gap: 1rem;
-    position: relative; overflow: hidden; cursor: pointer;
+    position: relative; overflow: hidden;
   }
   .porta::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--muted); transition: background 0.3s; }
   .porta-a::before { background: var(--accent); }
@@ -113,6 +113,10 @@
   .porta-title { font-family: var(--font-head); font-size: 1.85rem; font-weight: 400; line-height: 1.08; color: var(--ink); letter-spacing: -0.015em; }
   .porta-desc { font-size: 15px; color: var(--ink2); line-height: 1.6; flex: 1; }
   .porta-foot { display: flex; align-items: center; justify-content: space-between; padding-top: 1rem; border-top: 0.5px solid var(--border); font-size: 13px; }
+  .porta-price { font-family: var(--font-head); font-size: 1.4rem; letter-spacing: -0.01em; }
+  .porta-a .porta-price { color: var(--accent); }
+  .porta-b .porta-price { color: var(--amber-dark); }
+  .porta-price-sub { display: block; font-family: var(--font-mono); font-size: 10px; color: var(--muted); letter-spacing: 0.04em; margin-top: 2px; font-weight: normal; }
   .porta-arrow { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.05em; color: var(--ink2); transition: transform 0.2s; }
   .porta:hover .porta-arrow { transform: translateX(4px); }
 
@@ -124,29 +128,48 @@
   .section-title em { font-style: italic; color: var(--accent); }
   .section-sub { color: var(--ink2); font-size: 18px; line-height: 1.6; max-width: 640px; }
 
-  .catalogo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; margin-top: 4rem; }
-  .agente-card {
+  .explicar { background: var(--bg2); border-top: 0.5px solid var(--border); border-bottom: 0.5px solid var(--border); }
+  .explicar-intro {
     background: var(--surface); border: 0.5px solid var(--border); border-radius: 12px;
-    overflow: hidden; transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
-    cursor: pointer; color: inherit; display: flex; flex-direction: column;
+    padding: 2.5rem; margin-top: 3rem; max-width: 800px;
   }
-  .agente-card:hover { transform: translateY(-2px); border-color: var(--border-strong); box-shadow: 0 8px 30px rgba(13,15,11,0.06); }
-  .agente-card.indisponivel { opacity: 0.75; }
-  .agente-head { padding: 1.5rem 1.5rem 1rem; display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
-  .agente-ic { width: 48px; height: 48px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: var(--font-head); font-size: 1.25rem; font-weight: 500; flex-shrink: 0; }
-  .ic-escriba { background: var(--accent-light); color: var(--accent); }
-  .ic-familia { background: #FCE8E8; color: #A84242; }
-  .ic-nepho { background: #E1F0FF; color: #1860CC; }
-  .ic-guia { background: var(--amber-light); color: var(--amber-dark); }
-  .agente-status { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 9px; border-radius: 3px; white-space: nowrap; }
-  .st-live { background: var(--accent-light); color: var(--accent); }
-  .st-dev { background: #E6EEFA; color: #1A3A6B; }
-  .agente-body { padding: 0 1.5rem 1.25rem; flex: 1; }
-  .agente-name { font-family: var(--font-head); font-size: 1.4rem; font-weight: 400; margin-bottom: 0.4rem; line-height: 1.15; letter-spacing: -0.01em; }
-  .agente-para-quem { font-family: var(--font-mono); font-size: 11px; color: var(--muted); margin-bottom: 1rem; letter-spacing: 0.03em; }
-  .agente-desc { font-size: 15px; color: var(--ink2); line-height: 1.6; }
-  .agente-foot { border-top: 0.5px solid var(--border); padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; font-size: 13px; background: var(--bg); }
-  .agente-link { font-family: var(--font-mono); font-size: 11px; color: var(--accent); letter-spacing: 0.05em; }
+  .explicar-intro p { font-size: 18px; line-height: 1.75; color: var(--ink); margin-bottom: 1rem; }
+  .explicar-intro p:last-child { margin-bottom: 0; }
+  .explicar-intro strong {
+    background: var(--accent-light); padding: 2px 6px; border-radius: 3px;
+    color: var(--accent); font-weight: 500;
+  }
+
+  /* === Camada 1: demo ditado → nota === */
+  .demo { max-width: 900px; margin: 3rem auto 0; }
+  .demo-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.25rem; display: flex; align-items: center; gap: 8px; }
+  .demo-grid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 1.5rem; align-items: stretch; }
+  .demo-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: 12px; padding: 1.75rem; display: flex; flex-direction: column; }
+  .demo-card-head { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; display: flex; align-items: center; gap: 7px; }
+  .demo-card.fala .demo-card-head { color: var(--amber-dark); }
+  .demo-card.nota { border-color: var(--accent); }
+  .demo-card.nota .demo-card-head { color: var(--accent); }
+  .demo-fala-text { font-size: 16px; line-height: 1.6; color: var(--ink2); font-style: italic; }
+  .demo-nota-text { font-size: 13.5px; line-height: 1.6; color: var(--ink); font-family: var(--font-mono); white-space: pre-line; }
+  .demo-arrow { display: flex; align-items: center; justify-content: center; color: var(--muted2); font-size: 20px; }
+  .demo-foot { font-size: 13px; color: var(--muted); margin-top: 1rem; text-align: center; font-style: italic; }
+
+  /* === Camada 2: controlo === */
+  .controlo { max-width: 900px; margin: 2.5rem auto 0; background: var(--accent-light); border: 0.5px solid rgba(45,90,27,0.2); border-radius: 12px; padding: 1.5rem 1.75rem; display: flex; align-items: center; gap: 1rem; }
+  .controlo-icon { flex-shrink: 0; width: 38px; height: 38px; border-radius: 50%; background: var(--accent); color: white; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+  .controlo-text { font-size: 15.5px; line-height: 1.55; color: var(--ink); }
+  .controlo-text strong { color: var(--accent); font-weight: 600; }
+
+  /* === Camada 3: objeções === */
+  .objs { max-width: 900px; margin: 2.5rem auto 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .obj { background: var(--surface); border: 0.5px solid var(--border); border-radius: 10px; padding: 1.4rem; }
+  .obj-q { font-size: 14.5px; font-weight: 600; color: var(--ink); margin-bottom: 0.5rem; }
+  .obj-a { font-size: 14px; line-height: 1.55; color: var(--muted); }
+  @media (max-width: 768px) {
+    .demo-grid { grid-template-columns: 1fr; }
+    .demo-arrow { transform: rotate(90deg); padding: 0.5rem 0; }
+    .objs { grid-template-columns: 1fr; }
+  }
 
   .como-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 4rem; position: relative; }
   .como-step { background: var(--surface); border: 0.5px solid var(--border); border-radius: 10px; padding: 2rem; position: relative; }
@@ -158,6 +181,88 @@
   }
   .como-title { font-family: var(--font-head); font-size: 1.5rem; font-weight: 400; margin-bottom: 0.75rem; letter-spacing: -0.01em; line-height: 1.15; }
   .como-desc { font-size: 16px; color: var(--ink2); line-height: 1.65; }
+  .como-desc strong { color: var(--ink); font-weight: 500; }
+
+  .exemplo { background: var(--ink); color: white; border-top: 0.5px solid rgba(255,255,255,0.05); }
+  .exemplo .section-label { color: rgba(255,255,255,0.45); }
+  .exemplo .section-label::after { background: rgba(255,255,255,0.1); }
+  .exemplo .section-title { color: white; }
+  .exemplo .section-title em { color: var(--accent-glow); }
+  .exemplo .section-sub { color: rgba(255,255,255,0.7); }
+  .eg-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 3.5rem; align-items: stretch; }
+  .eg-col {
+    background: rgba(255,255,255,0.04); border: 0.5px solid rgba(255,255,255,0.1);
+    border-radius: 12px; padding: 2rem; display: flex; flex-direction: column;
+  }
+  .eg-col.depois { background: rgba(168,224,144,0.08); border-color: rgba(168,224,144,0.2); }
+  .eg-col-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 1rem; }
+  .eg-col.depois .eg-col-label { color: var(--accent-glow); }
+  .eg-col-title { font-family: var(--font-head); font-size: 1.5rem; font-weight: 400; margin-bottom: 1rem; color: white; letter-spacing: -0.01em; }
+  .eg-col-text { font-size: 15px; line-height: 1.65; color: rgba(255,255,255,0.7); margin-bottom: 1.25rem; }
+  .eg-col-text strong { color: white; font-weight: 500; }
+  .eg-time {
+    display: inline-block; font-family: var(--font-mono); font-size: 11px;
+    color: rgba(255,255,255,0.55); background: rgba(255,255,255,0.06);
+    padding: 4px 10px; border-radius: 3px; letter-spacing: 0.03em; margin-top: auto;
+  }
+  .eg-col.depois .eg-time { color: var(--accent-glow); background: rgba(168,224,144,0.1); }
+
+  .catalogo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; margin-top: 4rem; }
+  .agente-card {
+    background: var(--surface); border: 0.5px solid var(--border); border-radius: 12px;
+    overflow: hidden; transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    text-decoration: none; color: inherit; display: flex; flex-direction: column;
+  }
+  .agente-card:hover { transform: translateY(-2px); border-color: var(--border-strong); box-shadow: 0 8px 30px rgba(13,15,11,0.06); }
+  .agente-card.indisponivel { opacity: 0.75; pointer-events: none; }
+  .agente-head { padding: 1.5rem 1.5rem 1rem; display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+  .agente-ic { width: 48px; height: 48px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: var(--font-head); font-size: 1.25rem; font-weight: 500; flex-shrink: 0; }
+  .ic-escriba { background: var(--accent-light); color: var(--accent); }
+  .ic-internato { background: #E8EDE0; color: #4A6B32; }
+  .ic-rehab { background: #E6EEFA; color: #1A3A6B; }
+  .ic-saude { background: var(--amber-light); color: var(--amber-dark); }
+  .ic-ajuda { background: #F2E9DE; color: #7A5520; }
+  .agente-status { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 9px; border-radius: 3px; white-space: nowrap; }
+  .st-live { background: var(--accent-light); color: var(--accent); }
+  .st-soon { background: var(--amber-light); color: var(--amber-dark); }
+  .st-dev { background: #E6EEFA; color: #1A3A6B; }
+  .st-piloto { background: #F2E9DE; color: #7A5520; }
+  .agente-body { padding: 0 1.5rem 1.25rem; flex: 1; }
+  .agente-name { font-family: var(--font-head); font-size: 1.4rem; font-weight: 400; margin-bottom: 0.4rem; line-height: 1.15; letter-spacing: -0.01em; }
+  .agente-para-quem { font-family: var(--font-mono); font-size: 11px; color: var(--muted); margin-bottom: 1rem; letter-spacing: 0.03em; }
+  .agente-desc { font-size: 15px; color: var(--ink2); line-height: 1.6; }
+  .agente-foot { border-top: 0.5px solid var(--border); padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; font-size: 13px; background: var(--bg); }
+  .agente-price { font-family: var(--font-head); font-size: 1.05rem; color: var(--ink); font-weight: 400; }
+  .agente-price-muted { color: var(--muted); font-family: var(--font-mono); font-size: 12px; }
+  .agente-link { font-family: var(--font-mono); font-size: 11px; color: var(--accent); letter-spacing: 0.05em; }
+
+  .medida { background: var(--surface); border-top: 0.5px solid var(--border); }
+  .medida-tag { display: inline-block; font-family: var(--font-mono); font-size: 11px; color: var(--accent); background: var(--accent-light); padding: 5px 12px; border-radius: 3px; letter-spacing: 0.05em; margin-bottom: 1rem; }
+  .tiers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 4rem; }
+  .tier { background: var(--bg); border: 0.5px solid var(--border); border-radius: 12px; padding: 2rem; display: flex; flex-direction: column; position: relative; }
+  .tier.recommended { background: var(--ink); color: white; border-color: var(--ink); }
+  .tier.recommended::before { content: 'Recomendado'; position: absolute; top: -12px; left: 2rem; background: var(--accent-glow); color: var(--ink); font-family: var(--font-mono); font-size: 10px; padding: 4px 12px; border-radius: 3px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; }
+  .tier-name { font-family: var(--font-head); font-size: 1.5rem; font-weight: 400; margin-bottom: 0.3rem; letter-spacing: -0.01em; }
+  .tier-sub { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 1.5rem; }
+  .tier.recommended .tier-sub { color: rgba(255,255,255,0.55); }
+  .tier-price { font-family: var(--font-head); font-size: 2.6rem; font-weight: 400; color: var(--accent); line-height: 1; margin-bottom: 0.3rem; letter-spacing: -0.02em; }
+  .tier.recommended .tier-price { color: var(--accent-glow); }
+  .tier-price-note { font-family: var(--font-mono); font-size: 10px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 1.75rem; }
+  .tier.recommended .tier-price-note { color: rgba(255,255,255,0.55); }
+  .tier-list { list-style: none; flex: 1; margin-bottom: 1.75rem; }
+  .tier-list li { font-size: 14px; line-height: 1.55; padding: 9px 0 9px 22px; position: relative; color: var(--ink2); border-bottom: 0.5px dashed var(--border); }
+  .tier.recommended .tier-list li { color: rgba(255,255,255,0.85); border-color: rgba(255,255,255,0.1); }
+  .tier-list li::before { content: '✓'; position: absolute; left: 0; top: 9px; color: var(--accent); font-weight: 500; }
+  .tier.recommended .tier-list li::before { color: var(--accent-glow); }
+  .tier-cta { display: block; text-align: center; padding: 13px; border-radius: 6px; font-family: var(--font-body); font-size: 14px; font-weight: 500; text-decoration: none; transition: all 0.2s; cursor: pointer; }
+  .tier-cta-main { background: var(--accent); color: white; }
+  .tier-cta-main:hover { background: var(--accent2); }
+  .tier.recommended .tier-cta-main { background: var(--accent-glow); color: var(--ink); }
+  .tier.recommended .tier-cta-main:hover { background: white; }
+  .tier-cta-ghost { background: transparent; color: var(--ink); border: 0.5px solid var(--border-strong); }
+  .tier-cta-ghost:hover { border-color: var(--accent); color: var(--accent); }
+  .madeira-note { margin-top: 2rem; padding: 1.25rem 1.5rem; background: var(--accent-light); border-radius: 8px; font-size: 14px; color: var(--accent); display: flex; align-items: center; gap: 10px; line-height: 1.5; }
+  .madeira-note strong { font-weight: 500; }
 
   .faq { background: var(--bg2); }
   .faq-list { margin-top: 3rem; max-width: 800px; }
@@ -168,74 +273,145 @@
   .faq-item.open .faq-q-icon { transform: rotate(45deg); }
   .faq-a { display: none; padding: 0 1.5rem 1.5rem; font-size: 16px; color: var(--ink2); line-height: 1.7; }
   .faq-item.open .faq-a { display: block; }
+  .faq-a strong { color: var(--ink); font-weight: 500; }
 
-  /* ───────────────────────────────────────────
-     PORTA A
-     ─────────────────────────────────────────── */
-  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; margin-top: 3rem; max-width: 1100px; }
-  .contact-text h2 { font-family: var(--font-head); font-size: 1.8rem; font-weight: 400; margin-bottom: 1rem; line-height: 1.2; letter-spacing: -0.015em; }
+  .rede { background: var(--bg); }
+  .rede-teaser { background: var(--surface); border: 0.5px dashed var(--border-strong); border-radius: 12px; padding: 3rem; margin-top: 3rem; text-align: center; }
+  .rede-tag { display: inline-block; font-family: var(--font-mono); font-size: 10px; color: var(--muted); background: var(--bg2); padding: 5px 12px; border-radius: 3px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1.25rem; }
+  .rede-title { font-family: var(--font-head); font-size: 1.9rem; font-weight: 400; margin-bottom: 1rem; letter-spacing: -0.01em; }
+  .rede-title em { font-style: italic; color: var(--accent); }
+  .rede-desc { font-size: 17px; color: var(--ink2); line-height: 1.65; max-width: 600px; margin: 0 auto 2rem; }
+  .rede-fields { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-bottom: 2rem; }
+  .rede-field { font-family: var(--font-mono); font-size: 12px; color: var(--ink2); background: var(--bg2); border: 0.5px solid var(--border); padding: 7px 14px; border-radius: 3px; letter-spacing: 0.03em; }
+  .rede-waitlist { display: inline-flex; align-items: center; gap: 8px; background: transparent; border: 0.5px solid var(--ink); padding: 12px 24px; border-radius: 5px; font-family: var(--font-body); font-size: 14px; color: var(--ink); cursor: pointer; transition: all 0.2s; text-decoration: none; }
+
+  /* === Caixa Healthtech (bloco macro de segmento) === */
+  .healthtech { padding: 6rem 2.5rem; background: var(--bg); }
+  .ht-box {
+    max-width: 1100px; margin: 0 auto;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+    border-radius: 24px; padding: 4.5rem 4rem;
+    position: relative; overflow: hidden;
+    box-shadow: 0 24px 60px rgba(45,90,27,0.18);
+  }
+  .ht-box::before {
+    content: 'HEALTHTECH'; position: absolute; top: 50%; right: -2rem;
+    transform: translateY(-50%); font-family: var(--font-head);
+    font-size: clamp(80px, 12vw, 160px); font-weight: 300; font-style: italic;
+    color: rgba(255,255,255,0.06); white-space: nowrap; pointer-events: none; line-height: 1;
+  }
+  .ht-inner { position: relative; max-width: 640px; }
+  .ht-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: white; background: rgba(255,255,255,0.15);
+    padding: 7px 16px; border-radius: 4px; margin-bottom: 1.75rem;
+  }
+  .ht-badge::before { content: '✛'; font-size: 13px; }
+  .ht-box h2 {
+    font-family: var(--font-head); font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+    font-weight: 400; line-height: 1.05; letter-spacing: -0.02em;
+    color: white; margin-bottom: 1.5rem;
+  }
+  .ht-box h2 em { font-style: italic; color: var(--accent-glow); }
+  .ht-desc { font-size: 19px; line-height: 1.6; color: rgba(255,255,255,0.88); margin-bottom: 2.5rem; }
+  .ht-cta {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: white; color: var(--accent); font-family: var(--font-body);
+    font-size: 16px; font-weight: 500; padding: 15px 32px; border-radius: 6px;
+    text-decoration: none; transition: all 0.25s;
+  }
+  .ht-cta:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(0,0,0,0.18); gap: 14px; }
+  .ht-note { display: block; margin-top: 1.5rem; font-family: var(--font-mono); font-size: 12px; color: rgba(255,255,255,0.6); letter-spacing: 0.03em; }
+
+  /* === Secção "Crie o seu" (Linha 2, opção A) === */
+  .criar-seu { padding: 5rem 2.5rem; background: var(--amber-light); border-top: 0.5px solid rgba(196,123,10,0.25); border-bottom: 0.5px solid rgba(196,123,10,0.25); }
+  .criar-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1.3fr 1fr; gap: 3rem; align-items: center; }
+  .criar-tag { display: inline-block; font-family: var(--font-mono); font-size: 11px; color: var(--amber-dark); background: var(--amber-light); padding: 5px 12px; border-radius: 3px; letter-spacing: 0.05em; margin-bottom: 1.25rem; }
+  .criar-seu h2 { font-family: var(--font-head); font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 400; line-height: 1.1; letter-spacing: -0.015em; margin-bottom: 1rem; }
+  .criar-seu h2 em { font-style: italic; color: var(--amber-dark); }
+  .criar-seu p { font-size: 17px; color: var(--ink2); line-height: 1.65; margin-bottom: 1.5rem; }
+  .criar-cta { display: inline-flex; align-items: center; gap: 10px; background: var(--amber); color: white; font-family: var(--font-body); font-size: 15px; font-weight: 500; padding: 13px 28px; border-radius: 6px; text-decoration: none; transition: all 0.25s; }
+  .criar-cta:hover { background: var(--amber2); transform: translateY(-2px); gap: 14px; }
+  .criar-visual { background: var(--surface); border: 0.5px solid rgba(196,123,10,0.2); border-radius: 16px; padding: 2.5rem; }
+  .criar-step { display: flex; align-items: flex-start; gap: 14px; padding: 0.85rem 0; }
+  .criar-step:not(:last-child) { border-bottom: 0.5px solid var(--border); }
+  .criar-step-n { flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--amber-light); color: var(--amber-dark); font-family: var(--font-mono); font-size: 13px; display: flex; align-items: center; justify-content: center; }
+  .criar-step-t { font-size: 15px; color: var(--ink2); line-height: 1.5; }
+
+  /* === Faixa "para os utentes, está sempre lá" === */
+  .criar-utente { max-width: 1100px; margin: 3rem auto 0; padding-top: 2.5rem; border-top: 0.5px solid rgba(196,123,10,0.25); }
+  .criar-utente-intro { font-family: var(--font-head); font-size: clamp(1.4rem, 2.8vw, 1.9rem); font-weight: 400; line-height: 1.25; letter-spacing: -0.01em; margin-bottom: 2rem; max-width: 640px; }
+  .criar-utente-intro em { font-style: italic; color: var(--amber-dark); }
+  .criar-bens { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .criar-bem { }
+  .criar-bem-icon { font-size: 22px; margin-bottom: 0.6rem; opacity: 0.85; }
+  .criar-bem-t { font-family: var(--font-head); font-size: 1.15rem; font-weight: 500; margin-bottom: 0.4rem; letter-spacing: -0.01em; }
+  .criar-bem-d { font-size: 14.5px; color: var(--muted); line-height: 1.55; }
+  @media (max-width: 768px) { .criar-bens { grid-template-columns: 1fr; gap: 1.25rem; } }
+
+  @media (max-width: 768px) {
+    .ht-box { padding: 3rem 1.75rem; }
+    .criar-inner { grid-template-columns: 1fr; gap: 2rem; }
+  }
+
+  /* === Narrativa curta "um dia real" === */
+  .dia { padding: 6rem 2.5rem; background: var(--bg); }
+  .dia-inner { max-width: 760px; margin: 0 auto; text-align: center; }
+  .dia-when { font-family: var(--font-mono); font-size: 13px; color: var(--accent); letter-spacing: 0.06em; margin-bottom: 1.5rem; }
+  .dia-line { font-family: var(--font-head); font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 400; line-height: 1.3; letter-spacing: -0.015em; margin-bottom: 2.5rem; }
+  .dia-line em { font-style: italic; color: var(--accent); }
+  .dia-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; text-align: left; }
+  .dia-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: 14px; padding: 1.75rem; }
+  .dia-card.now { border-color: var(--accent); background: var(--accent-light); }
+  .dia-card-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; }
+  .dia-card.now .dia-card-label { color: var(--accent); }
+  .dia-card p { font-size: 15.5px; color: var(--ink2); line-height: 1.6; }
+  .dia-card p strong { color: var(--ink); }
+  @media (max-width: 768px) { .dia-cols { grid-template-columns: 1fr; } }
+  .rede-waitlist:hover { background: var(--ink); color: white; }
+
+  .empresa { background: var(--bg2); }
+  .empresa-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; margin-top: 4rem; }
+  .empresa-text p { color: var(--ink2); font-size: 17px; line-height: 1.75; margin-bottom: 1.1rem; }
+  .empresa-text p strong { color: var(--ink); font-weight: 500; }
+  .empresa-meta { display: flex; flex-direction: column; gap: 1px; }
+  .meta-row { display: flex; align-items: baseline; gap: 1rem; padding: 1rem 0; border-bottom: 0.5px solid var(--border); font-size: 15px; }
+  .meta-label { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; min-width: 110px; flex-shrink: 0; }
+  .meta-val { color: var(--ink); }
+
+  .contact-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; margin-top: 4rem; }
+  .contact-text h2 { font-family: var(--font-head); font-size: 2.5rem; font-weight: 400; margin-bottom: 1rem; line-height: 1.08; letter-spacing: -0.02em; }
   .contact-text h2 em { font-style: italic; color: var(--accent); }
-  .contact-text p { color: var(--ink2); font-size: 17px; line-height: 1.7; margin-bottom: 1.5rem; }
-  .contact-list { margin-top: 2rem; }
-  .contact-item { padding: 1rem 0; border-bottom: 0.5px solid var(--border); display: flex; align-items: flex-start; gap: 1rem; }
-  .contact-item-icon { flex-shrink: 0; width: 36px; height: 36px; border-radius: 6px; background: var(--surface); border: 0.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 13px; color: var(--accent); }
-  .contact-item-label { font-family: var(--font-mono); font-size: 11px; color: var(--muted); display: block; letter-spacing: 0.05em; margin-bottom: 4px; }
-  .contact-item-value { font-size: 16px; color: var(--ink); }
-  .contact-item-value a { color: var(--accent); text-decoration: none; }
-  .contact-item-value a:hover { text-decoration: underline; }
-
-  .form-wrap { background: var(--surface); border: 0.5px solid var(--border); border-radius: 12px; padding: 2.5rem; }
-  .form-wrap h3 { font-family: var(--font-head); font-size: 1.5rem; font-weight: 400; margin-bottom: 0.5rem; letter-spacing: -0.01em; }
-  .form-wrap p { font-size: 14px; color: var(--muted); margin-bottom: 2rem; line-height: 1.55; }
-  .form-row { margin-bottom: 1.5rem; }
-  .form-row label { display: block; font-size: 11px; color: var(--ink); margin-bottom: 8px; letter-spacing: 0.05em; font-weight: 500; font-family: var(--font-mono); text-transform: uppercase; }
-  .form-row input, .form-row select, .form-row textarea {
-    width: 100%; padding: 12px 14px; border: 0.5px solid var(--border-strong);
-    border-radius: 6px; background: var(--bg); color: var(--ink);
-    font-family: var(--font-body); font-size: 15px; outline: none;
-    transition: border-color 0.2s, background 0.2s;
-  }
-  .form-row input:focus, .form-row select:focus, .form-row textarea:focus {
-    border-color: var(--accent); background: white;
-  }
-  .form-row textarea { min-height: 100px; resize: vertical; }
-  .form-row input[type="radio"] { width: auto; display: inline-block; margin-right: 10px; }
-  .radio-group { display: flex; flex-direction: column; gap: 0.75rem; }
-  .radio-item { display: flex; align-items: center; gap: 8px; }
-  .radio-item input[type="radio"] { width: 18px; height: 18px; cursor: pointer; }
-  .radio-item label { margin: 0; cursor: pointer; font-size: 15px; font-family: var(--font-body); text-transform: none; letter-spacing: 0; font-weight: normal; }
-
-  .btn-submit {
-    width: 100%; background: var(--accent); color: white; font-family: var(--font-body);
-    font-size: 15px; font-weight: 500; padding: 14px; border-radius: 6px; border: none;
-    cursor: pointer; transition: background 0.2s; margin-top: 0.5rem;
-  }
+  .contact-text p { color: var(--ink2); font-size: 17px; line-height: 1.7; margin-bottom: 2rem; }
+  .contact-links { display: flex; flex-direction: column; }
+  .contact-link { display: flex; align-items: center; gap: 14px; padding: 1rem 0; border-bottom: 0.5px solid var(--border); text-decoration: none; color: var(--ink); font-size: 15px; transition: color 0.2s; }
+  .contact-link:hover { color: var(--accent); }
+  .contact-link-icon { width: 36px; height: 36px; border-radius: 6px; background: var(--surface); border: 0.5px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-family: var(--font-mono); font-size: 13px; color: var(--accent); }
+  .contact-link-label { font-family: var(--font-mono); font-size: 11px; color: var(--muted); display: block; letter-spacing: 0.05em; }
+  .contact-link-val { font-size: 15px; color: var(--ink); }
+  .contact-form-wrap { background: var(--surface); border: 0.5px solid var(--border); border-radius: 12px; padding: 2rem; }
+  .contact-form-wrap h3 { font-family: var(--font-head); font-size: 1.5rem; font-weight: 400; margin-bottom: 0.5rem; letter-spacing: -0.01em; }
+  .contact-form-wrap p { font-size: 14px; color: var(--muted); margin-bottom: 1.5rem; line-height: 1.55; }
+  .form-row { margin-bottom: 1rem; }
+  .form-row label { display: block; font-size: 11px; color: var(--ink); margin-bottom: 6px; letter-spacing: 0.05em; font-weight: 500; font-family: var(--font-mono); text-transform: uppercase; }
+  .form-row input, .form-row select, .form-row textarea { width: 100%; padding: 12px 14px; border: 0.5px solid var(--border-strong); border-radius: 6px; background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; outline: none; transition: border-color 0.2s; }
+  .form-row input:focus, .form-row select:focus, .form-row textarea:focus { border-color: var(--accent); background: white; }
+  .form-row textarea { min-height: 90px; resize: vertical; }
+  .btn-submit { width: 100%; background: var(--accent); color: white; font-family: var(--font-body); font-size: 15px; font-weight: 500; padding: 14px; border-radius: 6px; border: none; cursor: pointer; transition: background 0.2s; margin-top: 0.5rem; }
   .btn-submit:hover { background: var(--accent2); }
-  .btn-submit:active { opacity: 0.9; }
-  .btn-submit:disabled { opacity: 0.6; cursor: progress; }
-  .form-consent { display: flex; align-items: flex-start; gap: 10px; margin-top: 1rem; margin-bottom: 0.5rem; }
-  .form-consent input { width: auto; margin: 3px 0 0; flex-shrink: 0; }
-  .form-consent label { font-family: var(--font-body); font-size: 13px; color: var(--ink2); text-transform: none; letter-spacing: 0; font-weight: normal; margin: 0; line-height: 1.5; }
-  .form-consent label a { color: var(--accent); text-decoration: underline; }
-  .form-status { margin-top: 0.75rem; font-size: 14px; line-height: 1.5; min-height: 1.2em; }
-  .form-status.ok { color: var(--accent); }
-  .form-status.erro { color: #B23A2E; }
-  .form-status a { color: inherit; text-decoration: underline; }
-
-  .success-message { display: none; padding: 2rem; background: var(--accent-light); border: 0.5px solid var(--accent); border-radius: 8px; margin-top: 1rem; }
-  .success-message.show { display: block; animation: fadeIn 0.4s ease; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
-  .success-message h4 { color: var(--accent); font-family: var(--font-head); font-size: 1.2rem; margin-bottom: 0.5rem; }
-  .success-message p { color: var(--accent); font-size: 15px; }
 
   footer { background: var(--ink); color: rgba(255,255,255,0.4); padding: 3rem 2.5rem 2rem; }
-  .footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 3rem; }
+  .footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; }
   .footer-logo-name { font-family: var(--font-head); font-size: 20px; color: rgba(255,255,255,0.95); font-style: italic; margin-bottom: 8px; }
   .footer-tagline { font-family: var(--font-mono); font-size: 10px; color: rgba(255,255,255,0.35); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem; }
   .footer-desc { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.6; max-width: 300px; }
   .footer-col h5 { font-family: var(--font-mono); font-size: 10px; color: rgba(255,255,255,0.95); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem; font-weight: 500; }
   .footer-col a { display: block; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 14px; line-height: 2; transition: color 0.2s; }
   .footer-col a:hover { color: rgba(255,255,255,0.95); }
+  .footer-bottom { max-width: 1100px; margin: 3rem auto 0; padding-top: 2rem; border-top: 0.5px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; font-size: 12px; color: rgba(255,255,255,0.4); font-family: var(--font-mono); letter-spacing: 0.05em; }
+  .footer-bottom a { color: rgba(255,255,255,0.5); text-decoration: none; }
+  .footer-bottom a:hover { color: rgba(255,255,255,0.9); }
 
   @media (max-width: 860px) {
     nav { padding: 1rem 1.25rem; }
@@ -244,410 +420,444 @@
     .hero-bg-text { display: none; }
     section { padding: 4rem 1.25rem; }
     .portas { grid-template-columns: 1fr; }
-    .como-grid { grid-template-columns: 1fr; }
+    .como-grid, .eg-grid { grid-template-columns: 1fr; }
+    .tiers-grid { grid-template-columns: 1fr; }
+    .empresa-grid, .contact-inner { grid-template-columns: 1fr; gap: 2.5rem; }
     .catalogo-grid { grid-template-columns: 1fr; }
-    .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
     .footer-inner { grid-template-columns: 1fr 1fr; gap: 2rem; }
   }
   @media (max-width: 480px) {
     .hero h1 { font-size: 2.3rem; }
     .section-title { font-size: 1.9rem; }
     .footer-inner { grid-template-columns: 1fr; }
+    .rede-teaser, .explicar-intro { padding: 2rem 1.25rem; }
     body { font-size: 16px; }
   }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  .hero-tag, .hero h1, .hero-desc, .hero-desc-small, .portas { animation: fadeUp 0.6s ease both; }
+  .hero h1 { animation-delay: 0.08s; }
+  .hero-desc { animation-delay: 0.16s; }
+  .hero-desc-small { animation-delay: 0.22s; }
+  .portas { animation-delay: 0.3s; }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://proteinaludica.com/#org",
+      "name": "Proteína Lúdica, Lda.",
+      "url": "https://proteinaludica.com",
+      "email": "geral@proteinaludica.com",
+      "slogan": "Promover o uso do seu assistente digital IA.",
+      "description": "Empresa healthtech que cria assistentes digitais IA não clínicos para médicos e profissionais de saúde.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Seixal",
+        "addressRegion": "Madeira",
+        "addressCountry": "PT"
+      },
+      "areaServed": "PT",
+      "knowsLanguage": "pt-PT"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://proteinaludica.com/#website",
+      "url": "https://proteinaludica.com",
+      "name": "Proteína Lúdica",
+      "inLanguage": "pt-PT",
+      "publisher": { "@id": "https://proteinaludica.com/#org" }
+    },
+    {
+      "@type": "Service",
+      "name": "Assistentes digitais IA para a saúde",
+      "serviceType": "Assistente digital IA não clínico",
+      "provider": { "@id": "https://proteinaludica.com/#org" },
+      "areaServed": "PT",
+      "audience": {
+        "@type": "Audience",
+        "audienceType": "Médicos e profissionais de saúde"
+      },
+      "description": "Assistentes digitais IA que tratam da papelada, organizam a informação e preparam documentos, sempre com a voz e o critério do profissional. Não clínico, não constitui dispositivo médico."
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Tenho de perceber de computadores?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Não. Quem sabe mandar uma mensagem pelo telemóvel, consegue usar. A instalação e a explicação ficam connosco." }
+        },
+        {
+          "@type": "Question",
+          "name": "Os dados dos meus doentes ficam protegidos?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Sim. Os dados ficam no computador e no telemóvel, não vão para lado nenhum. São seguidas todas as regras de privacidade da União Europeia." }
+        },
+        {
+          "@type": "Question",
+          "name": "O assistente faz diagnósticos ou receita?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Não e nunca. A decisão é sempre do médico. O assistente só trata da papelada: escrever notas, organizar informação, preparar documentos." }
+        },
+        {
+          "@type": "Question",
+          "name": "Quanto tempo demora a estar pronto?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Quando feito por nós, entre 3 e 7 dias depois da conversa. Quando feito pelo próprio, uns 15 a 30 minutos a responder às perguntas." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
 </head>
 <body>
 
 <nav>
-  <a href="#" onclick="showView('home')" class="logo">
+  <a href="#" class="logo">
     <div class="logo-name">Proteína <em>Lúdica</em></div>
-    <div class="logo-sub">Secretários digitais · Madeira</div>
+    <div class="logo-sub">Assistentes digitais IA · Madeira</div>
   </a>
   <ul class="nav-links">
-    <li><a onclick="showView('home')">Home</a></li>
-    <li><a onclick="showView('home'); setTimeout(() => { document.getElementById('catalogo').scrollIntoView(); }, 100);">Produtos</a></li>
-    <li><a onclick="showView('portaa')">Porta A</a></li>
-    <li><a onclick="showView('wizard')">Criar</a></li>
+    <li><a href="#explicar">O que é</a></li>
+    <li><a href="/catalogo">Assistentes</a></li>
+    <li><a href="/criar">Criar o meu</a></li>
+    <li><a href="#faq">Dúvidas</a></li>
+    <li><a href="#contacto" class="nav-cta">Contacto</a></li>
   </ul>
 </nav>
-
-<!-- ═══════════════════════════════════════════
-     VIEW 1: HOMEPAGE
-     ═══════════════════════════════════════════ -->
-<div class="view active" id="view-home">
 
 <section class="hero">
   <div class="hero-bg-text">Lúdica</div>
   <div class="hero-inner">
-    <div class="hero-tag">Madeira · Portugal</div>
-    <h1>Um <em>secretário digital</em><br>que escreve<br>por si.</h1>
+    <div class="hero-tag">Feito por um médico · Madeira</div>
+    <h1>Decidir é seu.<br>Escrever fica <em>com ele.</em></h1>
     <p class="hero-desc">
-      Passa horas a escrever notas, relatórios, receitas? <strong>Nós fazemos um secretário digital que trata da papelada por si.</strong>
+      Um assistente digital IA que aprende uma forma de trabalhar — as frases do costume, os exames habituais, o critério — e <strong>escreve por si</strong>.
     </p>
     <p class="hero-desc-small">
-      Escolha entre produtos prontos para a saúde, ou crie o seu próprio secretário em 20 minutos.
+      Basta ditar 30 segundos. A nota vem completa, no mesmo estilo. E o turno acaba à hora. Pensado por quem trabalha em saúde todos os dias, em português.
     </p>
-    <div class="portas">
-      <div class="porta porta-a" onclick="showView('portaa')">
-        <span class="porta-label">Serviço completo</span>
-        <h2 class="porta-title">Nós <em>fazemos</em></h2>
-        <p class="porta-desc">Marca uma chamada. Conta o que precisa. Nós construímos o seu secretário — pronto para usar.</p>
-        <div class="porta-foot">
-          <span class="porta-arrow">Contactar →</span>
+  </div>
+</section>
+
+<!-- === CAIXA HEALTHTECH (bloco macro de segmento) === -->
+<section class="healthtech">
+  <div class="ht-box">
+    <div class="ht-inner">
+      <div class="ht-badge">Healthtech</div>
+      <h2>A mesma maneira de trabalhar.<br><em>Sem ter de estar presente.</em></h2>
+      <p class="ht-desc">
+        Ninguém pode estar em todo o lado ao mesmo tempo. Um assistente digital IA pode. Trata da papelada, organiza a informação, prepara documentos — sempre com a mesma voz e o mesmo critério.
+      </p>
+      <a href="/catalogo" class="ht-cta">Ver os assistentes →</a>
+      <span class="ht-note">Não clínico · não é dispositivo médico · a decisão é sempre do profissional</span>
+    </div>
+  </div>
+</section>
+
+<!-- === CRIE O SEU (Linha 2 · opção A) === -->
+<!-- === NARRATIVA "um dia real" (terça 19h40) === -->
+<section class="explicar" id="explicar">
+  <div class="container">
+    <div class="section-label">Primeiro · o que é isto</div>
+    <h2 class="section-title">Não é magia.<br>É o seu <em>método, escrito.</em></h2>
+    <p class="section-sub">Em vez de explicar, mostramos. Veja o que acontece quando se dita.</p>
+
+    <!-- Camada 1: ditado → nota -->
+    <div class="demo">
+      <div class="demo-label">◷ 30 segundos · um exemplo</div>
+      <div class="demo-grid">
+        <div class="demo-card fala">
+          <div class="demo-card-head">▸ O que se dita</div>
+          <p class="demo-fala-text">"Senhora de 68 anos, hipertensa, vinha para reavaliação. Tensão controlada, 130 por 80. Mantém a medicação, ajustei a dose do diurético. Pedi análises e marquei reavaliação para daqui a três meses."</p>
+        </div>
+        <div class="demo-arrow">→</div>
+        <div class="demo-card nota">
+          <div class="demo-card-head">✓ O que vem escrito</div>
+          <p class="demo-nota-text">S: Utente de 68 anos, hipertensa, para reavaliação.
+O: TA 130/80 mmHg, controlada.
+A: HTA controlada sob terapêutica.
+P: Mantém esquema; ajuste da dose de diurético. Pedidas análises. Reavaliação em 3 meses.</p>
         </div>
       </div>
-      <div class="porta porta-b" onclick="showView('wizard')">
-        <span class="porta-label">Self-service</span>
-        <h2 class="porta-title">Crie <em>sozinho</em></h2>
-        <p class="porta-desc">Preencha um formulário, o IA ajuda. Sai com o seu secretário pronto em 20 minutos.</p>
-        <div class="porta-foot">
-          <span class="porta-arrow">Começar →</span>
-        </div>
+      <p class="demo-foot">Exemplo de demonstração. O formato adapta-se ao estilo de cada profissional.</p>
+    </div>
+
+    <!-- Camada 2: controlo -->
+    <div class="controlo">
+      <div class="controlo-icon">✓</div>
+      <div class="controlo-text">
+        <strong>Nada sai sem a sua revisão.</strong> O assistente propõe a nota escrita; o profissional lê, corrige se quiser, e só depois copia. A decisão e a responsabilidade clínica são sempre suas.
+      </div>
+    </div>
+
+    <!-- Camada 3: objeções -->
+    <div class="objs">
+      <div class="obj">
+        <div class="obj-q">E se escrever algo errado?</div>
+        <div class="obj-a">Nunca envia nada sozinho. É uma proposta para rever, como um rascunho de quem confia. O erro não passa de si.</div>
+      </div>
+      <div class="obj">
+        <div class="obj-q">E os dados dos doentes?</div>
+        <div class="obj-a">Ficam no seu equipamento e não são guardados. Cumpre as regras de privacidade da União Europeia.</div>
+      </div>
+      <div class="obj">
+        <div class="obj-q">Tenho de perceber de informática?</div>
+        <div class="obj-a">Não. Quem manda mensagens no telemóvel, consegue usar. A instalação fica connosco.</div>
       </div>
     </div>
   </div>
 </section>
 
-<section id="catalogo">
+<section>
   <div class="container">
-    <div class="section-label">Produtos prontos</div>
-    <h2 class="section-title">Secretários<br><em>já feitos.</em></h2>
-    <p class="section-sub">Seis secretários especializados. Para saúde, educação, e alojamento. Já trabalhámos nestas áreas. Cada um resolve um problema específico.</p>
-
-    <div class="catalogo-grid">
-      <div class="agente-card" onclick="location.href='https://drescribia.proteinaludica.com'">
-        <div class="agente-head">
-          <div class="agente-ic ic-escriba">Es</div>
-          <span class="agente-status st-live">● Disponível</span>
-        </div>
-        <div class="agente-body">
-          <div class="agente-name">Dr. Escriba IA</div>
-          <div class="agente-para-quem">Para · médicos de família + urgência</div>
-          <p class="agente-desc">Escreve a nota clínica em 30 segundos, a partir do que o médico ditar. Para consulta, urgência, visita e internamento.</p>
-        </div>
-        <div class="agente-foot">
-          <span class="agente-link">Abrir →</span>
-        </div>
-      </div>
-
-      <div class="agente-card indisponivel" onclick="showView('portaa')">
-        <div class="agente-head">
-          <div class="agente-ic ic-escriba">In</div>
-          <span class="agente-status st-dev">Em desenvolvimento</span>
-        </div>
-        <div class="agente-body">
-          <div class="agente-name">Dr. Escriba IA · Internato</div>
-          <div class="agente-para-quem">Para · médicos em formação</div>
-          <p class="agente-desc">Versão para internos de especialidade. Ajuda a escrever notas durante o internato, a preparar casos e organizar rotinas.</p>
-        </div>
-        <div class="agente-foot">
-          <span class="agente-link">Quero saber →</span>
-        </div>
-      </div>
-
-      <div class="agente-card indisponivel" onclick="showView('portaa')">
-        <div class="agente-head">
-          <div class="agente-ic ic-familia">Fam</div>
-          <span class="agente-status st-dev">Em desenvolvimento</span>
-        </div>
-        <div class="agente-body">
-          <div class="agente-name">Dr. Família IA</div>
-          <div class="agente-para-quem">Para · pessoas com doenças crónicas</div>
-          <p class="agente-desc">Secretário de saúde pessoal. Guarda a história clínica, os medicamentos, as alergias. Ajuda a organizar as consultas.</p>
-        </div>
-        <div class="agente-foot">
-          <span class="agente-link">Quero saber →</span>
-        </div>
-      </div>
-
-      <div class="agente-card indisponivel" onclick="showView('portaa')">
-        <div class="agente-head">
-          <div class="agente-ic ic-nepho">Np</div>
-          <span class="agente-status st-dev">Em desenvolvimento</span>
-        </div>
-        <div class="agente-body">
-          <div class="agente-name">NephoHealth</div>
-          <div class="agente-para-quem">Para · doentes com doenças renais</div>
-          <p class="agente-desc">Acompanhamento especializado em doenças renais crónicas. Organiza medicações, guarda análises, avisa quando é preciso contactar.</p>
-        </div>
-        <div class="agente-foot">
-          <span class="agente-link">Quero saber →</span>
-        </div>
-      </div>
-
-      <div class="agente-card indisponivel" onclick="showView('portaa')">
-        <div class="agente-head">
-          <div class="agente-ic ic-guia">Gd</div>
-          <span class="agente-status st-dev">Em desenvolvimento</span>
-        </div>
-        <div class="agente-body">
-          <div class="agente-name">Guia de Saúde IA</div>
-          <div class="agente-para-quem">Para · qualquer pessoa que quer aprender</div>
-          <p class="agente-desc">Educação em saúde em português claro. Explica doenças, medicamentos, exames. Sem alarmar, sem ser jargão médico.</p>
-        </div>
-        <div class="agente-foot">
-          <span class="agente-link">Quero saber →</span>
-        </div>
-      </div>
-
-      <div class="agente-card indisponivel" onclick="showView('portaa')">
-        <div class="agente-head">
-          <div class="agente-ic" style="background: #F0E8D8; color: #8B6F47;">Al</div>
-          <span class="agente-status st-dev">Personalizado</span>
-        </div>
-        <div class="agente-body">
-          <div class="agente-name">Alojamento Local IA</div>
-          <div class="agente-para-quem">Para · proprietários de alojamento local</div>
-          <p class="agente-desc">Secretário para gestão de reservas, comunicações com hóspedes, check-in/out, avaliações. Tudo automatizado.</p>
-        </div>
-        <div class="agente-foot">
-          <span class="agente-link">Quero saber →</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section style="background: var(--bg2);">
-  <div class="container">
-    <div class="section-label">O processo</div>
-    <h2 class="section-title">Como <em>funciona.</em></h2>
-    <p class="section-sub">Três passos. Sem complicações. O secretário fica pronto para trabalhar na sua conta.</p>
+    <div class="section-label">Como é que funciona</div>
+    <h2 class="section-title">Três <em>passos.</em></h2>
+    <p class="section-sub">Não é preciso saber nada de computadores. A parte difícil fica connosco.</p>
 
     <div class="como-grid">
+
       <div class="como-step">
         <div class="como-num">1</div>
-        <h3 class="como-title">Escolha o seu</h3>
-        <p class="como-desc">Comece com um dos secretários prontos. Ou descreva-nos o que precisa e nós criamos um único para si.</p>
+        <div class="como-title">Uma conversa<br>de 1 hora</div>
+        <p class="como-desc">Uma conversa sobre a forma de trabalhar: como se escrevem as notas, que doentes se vê, que problemas se resolve. <strong>Fica tudo registado.</strong></p>
       </div>
+
       <div class="como-step">
         <div class="como-num">2</div>
-        <h3 class="como-title">Configure</h3>
-        <p class="como-desc">20 perguntas. Já temos muitas respostas no sistema — o preenchimento é rápido. Pode parar e voltar quando quer.</p>
+        <div class="como-title">Montamos o<br>seu assistente digital IA</div>
+        <p class="como-desc">A partir dessa conversa, nasce um assistente digital IA que <strong>escreve e organiza como o profissional faria</strong>. Testado para ficar bem feito.</p>
       </div>
+
       <div class="como-step">
         <div class="como-num">3</div>
-        <h3 class="como-title">Use na sua conta</h3>
-        <p class="como-desc">O secretário fica pronto para copiar e colar na sua ferramenta preferida: Gemini, Claude, ou outra.</p>
+        <div class="como-title">Entregamos-lhe<br>a trabalhar</div>
+        <p class="como-desc">Explicação de uso em 30 minutos. Fica a funcionar no telemóvel e no computador. <strong>Poupa tempo no mesmo dia.</strong></p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="criar-seu">
+  <div class="criar-inner">
+    <div>
+      <div class="criar-tag">Para profissionais</div>
+      <h2>Prefere construir<br>o <em>seu próprio?</em></h2>
+      <p>
+        Personalizar um assistente digital IA com a sua voz e a sua maneira de trabalhar, e oferecê-lo aos utentes. Responde-se a perguntas simples e fica tudo pronto a funcionar.
+      </p>
+      <a href="/criar" class="criar-cta">Criar o meu assistente →</a>
+    </div>
+    <div class="criar-visual">
+      <div class="criar-step"><span class="criar-step-n">1</span><span class="criar-step-t">Responder a perguntas simples sobre a forma de trabalhar.</span></div>
+      <div class="criar-step"><span class="criar-step-n">2</span><span class="criar-step-t">O assistente responde com a sua autoridade e o seu estilo.</span></div>
+      <div class="criar-step"><span class="criar-step-n">3</span><span class="criar-step-t">Fica tudo pronto a pôr a funcionar.</span></div>
+    </div>
+  </div>
+
+  <div class="criar-utente">
+    <p class="criar-utente-intro">Para os utentes, <em>está sempre lá.</em> A qualquer hora, sem pressa — e nunca sentem que estão a incomodar.</p>
+    <div class="criar-bens">
+      <div class="criar-bem">
+        <div class="criar-bem-icon">🌙</div>
+        <div class="criar-bem-t">Disponível a qualquer hora</div>
+        <div class="criar-bem-d">A dúvida não espera pela próxima consulta. À noite, ao fim de semana, sempre que surge — há resposta.</div>
+      </div>
+      <div class="criar-bem">
+        <div class="criar-bem-icon">🤍</div>
+        <div class="criar-bem-t">Sem medo de perguntar</div>
+        <div class="criar-bem-d">A mesma pergunta as vezes que forem precisas. Com calma, sem juízo. O utente volta à consulta mais preparado.</div>
+      </div>
+      <div class="criar-bem">
+        <div class="criar-bem-icon">🩺</div>
+        <div class="criar-bem-t">Sempre a sua voz</div>
+        <div class="criar-bem-d">As respostas seguem o critério do profissional — não conselhos genéricos da internet. A autoridade clínica continua a ser sua.</div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="faq">
+<section class="faq" id="faq">
   <div class="container">
-    <div class="section-label">Questões comuns</div>
-    <h2 class="section-title">Dúvidas <em>frequentes.</em></h2>
+    <div class="section-label">Dúvidas normais</div>
+    <h2 class="section-title">Perguntas que <em>todos fazem.</em></h2>
+    <p class="section-sub">São as mesmas perguntas que toda a gente faz no início.</p>
 
     <div class="faq-list">
-      <div class="faq-item">
-        <button type="button" class="faq-q" aria-expanded="false">
-          <span>Onde "vive" o meu secretário?</span>
-          <span class="faq-q-icon" aria-hidden="true">+</span>
-        </button>
+
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">
+          Tenho de perceber de computadores?
+          <span class="faq-q-icon">+</span>
+        </div>
         <div class="faq-a">
-          O secretário fica na sua conta pessoal. Se usar Gemini (Google), fica no Gemini. Se preferir Claude, fica no Claude. Ou noutra ferramenta à sua escolha. Nós damos apenas a configuração — quem decide onde a usar é o cliente.
+          Não. Quem sabe mandar uma mensagem pelo telemóvel, consegue usar. A instalação e a explicação ficam connosco. Havendo dúvidas, há sempre ajuda de volta.
         </div>
       </div>
-      <div class="faq-item">
-        <button type="button" class="faq-q" aria-expanded="false">
-          <span>Os dados dos meus doentes ficam protegidos?</span>
-          <span class="faq-q-icon" aria-hidden="true">+</span>
-        </button>
+
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">
+          Os dados dos meus doentes ficam protegidos?
+          <span class="faq-q-icon">+</span>
+        </div>
         <div class="faq-a">
-          Sim — foi a primeira preocupação. <strong>Nós não guardamos nada:</strong> nenhum dado de doentes fica nos nossos servidores. O secretário funciona dentro da ferramenta que escolher (Claude, ChatGPT, Gemini), todas com servidores na Europa e regras de privacidade europeias (RGPD). E há uma regra de ouro que ensinamos: <strong>nunca escrever o nome completo, o número de utente ou a morada</strong> — bastam as iniciais e a idade. O secretário foi feito para trabalhar assim. Entregamos também os modelos de consentimento prontos para os doentes, caso queira usá-los.
+          Sim. <strong>Os dados ficam no computador e no telemóvel</strong>, não vão para lado nenhum. São seguidas todas as regras de privacidade da União Europeia. Os papéis de consentimento para os doentes assinarem também vão incluídos.
         </div>
       </div>
-      <div class="faq-item">
-        <button type="button" class="faq-q" aria-expanded="false">
-          <span>Posso mudar o secretário depois?</span>
-          <span class="faq-q-icon" aria-hidden="true">+</span>
-        </button>
+
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">
+          O assistente faz diagnósticos ou receita?
+          <span class="faq-q-icon">+</span>
+        </div>
         <div class="faq-a">
-          Claro. O secretário é seu. Pode guardar a configuração, mudar o que quiser, ou começar de novo quando lhe convier. Já está na sua conta — fica nas suas mãos.
+          <strong>Não e nunca.</strong> A decisão é sempre do médico. O assistente só trata da papelada: escrever notas, organizar informação, preparar documentos. Quem decide o que fazer ao doente é sempre o profissional.
         </div>
       </div>
-      <div class="faq-item">
-        <button type="button" class="faq-q" aria-expanded="false">
-          <span>Quanto custa?</span>
-          <span class="faq-q-icon" aria-hidden="true">+</span>
-        </button>
+
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">
+          Quanto tempo demora a estar pronto?
+          <span class="faq-q-icon">+</span>
+        </div>
         <div class="faq-a">
-          Depende. Há um nível grátis com a configuração base. Os níveis pagos (19€, 49€) acrescentam o guia de instalação e ajuda para preencher. Para quem prefere falar antes, há o plano de 290€ (preço Madeira) com chamada de uma hora.
+          Quando feito por nós — entre <strong>3 e 7 dias</strong> depois da conversa. Quando feito pelo próprio — uns <strong>15 a 30 minutos</strong> a responder às perguntas e fica pronto.
         </div>
       </div>
-      <div class="faq-item">
-        <button type="button" class="faq-q" aria-expanded="false">
-          <span>Qual é a diferença entre "Porta A" e "Porta B"?</span>
-          <span class="faq-q-icon" aria-hidden="true">+</span>
-        </button>
+
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">
+          E se eu não gostar?
+          <span class="faq-q-icon">+</span>
+        </div>
         <div class="faq-a">
-          <strong>Porta A:</strong> ajudamos do início ao fim. Marca uma chamada, conta o que precisa, configuramos tudo por si. <strong>Porta B:</strong> preenche o formulário (com ajuda de IA se quiser) e sai com o secretário pronto. Escolha conforme o tempo disponível e a familiaridade com computadores.
+          Quando feito pelo próprio, o dinheiro é devolvido sem perguntas. Quando feito por nós, ajusta-se até ficar bem. Ninguém fica conformado com algo que não serve.
+        </div>
+      </div>
+
+      <div class="faq-item" onclick="this.classList.toggle('open')">
+        <div class="faq-q">
+          Preciso de comprar mais alguma coisa?
+          <span class="faq-q-icon">+</span>
+        </div>
+        <div class="faq-a">
+          É preciso ter uma conta num serviço de IA como o ChatGPT, o Claude ou o Gemini — uma pequena mensalidade paga a esse serviço, não a nós. Indicamos qual escolher e ajudamos a abrir a conta.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="empresa" id="empresa">
+  <div class="container">
+    <div class="section-label">Quem somos</div>
+
+    <div class="empresa-grid">
+      <div class="empresa-text">
+        <h2 class="section-title" style="margin-bottom:1.5rem">Proteína<br><em>Lúdica.</em></h2>
+        <p>Somos uma pequena empresa sediada em <strong>Seixal, Madeira</strong>.</p>
+        <p>Quem cá está é <strong>médico a trabalhar todos os dias</strong> — em cuidados primários, em urgência, em consultório. Só fazemos coisas para problemas que conhecemos por dentro.</p>
+        <p>O nome é propositado. <strong>Proteína</strong> para dizer "coisa séria, que alimenta". <strong>Lúdica</strong> para dizer "feito com gosto, não pesado". O tempo é a coisa mais cara que um profissional tem. Não vale a pena perdê-lo com ferramentas que não servem.</p>
+      </div>
+      <div class="empresa-meta">
+        <div class="meta-row">
+          <span class="meta-label">Empresa</span>
+          <span class="meta-val">Proteína Lúdica, Lda.</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">Sede</span>
+          <span class="meta-val">Seixal · Madeira · Portugal</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">O que fazemos</span>
+          <span class="meta-val">Assistentes digitais IA para profissionais</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">Sítio</span>
+          <span class="meta-val">proteinaludica.com</span>
+        </div>
+        <div class="meta-row">
+          <span class="meta-label">Desde</span>
+          <span class="meta-val">2026</span>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<footer>
-  <div class="footer-inner">
-    <div>
-      <div class="footer-logo-name">Proteína <em>Lúdica</em></div>
-      <div class="footer-tagline">Secretários digitais para profissionais</div>
-      <p class="footer-desc">Um secretário digital que escreve por si. Para médicos e outros profissionais com muita papelada. Em português. Na Madeira.</p>
-    </div>
-    <div class="footer-col">
-      <h5>Produto</h5>
-      <a onclick="showView('home')">Secretários</a>
-      <a onclick="showView('home'); setTimeout(() => { document.getElementById('catalogo').scrollIntoView(); }, 100);">Catálogo</a>
-      <a onclick="showView('wizard')">Criar o meu</a>
-    </div>
-    <div class="footer-col">
-      <h5>Empresa</h5>
-      <a onclick="showView('portaa')">Porta A</a>
-      <a href="mailto:info@proteinaludica.com">Email</a>
-      <a href="/privacidade">Privacidade</a>
-      <a href="/termos">Termos</a>
-    </div>
-  </div>
-</footer>
-
-</div>
-
-<!-- ═══════════════════════════════════════════
-     VIEW 2: PORTA A
-     ═══════════════════════════════════════════ -->
-<div class="view" id="view-portaa">
-
-<section class="hero">
-  <div class="hero-bg-text">Porta A</div>
-  <div class="hero-inner">
-    <div class="hero-tag">Serviço completo</div>
-    <h1>Nós <em>fazemos</em><br>o seu secretário.</h1>
-    <p class="hero-desc">
-      Não tem tempo para configurar? Marca uma chamada. Conta o que precisa. Nós construímos o secretário — pronto para usar na sua conta.
-    </p>
-  </div>
-</section>
-
-<section style="padding: 4rem 2.5rem; max-width: 1100px; margin: 0 auto;">
-  <div class="contact-grid">
-    <div>
-      <h2>Conversar <em>comigo</em></h2>
-      <p>Prefiro uma conversa directa. Assim entendo bem o que precisa — e não há mal-entendidos.</p>
-
-      <div class="contact-list">
-        <div class="contact-item">
-          <div class="contact-item-icon">@</div>
-          <div class="contact-item-content">
-            <span class="contact-item-label">Email</span>
-            <span class="contact-item-value"><a href="mailto:info@proteinaludica.com">info@proteinaludica.com</a></span>
-          </div>
+<section id="contacto">
+  <div class="container">
+    <div class="contact-inner">
+      <div>
+        <div class="section-label">Falar connosco</div>
+        <div>
+          <h2>Vamos<br><em>conversar.</em></h2>
+          <p>Escreva, ligue, mande email. Em 24 horas estamos de volta. <strong>É sempre uma pessoa a atender, nunca um robô.</strong></p>
         </div>
-        <div class="contact-item">
-          <div class="contact-item-icon">T</div>
-          <div class="contact-item-content">
-            <span class="contact-item-label">Telefone</span>
-            <span class="contact-item-value"><a href="tel:+351291234567">+351 291 234 567</a></span>
-          </div>
-        </div>
-        <div class="contact-item">
-          <div class="contact-item-icon">▸</div>
-          <div class="contact-item-content">
-            <span class="contact-item-label">Agenda comigo</span>
-            <span class="contact-item-value"><a href="https://cal.com/proteinaludica" target="_blank">Escolher hora</a> (15-30 min)</span>
-          </div>
-        </div>
-      </div>
-
-      <p style="margin-top: 2rem; color: var(--muted); font-size: 15px;">
-        <strong>O que esperar?</strong> Falamos do dia-a-dia. O que mais incomoda. O que se repete. Quanto tempo gasta em papelada. Depois é só preencher um formulário simples — e o secretário fica pronto. Cuidamos do resto.
-      </p>
-    </div>
-
-    <div>
-      <div class="form-wrap">
-        <h3>Deixe as suas informações</h3>
-        <p>Preenchemos um formulário rápido. Depois marcamos a chamada.</p>
-
-        <form id="contactForm" novalidate>
-          <input type="text" id="ci-website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute; left:-9999px; width:1px; height:1px; opacity:0;">
-          <div class="form-row">
-            <label for="nome">Nome completo *</label>
-            <input type="text" id="nome" name="nome" required placeholder="Seu nome">
-          </div>
-
-          <div class="form-row">
-            <label for="email">Email *</label>
-            <input type="email" id="email" name="email" required placeholder="seu@email.com">
-          </div>
-
-          <div class="form-row">
-            <label for="telefone">Telefone</label>
-            <input type="tel" id="telefone" name="telefone" placeholder="+351 9XX XXX XXX">
-          </div>
-
-          <div class="form-row">
-            <label for="profissao">Profissão *</label>
-            <input type="text" id="profissao" name="profissao" required placeholder="Ex: médico, enfermeiro, advogado">
-          </div>
-
-          <div class="form-row">
-            <label>O que mais incomoda? *</label>
-            <div class="radio-group">
-              <div class="radio-item">
-                <input type="radio" id="pb1" name="problema" value="Escrever notas e relatórios" required>
-                <label for="pb1">Escrever notas e relatórios</label>
-              </div>
-              <div class="radio-item">
-                <input type="radio" id="pb2" name="problema" value="Organizar informações dos pacientes/clientes">
-                <label for="pb2">Organizar informações dos pacientes/clientes</label>
-              </div>
-              <div class="radio-item">
-                <input type="radio" id="pb3" name="problema" value="Gerir marcações e comunicações">
-                <label for="pb3">Gerir marcações e comunicações</label>
-              </div>
-              <div class="radio-item">
-                <input type="radio" id="pb4" name="problema" value="Outro" required>
-                <label for="pb4">Outro (conte-me)</label>
-              </div>
+        <div class="contact-links">
+          <a href="mailto:geral@proteinaludica.com" class="contact-link">
+            <div class="contact-link-icon">@</div>
+            <div>
+              <span class="contact-link-label">Email</span>
+              <span class="contact-link-val">geral@proteinaludica.com</span>
+            </div>
+          </a>
+          <a href="https://drescribia.proteinaludica.com" class="contact-link">
+            <div class="contact-link-icon">Es</div>
+            <div>
+              <span class="contact-link-label">Ver o Dr. Escriba a funcionar</span>
+              <span class="contact-link-val">drescribia.proteinaludica.com</span>
+            </div>
+          </a>
+          <a href="/criar" class="contact-link">
+            <div class="contact-link-icon">▸</div>
+            <div>
+              <span class="contact-link-label">Quer tentar sozinho</span>
+              <span class="contact-link-val">proteinaludica.com/criar</span>
+            </div>
+          </a>
+          <div class="contact-link" style="cursor:default">
+            <div class="contact-link-icon">PT</div>
+            <div>
+              <span class="contact-link-label">Onde estamos</span>
+              <span class="contact-link-val">Seixal · Madeira, Portugal</span>
             </div>
           </div>
+        </div>
+      </div>
 
-          <div class="form-row" id="outro-wrap" style="display: none;">
-            <label for="outro">Descreva o seu problema *</label>
-            <textarea id="outro" name="outro" placeholder="Conte-me mais sobre o que precisa..."></textarea>
-          </div>
+      <div class="contact-form-wrap">
+        <h3>Dizer olá.</h3>
+        <p>Deixe o contacto e uma palavra sobre o que procura. Ligamos de volta.</p>
 
+        <form onsubmit="event.preventDefault(); alert('Obrigado. Para já, envie por email: geral@proteinaludica.com');">
           <div class="form-row">
-            <label for="plataforma">Qual é a sua ferramenta preferida? *</label>
-            <select id="plataforma" name="plataforma" required>
-              <option value="">— Escolha uma —</option>
-              <option value="Gemini (Google)">Gemini (Google)</option>
-              <option value="Claude (Anthropic)">Claude (Anthropic)</option>
-              <option value="ChatGPT (OpenAI)">ChatGPT (OpenAI)</option>
-              <option value="Outra">Outra / Não tenho preferência</option>
+            <label for="ci-nome">Nome</label>
+            <input type="text" id="ci-nome" placeholder="Dr. / Dra." required>
+          </div>
+          <div class="form-row">
+            <label for="ci-email">Email</label>
+            <input type="email" id="ci-email" placeholder="o seu email" required>
+          </div>
+          <div class="form-row">
+            <label for="ci-tipo">O que lhe interessa?</label>
+            <select id="ci-tipo">
+              <option>Quero um assistente pronto a usar</option>
+              <option>Quero criar o meu assistente</option>
+              <option>Interessa-me um dos já prontos</option>
+              <option>Tenho uma dúvida sobre privacidade/dados</option>
+              <option>Só quero saber mais</option>
             </select>
           </div>
-
           <div class="form-row">
-            <label for="mensagem">Adicione uma mensagem (opcional)</label>
-            <textarea id="mensagem" name="mensagem" placeholder="Algo que queira que saibamos antes da chamada..."></textarea>
+            <label for="ci-msg">O que procura (opcional)</label>
+            <textarea id="ci-msg" placeholder="Uma frase chega. Ex: 'sou radiologista, quero poupar tempo nos relatórios.'"></textarea>
           </div>
-
-          <div class="form-row form-consent">
-            <input type="checkbox" id="ci-rgpd" required>
-            <label for="ci-rgpd">Autorizo o contacto sobre este pedido. Os dados servem apenas para responder e não são partilhados com terceiros. Ver a <a href="/privacidade">política de privacidade</a>.</label>
-          </div>
-
-          <button type="submit" class="btn-submit">Enviar e agendar chamada</button>
-          <p class="form-status" id="ci-status" role="status" aria-live="polite"></p>
-
-          <div class="success-message" id="successMsg">
-            <h4>Recebido!</h4>
-            <p>Obrigado. Respondemos em 24 horas para marcar a chamada.</p>
-          </div>
+          <button type="submit" class="btn-submit">Enviar mensagem →</button>
         </form>
       </div>
     </div>
@@ -657,153 +867,45 @@
 <footer>
   <div class="footer-inner">
     <div>
-      <div class="footer-logo-name">Proteína <em>Lúdica</em></div>
-      <div class="footer-tagline">Secretários digitais para profissionais</div>
-      <p class="footer-desc">Um secretário digital que escreve por si. Para médicos e outros profissionais com muita papelada. Em português. Na Madeira.</p>
+      <div class="footer-logo-name">Proteína Lúdica</div>
+      <div class="footer-tagline">Assistentes digitais IA · Madeira · 2026</div>
+      <p class="footer-desc">Assistentes digitais IA para profissionais com muita papelada e pouco tempo. Em português, na Madeira.</p>
     </div>
+
     <div class="footer-col">
-      <h5>Produto</h5>
-      <a onclick="showView('home')">Secretários</a>
-      <a onclick="showView('wizard')">Criar o meu</a>
+      <h5>Começar</h5>
+      <a href="/catalogo">Ver os assistentes</a>
+      <a href="/criar">Quero tentar sozinho</a>
+      <a href="/catalogo">Todos os assistentes</a>
+      <a href="#explicar">O que é isto</a>
     </div>
+
     <div class="footer-col">
-      <h5>Empresa</h5>
-      <a href="mailto:info@proteinaludica.com">Email</a>
+      <h5>Os que temos</h5>
+      <a href="https://drescribia.proteinaludica.com">Dr. Escriba</a>
+      <a href="/catalogo">Dr. Escriba Internato</a>
+      <a href="/catalogo">RehabAssist</a>
+      <a href="/catalogo">Assistente de Saúde</a>
+    </div>
+
+    <div class="footer-col">
+      <h5>Sobre</h5>
+      <a href="#empresa">Quem somos</a>
+      <a href="#faq">Dúvidas</a>
+      <a href="mailto:geral@proteinaludica.com">geral@proteinaludica.com</a>
       <a href="/privacidade">Privacidade</a>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <span>© 2026 Proteína Lúdica, Lda.</span>
+    <div>
       <a href="/termos">Termos</a>
+      &nbsp;·&nbsp;
+      <a href="/privacidade">Privacidade</a>
     </div>
   </div>
 </footer>
-
-</div>
-
-<!-- ═══════════════════════════════════════════
-     VIEW 3: WIZARD (link to existing wizard page)
-     ═══════════════════════════════════════════ -->
-<div class="view" id="view-wizard">
-  <div style="padding: 8rem 2.5rem 4rem; max-width: 1100px; margin: 0 auto; text-align: center; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-    <h1 style="font-family: var(--font-head); margin-bottom: 1rem;">Wizard de criação</h1>
-    <p style="color: var(--ink2); font-size: 18px; max-width: 600px; margin-bottom: 2rem;">Para criar o seu secretário, abra o wizard com 17 perguntas.</p>
-    <div style="margin-top: 2rem;">
-      <a href="wizard-criar.html" style="background: var(--accent); color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 500;">Abrir wizard →</a>
-    </div>
-  </div>
-</div>
-
-<script>
-// ───────────────────────────────────────────
-// NAVEGAÇÃO ENTRE VIEWS
-// ───────────────────────────────────────────
-function showView(viewName) {
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  const view = document.getElementById('view-' + viewName);
-  if (view) {
-    view.classList.add('active');
-    window.scrollTo(0, 0);
-  }
-}
-
-// ───────────────────────────────────────────
-// PORTA A — FORMULÁRIO
-// ───────────────────────────────────────────
-document.querySelectorAll('input[name="problema"]').forEach(radio => {
-  radio.addEventListener('change', () => {
-    const outroWrap = document.getElementById('outro-wrap');
-    if (radio.value === 'Outro') {
-      outroWrap.style.display = 'block';
-      document.getElementById('outro').required = true;
-    } else {
-      outroWrap.style.display = 'none';
-      document.getElementById('outro').required = false;
-    }
-  });
-});
-
-// Envia o formulário para /api/contact (função serverless) e mostra estado.
-(function () {
-  var form = document.getElementById('contactForm');
-  if (!form) return;
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var status = document.getElementById('ci-status');
-    var success = document.getElementById('successMsg');
-    var btn = form.querySelector('.btn-submit');
-
-    if (!document.getElementById('ci-rgpd').checked) {
-      status.className = 'form-status erro';
-      status.textContent = 'É preciso autorizar o contacto para enviar.';
-      return;
-    }
-
-    var problema = (form.querySelector('input[name="problema"]:checked') || {}).value || '';
-    var outro = document.getElementById('outro').value || '';
-    var plataforma = document.getElementById('plataforma').value || '';
-    var profissao = document.getElementById('profissao').value || '';
-    var telefone = document.getElementById('telefone').value || '';
-    var mensagem = document.getElementById('mensagem').value || '';
-
-    var partesTipo = [];
-    if (problema) partesTipo.push(problema === 'Outro' ? 'Outro: ' + outro : problema);
-    if (plataforma) partesTipo.push('Plataforma: ' + plataforma);
-
-    var partesMsg = [];
-    if (profissao) partesMsg.push('Profissão: ' + profissao);
-    if (telefone) partesMsg.push('Telefone: ' + telefone);
-    if (mensagem) partesMsg.push('', mensagem);
-
-    var dados = {
-      nome: document.getElementById('nome').value,
-      email: document.getElementById('email').value,
-      tipo: partesTipo.join(' · '),
-      mensagem: partesMsg.join('\n'),
-      consentimento: true,
-      website: document.getElementById('ci-website').value
-    };
-
-    var textoOriginal = btn.textContent;
-    btn.disabled = true;
-    btn.textContent = 'A enviar…';
-    status.className = 'form-status';
-    status.textContent = '';
-
-    fetch('/api/contact', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(dados)
-    })
-      .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
-      .then(function (res) {
-        if (res.ok && res.j && res.j.ok) {
-          form.style.display = 'none';
-          success.classList.add('show');
-        } else {
-          var msg = (res.j && res.j.error) ? res.j.error : 'Não foi possível enviar.';
-          status.className = 'form-status erro';
-          status.innerHTML = msg + ' Pode escrever para <a href="mailto:info@proteinaludica.com">info@proteinaludica.com</a>.';
-        }
-      })
-      .catch(function () {
-        status.className = 'form-status erro';
-        status.innerHTML = 'Falha de ligação. Pode escrever para <a href="mailto:info@proteinaludica.com">info@proteinaludica.com</a>.';
-      })
-      .finally(function () {
-        btn.disabled = false;
-        btn.textContent = textoOriginal;
-      });
-  });
-})();
-
-// ───────────────────────────────────────────
-// FAQ — acessível por teclado (mantém aria-expanded em sincronia)
-// ───────────────────────────────────────────
-document.querySelectorAll('.faq-q').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const item = btn.closest('.faq-item');
-    const aberto = item.classList.toggle('open');
-    btn.setAttribute('aria-expanded', aberto ? 'true' : 'false');
-  });
-});
-</script>
 
 </body>
 </html>
