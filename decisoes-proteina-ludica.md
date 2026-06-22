@@ -71,7 +71,7 @@ Testes com médicos amigos em Abril 2026 mostraram que vocabulário técnico **n
 
 **Excepção — primeira pessoa do Roberto:** quando o Roberto Gouveia fala em nome próprio nos materiais ("conversar 1 hora comigo", "Pedir chamada comigo"), usa-se a 1.ª pessoa naturalmente. Não é tratamento do leitor.
 
-**Tagline central:** *"Um secretário digital que escreve por si."*
+**Tagline central:** *"O profissional dita. A nota vem escrita."*
 
 O termo "agente IA" só existe no vocabulário técnico interno (backoffice, documentação para devs, conversas Roberto-Claude).
 
@@ -493,7 +493,7 @@ Sessão estruturada e gravada com 5 médicos. ~40 min cada.
 ## Pendentes (em aberto)
 
 1. ~~Confirmar número de secções (17 vs 7-9 core) após protótipo.~~ ✅ **Decidido v2.6 (5 Maio 2026): manter 17.** Reabrir só se validação com médicos mostrar abandono por excesso de perguntas.
-2. Tagline final (actual: "Um secretário digital que escreve por si.")
+2. Tagline final (actual: "O profissional dita. A nota vem escrita.")
 3. Logo e símbolo próprio
 4. Landing page finalizada com pirâmide dupla (individual + equipa)
 5. Deploy Vercel apontado a `proteinaludica.com` — desbloqueado em 5 Maio 2026 (v2.6.1). Pode ser feito quando se quiser.
