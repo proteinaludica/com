@@ -1073,6 +1073,79 @@
     .fill-main, .fill-aside { padding: 1.25rem; }
     .upgrade-block, .pdf-mockup { padding: 1.25rem; }
   }
+
+  /* ─── NÍVEL A: exemplos + Pro (herdado do wizard médico) ─── */
+  .field-actions { display: flex; align-items: center; gap: 8px; margin-top: 7px; flex-wrap: wrap; }
+  .btn-example { display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.04em; color: var(--accent); background: var(--accent-light); border: 0.5px solid transparent; padding: 4px 10px; border-radius: 4px; cursor: pointer; transition: all 0.15s; }
+  .btn-example:hover { border-color: var(--accent); }
+  .btn-pro { display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.04em; color: #6B3FA0; background: #F0E9F8; border: 0.5px dashed #6B3FA0; padding: 4px 10px; border-radius: 4px; cursor: not-allowed; opacity: 0.85; position: relative; }
+  .btn-pro:hover .pro-tip { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .pro-tip { position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%) translateY(4px); background: var(--ink); color: white; font-family: var(--font-body); font-size: 11px; letter-spacing: 0; padding: 6px 10px; border-radius: 5px; white-space: nowrap; opacity: 0; transition: all 0.2s; z-index: 10; box-shadow: var(--shadow-lg); pointer-events: none; }
+  .pro-tip::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-top-color: var(--ink); }
+  .example-bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; background: var(--surface); border: 0.5px solid var(--border-strong); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .example-bar-text { font-size: 13px; color: var(--ink2); }
+  .example-bar-text strong { color: var(--ink); font-weight: 500; }
+  .ex-prof-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+  .ex-prof-tab { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.03em; padding: 5px 12px; border-radius: 20px; border: 0.5px solid var(--border-strong); background: var(--surface); cursor: pointer; transition: all 0.2s; color: var(--ink2); }
+  .ex-prof-tab:hover { border-color: var(--accent); }
+  .ex-prof-tab.active { background: var(--accent); color: white; border-color: var(--accent); }
+  .aside-pro { margin-top: 1rem; padding: 1rem; background: #F0E9F8; border: 0.5px solid #6B3FA0; border-radius: 8px; }
+  .aside-pro-title { font-size: 12px; font-weight: 500; color: #6B3FA0; margin-bottom: 5px; }
+  .aside-pro-text { font-size: 12px; color: var(--ink2); line-height: 1.5; }
+  .aside-pro-text strong { color: #6B3FA0; }
+
+  /* ─── PASSO 3: índice lateral + obrigatórias (Fase 1) ─── */
+  .s3-body { display: grid; grid-template-columns: 210px 1fr; gap: 1.75rem; align-items: start; }
+  .s3-content { min-width: 0; }
+  .s3-index { position: sticky; top: 100px; background: var(--surface); border: 0.5px solid var(--border); border-radius: 10px; padding: 1rem; }
+  .s3-index-title { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; padding: 0 4px; }
+  .s3-index-list { display: flex; flex-direction: column; gap: 1px; }
+  .s3-index-item { display: flex; align-items: baseline; gap: 7px; padding: 5px 8px; border-radius: 5px; font-size: 12px; color: var(--ink2); text-decoration: none; line-height: 1.35; transition: background 0.15s, color 0.15s; }
+  a.s3-index-item:hover { background: var(--accent-light); color: var(--accent); }
+  .s3-index-num { font-family: var(--font-mono); font-size: 10px; color: var(--muted2); flex-shrink: 0; width: 16px; }
+  .s3-index-name { flex: 1; }
+  .s3-index-item.is-oblig .s3-index-num { color: var(--accent); }
+  .s3-index-item.is-oblig .s3-index-name { color: var(--ink); font-weight: 500; }
+  .s3-index-item.is-todo { color: var(--muted2); cursor: default; }
+  .s3-index-badge { font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.04em; text-transform: uppercase; padding: 1px 5px; border-radius: 3px; flex-shrink: 0; align-self: center; }
+  .s3-index-badge.oblig { color: var(--accent); background: var(--accent-light); }
+  .s3-index-badge.todo { color: var(--muted); background: var(--bg3); }
+  .oblig-list { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 1.5rem; }
+  .oblig-block { scroll-margin-top: 90px; }
+  .oblig-tag { display: inline-block; font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); background: var(--accent-light); padding: 2px 8px; border-radius: 3px; margin-bottom: 0.6rem; }
+  #sec-09 { scroll-margin-top: 90px; }
+  /* Fase 2: recolher opcionais */
+  .afinar-bar { margin: 0.5rem 0 1.5rem; }
+  .btn-afinar { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; background: var(--bg2); border: 0.5px dashed var(--border-strong); border-radius: 8px; padding: 0.9rem 1.25rem; cursor: pointer; font-family: var(--font-body); font-size: 14px; color: var(--ink); transition: all 0.2s; }
+  .btn-afinar:hover { border-color: var(--accent); background: var(--accent-light); }
+  .afinar-left { display: flex; align-items: baseline; gap: 8px; }
+  .afinar-left .opc-opt { color: var(--muted); font-size: 12px; }
+  .opc-count { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 0.04em; margin-left: auto; }
+  .opc-chevron { font-family: var(--font-mono); font-size: 18px; line-height: 1; color: var(--muted); transition: transform 0.2s; }
+  .btn-afinar.open .opc-chevron { transform: rotate(45deg); }
+  .opcionais[hidden] { display: none; }
+  .opcionais { animation: fadeIn 0.3s ease; }
+  .opc-note { font-size: 12px; color: var(--muted); line-height: 1.5; background: var(--bg2); border-radius: 6px; padding: 0.75rem 1rem; margin-bottom: 1.25rem; }
+  .opc-note strong { color: var(--ink); font-weight: 500; }
+  /* Fase 3: rever e terminar */
+  .rever-bar { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin: 1.5rem 0; padding: 1.1rem 1.25rem; background: var(--accent-light); border: 0.5px solid var(--accent); border-radius: 10px; }
+  .btn-rever { white-space: nowrap; }
+  .btn-rever[disabled] { opacity: 0.45; cursor: not-allowed; }
+  .btn-rever[disabled]:hover { background: var(--accent); transform: none; }
+  .rever-hint { font-size: 12px; color: var(--ink2); line-height: 1.45; }
+  .rever-hint strong { color: var(--accent); font-weight: 500; }
+  /* Fase 4: congelamento da profissão */
+  .prof-frozen { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 1.25rem; font-size: 12px; color: var(--ink2); background: var(--accent-light); border: 0.5px solid var(--accent); border-radius: 6px; padding: 8px 12px; }
+  .prof-frozen[hidden] { display: none; }
+  .prof-frozen strong { color: var(--accent); font-weight: 500; }
+  .prof-unfreeze { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.04em; color: var(--accent); background: transparent; border: 0.5px solid var(--accent); border-radius: 3px; padding: 3px 9px; cursor: pointer; margin-left: auto; transition: all 0.2s; }
+  .prof-unfreeze:hover { background: var(--accent); color: white; }
+  .ex-prof-tab.frozen { border-color: var(--accent); }
+  .ex-prof-tab.frozen::after { content: ' 🔒'; font-size: 10px; }
+  @media (max-width: 860px) {
+    .s3-body { grid-template-columns: 1fr; }
+    .s3-index { position: static; }
+  }
 </style>
 </head>
 <body>
@@ -1110,7 +1183,8 @@
     <p class="screen-sub">Cada plataforma tem vantagens diferentes. Escolhe a que já usas — ou pede-nos para escolher por ti.</p>
 
     <div class="platform-grid">
-      <button class="platform-card" onclick="selectPlatform('claude','Claude Projects')">
+      <button class="platform-card" style="border-color:var(--accent); position:relative;" onclick="selectPlatform('claude','Claude Projects')">
+        <div style="position:absolute; top:10px; right:10px; font-family:var(--font-mono); font-size:9px; letter-spacing:0.06em; text-transform:uppercase; color:var(--accent); background:var(--accent-light); padding:2px 8px; border-radius:3px;">Recomendado</div>
         <div class="platform-badge b-claude">C</div>
         <div class="platform-name">Claude Projects</div>
         <div class="platform-desc">Melhor para texto longo e raciocínio clínico detalhado.</div>
@@ -1144,6 +1218,13 @@
         <div class="platform-badge b-mistral">M</div>
         <div class="platform-name">Mistral Le Chat</div>
         <div class="platform-desc">LLM europeu. Privacidade máxima, dados na UE.</div>
+      </button>
+
+      <button class="platform-card" style="border-style:dashed; border-color:#6B3FA0; cursor:not-allowed; opacity:0.85; position:relative;" onclick="alert('Em desenvolvimento. Em breve poderás alojar o teu assistente directamente na Proteína Lúdica, sem o copiar para outra plataforma.')">
+        <div style="position:absolute; top:10px; right:10px; font-family:var(--font-mono); font-size:9px; letter-spacing:0.06em; text-transform:uppercase; color:#6B3FA0; background:#F0E9F8; padding:2px 8px; border-radius:3px;">Em breve</div>
+        <div class="platform-badge" style="background:#6B3FA0;">PL</div>
+        <div class="platform-name">Proteína Lúdica</div>
+        <div class="platform-desc">Aloja o assistente connosco — sem copiar para fora. O utente acede por link. <strong>Em desenvolvimento.</strong></div>
       </button>
 
       <button class="platform-card platform-card-solo" onclick="selectPlatform('outro','Outro / não sei')">
@@ -1224,28 +1305,165 @@
       <div class="section-pbar"><div class="section-pbar-fill"></div></div>
     </div>
 
+    <div class="s3-body">
+      <nav class="s3-index" aria-label="Índice das 17 secções">
+        <div class="s3-index-title">As 17 secções</div>
+        <div class="s3-index-list">
+          <a class="s3-index-item is-oblig" href="#sec-01"><span class="s3-index-num">01</span><span class="s3-index-name">Nome e propósito</span><span class="s3-index-badge oblig">obrig.</span></a>
+          <a class="s3-index-item is-oblig" href="#sec-02"><span class="s3-index-num">02</span><span class="s3-index-name">Missão</span><span class="s3-index-badge oblig">obrig.</span></a>
+          <span class="s3-index-item is-todo"><span class="s3-index-num">03</span><span class="s3-index-name">Público-alvo</span><span class="s3-index-badge todo">por construir</span></span>
+          <span class="s3-index-item is-todo"><span class="s3-index-num">04</span><span class="s3-index-name">Contexto local</span><span class="s3-index-badge todo">por construir</span></span>
+          <span class="s3-index-item is-todo"><span class="s3-index-num">05</span><span class="s3-index-name">Voz e tom</span><span class="s3-index-badge todo">por construir</span></span>
+          <span class="s3-index-item is-todo"><span class="s3-index-num">06</span><span class="s3-index-name">Linguagem</span><span class="s3-index-badge todo">por construir</span></span>
+          <span class="s3-index-item is-todo"><span class="s3-index-num">07</span><span class="s3-index-name">Estilo de resposta</span><span class="s3-index-badge todo">por construir</span></span>
+          <span class="s3-index-item is-todo"><span class="s3-index-num">08</span><span class="s3-index-name">Onboarding</span><span class="s3-index-badge todo">por construir</span></span>
+          <a class="s3-index-item" href="#sec-09" onclick="openOpcionais()"><span class="s3-index-num">09</span><span class="s3-index-name">Protocolo de reconhecimento</span></a>
+          <span class="s3-index-item is-todo"><span class="s3-index-num">10</span><span class="s3-index-name">Tarefas específicas</span><span class="s3-index-badge todo">por construir</span></span>
+          <span class="s3-index-item is-todo"><span class="s3-index-num">11</span><span class="s3-index-name">Fontes oficiais</span><span class="s3-index-badge todo">por construir</span></span>
+          <span class="s3-index-item is-todo"><span class="s3-index-num">12</span><span class="s3-index-name">Conhecimento técnico</span><span class="s3-index-badge todo">por construir</span></span>
+          <a class="s3-index-item is-oblig" href="#sec-13"><span class="s3-index-num">13</span><span class="s3-index-name">Red lines</span><span class="s3-index-badge oblig">obrig.</span></a>
+          <a class="s3-index-item is-oblig" href="#sec-14"><span class="s3-index-num">14</span><span class="s3-index-name">Alertas de emergência</span><span class="s3-index-badge oblig">obrig.</span></a>
+          <span class="s3-index-item is-todo"><span class="s3-index-num">15</span><span class="s3-index-name">Tratamento de dados</span><span class="s3-index-badge todo">por construir</span></span>
+          <a class="s3-index-item is-oblig" href="#sec-16"><span class="s3-index-num">16</span><span class="s3-index-name">Fecho dinâmico</span><span class="s3-index-badge oblig">obrig.</span></a>
+          <span class="s3-index-item is-todo"><span class="s3-index-num">17</span><span class="s3-index-name">Continuidade</span><span class="s3-index-badge todo">por construir</span></span>
+        </div>
+      </nav>
+
+      <div class="s3-content">
+
+        <div class="oblig-list">
+
+          <div class="fill-main oblig-block" id="sec-01">
+            <div class="oblig-tag">Obrigatória · 01</div>
+            <div class="fill-title">Nome e propósito</div>
+            <div class="fill-guide">Como se chama o assistente e para que serve — numa frase.</div>
+            <div class="fill-field">
+              <label for="f-nome">Nome e propósito</label>
+              <textarea id="f-nome" placeholder="ex: Assistente de apoio que responde a dúvidas frequentes dos utentes." oninput="checkRGPD(this)"></textarea>
+              <div class="field-actions">
+                <span class="btn-pro">✨ Pro<span class="pro-tip">o IA ajuda a responder · 49€</span></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="fill-main oblig-block" id="sec-02">
+            <div class="oblig-tag">Obrigatória · 02</div>
+            <div class="fill-title">Missão</div>
+            <div class="fill-guide">O objetivo central do assistente: o que entrega, e a quem.</div>
+            <div class="fill-field">
+              <label for="f-missao">Missão</label>
+              <textarea id="f-missao" placeholder="ex: Ajudar os utentes a prepararem-se para a consulta e a esclarecer dúvidas entre consultas." oninput="checkRGPD(this)"></textarea>
+              <div class="field-actions">
+                <span class="btn-pro">✨ Pro<span class="pro-tip">o IA ajuda a responder · 49€</span></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="fill-main oblig-block" id="sec-13">
+            <div class="oblig-tag">Obrigatória · 13</div>
+            <div class="fill-title">Red lines</div>
+            <div class="fill-guide">Os limites absolutos — o que o assistente nunca faz, em nenhuma circunstância.</div>
+            <div class="fill-field">
+              <label for="f-redline">O que o assistente nunca faz</label>
+              <textarea id="f-redline" placeholder="ex: não dá diagnósticos, não prescreve, não interpreta análises." oninput="checkRGPD(this)"></textarea>
+              <div class="field-actions">
+                <span class="btn-pro">✨ Pro<span class="pro-tip">o IA ajuda a responder · 49€</span></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="fill-main oblig-block" id="sec-14">
+            <div class="oblig-tag">Obrigatória · 14</div>
+            <div class="fill-title">Alertas de emergência</div>
+            <div class="fill-guide">Sinais que exigem encaminhamento imediato, e a resposta a dar.</div>
+            <div class="fill-field">
+              <label for="f-emerg">Alertas e encaminhamento de emergência</label>
+              <textarea id="f-emerg" placeholder="ex: dor no peito ou falta de ar súbita → instruir a contactar o 112." oninput="checkRGPD(this)"></textarea>
+              <div class="field-actions">
+                <span class="btn-pro">✨ Pro<span class="pro-tip">o IA ajuda a responder · 49€</span></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="fill-main oblig-block" id="sec-16">
+            <div class="oblig-tag">Obrigatória · 16</div>
+            <div class="fill-title">Fecho dinâmico</div>
+            <div class="fill-guide">Como o assistente se despede — variando, para não soar repetitivo.</div>
+            <div class="fill-field">
+              <label for="f-fecho">Forma de fecho</label>
+              <textarea id="f-fecho" placeholder="ex: reforça o passo seguinte e lembra que a decisão final é do profissional." oninput="checkRGPD(this)"></textarea>
+              <div class="field-actions">
+                <span class="btn-pro">✨ Pro<span class="pro-tip">o IA ajuda a responder · 49€</span></span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+    <div class="rever-bar">
+      <button class="btn-accent btn-rever" id="btnRever" onclick="reverTerminar()" disabled>Rever e terminar →</button>
+      <span class="rever-hint" id="reverHint">Preenche as <strong>5 secções obrigatórias</strong> para terminar. As opcionais ficam de fora.</span>
+    </div>
+
+    <div class="afinar-bar">
+      <button class="btn-afinar" id="btnAfinar" onclick="toggleOpcionais()" aria-expanded="false" aria-controls="opcionais">
+        <span class="afinar-left"><strong>Afinar mais</strong> <span class="opc-opt">(opcional)</span></span>
+        <span class="opc-count">12 secções opcionais</span>
+        <span class="opc-chevron">+</span>
+      </button>
+    </div>
+
+    <div class="opcionais" id="opcionais" hidden>
+      <div class="opc-note">Das 12 secções opcionais, só <strong>Protocolo de reconhecimento</strong> está disponível neste protótipo. As restantes 11 aparecem no índice como <em>por construir</em>.</div>
+
+    <div class="example-bar" id="sec-09">
+      <div class="example-bar-text"><strong>Não sabes o que pôr?</strong> Vê como ficaria para a tua área — escolhe uma profissão e carrega "ver exemplo".</div>
+      <div class="ex-prof-tabs" id="exProfTabs">
+        <button class="ex-prof-tab active" data-prof="nutri" onclick="setProf('nutri')">Nutricionista</button>
+        <button class="ex-prof-tab" data-prof="adv" onclick="setProf('adv')">Advogado</button>
+        <button class="ex-prof-tab" data-prof="eng" onclick="setProf('eng')">Engenheiro</button>
+      </div>
+    </div>
+
+    <div class="prof-frozen" id="profFrozen" hidden>
+      🔒 Profissão congelada: <strong id="frozenProfName">Nutricionista</strong> · o exemplo foi aplicado a esta profissão.
+      <button class="prof-unfreeze" onclick="unfreezeProf()">trocar profissão</button>
+    </div>
+
     <div class="fill-grid">
       <div class="fill-main">
         <div class="fill-title">Protocolo de reconhecimento</div>
-        <div class="fill-guide">Um código ou palavra secreta que distingue o profissional do utente comum. Muda a conversa para modo técnico.</div>
+        <div class="fill-guide">Um código ou palavra secreta que distingue o profissional do cliente comum. Muda a conversa para modo técnico.</div>
 
         <div class="fill-field">
           <label for="f-code">Código ou gesto de reconhecimento</label>
-          <input type="text" id="f-code" placeholder="ex: med46316" oninput="checkRGPD(this)">
+          <input type="text" id="f-code" placeholder="ex: o teu nº profissional, ou uma palavra só tua" oninput="checkRGPD(this)">
+          <div class="field-actions">
+            <button class="btn-example" onclick="fillEx('f-code')">↳ ver exemplo</button>
+            <span class="btn-pro">✨ Pro<span class="pro-tip">o IA ajuda a responder · 49€</span></span>
+          </div>
         </div>
 
         <div class="fill-field">
           <label for="f-behaviour">O que acontece quando o código é detectado?</label>
-          <textarea id="f-behaviour" placeholder="Descreve em 2-3 frases o comportamento do assistente digital IA no modo técnico. Ex: muda a linguagem para técnica, apresenta relatório estruturado, etc." oninput="checkRGPD(this)"></textarea>
+          <textarea id="f-behaviour" placeholder="Descreve em 2-3 frases o comportamento do assistente no modo técnico." oninput="checkRGPD(this)"></textarea>
+          <div class="field-actions">
+            <button class="btn-example" onclick="fillEx('f-behaviour')">↳ ver exemplo</button>
+            <span class="btn-pro">✨ Pro<span class="pro-tip">o IA ajuda a responder · 49€</span></span>
+          </div>
         </div>
 
         <div class="fill-field">
           <label for="f-exit">Palavra para regressar ao modo normal</label>
           <input type="text" id="f-exit" placeholder="ex: fim" oninput="checkRGPD(this)">
+          <div class="field-actions">
+            <button class="btn-example" onclick="fillEx('f-exit')">↳ ver exemplo</button>
+            <span class="btn-pro">✨ Pro<span class="pro-tip">o IA ajuda a responder · 49€</span></span>
+          </div>
         </div>
 
         <div class="rgpd-warn" id="rgpdWarn">
-          <strong>Atenção RGPD:</strong> detectámos o que parece ser um dado pessoal identificável (nome completo, número de utente, data de nascimento ou similar). Para respeitar a privacidade dos teus doentes, usa apenas iniciais + idade — ex: <em>"M.A., 62a"</em>. Este aviso aparece só para ti, não bloqueia.
+          <strong>Atenção RGPD:</strong> detectámos o que parece ser um dado pessoal identificável (nome completo, número de cliente, data de nascimento ou similar). Para respeitar a privacidade dos teus clientes, usa apenas iniciais + idade — ex: <em>"M.A., 62a"</em>. Este aviso aparece só para ti, não bloqueia.
         </div>
 
         <div class="fill-nav">
@@ -1258,14 +1476,21 @@
       </div>
 
       <aside class="fill-aside">
-        <div class="aside-label">Exemplo real</div>
-        <div class="aside-title">Médico de Família Digital · Ponta Delgada</div>
-        <div class="aside-example">Ao detectar o código <strong>med46316</strong>, interrompe a conversa pedagógica e passa a linguagem técnica. Apresenta painel biométrico (IMC, TA, glicémia com contexto prandial), vigilância preventiva (rastreios atrasados a negrito) e checklist para utente. Ao digitar <strong>fim</strong>, regressa ao modo utente e omite qualquer menção ao código.</div>
-
+        <div class="aside-label">Exemplo · <span id="asideProfName">Nutricionista</span></div>
+        <div class="aside-title" id="asideTitle">Nutricionista Digital · acompanhamento</div>
+        <div class="aside-example" id="asideExample">Ao detectar o código <strong>nutri-c12</strong>, o assistente passa a modo técnico: mostra histórico de peso, registo alimentar e metas calóricas em tabela. Ao digitar <strong>fim</strong>, regressa ao modo cliente e omite o código.</div>
         <div class="aside-hint">
-          <strong>Dica.</strong> Usa um código que só tu saibas — não algo óbvio. Pode ser o teu nº profissional, uma palavra sem sentido, ou frase curta. Serve para o assistente digital IA saber quando estás tu a falar e não um doente.
+          <strong>Dica.</strong> Usa um código que só tu saibas — não algo óbvio. Serve para o assistente saber quando és tu a falar e não um cliente.
+        </div>
+        <div class="aside-pro">
+          <div class="aside-pro-title">✨ Versão Pro · 49€</div>
+          <div class="aside-pro-text">No grátis há <strong>exemplos fixos</strong>. Na Pro, o <strong>IA ajuda a responder</strong>: parte do rascunho do profissional e devolve a secção escrita no estilo dele. O profissional revê e decide.</div>
         </div>
       </aside>
+    </div>
+    </div><!-- /opcionais -->
+
+      </div>
     </div>
 
     <div class="demo-skip">
@@ -1651,6 +1876,13 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     document.querySelectorAll('.modal-q-opt').forEach(el => el.classList.remove('active'));
     document.getElementById('modalResult').classList.remove('show');
     document.getElementById('rgpdWarn').classList.remove('show');
+    const _opc = document.getElementById('opcionais');
+    if (_opc) _opc.setAttribute('hidden', '');
+    const _btn = document.getElementById('btnAfinar');
+    if (_btn) { _btn.classList.remove('open'); _btn.setAttribute('aria-expanded', 'false'); }
+    checkObrigatorias();
+    unfreezeProf();
+    setProf('nutri');
     goTo(1);
     closeQuizModal();
   }
@@ -1699,7 +1931,127 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     if (e.key === 'Escape') closeQuizModal();
   });
 
+  // ─── NÍVEL A: exemplos por profissão (sem IA, texto fixo) ───
+  const PROF = {
+    nutri: {
+      nome: 'Nutricionista',
+      title: 'Nutricionista Digital · acompanhamento',
+      'f-code': 'nutri-c12',
+      'f-behaviour': 'Ao detectar o código, passa a modo técnico: mostra histórico de peso, registo alimentar e metas calóricas em tabela. Linguagem objectiva, para o profissional rever antes da consulta.',
+      'f-exit': 'fim',
+      example: 'Ao detectar o código <strong>nutri-c12</strong>, o assistente passa a modo técnico: mostra histórico de peso, registo alimentar e metas calóricas em tabela. Ao digitar <strong>fim</strong>, regressa ao modo cliente e omite o código.'
+    },
+    adv: {
+      nome: 'Advogado',
+      title: 'Assistente Jurídico Digital · escritório',
+      'f-code': 'adv-47x',
+      'f-behaviour': 'Ao detectar o código, passa a modo técnico: resume o processo, lista prazos processuais e peças em falta. Linguagem jurídica precisa, para o advogado rever antes de avançar.',
+      'f-exit': 'fechar',
+      example: 'Ao detectar o código <strong>adv-47x</strong>, o assistente resume o processo, lista prazos e peças em falta em formato técnico. Ao digitar <strong>fechar</strong>, regressa ao modo cliente e omite o código.'
+    },
+    eng: {
+      nome: 'Engenheiro',
+      title: 'Assistente Técnico Digital · gabinete',
+      'f-code': 'eng-31k',
+      'f-behaviour': 'Ao detectar o código, passa a modo técnico: resume o estado do projeto, lista prazos de entrega e pontos por validar. Linguagem técnica precisa, para o engenheiro rever antes de avançar.',
+      'f-exit': 'fim',
+      example: 'Ao detectar o código <strong>eng-31k</strong>, o assistente resume o estado do projeto, lista prazos e pontos por validar em formato técnico. Ao digitar <strong>fim</strong>, regressa ao modo cliente e omite o código.'
+    }
+  };
+  let curProf = 'nutri';
+  let frozenProf = null; // profissão congelada ao aplicar um exemplo
+
+  function setProf(p) {
+    // tabs continuam a funcionar: trocar de tab descongela a escolha
+    if (frozenProf && p !== frozenProf) unfreezeProf();
+    curProf = p;
+    document.querySelectorAll('.ex-prof-tab').forEach(t => t.classList.toggle('active', t.dataset.prof === p));
+    const d = PROF[p];
+    document.getElementById('asideProfName').textContent = d.nome;
+    document.getElementById('asideTitle').textContent = d.title;
+    document.getElementById('asideExample').innerHTML = d.example;
+  }
+
+  // ─── Fase 4: congelar a profissão ativa ───
+  function freezeProf(p) {
+    frozenProf = p;
+    const banner = document.getElementById('profFrozen');
+    if (banner) {
+      document.getElementById('frozenProfName').textContent = PROF[p].nome;
+      banner.removeAttribute('hidden');
+    }
+    document.querySelectorAll('.ex-prof-tab').forEach(t => t.classList.toggle('frozen', t.dataset.prof === p));
+  }
+  function unfreezeProf() {
+    frozenProf = null;
+    const banner = document.getElementById('profFrozen');
+    if (banner) banner.setAttribute('hidden', '');
+    document.querySelectorAll('.ex-prof-tab').forEach(t => t.classList.remove('frozen'));
+  }
+
+  function fillEx(id) {
+    // ao aplicar um exemplo, a profissão ativa congela; se já está congelada, usa essa
+    if (!frozenProf) freezeProf(curProf);
+    else if (curProf !== frozenProf) setProf(frozenProf);
+    const el = document.getElementById(id);
+    const d = PROF[frozenProf];
+    if (el && d[id] !== undefined) el.value = d[id];
+  }
+
+  // ─── Fase 2: recolher opcionais ───
+  function toggleOpcionais() {
+    const panel = document.getElementById('opcionais');
+    const btn = document.getElementById('btnAfinar');
+    const willOpen = panel.hasAttribute('hidden');
+    if (willOpen) {
+      panel.removeAttribute('hidden');
+      btn.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+    } else {
+      panel.setAttribute('hidden', '');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+    }
+  }
+  function openOpcionais() {
+    const panel = document.getElementById('opcionais');
+    const btn = document.getElementById('btnAfinar');
+    if (panel && panel.hasAttribute('hidden')) {
+      panel.removeAttribute('hidden');
+      btn.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+    }
+  }
+
+  // ─── Fase 3: rever e terminar ───
+  const OBRIGATORIAS = ['f-nome', 'f-missao', 'f-redline', 'f-emerg', 'f-fecho'];
+  function checkObrigatorias() {
+    const preenchidas = OBRIGATORIAS.filter(id => {
+      const el = document.getElementById(id);
+      return el && el.value.trim() !== '';
+    }).length;
+    const btn = document.getElementById('btnRever');
+    const hint = document.getElementById('reverHint');
+    if (!btn || !hint) return;
+    const todas = preenchidas === OBRIGATORIAS.length;
+    btn.disabled = !todas;
+    if (todas) {
+      hint.innerHTML = 'As <strong>5 obrigatórias</strong> estão preenchidas. As opcionais ficam de fora.';
+    } else {
+      hint.innerHTML = 'Faltam <strong>' + (OBRIGATORIAS.length - preenchidas) + ' de 5</strong> secções obrigatórias. As opcionais ficam de fora.';
+    }
+  }
+  function reverTerminar() {
+    if (document.getElementById('btnRever').disabled) return;
+    goTo(4);
+  }
+
   // init
+  OBRIGATORIAS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', checkObrigatorias);
+  });
+  checkObrigatorias();
   updateProgress();
 </script>
 
