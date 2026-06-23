@@ -1346,6 +1346,13 @@
             <div class="fill-field">
               <label for="f-nome">Nome e propósito</label>
               <textarea id="f-nome" placeholder="ex: Assistente de apoio que responde a dúvidas frequentes dos utentes." oninput="checkRGPD(this)"></textarea>
+              <div class="chips" aria-label="Sugestões para começar">
+                <span class="chips-label">começar com</span>
+                <button type="button" class="chip" data-insert="Chama-se " onclick="insertChip('f-nome', this)">Chama-se…</button>
+                <button type="button" class="chip" data-insert="Serve para " onclick="insertChip('f-nome', this)">Serve para…</button>
+                <button type="button" class="chip" data-insert="Ajuda os utentes a " onclick="insertChip('f-nome', this)">Ajuda os utentes a…</button>
+                <button type="button" class="chip" data-insert="É o assistente que " onclick="insertChip('f-nome', this)">É o assistente que…</button>
+              </div>
               <div class="field-actions">
                 <span class="btn-pro">✨ Pro<span class="pro-tip">o IA ajuda a responder · 49€</span></span>
               </div>
@@ -1378,6 +1385,13 @@
             <div class="fill-field">
               <label for="f-redline">O que o assistente nunca faz</label>
               <textarea id="f-redline" placeholder="ex: não dá diagnósticos, não prescreve, não interpreta análises." oninput="checkRGPD(this)"></textarea>
+              <div class="chips" aria-label="Sugestões para começar">
+                <span class="chips-label">começar com</span>
+                <button type="button" class="chip" data-insert="Nunca " onclick="insertChip('f-redline', this)">Nunca…</button>
+                <button type="button" class="chip" data-insert="Não dá " onclick="insertChip('f-redline', this)">Não dá…</button>
+                <button type="button" class="chip" data-insert="Recusa sempre " onclick="insertChip('f-redline', this)">Recusa sempre…</button>
+                <button type="button" class="chip" data-insert="Em nenhum caso " onclick="insertChip('f-redline', this)">Em nenhum caso…</button>
+              </div>
               <div class="field-actions">
                 <span class="btn-pro">✨ Pro<span class="pro-tip">o IA ajuda a responder · 49€</span></span>
               </div>
@@ -1391,6 +1405,13 @@
             <div class="fill-field">
               <label for="f-emerg">Alertas e encaminhamento de emergência</label>
               <textarea id="f-emerg" placeholder="ex: dor no peito ou falta de ar súbita → instruir a contactar o 112." oninput="checkRGPD(this)"></textarea>
+              <div class="chips" aria-label="Sugestões para começar">
+                <span class="chips-label">começar com</span>
+                <button type="button" class="chip" data-insert="Perante " onclick="insertChip('f-emerg', this)">Perante…</button>
+                <button type="button" class="chip" data-insert="Em caso de " onclick="insertChip('f-emerg', this)">Em caso de…</button>
+                <button type="button" class="chip" data-insert="Encaminha de imediato para " onclick="insertChip('f-emerg', this)">Encaminha de imediato para…</button>
+                <button type="button" class="chip" data-insert="Se surgir " onclick="insertChip('f-emerg', this)">Se surgir…</button>
+              </div>
               <div class="field-actions">
                 <span class="btn-pro">✨ Pro<span class="pro-tip">o IA ajuda a responder · 49€</span></span>
               </div>
@@ -1404,6 +1425,13 @@
             <div class="fill-field">
               <label for="f-fecho">Forma de fecho</label>
               <textarea id="f-fecho" placeholder="ex: reforça o passo seguinte e lembra que a decisão final é do profissional." oninput="checkRGPD(this)"></textarea>
+              <div class="chips" aria-label="Sugestões para começar">
+                <span class="chips-label">começar com</span>
+                <button type="button" class="chip" data-insert="Despede-se " onclick="insertChip('f-fecho', this)">Despede-se…</button>
+                <button type="button" class="chip" data-insert="No fim, reforça " onclick="insertChip('f-fecho', this)">No fim, reforça…</button>
+                <button type="button" class="chip" data-insert="Termina sempre com " onclick="insertChip('f-fecho', this)">Termina sempre com…</button>
+                <button type="button" class="chip" data-insert="Lembra que " onclick="insertChip('f-fecho', this)">Lembra que…</button>
+              </div>
               <div class="field-actions">
                 <span class="btn-pro">✨ Pro<span class="pro-tip">o IA ajuda a responder · 49€</span></span>
               </div>
@@ -1459,6 +1487,13 @@
         <div class="fill-field">
           <label for="f-behaviour">O que acontece quando o código é detectado?</label>
           <textarea id="f-behaviour" placeholder="Descreva em 2-3 frases o comportamento do assistente no modo técnico." oninput="checkRGPD(this)"></textarea>
+          <div class="chips" aria-label="Sugestões para começar">
+            <span class="chips-label">começar com</span>
+            <button type="button" class="chip" data-insert="Passa a modo técnico e " onclick="insertChip('f-behaviour', this)">Passa a modo técnico e…</button>
+            <button type="button" class="chip" data-insert="Mostra " onclick="insertChip('f-behaviour', this)">Mostra…</button>
+            <button type="button" class="chip" data-insert="Resume " onclick="insertChip('f-behaviour', this)">Resume…</button>
+            <button type="button" class="chip" data-insert="Apresenta " onclick="insertChip('f-behaviour', this)">Apresenta…</button>
+          </div>
           <div class="field-actions">
             <button class="btn-example" onclick="fillEx('f-behaviour')">↳ ver exemplo</button>
             <span class="btn-pro">✨ Pro<span class="pro-tip">o IA ajuda a responder · 49€</span></span>
