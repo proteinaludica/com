@@ -15,6 +15,15 @@
 <meta property="og:title" content="Proteína Lúdica — Assistentes digitais IA">
 <meta property="og:description" content="Assistentes digitais IA para médicos e profissionais de saúde. Tratam da papelada, sempre com a sua voz. Em português, na Madeira.">
 <meta property="og:locale" content="pt_PT">
+<meta property="og:image" content="https://proteinaludica.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Proteína Lúdica — O profissional dita. A nota vem escrita.">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Proteína Lúdica — Assistentes digitais IA">
+<meta name="twitter:description" content="Assistentes digitais IA para médicos e profissionais de saúde. Tratam da papelada, sempre com a sua voz. Em português, na Madeira.">
+<meta name="twitter:image" content="https://proteinaludica.com/og-image.png">
 <meta name="theme-color" content="#2D5A1B">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D5A1B'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' font-style='italic' fill='%23F5F2EC' text-anchor='middle'%3EL%3C/text%3E%3C/svg%3E">
 
@@ -763,7 +772,7 @@ P: Mantém esquema; ajuste da dose de diurético. Pedidas análises. Reavaliaç�
       <div class="contact-form-wrap">
         <h3>Dizer olá.</h3>
         <p>Deixe o contacto e uma palavra sobre o que procura. Ligamos de volta.</p>
-        <form onsubmit="event.preventDefault(); alert('Obrigado. Para já, envie por email: geral@proteinaludica.com');">
+        <form id="ci-form" novalidate>
           <div class="form-row">
             <label for="ci-nome">Nome</label>
             <input type="text" id="ci-nome" placeholder="Dr. / Dra." required>
@@ -786,8 +795,62 @@ P: Mantém esquema; ajuste da dose de diurético. Pedidas análises. Reavaliaç�
             <label for="ci-msg">O que procura (opcional)</label>
             <textarea id="ci-msg" placeholder="Uma frase chega. Ex: 'sou radiologista, quero poupar tempo nos relatórios.'"></textarea>
           </div>
+          <input type="text" id="ci-website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+          <label for="ci-consent" style="display:flex;align-items:flex-start;gap:9px;font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:1rem;cursor:pointer;text-transform:none;letter-spacing:0;font-family:var(--font-body);font-weight:400">
+            <input type="checkbox" id="ci-consent" style="width:auto;margin-top:3px;flex-shrink:0">
+            <span>Autorizo o contacto e o tratamento dos meus dados para resposta, nos termos da <a href="/privacidade" style="color:var(--accent)">política de privacidade</a>.</span>
+          </label>
           <button type="submit" class="btn-submit">Enviar mensagem →</button>
+          <p id="ci-status" role="status" aria-live="polite" style="font-size:13px;margin-top:0.75rem;min-height:1.2em"></p>
         </form>
+        <script>
+        (function () {
+          var form = document.getElementById('ci-form');
+          if (!form) return;
+          var status = document.getElementById('ci-status');
+          var btn = form.querySelector('.btn-submit');
+          form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            var nome = document.getElementById('ci-nome').value.trim();
+            var email = document.getElementById('ci-email').value.trim();
+            var consent = document.getElementById('ci-consent').checked;
+            if (!nome || !email) { status.style.color = 'var(--amber-dark)'; status.textContent = 'Indique o nome e o email.'; return; }
+            if (!consent) { status.style.color = 'var(--amber-dark)'; status.textContent = 'É preciso autorizar o contacto.'; return; }
+            var payload = {
+              nome: nome,
+              email: email,
+              tipo: document.getElementById('ci-tipo').value,
+              mensagem: document.getElementById('ci-msg').value.trim(),
+              consentimento: true,
+              website: document.getElementById('ci-website').value
+            };
+            var orig = btn.textContent;
+            btn.disabled = true; btn.textContent = 'A enviar…';
+            status.style.color = 'var(--muted)'; status.textContent = '';
+            fetch('/api/contact', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            }).then(function (r) {
+              return r.json().catch(function () { return {}; }).then(function (d) { return { ok: r.ok, d: d }; });
+            }).then(function (res) {
+              if (res.ok && res.d.ok) {
+                form.reset();
+                status.style.color = 'var(--accent)';
+                status.textContent = 'Obrigado. Recebemos a sua mensagem e ligamos de volta.';
+              } else {
+                status.style.color = 'var(--amber-dark)';
+                status.textContent = (res.d && res.d.error) ? res.d.error : 'Não foi possível enviar. Tente por email: geral@proteinaludica.com';
+              }
+            }).catch(function () {
+              status.style.color = 'var(--amber-dark)';
+              status.textContent = 'Falha de ligação. Tente por email: geral@proteinaludica.com';
+            }).then(function () {
+              btn.disabled = false; btn.textContent = orig;
+            });
+          });
+        })();
+        </script>
       </div>
     </div>
   </div>
@@ -812,9 +875,9 @@ P: Mantém esquema; ajuste da dose de diurético. Pedidas análises. Reavaliaç�
     <div class="footer-col">
       <h5>Os que temos</h5>
       <a href="https://drescribia.proteinaludica.com">Dr. Escriba</a>
-      <a href="/catalogo">Dr. Escriba Internato</a>
-      <a href="/catalogo">RehabAssist</a>
-      <a href="/catalogo">Assistente de Saúde</a>
+      <a href="#contacto">Dr. Escriba Internato</a>
+      <a href="#contacto">RehabAssist</a>
+      <a href="#contacto">Assistente de Saúde</a>
     </div>
 
     <div class="footer-col">
