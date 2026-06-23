@@ -1127,6 +1127,13 @@
   .opcionais { animation: fadeIn 0.3s ease; }
   .opc-note { font-size: 12px; color: var(--muted); line-height: 1.5; background: var(--bg2); border-radius: 6px; padding: 0.75rem 1rem; margin-bottom: 1.25rem; }
   .opc-note strong { color: var(--ink); font-weight: 500; }
+  /* Fase 3: rever e terminar */
+  .rever-bar { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin: 1.5rem 0; padding: 1.1rem 1.25rem; background: var(--accent-light); border: 0.5px solid var(--accent); border-radius: 10px; }
+  .btn-rever { white-space: nowrap; }
+  .btn-rever[disabled] { opacity: 0.45; cursor: not-allowed; }
+  .btn-rever[disabled]:hover { background: var(--accent); transform: none; }
+  .rever-hint { font-size: 12px; color: var(--ink2); line-height: 1.45; }
+  .rever-hint strong { color: var(--accent); font-weight: 500; }
   @media (max-width: 860px) {
     .s3-body { grid-template-columns: 1fr; }
     .s3-index { position: static; }
@@ -1384,6 +1391,11 @@
           </div>
 
         </div>
+
+    <div class="rever-bar">
+      <button class="btn-accent btn-rever" id="btnRever" onclick="reverTerminar()" disabled>Rever e terminar →</button>
+      <span class="rever-hint" id="reverHint">Preenche as <strong>5 secções obrigatórias</strong> para terminar. As opcionais ficam de fora.</span>
+    </div>
 
     <div class="afinar-bar">
       <button class="btn-afinar" id="btnAfinar" onclick="toggleOpcionais()" aria-expanded="false" aria-controls="opcionais">
@@ -1855,6 +1867,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     if (_opc) _opc.setAttribute('hidden', '');
     const _btn = document.getElementById('btnAfinar');
     if (_btn) { _btn.classList.remove('open'); _btn.setAttribute('aria-expanded', 'false'); }
+    checkObrigatorias();
     goTo(1);
     closeQuizModal();
   }
@@ -1971,7 +1984,35 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     }
   }
 
+  // ─── Fase 3: rever e terminar ───
+  const OBRIGATORIAS = ['f-nome', 'f-missao', 'f-redline', 'f-emerg', 'f-fecho'];
+  function checkObrigatorias() {
+    const preenchidas = OBRIGATORIAS.filter(id => {
+      const el = document.getElementById(id);
+      return el && el.value.trim() !== '';
+    }).length;
+    const btn = document.getElementById('btnRever');
+    const hint = document.getElementById('reverHint');
+    if (!btn || !hint) return;
+    const todas = preenchidas === OBRIGATORIAS.length;
+    btn.disabled = !todas;
+    if (todas) {
+      hint.innerHTML = 'As <strong>5 obrigatórias</strong> estão preenchidas. As opcionais ficam de fora.';
+    } else {
+      hint.innerHTML = 'Faltam <strong>' + (OBRIGATORIAS.length - preenchidas) + ' de 5</strong> secções obrigatórias. As opcionais ficam de fora.';
+    }
+  }
+  function reverTerminar() {
+    if (document.getElementById('btnRever').disabled) return;
+    goTo(4);
+  }
+
   // init
+  OBRIGATORIAS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', checkObrigatorias);
+  });
+  checkObrigatorias();
   updateProgress();
 </script>
 
