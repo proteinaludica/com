@@ -1114,6 +1114,19 @@
   .oblig-block { scroll-margin-top: 90px; }
   .oblig-tag { display: inline-block; font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); background: var(--accent-light); padding: 2px 8px; border-radius: 3px; margin-bottom: 0.6rem; }
   #sec-09 { scroll-margin-top: 90px; }
+  /* Fase 2: recolher opcionais */
+  .afinar-bar { margin: 0.5rem 0 1.5rem; }
+  .btn-afinar { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; background: var(--bg2); border: 0.5px dashed var(--border-strong); border-radius: 8px; padding: 0.9rem 1.25rem; cursor: pointer; font-family: var(--font-body); font-size: 14px; color: var(--ink); transition: all 0.2s; }
+  .btn-afinar:hover { border-color: var(--accent); background: var(--accent-light); }
+  .afinar-left { display: flex; align-items: baseline; gap: 8px; }
+  .afinar-left .opc-opt { color: var(--muted); font-size: 12px; }
+  .opc-count { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 0.04em; margin-left: auto; }
+  .opc-chevron { font-family: var(--font-mono); font-size: 18px; line-height: 1; color: var(--muted); transition: transform 0.2s; }
+  .btn-afinar.open .opc-chevron { transform: rotate(45deg); }
+  .opcionais[hidden] { display: none; }
+  .opcionais { animation: fadeIn 0.3s ease; }
+  .opc-note { font-size: 12px; color: var(--muted); line-height: 1.5; background: var(--bg2); border-radius: 6px; padding: 0.75rem 1rem; margin-bottom: 1.25rem; }
+  .opc-note strong { color: var(--ink); font-weight: 500; }
   @media (max-width: 860px) {
     .s3-body { grid-template-columns: 1fr; }
     .s3-index { position: static; }
@@ -1289,7 +1302,7 @@
           <span class="s3-index-item is-todo"><span class="s3-index-num">06</span><span class="s3-index-name">Linguagem</span><span class="s3-index-badge todo">por construir</span></span>
           <span class="s3-index-item is-todo"><span class="s3-index-num">07</span><span class="s3-index-name">Estilo de resposta</span><span class="s3-index-badge todo">por construir</span></span>
           <span class="s3-index-item is-todo"><span class="s3-index-num">08</span><span class="s3-index-name">Onboarding</span><span class="s3-index-badge todo">por construir</span></span>
-          <a class="s3-index-item" href="#sec-09"><span class="s3-index-num">09</span><span class="s3-index-name">Protocolo de reconhecimento</span></a>
+          <a class="s3-index-item" href="#sec-09" onclick="openOpcionais()"><span class="s3-index-num">09</span><span class="s3-index-name">Protocolo de reconhecimento</span></a>
           <span class="s3-index-item is-todo"><span class="s3-index-num">10</span><span class="s3-index-name">Tarefas específicas</span><span class="s3-index-badge todo">por construir</span></span>
           <span class="s3-index-item is-todo"><span class="s3-index-num">11</span><span class="s3-index-name">Fontes oficiais</span><span class="s3-index-badge todo">por construir</span></span>
           <span class="s3-index-item is-todo"><span class="s3-index-num">12</span><span class="s3-index-name">Conhecimento técnico</span><span class="s3-index-badge todo">por construir</span></span>
@@ -1372,6 +1385,17 @@
 
         </div>
 
+    <div class="afinar-bar">
+      <button class="btn-afinar" id="btnAfinar" onclick="toggleOpcionais()" aria-expanded="false" aria-controls="opcionais">
+        <span class="afinar-left"><strong>Afinar mais</strong> <span class="opc-opt">(opcional)</span></span>
+        <span class="opc-count">12 secções opcionais</span>
+        <span class="opc-chevron">+</span>
+      </button>
+    </div>
+
+    <div class="opcionais" id="opcionais" hidden>
+      <div class="opc-note">Das 12 secções opcionais, só <strong>Protocolo de reconhecimento</strong> está disponível neste protótipo. As restantes 11 aparecem no índice como <em>por construir</em>.</div>
+
     <div class="example-bar" id="sec-09">
       <div class="example-bar-text"><strong>Não sabes o que pôr?</strong> Vê como ficaria para a tua área — escolhe uma profissão e carrega "ver exemplo".</div>
       <div class="ex-prof-tabs" id="exProfTabs">
@@ -1439,6 +1463,7 @@
         </div>
       </aside>
     </div>
+    </div><!-- /opcionais -->
 
       </div>
     </div>
@@ -1826,6 +1851,10 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     document.querySelectorAll('.modal-q-opt').forEach(el => el.classList.remove('active'));
     document.getElementById('modalResult').classList.remove('show');
     document.getElementById('rgpdWarn').classList.remove('show');
+    const _opc = document.getElementById('opcionais');
+    if (_opc) _opc.setAttribute('hidden', '');
+    const _btn = document.getElementById('btnAfinar');
+    if (_btn) { _btn.classList.remove('open'); _btn.setAttribute('aria-expanded', 'false'); }
     goTo(1);
     closeQuizModal();
   }
@@ -1915,6 +1944,31 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     const el = document.getElementById(id);
     const d = PROF[curProf];
     if (el && d[id] !== undefined) el.value = d[id];
+  }
+
+  // ─── Fase 2: recolher opcionais ───
+  function toggleOpcionais() {
+    const panel = document.getElementById('opcionais');
+    const btn = document.getElementById('btnAfinar');
+    const willOpen = panel.hasAttribute('hidden');
+    if (willOpen) {
+      panel.removeAttribute('hidden');
+      btn.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+    } else {
+      panel.setAttribute('hidden', '');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+    }
+  }
+  function openOpcionais() {
+    const panel = document.getElementById('opcionais');
+    const btn = document.getElementById('btnAfinar');
+    if (panel && panel.hasAttribute('hidden')) {
+      panel.removeAttribute('hidden');
+      btn.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+    }
   }
 
   // init
