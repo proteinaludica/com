@@ -1298,7 +1298,7 @@
   <div class="screen-inner">
     <div class="step-label">Passo 3 de 4</div>
     <h1 class="screen-title">Preencher as <em>17 secções</em></h1>
-    <p class="screen-sub">Uma secção por ecrã. Guardamos o que escreves — podes sair e voltar quando quiseres.</p>
+    <p class="screen-sub">Uma secção por ecrã. O que for preenchido fica guardado — pode sair e voltar quando quiser.</p>
 
     <div class="section-progress">
       <div class="section-counter">Secção <strong>3</strong> de 17 · <span style="color:var(--ink)">Protocolo de reconhecimento</span></div>
@@ -1402,7 +1402,7 @@
 
     <div class="rever-bar">
       <button class="btn-accent btn-rever" id="btnRever" onclick="reverTerminar()" disabled>Rever e terminar →</button>
-      <span class="rever-hint" id="reverHint">Preenche as <strong>5 secções obrigatórias</strong> para terminar. As opcionais ficam de fora.</span>
+      <span class="rever-hint" id="reverHint">Faltam as <strong>5 secções obrigatórias</strong> para terminar. As opcionais ficam de fora.</span>
     </div>
 
     <div class="afinar-bar">
@@ -1417,7 +1417,7 @@
       <div class="opc-note">Das 12 secções opcionais, só <strong>Protocolo de reconhecimento</strong> está disponível neste protótipo. As restantes 11 aparecem no índice como <em>por construir</em>.</div>
 
     <div class="example-bar" id="sec-09">
-      <div class="example-bar-text"><strong>Não sabes o que pôr?</strong> Vê como ficaria para a tua área — escolhe uma profissão e carrega "ver exemplo".</div>
+      <div class="example-bar-text"><strong>Sem ideia do que pôr?</strong> Veja como ficaria para a sua área — escolha uma profissão e carregue em "ver exemplo".</div>
       <div class="ex-prof-tabs" id="exProfTabs">
         <button class="ex-prof-tab active" data-prof="nutri" onclick="setProf('nutri')">Nutricionista</button>
         <button class="ex-prof-tab" data-prof="adv" onclick="setProf('adv')">Advogado</button>
@@ -1437,7 +1437,7 @@
 
         <div class="fill-field">
           <label for="f-code">Código ou gesto de reconhecimento</label>
-          <input type="text" id="f-code" placeholder="ex: o teu nº profissional, ou uma palavra só tua" oninput="checkRGPD(this)">
+          <input type="text" id="f-code" placeholder="ex: o seu nº profissional, ou uma palavra só sua" oninput="checkRGPD(this)">
           <div class="field-actions">
             <button class="btn-example" onclick="fillEx('f-code')">↳ ver exemplo</button>
             <span class="btn-pro">✨ Pro<span class="pro-tip">o IA ajuda a responder · 49€</span></span>
@@ -1446,7 +1446,7 @@
 
         <div class="fill-field">
           <label for="f-behaviour">O que acontece quando o código é detectado?</label>
-          <textarea id="f-behaviour" placeholder="Descreve em 2-3 frases o comportamento do assistente no modo técnico." oninput="checkRGPD(this)"></textarea>
+          <textarea id="f-behaviour" placeholder="Descreva em 2-3 frases o comportamento do assistente no modo técnico." oninput="checkRGPD(this)"></textarea>
           <div class="field-actions">
             <button class="btn-example" onclick="fillEx('f-behaviour')">↳ ver exemplo</button>
             <span class="btn-pro">✨ Pro<span class="pro-tip">o IA ajuda a responder · 49€</span></span>
@@ -1463,7 +1463,7 @@
         </div>
 
         <div class="rgpd-warn" id="rgpdWarn">
-          <strong>Atenção RGPD:</strong> detectámos o que parece ser um dado pessoal identificável (nome completo, número de cliente, data de nascimento ou similar). Para respeitar a privacidade dos teus clientes, usa apenas iniciais + idade — ex: <em>"M.A., 62a"</em>. Este aviso aparece só para ti, não bloqueia.
+          <strong>Atenção RGPD:</strong> detectámos o que parece ser um dado pessoal identificável (nome completo, número de cliente, data de nascimento ou similar). Para respeitar a privacidade dos seus clientes, use apenas iniciais + idade — ex: <em>"M.A., 62a"</em>. Este aviso aparece só para si, não bloqueia.
         </div>
 
         <div class="fill-nav">
@@ -1480,7 +1480,7 @@
         <div class="aside-title" id="asideTitle">Nutricionista Digital · acompanhamento</div>
         <div class="aside-example" id="asideExample">Ao detectar o código <strong>nutri-c12</strong>, o assistente passa a modo técnico: mostra histórico de peso, registo alimentar e metas calóricas em tabela. Ao digitar <strong>fim</strong>, regressa ao modo cliente e omite o código.</div>
         <div class="aside-hint">
-          <strong>Dica.</strong> Usa um código que só tu saibas — não algo óbvio. Serve para o assistente saber quando és tu a falar e não um cliente.
+          <strong>Dica.</strong> Use um código que só o profissional conheça — não algo óbvio. Serve para o assistente saber quando é o profissional a falar, e não um cliente.
         </div>
         <div class="aside-pro">
           <div class="aside-pro-title">✨ Versão Pro · 49€</div>
@@ -1494,7 +1494,7 @@
     </div>
 
     <div class="demo-skip">
-      <div>No protótipo real preencherias todas as 17 secções. Para esta demo:</div>
+      <div>No protótipo real seriam preenchidas todas as 17 secções. Para esta demonstração:</div>
       <button onclick="goTo(4)">Saltar para output ⏭</button>
     </div>
   </div>
