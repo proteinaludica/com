@@ -1142,6 +1142,12 @@
   .prof-unfreeze:hover { background: var(--accent); color: white; }
   .ex-prof-tab.frozen { border-color: var(--accent); }
   .ex-prof-tab.frozen::after { content: ' 🔒'; font-size: 10px; }
+  /* Chips de sugestão (ponto de partida editável) */
+  .chips { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 9px; }
+  .chips-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted2); margin-right: 2px; }
+  .chip { font-family: var(--font-body); font-size: 12px; color: var(--ink2); background: var(--bg2); border: 0.5px solid var(--border-strong); border-radius: 14px; padding: 5px 12px; cursor: pointer; transition: all 0.15s; }
+  .chip:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+  .chip.used { opacity: 0.4; cursor: default; text-decoration: line-through; pointer-events: none; }
   @media (max-width: 860px) {
     .s3-body { grid-template-columns: 1fr; }
     .s3-index { position: static; }
@@ -1353,6 +1359,12 @@
             <div class="fill-field">
               <label for="f-missao">Missão</label>
               <textarea id="f-missao" placeholder="ex: Ajudar os utentes a prepararem-se para a consulta e a esclarecer dúvidas entre consultas." oninput="checkRGPD(this)"></textarea>
+              <div class="chips" aria-label="Sugestões para começar">
+                <span class="chips-label">começar com</span>
+                <button type="button" class="chip" data-insert="A minha missão é " onclick="insertChip('f-missao', this)">A minha missão é…</button>
+                <button type="button" class="chip" data-insert="Quero que os meus utentes " onclick="insertChip('f-missao', this)">Quero que os meus utentes…</button>
+                <button type="button" class="chip" data-insert="O que me distingue é " onclick="insertChip('f-missao', this)">O que me distingue é…</button>
+              </div>
               <div class="field-actions">
                 <span class="btn-pro">✨ Pro<span class="pro-tip">o IA ajuda a responder · 49€</span></span>
               </div>
@@ -1880,6 +1892,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     if (_opc) _opc.setAttribute('hidden', '');
     const _btn = document.getElementById('btnAfinar');
     if (_btn) { _btn.classList.remove('open'); _btn.setAttribute('aria-expanded', 'false'); }
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('used'));
     checkObrigatorias();
     unfreezeProf();
     setProf('nutri');
@@ -2044,6 +2057,20 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   function reverTerminar() {
     if (document.getElementById('btnRever').disabled) return;
     goTo(4);
+  }
+
+  // ─── Chips de sugestão (ponto de partida editável) ───
+  function insertChip(fieldId, btn) {
+    const el = document.getElementById(fieldId);
+    if (!el || btn.classList.contains('used')) return;
+    const text = btn.dataset.insert || btn.textContent.trim();
+    const cur = el.value;
+    // acrescenta no fim, sem apagar o que já lá está
+    el.value = (cur.trim() && !/\s$/.test(cur)) ? (cur + ' ' + text) : (cur + text);
+    btn.classList.add('used'); // cada chip tocado uma vez
+    el.focus();
+    try { el.setSelectionRange(el.value.length, el.value.length); } catch (e) {}
+    el.dispatchEvent(new Event('input', { bubbles: true })); // atualiza RGPD / "Rever e terminar"
   }
 
   // init
