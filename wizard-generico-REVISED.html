@@ -1134,6 +1134,14 @@
   .btn-rever[disabled]:hover { background: var(--accent); transform: none; }
   .rever-hint { font-size: 12px; color: var(--ink2); line-height: 1.45; }
   .rever-hint strong { color: var(--accent); font-weight: 500; }
+  /* Fase 4: congelamento da profissão */
+  .prof-frozen { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 1.25rem; font-size: 12px; color: var(--ink2); background: var(--accent-light); border: 0.5px solid var(--accent); border-radius: 6px; padding: 8px 12px; }
+  .prof-frozen[hidden] { display: none; }
+  .prof-frozen strong { color: var(--accent); font-weight: 500; }
+  .prof-unfreeze { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.04em; color: var(--accent); background: transparent; border: 0.5px solid var(--accent); border-radius: 3px; padding: 3px 9px; cursor: pointer; margin-left: auto; transition: all 0.2s; }
+  .prof-unfreeze:hover { background: var(--accent); color: white; }
+  .ex-prof-tab.frozen { border-color: var(--accent); }
+  .ex-prof-tab.frozen::after { content: ' 🔒'; font-size: 10px; }
   @media (max-width: 860px) {
     .s3-body { grid-template-columns: 1fr; }
     .s3-index { position: static; }
@@ -1415,6 +1423,11 @@
         <button class="ex-prof-tab" data-prof="adv" onclick="setProf('adv')">Advogado</button>
         <button class="ex-prof-tab" data-prof="eng" onclick="setProf('eng')">Engenheiro</button>
       </div>
+    </div>
+
+    <div class="prof-frozen" id="profFrozen" hidden>
+      🔒 Profissão congelada: <strong id="frozenProfName">Nutricionista</strong> · o exemplo foi aplicado a esta profissão.
+      <button class="prof-unfreeze" onclick="unfreezeProf()">trocar profissão</button>
     </div>
 
     <div class="fill-grid">
@@ -1868,6 +1881,8 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     const _btn = document.getElementById('btnAfinar');
     if (_btn) { _btn.classList.remove('open'); _btn.setAttribute('aria-expanded', 'false'); }
     checkObrigatorias();
+    unfreezeProf();
+    setProf('nutri');
     goTo(1);
     closeQuizModal();
   }
@@ -1944,8 +1959,11 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     }
   };
   let curProf = 'nutri';
+  let frozenProf = null; // profissão congelada ao aplicar um exemplo
 
   function setProf(p) {
+    // tabs continuam a funcionar: trocar de tab descongela a escolha
+    if (frozenProf && p !== frozenProf) unfreezeProf();
     curProf = p;
     document.querySelectorAll('.ex-prof-tab').forEach(t => t.classList.toggle('active', t.dataset.prof === p));
     const d = PROF[p];
@@ -1953,9 +1971,30 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     document.getElementById('asideTitle').textContent = d.title;
     document.getElementById('asideExample').innerHTML = d.example;
   }
+
+  // ─── Fase 4: congelar a profissão ativa ───
+  function freezeProf(p) {
+    frozenProf = p;
+    const banner = document.getElementById('profFrozen');
+    if (banner) {
+      document.getElementById('frozenProfName').textContent = PROF[p].nome;
+      banner.removeAttribute('hidden');
+    }
+    document.querySelectorAll('.ex-prof-tab').forEach(t => t.classList.toggle('frozen', t.dataset.prof === p));
+  }
+  function unfreezeProf() {
+    frozenProf = null;
+    const banner = document.getElementById('profFrozen');
+    if (banner) banner.setAttribute('hidden', '');
+    document.querySelectorAll('.ex-prof-tab').forEach(t => t.classList.remove('frozen'));
+  }
+
   function fillEx(id) {
+    // ao aplicar um exemplo, a profissão ativa congela; se já está congelada, usa essa
+    if (!frozenProf) freezeProf(curProf);
+    else if (curProf !== frozenProf) setProf(frozenProf);
     const el = document.getElementById(id);
-    const d = PROF[curProf];
+    const d = PROF[frozenProf];
     if (el && d[id] !== undefined) el.value = d[id];
   }
 
