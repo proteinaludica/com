@@ -1073,6 +1073,26 @@
     .fill-main, .fill-aside { padding: 1.25rem; }
     .upgrade-block, .pdf-mockup { padding: 1.25rem; }
   }
+
+  /* ─── NÍVEL A: exemplos + Pro (herdado do wizard médico) ─── */
+  .field-actions { display: flex; align-items: center; gap: 8px; margin-top: 7px; flex-wrap: wrap; }
+  .btn-example { display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.04em; color: var(--accent); background: var(--accent-light); border: 0.5px solid transparent; padding: 4px 10px; border-radius: 4px; cursor: pointer; transition: all 0.15s; }
+  .btn-example:hover { border-color: var(--accent); }
+  .btn-pro { display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.04em; color: #6B3FA0; background: #F0E9F8; border: 0.5px dashed #6B3FA0; padding: 4px 10px; border-radius: 4px; cursor: not-allowed; opacity: 0.85; position: relative; }
+  .btn-pro:hover .pro-tip { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .pro-tip { position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%) translateY(4px); background: var(--ink); color: white; font-family: var(--font-body); font-size: 11px; letter-spacing: 0; padding: 6px 10px; border-radius: 5px; white-space: nowrap; opacity: 0; transition: all 0.2s; z-index: 10; box-shadow: var(--shadow-lg); pointer-events: none; }
+  .pro-tip::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-top-color: var(--ink); }
+  .example-bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; background: var(--surface); border: 0.5px solid var(--border-strong); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .example-bar-text { font-size: 13px; color: var(--ink2); }
+  .example-bar-text strong { color: var(--ink); font-weight: 500; }
+  .ex-prof-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+  .ex-prof-tab { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.03em; padding: 5px 12px; border-radius: 20px; border: 0.5px solid var(--border-strong); background: var(--surface); cursor: pointer; transition: all 0.2s; color: var(--ink2); }
+  .ex-prof-tab:hover { border-color: var(--accent); }
+  .ex-prof-tab.active { background: var(--accent); color: white; border-color: var(--accent); }
+  .aside-pro { margin-top: 1rem; padding: 1rem; background: #F0E9F8; border: 0.5px solid #6B3FA0; border-radius: 8px; }
+  .aside-pro-title { font-size: 12px; font-weight: 500; color: #6B3FA0; margin-bottom: 5px; }
+  .aside-pro-text { font-size: 12px; color: var(--ink2); line-height: 1.5; }
+  .aside-pro-text strong { color: #6B3FA0; }
 </style>
 </head>
 <body>
@@ -1110,7 +1130,8 @@
     <p class="screen-sub">Cada plataforma tem vantagens diferentes. Escolhe a que já usas — ou pede-nos para escolher por ti.</p>
 
     <div class="platform-grid">
-      <button class="platform-card" onclick="selectPlatform('claude','Claude Projects')">
+      <button class="platform-card" style="border-color:var(--accent); position:relative;" onclick="selectPlatform('claude','Claude Projects')">
+        <div style="position:absolute; top:10px; right:10px; font-family:var(--font-mono); font-size:9px; letter-spacing:0.06em; text-transform:uppercase; color:var(--accent); background:var(--accent-light); padding:2px 8px; border-radius:3px;">Recomendado</div>
         <div class="platform-badge b-claude">C</div>
         <div class="platform-name">Claude Projects</div>
         <div class="platform-desc">Melhor para texto longo e raciocínio clínico detalhado.</div>
@@ -1144,6 +1165,13 @@
         <div class="platform-badge b-mistral">M</div>
         <div class="platform-name">Mistral Le Chat</div>
         <div class="platform-desc">LLM europeu. Privacidade máxima, dados na UE.</div>
+      </button>
+
+      <button class="platform-card" style="border-style:dashed; border-color:#6B3FA0; cursor:not-allowed; opacity:0.85; position:relative;" onclick="alert('Em desenvolvimento. Em breve poderás alojar o teu assistente directamente na Proteína Lúdica, sem o copiar para outra plataforma.')">
+        <div style="position:absolute; top:10px; right:10px; font-family:var(--font-mono); font-size:9px; letter-spacing:0.06em; text-transform:uppercase; color:#6B3FA0; background:#F0E9F8; padding:2px 8px; border-radius:3px;">Em breve</div>
+        <div class="platform-badge" style="background:#6B3FA0;">PL</div>
+        <div class="platform-name">Proteína Lúdica</div>
+        <div class="platform-desc">Aloja o assistente connosco — sem copiar para fora. O utente acede por link. <strong>Em desenvolvimento.</strong></div>
       </button>
 
       <button class="platform-card platform-card-solo" onclick="selectPlatform('outro','Outro / não sei')">
@@ -1224,28 +1252,49 @@
       <div class="section-pbar"><div class="section-pbar-fill"></div></div>
     </div>
 
+    <div class="example-bar">
+      <div class="example-bar-text"><strong>Não sabes o que pôr?</strong> Vê como ficaria para a tua área — escolhe uma profissão e carrega "ver exemplo".</div>
+      <div class="ex-prof-tabs" id="exProfTabs">
+        <button class="ex-prof-tab active" data-prof="nutri" onclick="setProf('nutri')">Nutricionista</button>
+        <button class="ex-prof-tab" data-prof="adv" onclick="setProf('adv')">Advogado</button>
+        <button class="ex-prof-tab" data-prof="eng" onclick="setProf('eng')">Engenheiro</button>
+      </div>
+    </div>
+
     <div class="fill-grid">
       <div class="fill-main">
         <div class="fill-title">Protocolo de reconhecimento</div>
-        <div class="fill-guide">Um código ou palavra secreta que distingue o profissional do utente comum. Muda a conversa para modo técnico.</div>
+        <div class="fill-guide">Um código ou palavra secreta que distingue o profissional do cliente comum. Muda a conversa para modo técnico.</div>
 
         <div class="fill-field">
           <label for="f-code">Código ou gesto de reconhecimento</label>
-          <input type="text" id="f-code" placeholder="ex: med46316" oninput="checkRGPD(this)">
+          <input type="text" id="f-code" placeholder="ex: o teu nº profissional, ou uma palavra só tua" oninput="checkRGPD(this)">
+          <div class="field-actions">
+            <button class="btn-example" onclick="fillEx('f-code')">↳ ver exemplo</button>
+            <span class="btn-pro">✨ Pro<span class="pro-tip">o IA ajuda a responder · 49€</span></span>
+          </div>
         </div>
 
         <div class="fill-field">
           <label for="f-behaviour">O que acontece quando o código é detectado?</label>
-          <textarea id="f-behaviour" placeholder="Descreve em 2-3 frases o comportamento do assistente digital IA no modo técnico. Ex: muda a linguagem para técnica, apresenta relatório estruturado, etc." oninput="checkRGPD(this)"></textarea>
+          <textarea id="f-behaviour" placeholder="Descreve em 2-3 frases o comportamento do assistente no modo técnico." oninput="checkRGPD(this)"></textarea>
+          <div class="field-actions">
+            <button class="btn-example" onclick="fillEx('f-behaviour')">↳ ver exemplo</button>
+            <span class="btn-pro">✨ Pro<span class="pro-tip">o IA ajuda a responder · 49€</span></span>
+          </div>
         </div>
 
         <div class="fill-field">
           <label for="f-exit">Palavra para regressar ao modo normal</label>
           <input type="text" id="f-exit" placeholder="ex: fim" oninput="checkRGPD(this)">
+          <div class="field-actions">
+            <button class="btn-example" onclick="fillEx('f-exit')">↳ ver exemplo</button>
+            <span class="btn-pro">✨ Pro<span class="pro-tip">o IA ajuda a responder · 49€</span></span>
+          </div>
         </div>
 
         <div class="rgpd-warn" id="rgpdWarn">
-          <strong>Atenção RGPD:</strong> detectámos o que parece ser um dado pessoal identificável (nome completo, número de utente, data de nascimento ou similar). Para respeitar a privacidade dos teus doentes, usa apenas iniciais + idade — ex: <em>"M.A., 62a"</em>. Este aviso aparece só para ti, não bloqueia.
+          <strong>Atenção RGPD:</strong> detectámos o que parece ser um dado pessoal identificável (nome completo, número de cliente, data de nascimento ou similar). Para respeitar a privacidade dos teus clientes, usa apenas iniciais + idade — ex: <em>"M.A., 62a"</em>. Este aviso aparece só para ti, não bloqueia.
         </div>
 
         <div class="fill-nav">
@@ -1258,12 +1307,15 @@
       </div>
 
       <aside class="fill-aside">
-        <div class="aside-label">Exemplo real</div>
-        <div class="aside-title">Médico de Família Digital · Ponta Delgada</div>
-        <div class="aside-example">Ao detectar o código <strong>med46316</strong>, interrompe a conversa pedagógica e passa a linguagem técnica. Apresenta painel biométrico (IMC, TA, glicémia com contexto prandial), vigilância preventiva (rastreios atrasados a negrito) e checklist para utente. Ao digitar <strong>fim</strong>, regressa ao modo utente e omite qualquer menção ao código.</div>
-
+        <div class="aside-label">Exemplo · <span id="asideProfName">Nutricionista</span></div>
+        <div class="aside-title" id="asideTitle">Nutricionista Digital · acompanhamento</div>
+        <div class="aside-example" id="asideExample">Ao detectar o código <strong>nutri-c12</strong>, o assistente passa a modo técnico: mostra histórico de peso, registo alimentar e metas calóricas em tabela. Ao digitar <strong>fim</strong>, regressa ao modo cliente e omite o código.</div>
         <div class="aside-hint">
-          <strong>Dica.</strong> Usa um código que só tu saibas — não algo óbvio. Pode ser o teu nº profissional, uma palavra sem sentido, ou frase curta. Serve para o assistente digital IA saber quando estás tu a falar e não um doente.
+          <strong>Dica.</strong> Usa um código que só tu saibas — não algo óbvio. Serve para o assistente saber quando és tu a falar e não um cliente.
+        </div>
+        <div class="aside-pro">
+          <div class="aside-pro-title">✨ Versão Pro · 49€</div>
+          <div class="aside-pro-text">No grátis há <strong>exemplos fixos</strong>. Na Pro, o <strong>IA ajuda a responder</strong>: parte do rascunho do profissional e devolve a secção escrita no estilo dele. O profissional revê e decide.</div>
         </div>
       </aside>
     </div>
@@ -1698,6 +1750,49 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     }
     if (e.key === 'Escape') closeQuizModal();
   });
+
+  // ─── NÍVEL A: exemplos por profissão (sem IA, texto fixo) ───
+  const PROF = {
+    nutri: {
+      nome: 'Nutricionista',
+      title: 'Nutricionista Digital · acompanhamento',
+      'f-code': 'nutri-c12',
+      'f-behaviour': 'Ao detectar o código, passa a modo técnico: mostra histórico de peso, registo alimentar e metas calóricas em tabela. Linguagem objectiva, para o profissional rever antes da consulta.',
+      'f-exit': 'fim',
+      example: 'Ao detectar o código <strong>nutri-c12</strong>, o assistente passa a modo técnico: mostra histórico de peso, registo alimentar e metas calóricas em tabela. Ao digitar <strong>fim</strong>, regressa ao modo cliente e omite o código.'
+    },
+    adv: {
+      nome: 'Advogado',
+      title: 'Assistente Jurídico Digital · escritório',
+      'f-code': 'adv-47x',
+      'f-behaviour': 'Ao detectar o código, passa a modo técnico: resume o processo, lista prazos processuais e peças em falta. Linguagem jurídica precisa, para o advogado rever antes de avançar.',
+      'f-exit': 'fechar',
+      example: 'Ao detectar o código <strong>adv-47x</strong>, o assistente resume o processo, lista prazos e peças em falta em formato técnico. Ao digitar <strong>fechar</strong>, regressa ao modo cliente e omite o código.'
+    },
+    eng: {
+      nome: 'Engenheiro',
+      title: 'Assistente Técnico Digital · gabinete',
+      'f-code': 'eng-31k',
+      'f-behaviour': 'Ao detectar o código, passa a modo técnico: resume o estado do projeto, lista prazos de entrega e pontos por validar. Linguagem técnica precisa, para o engenheiro rever antes de avançar.',
+      'f-exit': 'fim',
+      example: 'Ao detectar o código <strong>eng-31k</strong>, o assistente resume o estado do projeto, lista prazos e pontos por validar em formato técnico. Ao digitar <strong>fim</strong>, regressa ao modo cliente e omite o código.'
+    }
+  };
+  let curProf = 'nutri';
+
+  function setProf(p) {
+    curProf = p;
+    document.querySelectorAll('.ex-prof-tab').forEach(t => t.classList.toggle('active', t.dataset.prof === p));
+    const d = PROF[p];
+    document.getElementById('asideProfName').textContent = d.nome;
+    document.getElementById('asideTitle').textContent = d.title;
+    document.getElementById('asideExample').innerHTML = d.example;
+  }
+  function fillEx(id) {
+    const el = document.getElementById(id);
+    const d = PROF[curProf];
+    if (el && d[id] !== undefined) el.value = d[id];
+  }
 
   // init
   updateProgress();
