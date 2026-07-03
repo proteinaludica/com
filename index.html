@@ -11,15 +11,19 @@
 <style>
   :root{
     --fundo:#141A10;          /* verde-escuro Laurissilva — nunca preto puro */
-    --fundo-2:#1A2214;        /* faixa/cartões */
+    --fundo-2:#1A2214;
+    --cartao-a:#1B2315;       /* topo do gradiente dos cartões */
+    --cartao-b:#161C11;       /* base do gradiente dos cartões */
+    --faq:#171E12;
     --musgo:#8FAA6B;
     --musgo-claro:#A9C287;
     --ocre:#C8A86B;
     --texto:#E9EDE3;
     --texto-2:#B9C2AD;
-    --linha:rgba(143,170,107,.22);
-    --raio:14px;
-    --largura:1080px;
+    --texto-3:#8A9478;
+    --linha:rgba(143,170,107,.14);
+    --linha-2:rgba(143,170,107,.35);
+    --largura:1040px;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -31,139 +35,205 @@
     background:var(--fundo);
     color:var(--texto);
     font-family:'Geist',system-ui,-apple-system,sans-serif;
-    font-size:17px;line-height:1.65;
+    font-size:16px;line-height:1.6;
     -webkit-font-smoothing:antialiased;
   }
-  h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;line-height:1.15;letter-spacing:-.01em}
+  h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;line-height:1.15;letter-spacing:-.015em}
   a{color:var(--musgo-claro)}
   a:focus-visible,button:focus-visible,summary:focus-visible{
     outline:2px solid var(--ocre);outline-offset:3px;border-radius:4px;
   }
-  .contentor{max-width:var(--largura);margin:0 auto;padding:0 24px}
-  section{padding:88px 0}
-  .titulo-seccao{font-size:clamp(1.7rem,3.5vw,2.3rem);margin-bottom:14px}
-  .apoio-seccao{color:var(--texto-2);max-width:56ch;margin-bottom:44px}
+  .contentor{max-width:var(--largura);margin:0 auto;padding:0 20px}
+  .titulo-seccao{font-size:clamp(1.55rem,4.5vw,1.875rem);text-align:center}
 
   /* ---------- Header ---------- */
   header{
     position:sticky;top:0;z-index:20;
     background:rgba(20,26,16,.92);
     backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
     border-bottom:1px solid var(--linha);
   }
-  .barra{display:flex;align-items:center;justify-content:space-between;height:64px}
-  .marca{font-family:'Fraunces',serif;font-size:1.15rem;color:var(--texto);text-decoration:none}
+  .barra{display:flex;align-items:center;justify-content:space-between;height:56px}
+  .marca{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:1rem;color:var(--texto);text-decoration:none}
   .marca span{color:var(--musgo)}
-  nav ul{display:flex;gap:26px;list-style:none;align-items:center}
-  nav a{color:var(--texto-2);text-decoration:none;font-size:.92rem}
-  nav a:hover{color:var(--texto)}
+  nav ul{display:flex;gap:24px;list-style:none;align-items:center}
+  nav a{color:var(--texto-2);text-decoration:none;font-size:.845rem;transition:color .15s ease}
+  nav a:hover,nav a[aria-current="page"]{color:var(--texto)}
   .nav-cta{
     background:var(--musgo);color:var(--fundo)!important;
     padding:8px 16px;border-radius:999px;font-weight:600;
+    transition:background .15s ease;
   }
-  .so-desktop{display:flex}
-  @media (max-width:760px){ .so-desktop{display:none} }
+  .nav-cta:hover{background:var(--musgo-claro)}
+  .so-desktop{display:none}
+  .menu-btn{
+    display:flex;flex-direction:column;gap:4px;justify-content:center;
+    background:none;border:0;padding:12px 8px;cursor:pointer;min-height:44px;
+  }
+  .menu-btn span{width:17px;height:1.5px;background:var(--texto);display:block;border-radius:2px;transition:transform .2s ease,opacity .2s ease}
+  .menu-btn[aria-expanded="true"] span:first-child{transform:translateY(5.5px) rotate(45deg)}
+  .menu-btn[aria-expanded="true"] span:last-child{transform:translateY(-5.5px) rotate(-45deg)}
+  #menu-movel{border-top:1px solid var(--linha);padding:10px 20px 18px}
+  #menu-movel a{
+    display:block;padding:13px 4px;color:var(--texto-2);text-decoration:none;
+    font-size:.97rem;border-bottom:1px solid var(--linha);
+  }
+  #menu-movel a:hover{color:var(--texto)}
+  #menu-movel .nav-cta{
+    margin-top:14px;text-align:center;border-bottom:0;
+    padding:13px 16px;font-size:.95rem;
+  }
+  @media (min-width:761px){
+    .barra{height:60px}
+    .marca{font-size:1.06rem}
+    .so-desktop{display:flex}
+    .menu-btn,#menu-movel{display:none}
+  }
 
   /* ---------- Hero ---------- */
   .hero{
-    padding:112px 0 96px;
-    background:
-      radial-gradient(900px 420px at 78% -10%, rgba(143,170,107,.14), transparent 65%),
-      radial-gradient(700px 380px at 8% 110%, rgba(200,168,107,.08), transparent 60%);
-    border-bottom:1px solid var(--linha);
+    padding:72px 0 60px;text-align:center;
+    background:radial-gradient(680px 340px at 50% -12%, rgba(143,170,107,.13), transparent 65%);
   }
-  .hero h1{font-size:clamp(2.3rem,5.4vw,3.6rem);max-width:20ch;margin-bottom:22px}
-  .hero .canonica{font-size:clamp(1.05rem,2vw,1.25rem);color:var(--texto-2);max-width:52ch;margin-bottom:26px}
-  .ponte{
-    color:var(--ocre);font-size:.98rem;margin-bottom:30px;
-    display:flex;align-items:center;gap:10px;
-  }
-  .ponte::before{content:"";width:26px;height:1px;background:var(--ocre);flex:none}
-  .accoes{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+  .hero h1{font-size:clamp(1.95rem,7.5vw,3rem);line-height:1.1;max-width:19ch;margin:0 auto 18px}
+  .hero .canonica{font-size:clamp(1rem,2.5vw,1.125rem);color:var(--texto-2);max-width:50ch;margin:0 auto 16px}
+  .ponte{color:var(--ocre);font-size:clamp(.845rem,2vw,.905rem);max-width:60ch;margin:0 auto 32px}
+  .accoes{display:flex;flex-direction:column;gap:11px;align-items:stretch}
   .btn{
-    display:inline-block;text-decoration:none;font-weight:600;font-size:1rem;
-    padding:14px 26px;border-radius:999px;transition:transform .15s ease,background .15s ease;
+    display:inline-block;text-decoration:none;font-weight:600;font-size:.94rem;
+    padding:14px 24px;border-radius:999px;text-align:center;
+    transition:background .15s ease,border-color .15s ease,transform .15s ease;
   }
   .btn-primario{background:var(--musgo);color:var(--fundo)}
   .btn-primario:hover{background:var(--musgo-claro);transform:translateY(-1px)}
-  .btn-secundario{color:var(--texto);border:1px solid var(--linha);background:transparent}
-  .btn-secundario:hover{border-color:var(--musgo)}
-
-  /* ---------- Cartões (catálogo + como começar) ---------- */
-  .grelha{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px}
-  .cartao{
-    background:var(--fundo-2);
-    border:1px solid var(--linha);
-    border-radius:var(--raio);
-    padding:28px 26px;
-    display:flex;flex-direction:column;gap:12px;
-    transition:border-color .15s ease,transform .15s ease;
+  .btn-secundario{color:var(--texto);border:1px solid var(--linha-2);background:transparent}
+  .btn-secundario:hover{border-color:var(--musgo);background:rgba(143,170,107,.06)}
+  @media (min-width:761px){
+    .hero{padding:112px 0 96px}
+    .accoes{flex-direction:row;gap:12px;justify-content:center;align-items:center}
+    .btn{padding:13px 26px}
   }
-  .cartao:hover{border-color:var(--musgo);transform:translateY(-2px)}
-  .cartao h3{font-size:1.28rem}
-  .cartao p{color:var(--texto-2);font-size:.97rem;flex:1}
-  .cartao .ligacao{font-weight:600;text-decoration:none;font-size:.95rem}
-  .cartao .ligacao:hover{text-decoration:underline}
-  .estado{
-    align-self:flex-start;font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;
-    padding:4px 10px;border-radius:999px;font-weight:600;
-  }
-  .estado-disp{background:rgba(143,170,107,.16);color:var(--musgo-claro)}
-  .estado-breve{background:rgba(200,168,107,.14);color:var(--ocre)}
-  .cartao-breve{border-style:dashed;border-color:rgba(200,168,107,.4)}
-  .cartao-breve:hover{transform:none;border-color:rgba(200,168,107,.4)}
-  .linha-final{color:var(--texto-2);font-size:.92rem;margin-top:26px}
 
   /* ---------- Faixa de confiança ---------- */
   .faixa{
-    background:var(--fundo-2);
     border-top:1px solid var(--linha);
     border-bottom:1px solid var(--linha);
-    padding:44px 0;
+    background:rgba(26,34,20,.5);
+    padding:32px 0;
   }
-  .selos{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:26px}
-  .selo{display:flex;gap:14px;align-items:flex-start}
-  .selo .icone{font-size:1.3rem;line-height:1.5;flex:none}
-  .selo strong{display:block;margin-bottom:4px}
-  .selo p{color:var(--texto-2);font-size:.93rem}
+  .selos{display:flex;flex-direction:column;gap:20px}
+  .selo{display:flex;gap:11px;align-items:flex-start}
+  .selo .ponto{width:6px;height:6px;border-radius:999px;background:var(--musgo);flex:none;margin-top:8px}
+  .selo strong{display:block;font-size:.875rem;font-weight:600;margin-bottom:2px}
+  .selo p{color:var(--texto-2);font-size:.815rem;line-height:1.55}
+  @media (min-width:761px){
+    .faixa{padding:34px 0}
+    .selos{display:grid;grid-template-columns:1fr 1fr 1fr;gap:40px}
+    .selo{gap:12px}
+    .selo .ponto{width:7px;height:7px;margin-top:7px}
+    .selo strong{font-size:.905rem;margin-bottom:3px}
+    .selo p{font-size:.845rem}
+  }
+
+  /* ---------- Secções ---------- */
+  section{padding:60px 0}
+  @media (min-width:761px){ section{padding:88px 0} }
+  .hero + .faixa{margin-top:0}
+
+  /* ---------- Como começar ---------- */
+  #comecar .titulo-seccao{margin-bottom:26px}
+  .grelha{display:flex;flex-direction:column;gap:14px}
+  .cartao{
+    background:linear-gradient(180deg,var(--cartao-a),var(--cartao-b));
+    border:1px solid rgba(143,170,107,.16);
+    border-radius:16px;
+    padding:24px 22px;
+    display:flex;flex-direction:column;gap:10px;
+    transition:border-color .15s ease,transform .15s ease;
+  }
+  .cartao:hover{border-color:rgba(143,170,107,.45);transform:translateY(-1px)}
+  .cartao h3{font-size:1.155rem}
+  .cartao p{color:var(--texto-2);font-size:.905rem;flex:1}
+  .cartao .ligacao{
+    font-weight:600;text-decoration:none;font-size:.905rem;
+    padding:5px 0;transition:color .15s ease;
+  }
+  .cartao .ligacao:hover{color:var(--ocre)}
+  @media (min-width:761px){
+    #comecar .titulo-seccao{margin-bottom:36px}
+    .grelha{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:920px;margin:0 auto}
+    .cartao{padding:28px 26px;gap:11px}
+    .cartao h3{font-size:1.25rem}
+    .cartao p{font-size:.94rem}
+  }
 
   /* ---------- Quem somos ---------- */
-  .quem p{max-width:62ch;color:var(--texto-2);margin-bottom:16px}
-  .quem p:first-of-type{color:var(--texto)}
-  .quem p:last-of-type{color:var(--musgo-claro);font-weight:500}
+  .quem{border-top:1px solid var(--linha)}
+  .quem .miolo{max-width:640px;margin:0 auto;text-align:center}
+  .quem .titulo-seccao{margin-bottom:20px}
+  .quem p{margin-bottom:14px;color:var(--texto-2);font-size:.905rem}
+  .quem p:first-of-type{color:var(--texto);font-size:1rem}
+  .quem p:last-of-type{color:var(--musgo-claro);font-weight:500;margin-bottom:0}
+  @media (min-width:761px){
+    .quem .titulo-seccao{margin-bottom:24px}
+    .quem p{font-size:.97rem;margin-bottom:16px}
+    .quem p:first-of-type{font-size:1.065rem}
+  }
 
   /* ---------- FAQ ---------- */
+  .faq{border-top:1px solid var(--linha)}
+  .faq .miolo{max-width:760px;margin:0 auto}
+  .faq .titulo-seccao{margin-bottom:22px}
   .faq details{
-    border-bottom:1px solid var(--linha);
-    padding:20px 0;
+    background:var(--faq);
+    border:1px solid var(--linha);
+    border-radius:12px;
+    padding:16px 18px;
+    margin-bottom:9px;
   }
+  .faq details:last-child{margin-bottom:0}
   .faq summary{
-    cursor:pointer;font-weight:600;font-size:1.04rem;list-style:none;
-    display:flex;justify-content:space-between;align-items:center;gap:16px;
+    cursor:pointer;font-weight:600;font-size:.905rem;list-style:none;
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px;
   }
   .faq summary::-webkit-details-marker{display:none}
-  .faq summary::after{content:"+";color:var(--musgo);font-size:1.4rem;flex:none;line-height:1}
-  .faq details[open] summary::after{content:"–"}
-  .faq details p{color:var(--texto-2);margin-top:12px;max-width:64ch}
+  .faq summary .texto-p{flex:1}
+  .faq .ind{color:var(--musgo);font-size:1.125rem;line-height:1;display:inline-flex;transition:transform .2s ease}
+  .faq details[open] .ind{transform:rotate(45deg)}
+  .faq details p{color:var(--texto-2);margin-top:9px;font-size:.875rem}
+  @media (min-width:761px){
+    .faq .titulo-seccao{margin-bottom:28px}
+    .faq details{padding:18px 22px;margin-bottom:10px}
+    .faq summary{font-size:.97rem;gap:16px}
+    .faq .ind{font-size:1.185rem}
+    .faq details p{margin-top:10px;font-size:.905rem}
+  }
 
   /* ---------- Contacto ---------- */
-  .contacto{text-align:left}
-  .contacto a{font-family:'Fraunces',serif;font-size:clamp(1.3rem,3vw,1.8rem);text-decoration:none}
-  .contacto a:hover{text-decoration:underline}
+  .contacto{border-top:1px solid var(--linha);text-align:center}
+  .contacto .titulo-seccao{margin-bottom:16px}
+  .contacto a{
+    font-family:'Fraunces',Georgia,serif;font-size:clamp(1.185rem,3.5vw,1.5rem);
+    text-decoration:none;border-bottom:1px solid rgba(169,194,135,.4);padding-bottom:2px;
+    transition:color .15s ease,border-color .15s ease;
+  }
+  .contacto a:hover{color:var(--ocre);border-color:var(--ocre)}
+  @media (min-width:761px){ .contacto .titulo-seccao{margin-bottom:18px} }
 
   /* ---------- Rodapé ---------- */
   footer{
     border-top:1px solid var(--linha);
-    padding:40px 0 48px;
-    color:var(--texto-2);font-size:.86rem;
+    padding:32px 0 40px;
+    color:var(--texto-2);font-size:.78rem;text-align:center;
   }
-  footer .aviso{max-width:70ch;margin-bottom:18px}
-  footer .legal{line-height:1.9}
-  footer .legal a{color:var(--musgo-claro);text-decoration:none}
-  footer .legal a:hover{text-decoration:underline}
-  @media (max-width:760px){
-    section{padding:64px 0}
-    .hero{padding:88px 0 72px}
+  footer .aviso{max-width:70ch;margin:0 auto 10px}
+  footer .legal{color:var(--texto-3)}
+  footer .legal a{color:var(--texto-2);text-decoration:none}
+  footer .legal a:hover{color:var(--texto)}
+  @media (min-width:761px){
+    footer{padding:36px 0 44px;font-size:.845rem}
+    footer .aviso{margin-bottom:12px}
   }
 </style>
 </head>
@@ -181,7 +251,17 @@
         <li><a class="nav-cta" href="/criar">Criar o meu assistente</a></li>
       </ul>
     </nav>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu-movel" aria-label="Menu">
+      <span></span><span></span>
+    </button>
   </div>
+  <nav id="menu-movel" hidden aria-label="Navegação principal">
+    <a href="/catalogo">Assistentes</a>
+    <a href="#comecar">Como começar</a>
+    <a href="#quem-somos">Quem somos</a>
+    <a href="#faq">FAQ</a>
+    <a class="nav-cta" href="/criar">Criar o meu assistente</a>
+  </nav>
 </header>
 
 <main>
@@ -198,6 +278,27 @@
     </div>
   </div>
 </section>
+
+<!-- BLOCO 4 — Faixa de confiança -->
+<div class="faixa" role="region" aria-label="Compromissos de confiança">
+  <div class="contentor selos">
+    <div class="selo">
+      <span class="ponto" aria-hidden="true"></span>
+      <div><strong>A voz fica no computador.</strong>
+      <p>O ditado é reconhecido no próprio browser — a voz não é enviada nem guardada.</p></div>
+    </div>
+    <div class="selo">
+      <span class="ponto" aria-hidden="true"></span>
+      <div><strong>Dados na União Europeia, ao abrigo do RGPD.</strong>
+      <p>Os modelos de IA não guardam nem aprendem com o que é escrito.</p></div>
+    </div>
+    <div class="selo">
+      <span class="ponto" aria-hidden="true"></span>
+      <div><strong>A decisão é sempre do profissional.</strong>
+      <p>Os assistentes recebem, organizam e escrevem — nunca decidem por ninguém.</p></div>
+    </div>
+  </div>
+</div>
 
 <!-- BLOCO 2 — Como começar -->
 <section id="comecar">
@@ -218,65 +319,48 @@
   </div>
 </section>
 
-<!-- BLOCO 4 — Faixa de confiança -->
-<div class="faixa" role="region" aria-label="Compromissos de confiança">
-  <div class="contentor selos">
-    <div class="selo">
-      <span class="icone" aria-hidden="true">🔒</span>
-      <div><strong>A voz fica no computador.</strong>
-      <p>O ditado é reconhecido no próprio browser — a voz não é enviada nem guardada.</p></div>
-    </div>
-    <div class="selo">
-      <span class="icone" aria-hidden="true">🇪🇺</span>
-      <div><strong>Dados na União Europeia, ao abrigo do RGPD.</strong>
-      <p>Os modelos de IA não guardam nem aprendem com o que é escrito.</p></div>
-    </div>
-    <div class="selo">
-      <span class="icone" aria-hidden="true">✓</span>
-      <div><strong>A decisão é sempre do profissional.</strong>
-      <p>Os assistentes recebem, organizam e escrevem — nunca decidem por ninguém.</p></div>
-    </div>
-  </div>
-</div>
-
 <!-- BLOCO 5 — Quem somos -->
 <section id="quem-somos" class="quem">
   <div class="contentor">
-    <h2 class="titulo-seccao">Quem somos</h2>
-    <p>A Proteína Lúdica é uma empresa portuguesa, sediada na ilha da Madeira, fundada por um médico de família no activo.</p>
-    <p>Os assistentes digitais IA nascem da prática real: da documentação de quem trabalha na saúde todos os dias. Foi aí que a Proteína Lúdica começou — na área com mais papelada. O mesmo método serve outras profissões.</p>
-    <p>Ferramentas de documentação, nunca de decisão. O profissional revê e decide, sempre.</p>
+    <div class="miolo">
+      <h2 class="titulo-seccao">Quem somos</h2>
+      <p>A Proteína Lúdica é uma empresa portuguesa, sediada na ilha da Madeira, fundada por um médico de família no activo.</p>
+      <p>Os assistentes digitais IA nascem da prática real: da documentação de quem trabalha na saúde todos os dias. Foi aí que a Proteína Lúdica começou — na área com mais papelada. O mesmo método serve outras profissões.</p>
+      <p>Ferramentas de documentação, nunca de decisão. O profissional revê e decide, sempre.</p>
+    </div>
   </div>
 </section>
 
 <!-- BLOCO 6 — FAQ -->
 <section id="faq" class="faq">
   <div class="contentor">
-    <h2 class="titulo-seccao">Perguntas frequentes</h2>
-    <details>
-      <summary>O que é um assistente digital IA?</summary>
-      <p>Uma ferramenta que recebe o que o profissional dita ou rascunha e devolve o texto escrito, organizado, no estilo dele. Não cria nada sozinho: parte sempre do que o profissional produziu.</p>
-    </details>
-    <details>
-      <summary>Os assistentes decidem alguma coisa sozinhos?</summary>
-      <p>Não. Recebem, organizam e escrevem. A decisão é sempre do profissional.</p>
-    </details>
-    <details>
-      <summary>E a confidencialidade dos dados?</summary>
-      <p>Os dados são tratados na União Europeia, ao abrigo do RGPD. Os modelos de IA não guardam nem aprendem com o que é escrito. No ditado, a voz é reconhecida no próprio browser — não é enviada nem guardada.</p>
-    </details>
-    <details>
-      <summary>Quanto custa?</summary>
-      <p>Cada assistente disponível tem um período de experiência gratuito. Os valores são apresentados antes de qualquer compromisso, na adesão.</p>
-    </details>
-    <details>
-      <summary>É preciso perceber de informática?</summary>
-      <p>Não. Quem sabe usar o browser e ditar uma mensagem, sabe usar um assistente digital IA.</p>
-    </details>
-    <details>
-      <summary>Para que profissionais é?</summary>
-      <p>Qualquer profissional que produza muita documentação. O catálogo actual começou na área da saúde; o caminho de criação serve todas as áreas.</p>
-    </details>
+    <div class="miolo">
+      <h2 class="titulo-seccao">Perguntas frequentes</h2>
+      <details>
+        <summary><span class="texto-p">O que é um assistente digital IA?</span><span class="ind" aria-hidden="true">+</span></summary>
+        <p>Uma ferramenta que recebe o que o profissional dita ou rascunha e devolve o texto escrito, organizado, no estilo dele. Não cria nada sozinho: parte sempre do que o profissional produziu.</p>
+      </details>
+      <details>
+        <summary><span class="texto-p">Os assistentes decidem alguma coisa sozinhos?</span><span class="ind" aria-hidden="true">+</span></summary>
+        <p>Não. Recebem, organizam e escrevem. A decisão é sempre do profissional.</p>
+      </details>
+      <details>
+        <summary><span class="texto-p">E a confidencialidade dos dados?</span><span class="ind" aria-hidden="true">+</span></summary>
+        <p>Os dados são tratados na União Europeia, ao abrigo do RGPD. Os modelos de IA não guardam nem aprendem com o que é escrito. No ditado, a voz é reconhecida no próprio browser — não é enviada nem guardada.</p>
+      </details>
+      <details>
+        <summary><span class="texto-p">Quanto custa?</span><span class="ind" aria-hidden="true">+</span></summary>
+        <p>Cada assistente disponível tem um período de experiência gratuito. Os valores são apresentados antes de qualquer compromisso, na adesão.</p>
+      </details>
+      <details>
+        <summary><span class="texto-p">É preciso perceber de informática?</span><span class="ind" aria-hidden="true">+</span></summary>
+        <p>Não. Quem sabe usar o browser e ditar uma mensagem, sabe usar um assistente digital IA.</p>
+      </details>
+      <details>
+        <summary><span class="texto-p">Para que profissionais é?</span><span class="ind" aria-hidden="true">+</span></summary>
+        <p>Qualquer profissional que produza muita documentação. O catálogo actual começou na área da saúde; o caminho de criação serve todas as áreas.</p>
+      </details>
+    </div>
   </div>
 </section>
 
@@ -304,6 +388,23 @@
     <p class="legal">© 2026 Proteína Lúdica, Lda. · Seixal, Madeira, Portugal · <a href="/privacidade">Política de privacidade</a> · <a href="/termos">Termos</a></p>
   </div>
 </footer>
+
+<script>
+(function(){
+  var btn = document.querySelector('.menu-btn');
+  var menu = document.getElementById('menu-movel');
+  if(!btn || !menu) return;
+  function fechar(){ btn.setAttribute('aria-expanded','false'); menu.hidden = true; }
+  btn.addEventListener('click', function(){
+    var aberto = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!aberto));
+    menu.hidden = aberto;
+  });
+  menu.addEventListener('click', function(e){ if(e.target.closest('a')) fechar(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') fechar(); });
+  window.addEventListener('resize', function(){ if(window.innerWidth > 760) fechar(); });
+})();
+</script>
 
 </body>
 </html>
