@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Os assistentes — Proteína Lúdica</title>
+<meta name="description" content="Assistentes digitais IA especialistas, prontos a usar. Cada um com página própria, demonstração e período de experiência gratuito.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --fundo:#141A10;
+    --fundo-2:#1A2214;
+    --musgo:#8FAA6B;
+    --musgo-claro:#A9C287;
+    --ocre:#C8A86B;
+    --texto:#E9EDE3;
+    --texto-2:#B9C2AD;
+    --linha:rgba(143,170,107,.22);
+    --raio:14px;
+    --largura:1080px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation:none!important;transition:none!important}
+  }
+  body{
+    background:var(--fundo);
+    color:var(--texto);
+    font-family:'Geist',system-ui,-apple-system,sans-serif;
+    font-size:17px;line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;line-height:1.15;letter-spacing:-.01em}
+  a{color:var(--musgo-claro)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--ocre);outline-offset:3px;border-radius:4px}
+  .contentor{max-width:var(--largura);margin:0 auto;padding:0 24px}
+  section{padding:72px 0}
+  .titulo-seccao{font-size:clamp(1.7rem,3.5vw,2.3rem);margin-bottom:14px}
+  .apoio-seccao{color:var(--texto-2);max-width:56ch;margin-bottom:44px}
+
+  header{
+    position:sticky;top:0;z-index:20;
+    background:rgba(20,26,16,.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--linha);
+  }
+  .barra{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .marca{font-family:'Fraunces',serif;font-size:1.15rem;color:var(--texto);text-decoration:none}
+  .marca span{color:var(--musgo)}
+  nav ul{display:flex;gap:26px;list-style:none;align-items:center}
+  nav a{color:var(--texto-2);text-decoration:none;font-size:.92rem}
+  nav a:hover,nav a[aria-current="page"]{color:var(--texto)}
+  .nav-cta{background:var(--musgo);color:var(--fundo)!important;padding:8px 16px;border-radius:999px;font-weight:600}
+  .so-desktop{display:flex}
+  @media (max-width:760px){ .so-desktop{display:none} }
+
+  .topo{
+    padding:88px 0 64px;
+    background:radial-gradient(900px 420px at 78% -10%, rgba(143,170,107,.14), transparent 65%);
+    border-bottom:1px solid var(--linha);
+  }
+  .topo h1{font-size:clamp(2rem,4.6vw,3rem);margin-bottom:16px}
+  .topo p{color:var(--texto-2);max-width:56ch}
+
+  .grelha{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px}
+  .cartao{
+    background:var(--fundo-2);
+    border:1px solid var(--linha);
+    border-radius:var(--raio);
+    padding:28px 26px;
+    display:flex;flex-direction:column;gap:12px;
+    transition:border-color .15s ease,transform .15s ease;
+  }
+  .cartao:hover{border-color:var(--musgo);transform:translateY(-2px)}
+  .cartao h3{font-size:1.28rem}
+  .cartao p{color:var(--texto-2);font-size:.97rem;flex:1}
+  .cartao .ligacao{font-weight:600;text-decoration:none;font-size:.95rem}
+  .cartao .ligacao:hover{text-decoration:underline}
+  .estado{
+    align-self:flex-start;font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;
+    padding:4px 10px;border-radius:999px;font-weight:600;
+  }
+  .estado-disp{background:rgba(143,170,107,.16);color:var(--musgo-claro)}
+  .estado-breve{background:rgba(200,168,107,.14);color:var(--ocre)}
+  .cartao-breve{border-style:dashed;border-color:rgba(200,168,107,.4)}
+  .cartao-breve:hover{transform:none;border-color:rgba(200,168,107,.4)}
+  .linha-final{color:var(--texto-2);font-size:.92rem;margin-top:26px}
+
+  .cta-proprio{
+    background:var(--fundo-2);
+    border-top:1px solid var(--linha);
+    border-bottom:1px solid var(--linha);
+    text-align:left;
+  }
+  .cta-proprio p{color:var(--texto-2);max-width:52ch;margin:14px 0 26px}
+  .btn{
+    display:inline-block;text-decoration:none;font-weight:600;font-size:1rem;
+    padding:14px 26px;border-radius:999px;
+    background:var(--musgo);color:var(--fundo);
+    transition:transform .15s ease,background .15s ease;
+  }
+  .btn:hover{background:var(--musgo-claro);transform:translateY(-1px)}
+
+  footer{border-top:1px solid var(--linha);padding:40px 0 48px;color:var(--texto-2);font-size:.86rem}
+  footer .aviso{max-width:70ch;margin-bottom:18px}
+  footer .legal{line-height:1.9}
+  footer .legal a{color:var(--musgo-claro);text-decoration:none}
+  footer .legal a:hover{text-decoration:underline}
+  @media (max-width:760px){ .topo{padding:72px 0 52px} }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="contentor barra">
+    <a class="marca" href="/">Proteína <span>Lúdica</span></a>
+    <nav class="so-desktop" aria-label="Navegação principal">
+      <ul>
+        <li><a href="/catalogo" aria-current="page">Assistentes</a></li>
+        <li><a href="/#comecar">Como começar</a></li>
+        <li><a href="/#quem-somos">Quem somos</a></li>
+        <li><a href="/#faq">FAQ</a></li>
+        <li><a class="nav-cta" href="/criar">Criar o meu assistente</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<section class="topo">
+  <div class="contentor">
+    <h1>Os assistentes</h1>
+    <p>Assistentes digitais IA especialistas, prontos a usar. Cada assistente disponível tem página própria, com demonstração e período de experiência gratuito.</p>
+  </div>
+</section>
+
+<section>
+  <div class="contentor">
+    <div class="grelha">
+      <article class="cartao">
+        <span class="estado estado-disp">Disponível</span>
+        <h3>Dr. Escriba IA</h3>
+        <p>A consulta ditada ou rascunhada, devolvida como nota clínica organizada. Para consulta, urgência e cuidados continuados.</p>
+        <a class="ligacao" href="https://drescribia.proteinaludica.com">Conhecer →</a>
+      </article>
+      <article class="cartao">
+        <span class="estado estado-disp">Disponível</span>
+        <h3>Dr. Escriba IA · Internato</h3>
+        <p>Para médicos internos de MGF: as notas clínicas e o registo formativo, organizados no mesmo sítio.</p>
+        <a class="ligacao" href="https://internato.proteinaludica.com">Conhecer →</a>
+      </article>
+      <article class="cartao cartao-breve">
+        <span class="estado estado-breve">Em breve</span>
+        <h3>Dr. Família IA</h3>
+        <p>Personalizado com o nome e a maneira de comunicar de cada médico, para oferecer aos seus utentes.</p>
+      </article>
+    </div>
+    <p class="linha-final">Mais especialidades e profissões a caminho.</p>
+  </div>
+</section>
+
+<section class="cta-proprio">
+  <div class="contentor">
+    <h2 class="titulo-seccao">Prefere um assistente só seu?</h2>
+    <p>Com o nome, a maneira de comunicar e as regras de cada profissional. Um formulário guiado, passo a passo.</p>
+    <a class="btn" href="/criar">Criar o meu assistente</a>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================================================
+     RODAPÉ — LEGAL
+     Dados legais repostos do rodapé do site actual: denominação,
+     sede e links de política de privacidade/termos.
+     O disclaimer CLÍNICO abaixo é canónico e OBRIGATÓRIO nesta
+     página (há conteúdo médico) — manter sempre.
+     ============================================================ -->
+<footer>
+  <div class="contentor">
+    <p class="aviso">Organização documental. Não fornece diagnósticos, sugestão terapêutica ou aconselhamento. A decisão clínica é sempre do profissional.</p>
+    <p class="legal">© 2026 Proteína Lúdica, Lda. · Seixal, Madeira, Portugal · <a href="/privacidade">Política de privacidade</a> · <a href="/termos">Termos</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
