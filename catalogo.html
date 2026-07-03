@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Os assistentes — Proteína Lúdica</title>
+<meta name="description" content="Assistentes digitais IA especialistas, prontos a usar. Cada um com página própria, demonstração e período de experiência gratuito.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --fundo:#141A10;
+    --fundo-2:#1A2214;
+    --cartao-a:#1B2315;
+    --cartao-b:#161C11;
+    --musgo:#8FAA6B;
+    --musgo-claro:#A9C287;
+    --ocre:#C8A86B;
+    --texto:#E9EDE3;
+    --texto-2:#B9C2AD;
+    --texto-3:#8A9478;
+    --linha:rgba(143,170,107,.14);
+    --linha-2:rgba(143,170,107,.35);
+    --largura:1040px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation:none!important;transition:none!important}
+  }
+  body{
+    background:var(--fundo);
+    color:var(--texto);
+    font-family:'Geist',system-ui,-apple-system,sans-serif;
+    font-size:16px;line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;line-height:1.15;letter-spacing:-.015em}
+  a{color:var(--musgo-claro)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--ocre);outline-offset:3px;border-radius:4px}
+  .contentor{max-width:var(--largura);margin:0 auto;padding:0 20px}
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky;top:0;z-index:20;
+    background:rgba(20,26,16,.92);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--linha);
+  }
+  .barra{display:flex;align-items:center;justify-content:space-between;height:56px}
+  .marca{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:1rem;color:var(--texto);text-decoration:none}
+  .marca span{color:var(--musgo)}
+  nav ul{display:flex;gap:24px;list-style:none;align-items:center}
+  nav a{color:var(--texto-2);text-decoration:none;font-size:.845rem;transition:color .15s ease}
+  nav a:hover,nav a[aria-current="page"]{color:var(--texto)}
+  nav a[aria-current="page"]{font-weight:600}
+  .nav-cta{
+    background:var(--musgo);color:var(--fundo)!important;
+    padding:8px 16px;border-radius:999px;font-weight:600;
+    transition:background .15s ease;
+  }
+  .nav-cta:hover{background:var(--musgo-claro)}
+  .so-desktop{display:none}
+  .menu-btn{
+    display:flex;flex-direction:column;gap:4px;justify-content:center;
+    background:none;border:0;padding:12px 8px;cursor:pointer;min-height:44px;
+  }
+  .menu-btn span{width:17px;height:1.5px;background:var(--texto);display:block;border-radius:2px;transition:transform .2s ease,opacity .2s ease}
+  .menu-btn[aria-expanded="true"] span:first-child{transform:translateY(5.5px) rotate(45deg)}
+  .menu-btn[aria-expanded="true"] span:last-child{transform:translateY(-5.5px) rotate(-45deg)}
+  #menu-movel{border-top:1px solid var(--linha);padding:10px 20px 18px}
+  #menu-movel a{
+    display:block;padding:13px 4px;color:var(--texto-2);text-decoration:none;
+    font-size:.97rem;border-bottom:1px solid var(--linha);
+  }
+  #menu-movel a:hover{color:var(--texto)}
+  #menu-movel a[aria-current="page"]{color:var(--texto);font-weight:600}
+  #menu-movel .nav-cta{
+    margin-top:14px;text-align:center;border-bottom:0;
+    padding:13px 16px;font-size:.95rem;
+  }
+  @media (min-width:761px){
+    .barra{height:60px}
+    .marca{font-size:1.06rem}
+    .so-desktop{display:flex}
+    .menu-btn,#menu-movel{display:none}
+  }
+
+  /* ---------- Topo ---------- */
+  .topo{
+    padding:72px 0 44px;text-align:center;
+    background:radial-gradient(680px 340px at 50% -12%, rgba(143,170,107,.13), transparent 65%);
+  }
+  .topo h1{font-size:clamp(1.9rem,6.5vw,2.5rem);line-height:1.1;margin:0 auto 14px}
+  .topo p{color:var(--texto-2);max-width:52ch;margin:0 auto;font-size:clamp(.97rem,2vw,1.03rem)}
+  @media (min-width:761px){ .topo{padding:96px 0 64px} .topo h1{margin-bottom:16px} }
+
+  /* ---------- Grelha de assistentes ---------- */
+  .assistentes{padding:20px 0 60px}
+  .grelha{display:flex;flex-direction:column;gap:14px}
+  .cartao{
+    background:linear-gradient(180deg,var(--cartao-a),var(--cartao-b));
+    border:1px solid rgba(143,170,107,.16);
+    border-radius:16px;
+    padding:24px 22px;
+    display:flex;flex-direction:column;gap:10px;
+    transition:border-color .15s ease,transform .15s ease;
+  }
+  .cartao:hover{border-color:rgba(143,170,107,.45);transform:translateY(-1px)}
+  .cartao h3{font-size:1.155rem;margin-top:4px}
+  .cartao p{color:var(--texto-2);font-size:.905rem;flex:1}
+  .cartao .ligacao{
+    font-weight:600;text-decoration:none;font-size:.905rem;
+    padding:5px 0;transition:color .15s ease;
+  }
+  .cartao .ligacao:hover{color:var(--ocre)}
+  .estado{
+    align-self:flex-start;display:flex;align-items:center;gap:7px;
+    font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;font-weight:600;
+    padding:4px 11px;border-radius:999px;
+  }
+  .estado .ponto{width:5px;height:5px;border-radius:999px;background:var(--musgo)}
+  .estado-disp{background:rgba(143,170,107,.14);color:var(--musgo-claro)}
+  .estado-breve{background:rgba(200,168,107,.12);color:var(--ocre)}
+  .estado-breve .ponto{background:transparent;border:1px solid var(--ocre)}
+  .cartao-breve{background:transparent;border-style:dashed;border-color:rgba(200,168,107,.35)}
+  .cartao-breve:hover{transform:none;border-color:rgba(200,168,107,.35)}
+  .linha-final{color:var(--texto-3);font-size:.815rem;margin-top:20px;text-align:center}
+  .cta-proprio{padding:24px 0 72px;text-align:center}
+  .cta-proprio h2{font-size:clamp(1.4rem,4.5vw,1.8rem);margin-bottom:10px}
+  .cta-proprio p{color:var(--texto-2);max-width:46ch;margin:0 auto 22px;font-size:.95rem}
+  .btn-criar{display:inline-block;background:var(--musgo);color:var(--fundo);text-decoration:none;font-weight:600;font-size:.98rem;padding:13px 26px;border-radius:999px;transition:background .15s ease}
+  .btn-criar:hover{background:var(--musgo-claro)}
+  @media (min-width:761px){
+    .assistentes{padding:24px 0 80px}
+    .grelha{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}
+    .cartao{padding:28px 26px;gap:11px}
+    .cartao h3{font-size:1.25rem;margin-top:6px}
+    .cartao p{font-size:.94rem}
+    .linha-final{font-size:.845rem;margin-top:22px}
+  }
+  footer .legal a{color:var(--texto-2);text-decoration:none}
+  footer .legal a:hover{color:var(--texto)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="contentor barra">
+    <a class="marca" href="/">Proteína <span>Lúdica</span></a>
+    <nav class="so-desktop" aria-label="Navegação principal">
+      <ul>
+        <li><a href="/catalogo" aria-current="page">Assistentes</a></li>
+        <li><a href="/#comecar">Como começar</a></li>
+        <li><a href="/#quem-somos">Quem somos</a></li>
+        <li><a href="/#faq">FAQ</a></li>
+        <li><a class="nav-cta" href="/criar">Criar o meu assistente</a></li>
+      </ul>
+    </nav>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu-movel" aria-label="Menu">
+      <span></span><span></span>
+    </button>
+  </div>
+  <nav id="menu-movel" hidden aria-label="Navegação principal">
+    <a href="/catalogo" aria-current="page">Assistentes</a>
+    <a href="/#comecar">Como começar</a>
+    <a href="/#quem-somos">Quem somos</a>
+    <a href="/#faq">FAQ</a>
+    <a class="nav-cta" href="/criar">Criar o meu assistente</a>
+  </nav>
+</header>
+
+<main>
+
+<section class="topo">
+  <div class="contentor">
+    <h1>Os assistentes</h1>
+    <p>Assistentes digitais IA especialistas, prontos a usar. Cada assistente disponível tem página própria, com demonstração e período de experiência gratuito.</p>
+  </div>
+</section>
+
+<section class="assistentes">
+  <div class="contentor">
+    <div class="grelha">
+      <article class="cartao">
+        <span class="estado estado-disp"><span class="ponto" aria-hidden="true"></span>Disponível</span>
+        <h3>Dr. Escriba IA</h3>
+        <p>A consulta ditada ou rascunhada, devolvida como nota clínica organizada. Para consulta, urgência e cuidados continuados.</p>
+        <a class="ligacao" href="https://drescribia.proteinaludica.com">Conhecer →</a>
+      </article>
+      <article class="cartao">
+        <span class="estado estado-disp"><span class="ponto" aria-hidden="true"></span>Disponível</span>
+        <h3>Dr. Escriba IA · Internato</h3>
+        <p>Para médicos internos de MGF: as notas clínicas e o registo formativo, organizados no mesmo sítio.</p>
+        <a class="ligacao" href="https://internato.proteinaludica.com">Conhecer →</a>
+      </article>
+      <article class="cartao cartao-breve">
+        <span class="estado estado-breve"><span class="ponto" aria-hidden="true"></span>Em breve</span>
+        <h3>Dr. Família IA</h3>
+        <p>Personalizado com o nome e a maneira de comunicar de cada médico, para oferecer aos seus utentes.</p>
+      </article>
+    </div>
+    <p class="linha-final">Mais especialidades e profissões a caminho.</p>
+  </div>
+</section>
+
+<section class="cta-proprio">
+  <div class="contentor">
+    <h2>Prefere um assistente só seu?</h2>
+    <p>Com o nome, a maneira de comunicar e as regras de cada profissional. Um formulário guiado, passo a passo.</p>
+    <a class="btn-criar" href="/criar">Criar o meu assistente</a>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================================================
+     RODAPÉ — LEGAL
+     Dados legais repostos do rodapé do site actual: denominação,
+     sede e links de política de privacidade/termos.
+     O disclaimer CLÍNICO abaixo é canónico e OBRIGATÓRIO nesta
+     página (há conteúdo médico) — manter sempre.
+     ============================================================ -->
+<footer style="border-top:1px solid var(--linha);padding:32px 0 40px;color:var(--texto-2);font-size:.78rem;text-align:center">
+  <div class="contentor">
+    <p class="aviso" style="max-width:70ch;margin:0 auto 10px">Organização documental. Não fornece diagnósticos, sugestão terapêutica ou aconselhamento. A decisão clínica é sempre do profissional.</p>
+    <p class="legal" style="color:var(--texto-3)">© 2026 Proteína Lúdica, Lda. · NIF 514411520 · Região Autónoma da Madeira, Portugal · <a href="/privacidade">Política de privacidade</a> · <a href="/termos">Termos</a></p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var btn = document.querySelector('.menu-btn');
+  var menu = document.getElementById('menu-movel');
+  if(!btn || !menu) return;
+  function fechar(){ btn.setAttribute('aria-expanded','false'); menu.hidden = true; }
+  btn.addEventListener('click', function(){
+    var aberto = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!aberto));
+    menu.hidden = aberto;
+  });
+  menu.addEventListener('click', function(e){ if(e.target.closest('a')) fechar(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') fechar(); });
+  window.addEventListener('resize', function(){ if(window.innerWidth > 760) fechar(); });
+})();
+</script>
+
+</body>
+</html>

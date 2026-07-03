@@ -3,901 +3,408 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Proteína Lúdica — Assistentes digitais IA para profissionais | Madeira, Portugal</title>
-<meta name="description" content="Assistentes digitais IA para médicos e profissionais de saúde. Tratam da papelada, organizam a informação — sempre com a sua voz. Em português, na Madeira.">
-<meta name="author" content="Proteína Lúdica LDA">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://proteinaludica.com">
-
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://proteinaludica.com">
-<meta property="og:title" content="Proteína Lúdica — Assistentes digitais IA">
-<meta property="og:description" content="Assistentes digitais IA para médicos e profissionais de saúde. Tratam da papelada, sempre com a sua voz. Em português, na Madeira.">
-<meta property="og:locale" content="pt_PT">
-<meta property="og:image" content="https://proteinaludica.com/og-image.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Proteína Lúdica — O profissional dita. A nota vem escrita.">
-
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Proteína Lúdica — Assistentes digitais IA">
-<meta name="twitter:description" content="Assistentes digitais IA para médicos e profissionais de saúde. Tratam da papelada, sempre com a sua voz. Em português, na Madeira.">
-<meta name="twitter:image" content="https://proteinaludica.com/og-image.png">
-<meta name="theme-color" content="#2D5A1B">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D5A1B'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' font-style='italic' fill='%23F5F2EC' text-anchor='middle'%3EL%3C/text%3E%3C/svg%3E">
-
+<title>Proteína Lúdica — Assistentes digitais IA</title>
+<meta name="description" content="O profissional dita ou rascunha. O assistente devolve escrito, organizado, no estilo dele. O profissional revê e decide.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Geist:wght@300..600&family=Geist+Mono:wght@400..600&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root{
+    --fundo:#141A10;          /* verde-escuro Laurissilva — nunca preto puro */
+    --fundo-2:#1A2214;
+    --cartao-a:#1B2315;       /* topo do gradiente dos cartões */
+    --cartao-b:#161C11;       /* base do gradiente dos cartões */
+    --faq:#171E12;
+    --musgo:#8FAA6B;
+    --musgo-claro:#A9C287;
+    --ocre:#C8A86B;
+    --texto:#E9EDE3;
+    --texto-2:#B9C2AD;
+    --texto-3:#8A9478;
+    --linha:rgba(143,170,107,.14);
+    --linha-2:rgba(143,170,107,.35);
+    --largura:1040px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation:none!important;transition:none!important}
+  }
+  body{
+    background:var(--fundo);
+    color:var(--texto);
+    font-family:'Geist',system-ui,-apple-system,sans-serif;
+    font-size:16px;line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;line-height:1.15;letter-spacing:-.015em}
+  a{color:var(--musgo-claro)}
+  a:focus-visible,button:focus-visible,summary:focus-visible{
+    outline:2px solid var(--ocre);outline-offset:3px;border-radius:4px;
+  }
+  .contentor{max-width:var(--largura);margin:0 auto;padding:0 20px}
+  .titulo-seccao{font-size:clamp(1.55rem,4.5vw,1.875rem);text-align:center}
 
-  :root {
-    --bg: #F5F2EC; --bg2: #EDEAE2; --bg3: #E4E0D5; --surface: #FDFBF6;
-    --ink: #0D0F0B; --ink2: #3A3D35; --muted: #7A7D72; --muted2: #A5A89E;
-    --accent: #2D5A1B; --accent2: #3D7A26; --accent-light: #EAF3DE; --accent-glow: #A8E090;
-    --amber: #C47B0A; --amber2: #E08A0A; --amber-light: #FDF3DC; --amber-dark: #8A5507;
-    --border: rgba(13,15,11,0.10); --border-strong: rgba(13,15,11,0.20);
-    --font-head: 'Fraunces', Georgia, serif;
-    --font-body: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
-    --font-mono: 'Geist Mono', 'JetBrains Mono', monospace;
+  /* ---------- Header ---------- */
+  header{
+    position:sticky;top:0;z-index:20;
+    background:rgba(20,26,16,.92);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--linha);
+  }
+  .barra{display:flex;align-items:center;justify-content:space-between;height:56px}
+  .marca{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:1rem;color:var(--texto);text-decoration:none}
+  .marca span{color:var(--musgo)}
+  nav ul{display:flex;gap:24px;list-style:none;align-items:center}
+  nav a{color:var(--texto-2);text-decoration:none;font-size:.845rem;transition:color .15s ease}
+  nav a:hover,nav a[aria-current="page"]{color:var(--texto)}
+  .nav-cta{
+    background:var(--musgo);color:var(--fundo)!important;
+    padding:8px 16px;border-radius:999px;font-weight:600;
+    transition:background .15s ease;
+  }
+  .nav-cta:hover{background:var(--musgo-claro)}
+  .so-desktop{display:none}
+  .menu-btn{
+    display:flex;flex-direction:column;gap:4px;justify-content:center;
+    background:none;border:0;padding:12px 8px;cursor:pointer;min-height:44px;
+  }
+  .menu-btn span{width:17px;height:1.5px;background:var(--texto);display:block;border-radius:2px;transition:transform .2s ease,opacity .2s ease}
+  .menu-btn[aria-expanded="true"] span:first-child{transform:translateY(5.5px) rotate(45deg)}
+  .menu-btn[aria-expanded="true"] span:last-child{transform:translateY(-5.5px) rotate(-45deg)}
+  #menu-movel{border-top:1px solid var(--linha);padding:10px 20px 18px}
+  #menu-movel a{
+    display:block;padding:13px 4px;color:var(--texto-2);text-decoration:none;
+    font-size:.97rem;border-bottom:1px solid var(--linha);
+  }
+  #menu-movel a:hover{color:var(--texto)}
+  #menu-movel .nav-cta{
+    margin-top:14px;text-align:center;border-bottom:0;
+    padding:13px 16px;font-size:.95rem;
+  }
+  @media (min-width:761px){
+    .barra{height:60px}
+    .marca{font-size:1.06rem}
+    .so-desktop{display:flex}
+    .menu-btn,#menu-movel{display:none}
   }
 
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--bg); color: var(--ink);
-    font-family: var(--font-body);
-    font-size: 17px; line-height: 1.65;
-    overflow-x: hidden;
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:72px 0 60px;text-align:center;
+    background:radial-gradient(680px 340px at 50% -12%, rgba(143,170,107,.13), transparent 65%);
+  }
+  .hero h1{font-size:clamp(1.95rem,7.5vw,3rem);line-height:1.1;max-width:19ch;margin:0 auto 18px}
+  .hero .canonica{font-size:clamp(1rem,2.5vw,1.125rem);color:var(--texto-2);max-width:50ch;margin:0 auto 16px}
+  .ponte{color:var(--ocre);font-size:clamp(.845rem,2vw,.905rem);max-width:60ch;margin:0 auto 32px}
+  .accoes{display:flex;flex-direction:column;gap:11px;align-items:stretch}
+  .btn{
+    display:inline-block;text-decoration:none;font-weight:600;font-size:.94rem;
+    padding:14px 24px;border-radius:999px;text-align:center;
+    transition:background .15s ease,border-color .15s ease,transform .15s ease;
+  }
+  .btn-primario{background:var(--musgo);color:var(--fundo)}
+  .btn-primario:hover{background:var(--musgo-claro);transform:translateY(-1px)}
+  .btn-secundario{color:var(--texto);border:1px solid var(--linha-2);background:transparent}
+  .btn-secundario:hover{border-color:var(--musgo);background:rgba(143,170,107,.06)}
+  @media (min-width:761px){
+    .hero{padding:112px 0 96px}
+    .accoes{flex-direction:row;gap:12px;justify-content:center;align-items:center}
+    .btn{padding:13px 26px}
   }
 
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 1.1rem 2.5rem;
-    background: rgba(245,242,236,0.92);
-    backdrop-filter: blur(12px);
-    border-bottom: 0.5px solid var(--border);
+  /* ---------- Faixa de confiança ---------- */
+  .faixa{
+    border-top:1px solid var(--linha);
+    border-bottom:1px solid var(--linha);
+    background:rgba(26,34,20,.5);
+    padding:32px 0;
   }
-  .logo { display: flex; flex-direction: column; text-decoration: none; }
-  .logo-name { font-family: var(--font-head); font-size: 19px; font-weight: 400; letter-spacing: -0.01em; color: var(--ink); line-height: 1; }
-  .logo-name em { font-style: italic; color: var(--accent); }
-  .logo-sub { font-family: var(--font-mono); font-size: 9px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 3px; }
-  .nav-links { display: flex; align-items: center; gap: 1.75rem; list-style: none; }
-  .nav-links a { font-size: 14px; color: var(--ink2); text-decoration: none; transition: color 0.2s; }
-  .nav-links a:hover { color: var(--accent); }
-  .nav-cta { font-family: var(--font-body); font-size: 14px; font-weight: 500; color: white; background: var(--accent); padding: 9px 20px; border-radius: 5px; text-decoration: none; transition: background 0.2s; }
-  .nav-cta:hover { background: var(--accent2); }
-
-  .hero {
-    min-height: 72vh; display: flex; align-items: center;
-    padding: 9rem 2.5rem 5rem;
-    position: relative; overflow: hidden;
-  }
-  .hero-bg-text {
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    font-family: var(--font-head); font-size: clamp(160px, 22vw, 280px);
-    color: rgba(13,15,11,0.035); white-space: nowrap;
-    pointer-events: none; user-select: none; line-height: 1;
-    font-style: italic; font-weight: 300;
-  }
-  .hero-inner { max-width: 1100px; margin: 0 auto; width: 100%; position: relative; }
-  .hero-tag {
-    display: inline-flex; align-items: center; gap: 8px;
-    font-family: var(--font-mono); font-size: 11px;
-    color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase;
-    background: var(--accent-light);
-    padding: 6px 14px; border-radius: 3px; margin-bottom: 2rem;
-  }
-  .hero-tag::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
-  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-  .hero h1 {
-    font-family: var(--font-head); font-size: clamp(2.8rem, 6vw, 4.8rem);
-    line-height: 1; font-weight: 400; letter-spacing: -0.025em;
-    margin-bottom: 2rem; max-width: 900px;
-  }
-  .hero h1 em { font-style: italic; color: var(--accent); }
-  .hero-desc { color: var(--ink2); font-size: 20px; line-height: 1.6; max-width: 620px; margin-bottom: 1.25rem; }
-  .hero-desc strong { color: var(--ink); font-weight: 500; }
-  .hero-desc-small { color: var(--muted); font-size: 15px; line-height: 1.55; max-width: 620px; margin-bottom: 3rem; }
-
-  .portas { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; max-width: 900px; }
-  .porta {
-    background: var(--surface); border: 0.5px solid var(--border); border-radius: 12px;
-    padding: 2rem; text-decoration: none; transition: all 0.3s;
-    display: flex; flex-direction: column; gap: 1rem;
-    position: relative; overflow: hidden;
-  }
-  .porta::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--muted); transition: background 0.3s; }
-  .porta-a::before { background: var(--accent); }
-  .porta-b::before { background: var(--amber); }
-  .porta:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(13,15,11,0.08); }
-  .porta-a:hover { border-color: var(--accent); }
-  .porta-b:hover { border-color: var(--amber); }
-  .porta-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
-  .porta-a .porta-label { color: var(--accent); }
-  .porta-b .porta-label { color: var(--amber-dark); }
-  .porta-title { font-family: var(--font-head); font-size: 1.85rem; font-weight: 400; line-height: 1.08; color: var(--ink); letter-spacing: -0.015em; }
-  .porta-desc { font-size: 15px; color: var(--ink2); line-height: 1.6; flex: 1; }
-  .porta-foot { display: flex; align-items: center; justify-content: space-between; padding-top: 1rem; border-top: 0.5px solid var(--border); font-size: 13px; }
-  .porta-price { font-family: var(--font-head); font-size: 1.4rem; letter-spacing: -0.01em; }
-  .porta-a .porta-price { color: var(--accent); }
-  .porta-b .porta-price { color: var(--amber-dark); }
-  .porta-price-sub { display: block; font-family: var(--font-mono); font-size: 10px; color: var(--muted); letter-spacing: 0.04em; margin-top: 2px; font-weight: normal; }
-  .porta-arrow { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.05em; color: var(--ink2); transition: transform 0.2s; }
-  .porta:hover .porta-arrow { transform: translateX(4px); }
-
-  section { padding: 6rem 2.5rem; }
-  .container { max-width: 1100px; margin: 0 auto; }
-  .section-label { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem; display: flex; align-items: center; gap: 10px; }
-  .section-label::after { content: ''; flex: 1; height: 0.5px; background: var(--border); max-width: 60px; }
-  .section-title { font-family: var(--font-head); font-size: clamp(2rem, 4.5vw, 3.2rem); font-weight: 400; line-height: 1.08; margin-bottom: 1rem; letter-spacing: -0.02em; }
-  .section-title em { font-style: italic; color: var(--accent); }
-  .section-sub { color: var(--ink2); font-size: 18px; line-height: 1.6; max-width: 640px; }
-
-  .explicar { background: var(--bg2); border-top: 0.5px solid var(--border); border-bottom: 0.5px solid var(--border); }
-  .explicar-intro {
-    background: var(--surface); border: 0.5px solid var(--border); border-radius: 12px;
-    padding: 2.5rem; margin-top: 3rem; max-width: 800px;
-  }
-  .explicar-intro p { font-size: 18px; line-height: 1.75; color: var(--ink); margin-bottom: 1rem; }
-  .explicar-intro p:last-child { margin-bottom: 0; }
-  .explicar-intro strong {
-    background: var(--accent-light); padding: 2px 6px; border-radius: 3px;
-    color: var(--accent); font-weight: 500;
+  .selos{display:flex;flex-direction:column;gap:20px}
+  .selo{display:flex;gap:11px;align-items:flex-start}
+  .selo .ponto{width:6px;height:6px;border-radius:999px;background:var(--musgo);flex:none;margin-top:8px}
+  .selo strong{display:block;font-size:.875rem;font-weight:600;margin-bottom:2px}
+  .selo p{color:var(--texto-2);font-size:.815rem;line-height:1.55}
+  @media (min-width:761px){
+    .faixa{padding:34px 0}
+    .selos{display:grid;grid-template-columns:1fr 1fr 1fr;gap:40px}
+    .selo{gap:12px}
+    .selo .ponto{width:7px;height:7px;margin-top:7px}
+    .selo strong{font-size:.905rem;margin-bottom:3px}
+    .selo p{font-size:.845rem}
   }
 
-  /* === Camada 1: demo ditado → nota === */
-  .demo { max-width: 900px; margin: 3rem auto 0; }
-  .demo-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.25rem; display: flex; align-items: center; gap: 8px; }
-  .demo-grid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 1.5rem; align-items: stretch; }
-  .demo-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: 12px; padding: 1.75rem; display: flex; flex-direction: column; }
-  .demo-card-head { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 1rem; display: flex; align-items: center; gap: 7px; }
-  .demo-card.fala .demo-card-head { color: var(--amber-dark); }
-  .demo-card.nota { border-color: var(--accent); }
-  .demo-card.nota .demo-card-head { color: var(--accent); }
-  .demo-fala-text { font-size: 16px; line-height: 1.6; color: var(--ink2); font-style: italic; }
-  .demo-nota-text { font-size: 13.5px; line-height: 1.6; color: var(--ink); font-family: var(--font-mono); white-space: pre-line; }
-  .demo-arrow { display: flex; align-items: center; justify-content: center; color: var(--muted2); font-size: 20px; }
-  .demo-foot { font-size: 13px; color: var(--muted); margin-top: 1rem; text-align: center; font-style: italic; }
+  /* ---------- Secções ---------- */
+  section{padding:60px 0}
+  @media (min-width:761px){ section{padding:88px 0} }
+  .hero + .faixa{margin-top:0}
 
-  /* === Camada 2: controlo === */
-  .controlo { max-width: 900px; margin: 2.5rem auto 0; background: var(--accent-light); border: 0.5px solid rgba(45,90,27,0.2); border-radius: 12px; padding: 1.5rem 1.75rem; display: flex; align-items: center; gap: 1rem; }
-  .controlo-icon { flex-shrink: 0; width: 38px; height: 38px; border-radius: 50%; background: var(--accent); color: white; display: flex; align-items: center; justify-content: center; font-size: 18px; }
-  .controlo-text { font-size: 15.5px; line-height: 1.55; color: var(--ink); }
-  .controlo-text strong { color: var(--accent); font-weight: 600; }
-
-  /* === Camada 3: objeções === */
-  .objs { max-width: 900px; margin: 2.5rem auto 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
-  .obj { background: var(--surface); border: 0.5px solid var(--border); border-radius: 10px; padding: 1.4rem; }
-  .obj-q { font-size: 14.5px; font-weight: 600; color: var(--ink); margin-bottom: 0.5rem; }
-  .obj-a { font-size: 14px; line-height: 1.55; color: var(--muted); }
-  @media (max-width: 768px) {
-    .demo-grid { grid-template-columns: 1fr; }
-    .demo-arrow { transform: rotate(90deg); padding: 0.5rem 0; }
-    .objs { grid-template-columns: 1fr; }
+  /* ---------- Como começar ---------- */
+  #comecar .titulo-seccao{margin-bottom:26px}
+  .grelha{display:flex;flex-direction:column;gap:14px}
+  .cartao{
+    background:linear-gradient(180deg,var(--cartao-a),var(--cartao-b));
+    border:1px solid rgba(143,170,107,.16);
+    border-radius:16px;
+    padding:24px 22px;
+    display:flex;flex-direction:column;gap:10px;
+    transition:border-color .15s ease,transform .15s ease;
+  }
+  .cartao:hover{border-color:rgba(143,170,107,.45);transform:translateY(-1px)}
+  .cartao h3{font-size:1.155rem}
+  .cartao p{color:var(--texto-2);font-size:.905rem;flex:1}
+  .cartao .ligacao{
+    font-weight:600;text-decoration:none;font-size:.905rem;
+    padding:5px 0;transition:color .15s ease;
+  }
+  .cartao .ligacao:hover{color:var(--ocre)}
+  @media (min-width:761px){
+    #comecar .titulo-seccao{margin-bottom:36px}
+    .grelha{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:920px;margin:0 auto}
+    .cartao{padding:28px 26px;gap:11px}
+    .cartao h3{font-size:1.25rem}
+    .cartao p{font-size:.94rem}
   }
 
-  .como-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 4rem; position: relative; }
-  .como-step { background: var(--surface); border: 0.5px solid var(--border); border-radius: 10px; padding: 2rem; position: relative; }
-  .como-num {
-    width: 44px; height: 44px; background: var(--accent); color: white; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-family: var(--font-head); font-size: 1.3rem; font-weight: 400;
-    margin-bottom: 1.25rem;
-  }
-  .como-title { font-family: var(--font-head); font-size: 1.5rem; font-weight: 400; margin-bottom: 0.75rem; letter-spacing: -0.01em; line-height: 1.15; }
-  .como-desc { font-size: 16px; color: var(--ink2); line-height: 1.65; }
-  .como-desc strong { color: var(--ink); font-weight: 500; }
-
-  .exemplo { background: var(--ink); color: white; border-top: 0.5px solid rgba(255,255,255,0.05); }
-  .exemplo .section-label { color: rgba(255,255,255,0.45); }
-  .exemplo .section-label::after { background: rgba(255,255,255,0.1); }
-  .exemplo .section-title { color: white; }
-  .exemplo .section-title em { color: var(--accent-glow); }
-  .exemplo .section-sub { color: rgba(255,255,255,0.7); }
-  .eg-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 3.5rem; align-items: stretch; }
-  .eg-col {
-    background: rgba(255,255,255,0.04); border: 0.5px solid rgba(255,255,255,0.1);
-    border-radius: 12px; padding: 2rem; display: flex; flex-direction: column;
-  }
-  .eg-col.depois { background: rgba(168,224,144,0.08); border-color: rgba(168,224,144,0.2); }
-  .eg-col-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 1rem; }
-  .eg-col.depois .eg-col-label { color: var(--accent-glow); }
-  .eg-col-title { font-family: var(--font-head); font-size: 1.5rem; font-weight: 400; margin-bottom: 1rem; color: white; letter-spacing: -0.01em; }
-  .eg-col-text { font-size: 15px; line-height: 1.65; color: rgba(255,255,255,0.7); margin-bottom: 1.25rem; }
-  .eg-col-text strong { color: white; font-weight: 500; }
-  .eg-time {
-    display: inline-block; font-family: var(--font-mono); font-size: 11px;
-    color: rgba(255,255,255,0.55); background: rgba(255,255,255,0.06);
-    padding: 4px 10px; border-radius: 3px; letter-spacing: 0.03em; margin-top: auto;
-  }
-  .eg-col.depois .eg-time { color: var(--accent-glow); background: rgba(168,224,144,0.1); }
-
-  .catalogo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; margin-top: 4rem; }
-  .agente-card {
-    background: var(--surface); border: 0.5px solid var(--border); border-radius: 12px;
-    overflow: hidden; transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
-    text-decoration: none; color: inherit; display: flex; flex-direction: column;
-  }
-  .agente-card:hover { transform: translateY(-2px); border-color: var(--border-strong); box-shadow: 0 8px 30px rgba(13,15,11,0.06); }
-  .agente-card.indisponivel { opacity: 0.75; pointer-events: none; }
-  .agente-head { padding: 1.5rem 1.5rem 1rem; display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
-  .agente-ic { width: 48px; height: 48px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: var(--font-head); font-size: 1.25rem; font-weight: 500; flex-shrink: 0; }
-  .ic-escriba { background: var(--accent-light); color: var(--accent); }
-  .ic-internato { background: #E8EDE0; color: #4A6B32; }
-  .ic-rehab { background: #E6EEFA; color: #1A3A6B; }
-  .ic-saude { background: var(--amber-light); color: var(--amber-dark); }
-  .ic-ajuda { background: #F2E9DE; color: #7A5520; }
-  .agente-status { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 9px; border-radius: 3px; white-space: nowrap; }
-  .st-live { background: var(--accent-light); color: var(--accent); }
-  .st-soon { background: var(--amber-light); color: var(--amber-dark); }
-  .st-dev { background: #E6EEFA; color: #1A3A6B; }
-  .st-piloto { background: #F2E9DE; color: #7A5520; }
-  .agente-body { padding: 0 1.5rem 1.25rem; flex: 1; }
-  .agente-name { font-family: var(--font-head); font-size: 1.4rem; font-weight: 400; margin-bottom: 0.4rem; line-height: 1.15; letter-spacing: -0.01em; }
-  .agente-para-quem { font-family: var(--font-mono); font-size: 11px; color: var(--muted); margin-bottom: 1rem; letter-spacing: 0.03em; }
-  .agente-desc { font-size: 15px; color: var(--ink2); line-height: 1.6; }
-  .agente-foot { border-top: 0.5px solid var(--border); padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; font-size: 13px; background: var(--bg); }
-  .agente-price { font-family: var(--font-head); font-size: 1.05rem; color: var(--ink); font-weight: 400; }
-  .agente-price-muted { color: var(--muted); font-family: var(--font-mono); font-size: 12px; }
-  .agente-link { font-family: var(--font-mono); font-size: 11px; color: var(--accent); letter-spacing: 0.05em; }
-
-  .medida { background: var(--surface); border-top: 0.5px solid var(--border); }
-  .medida-tag { display: inline-block; font-family: var(--font-mono); font-size: 11px; color: var(--accent); background: var(--accent-light); padding: 5px 12px; border-radius: 3px; letter-spacing: 0.05em; margin-bottom: 1rem; }
-  .tiers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 4rem; }
-  .tier { background: var(--bg); border: 0.5px solid var(--border); border-radius: 12px; padding: 2rem; display: flex; flex-direction: column; position: relative; }
-  .tier.recommended { background: var(--ink); color: white; border-color: var(--ink); }
-  .tier.recommended::before { content: 'Recomendado'; position: absolute; top: -12px; left: 2rem; background: var(--accent-glow); color: var(--ink); font-family: var(--font-mono); font-size: 10px; padding: 4px 12px; border-radius: 3px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; }
-  .tier-name { font-family: var(--font-head); font-size: 1.5rem; font-weight: 400; margin-bottom: 0.3rem; letter-spacing: -0.01em; }
-  .tier-sub { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 1.5rem; }
-  .tier.recommended .tier-sub { color: rgba(255,255,255,0.55); }
-  .tier-price { font-family: var(--font-head); font-size: 2.6rem; font-weight: 400; color: var(--accent); line-height: 1; margin-bottom: 0.3rem; letter-spacing: -0.02em; }
-  .tier.recommended .tier-price { color: var(--accent-glow); }
-  .tier-price-note { font-family: var(--font-mono); font-size: 10px; color: var(--muted); letter-spacing: 0.05em; margin-bottom: 1.75rem; }
-  .tier.recommended .tier-price-note { color: rgba(255,255,255,0.55); }
-  .tier-list { list-style: none; flex: 1; margin-bottom: 1.75rem; }
-  .tier-list li { font-size: 14px; line-height: 1.55; padding: 9px 0 9px 22px; position: relative; color: var(--ink2); border-bottom: 0.5px dashed var(--border); }
-  .tier.recommended .tier-list li { color: rgba(255,255,255,0.85); border-color: rgba(255,255,255,0.1); }
-  .tier-list li::before { content: '✓'; position: absolute; left: 0; top: 9px; color: var(--accent); font-weight: 500; }
-  .tier.recommended .tier-list li::before { color: var(--accent-glow); }
-  .tier-cta { display: block; text-align: center; padding: 13px; border-radius: 6px; font-family: var(--font-body); font-size: 14px; font-weight: 500; text-decoration: none; transition: all 0.2s; cursor: pointer; }
-  .tier-cta-main { background: var(--accent); color: white; }
-  .tier-cta-main:hover { background: var(--accent2); }
-  .tier.recommended .tier-cta-main { background: var(--accent-glow); color: var(--ink); }
-  .tier.recommended .tier-cta-main:hover { background: white; }
-  .tier-cta-ghost { background: transparent; color: var(--ink); border: 0.5px solid var(--border-strong); }
-  .tier-cta-ghost:hover { border-color: var(--accent); color: var(--accent); }
-  .madeira-note { margin-top: 2rem; padding: 1.25rem 1.5rem; background: var(--accent-light); border-radius: 8px; font-size: 14px; color: var(--accent); display: flex; align-items: center; gap: 10px; line-height: 1.5; }
-  .madeira-note strong { font-weight: 500; }
-
-  .faq { background: var(--bg2); }
-  .faq-list { margin-top: 3rem; max-width: 800px; }
-  .faq-item { background: var(--surface); border: 0.5px solid var(--border); border-radius: 10px; margin-bottom: 0.75rem; overflow: hidden; cursor: pointer; }
-  .faq-q { width: 100%; padding: 1.25rem 1.5rem; background: transparent; border: none; font-family: var(--font-body); font-size: 17px; font-weight: 500; color: var(--ink); text-align: left; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 1rem; transition: background 0.2s; }
-  .faq-item:hover .faq-q { background: var(--bg); }
-  .faq-q-icon { flex-shrink: 0; font-family: var(--font-mono); font-size: 14px; color: var(--accent); transition: transform 0.2s; }
-  .faq-item.open .faq-q-icon { transform: rotate(45deg); }
-  .faq-a { display: none; padding: 0 1.5rem 1.5rem; font-size: 16px; color: var(--ink2); line-height: 1.7; }
-  .faq-item.open .faq-a { display: block; }
-  .faq-a strong { color: var(--ink); font-weight: 500; }
-
-  .rede { background: var(--bg); }
-  .rede-teaser { background: var(--surface); border: 0.5px dashed var(--border-strong); border-radius: 12px; padding: 3rem; margin-top: 3rem; text-align: center; }
-  .rede-tag { display: inline-block; font-family: var(--font-mono); font-size: 10px; color: var(--muted); background: var(--bg2); padding: 5px 12px; border-radius: 3px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1.25rem; }
-  .rede-title { font-family: var(--font-head); font-size: 1.9rem; font-weight: 400; margin-bottom: 1rem; letter-spacing: -0.01em; }
-  .rede-title em { font-style: italic; color: var(--accent); }
-  .rede-desc { font-size: 17px; color: var(--ink2); line-height: 1.65; max-width: 600px; margin: 0 auto 2rem; }
-  .rede-fields { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-bottom: 2rem; }
-  .rede-field { font-family: var(--font-mono); font-size: 12px; color: var(--ink2); background: var(--bg2); border: 0.5px solid var(--border); padding: 7px 14px; border-radius: 3px; letter-spacing: 0.03em; }
-  .rede-waitlist { display: inline-flex; align-items: center; gap: 8px; background: transparent; border: 0.5px solid var(--ink); padding: 12px 24px; border-radius: 5px; font-family: var(--font-body); font-size: 14px; color: var(--ink); cursor: pointer; transition: all 0.2s; text-decoration: none; }
-
-  /* === Caixa Healthtech (bloco macro de segmento) === */
-  .healthtech { padding: 6rem 2.5rem; background: var(--bg); }
-  .ht-box {
-    max-width: 1100px; margin: 0 auto;
-    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
-    border-radius: 24px; padding: 4.5rem 4rem;
-    position: relative; overflow: hidden;
-    box-shadow: 0 24px 60px rgba(45,90,27,0.18);
-  }
-  .ht-box::before {
-    content: 'HEALTHTECH'; position: absolute; top: 50%; right: -2rem;
-    transform: translateY(-50%); font-family: var(--font-head);
-    font-size: clamp(80px, 12vw, 160px); font-weight: 300; font-style: italic;
-    color: rgba(255,255,255,0.06); white-space: nowrap; pointer-events: none; line-height: 1;
-  }
-  .ht-inner { position: relative; max-width: 640px; }
-  .ht-badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.14em;
-    text-transform: uppercase; color: white; background: rgba(255,255,255,0.15);
-    padding: 7px 16px; border-radius: 4px; margin-bottom: 1.75rem;
-  }
-  .ht-badge::before { content: '✛'; font-size: 13px; }
-  .ht-box h2 {
-    font-family: var(--font-head); font-size: clamp(2.2rem, 4.5vw, 3.4rem);
-    font-weight: 400; line-height: 1.05; letter-spacing: -0.02em;
-    color: white; margin-bottom: 1.5rem;
-  }
-  .ht-box h2 em { font-style: italic; color: var(--accent-glow); }
-  .ht-desc { font-size: 19px; line-height: 1.6; color: rgba(255,255,255,0.88); margin-bottom: 2.5rem; }
-  .ht-cta {
-    display: inline-flex; align-items: center; gap: 10px;
-    background: white; color: var(--accent); font-family: var(--font-body);
-    font-size: 16px; font-weight: 500; padding: 15px 32px; border-radius: 6px;
-    text-decoration: none; transition: all 0.25s;
-  }
-  .ht-cta:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(0,0,0,0.18); gap: 14px; }
-  .ht-note { display: block; margin-top: 1.5rem; font-family: var(--font-mono); font-size: 12px; color: rgba(255,255,255,0.6); letter-spacing: 0.03em; }
-
-  /* === Secção "Crie o seu" (Linha 2, opção A) === */
-  .criar-seu { padding: 5rem 2.5rem; background: var(--amber-light); border-top: 0.5px solid rgba(196,123,10,0.25); border-bottom: 0.5px solid rgba(196,123,10,0.25); }
-  .criar-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1.3fr 1fr; gap: 3rem; align-items: center; }
-  .criar-tag { display: inline-block; font-family: var(--font-mono); font-size: 11px; color: var(--amber-dark); background: var(--amber-light); padding: 5px 12px; border-radius: 3px; letter-spacing: 0.05em; margin-bottom: 1.25rem; }
-  .criar-seu h2 { font-family: var(--font-head); font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 400; line-height: 1.1; letter-spacing: -0.015em; margin-bottom: 1rem; }
-  .criar-seu h2 em { font-style: italic; color: var(--amber-dark); }
-  .criar-seu p { font-size: 17px; color: var(--ink2); line-height: 1.65; margin-bottom: 1.5rem; }
-  .criar-cta { display: inline-flex; align-items: center; gap: 10px; background: var(--amber); color: white; font-family: var(--font-body); font-size: 15px; font-weight: 500; padding: 13px 28px; border-radius: 6px; text-decoration: none; transition: all 0.25s; }
-  .criar-cta:hover { background: var(--amber2); transform: translateY(-2px); gap: 14px; }
-  .criar-visual { background: var(--surface); border: 0.5px solid rgba(196,123,10,0.2); border-radius: 16px; padding: 2.5rem; }
-  .criar-step { display: flex; align-items: flex-start; gap: 14px; padding: 0.85rem 0; }
-  .criar-step:not(:last-child) { border-bottom: 0.5px solid var(--border); }
-  .criar-step-n { flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--amber-light); color: var(--amber-dark); font-family: var(--font-mono); font-size: 13px; display: flex; align-items: center; justify-content: center; }
-  .criar-step-t { font-size: 15px; color: var(--ink2); line-height: 1.5; }
-
-  /* === Faixa "para os utentes, está sempre lá" === */
-  .criar-utente { max-width: 1100px; margin: 3rem auto 0; padding-top: 2.5rem; border-top: 0.5px solid rgba(196,123,10,0.25); }
-  .criar-utente-intro { font-family: var(--font-head); font-size: clamp(1.4rem, 2.8vw, 1.9rem); font-weight: 400; line-height: 1.25; letter-spacing: -0.01em; margin-bottom: 2rem; max-width: 640px; }
-  .criar-utente-intro em { font-style: italic; color: var(--amber-dark); }
-  .criar-bens { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-  .criar-bem { }
-  .criar-bem-icon { font-size: 22px; margin-bottom: 0.6rem; opacity: 0.85; }
-  .criar-bem-t { font-family: var(--font-head); font-size: 1.15rem; font-weight: 500; margin-bottom: 0.4rem; letter-spacing: -0.01em; }
-  .criar-bem-d { font-size: 14.5px; color: var(--muted); line-height: 1.55; }
-  @media (max-width: 768px) { .criar-bens { grid-template-columns: 1fr; gap: 1.25rem; } }
-
-  @media (max-width: 768px) {
-    .ht-box { padding: 3rem 1.75rem; }
-    .criar-inner { grid-template-columns: 1fr; gap: 2rem; }
+  /* ---------- Quem somos ---------- */
+  .quem{border-top:1px solid var(--linha)}
+  .quem .miolo{max-width:640px;margin:0 auto;text-align:center}
+  .quem .titulo-seccao{margin-bottom:20px}
+  .quem p{margin-bottom:14px;color:var(--texto-2);font-size:.905rem}
+  .quem p:first-of-type{color:var(--texto);font-size:1rem}
+  .quem p:last-of-type{color:var(--musgo-claro);font-weight:500;margin-bottom:0}
+  @media (min-width:761px){
+    .quem .titulo-seccao{margin-bottom:24px}
+    .quem p{font-size:.97rem;margin-bottom:16px}
+    .quem p:first-of-type{font-size:1.065rem}
   }
 
-  /* === Narrativa curta "um dia real" === */
-  .dia { padding: 6rem 2.5rem; background: var(--bg); }
-  .dia-inner { max-width: 760px; margin: 0 auto; text-align: center; }
-  .dia-when { font-family: var(--font-mono); font-size: 13px; color: var(--accent); letter-spacing: 0.06em; margin-bottom: 1.5rem; }
-  .dia-line { font-family: var(--font-head); font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 400; line-height: 1.3; letter-spacing: -0.015em; margin-bottom: 2.5rem; }
-  .dia-line em { font-style: italic; color: var(--accent); }
-  .dia-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; text-align: left; }
-  .dia-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: 14px; padding: 1.75rem; }
-  .dia-card.now { border-color: var(--accent); background: var(--accent-light); }
-  .dia-card-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; }
-  .dia-card.now .dia-card-label { color: var(--accent); }
-  .dia-card p { font-size: 15.5px; color: var(--ink2); line-height: 1.6; }
-  .dia-card p strong { color: var(--ink); }
-  @media (max-width: 768px) { .dia-cols { grid-template-columns: 1fr; } }
-  .rede-waitlist:hover { background: var(--ink); color: white; }
-
-  .empresa { background: var(--bg2); }
-  .empresa-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; margin-top: 4rem; }
-  .empresa-text p { color: var(--ink2); font-size: 17px; line-height: 1.75; margin-bottom: 1.1rem; }
-  .empresa-text p strong { color: var(--ink); font-weight: 500; }
-  .empresa-meta { display: flex; flex-direction: column; gap: 1px; }
-  .meta-row { display: flex; align-items: baseline; gap: 1rem; padding: 1rem 0; border-bottom: 0.5px solid var(--border); font-size: 15px; }
-  .meta-label { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; min-width: 110px; flex-shrink: 0; }
-  .meta-val { color: var(--ink); }
-
-  .contact-text h2 { font-family: var(--font-head); font-size: 2.5rem; font-weight: 400; margin-bottom: 1rem; line-height: 1.08; letter-spacing: -0.02em; }
-  .contact-text h2 em { font-style: italic; color: var(--accent); }
-  .contact-text p { color: var(--ink2); font-size: 17px; line-height: 1.7; margin-bottom: 2rem; }
-  .contact-link { display: flex; align-items: center; gap: 14px; padding: 1rem 0; border-bottom: 0.5px solid var(--border); text-decoration: none; color: var(--ink); font-size: 15px; transition: color 0.2s; }
-  .contact-link:hover { color: var(--accent); }
-  .contact-link-icon { width: 36px; height: 36px; border-radius: 6px; background: var(--surface); border: 0.5px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-family: var(--font-mono); font-size: 13px; color: var(--accent); }
-  .contact-link-label { font-family: var(--font-mono); font-size: 11px; color: var(--muted); display: block; letter-spacing: 0.05em; }
-  .contact-link-val { font-size: 15px; color: var(--ink); }
-  .contact-form-wrap { background: var(--surface); border: 0.5px solid var(--border); border-radius: 12px; padding: 2rem; }
-  .contact-form-wrap h3 { font-family: var(--font-head); font-size: 1.5rem; font-weight: 400; margin-bottom: 0.5rem; letter-spacing: -0.01em; }
-  .contact-form-wrap p { font-size: 14px; color: var(--muted); margin-bottom: 1.5rem; line-height: 1.55; }
-  .form-row { margin-bottom: 1rem; }
-  .form-row label { display: block; font-size: 11px; color: var(--ink); margin-bottom: 6px; letter-spacing: 0.05em; font-weight: 500; font-family: var(--font-mono); text-transform: uppercase; }
-  .form-row input, .form-row select, .form-row textarea { width: 100%; padding: 12px 14px; border: 0.5px solid var(--border-strong); border-radius: 6px; background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; outline: none; transition: border-color 0.2s; }
-  .form-row input:focus, .form-row select:focus, .form-row textarea:focus { border-color: var(--accent); background: white; }
-  .form-row textarea { min-height: 90px; resize: vertical; }
-  .btn-submit { width: 100%; background: var(--accent); color: white; font-family: var(--font-body); font-size: 15px; font-weight: 500; padding: 14px; border-radius: 6px; border: none; cursor: pointer; transition: background 0.2s; margin-top: 0.5rem; }
-  .btn-submit:hover { background: var(--accent2); }
-
-  footer { background: var(--ink); color: rgba(255,255,255,0.4); padding: 3rem 2.5rem 2rem; }
-  .footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; }
-  .footer-logo-name { font-family: var(--font-head); font-size: 20px; color: rgba(255,255,255,0.95); font-style: italic; margin-bottom: 8px; }
-  .footer-tagline { font-family: var(--font-mono); font-size: 10px; color: rgba(255,255,255,0.35); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem; }
-  .footer-desc { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.6; max-width: 300px; }
-  .footer-col h5 { font-family: var(--font-mono); font-size: 10px; color: rgba(255,255,255,0.95); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem; font-weight: 500; }
-  .footer-col a { display: block; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 14px; line-height: 2; transition: color 0.2s; }
-  .footer-col a:hover { color: rgba(255,255,255,0.95); }
-  .footer-bottom { max-width: 1100px; margin: 3rem auto 0; padding-top: 2rem; border-top: 0.5px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; font-size: 12px; color: rgba(255,255,255,0.4); font-family: var(--font-mono); letter-spacing: 0.05em; }
-  .footer-bottom a { color: rgba(255,255,255,0.5); text-decoration: none; }
-  .footer-bottom a:hover { color: rgba(255,255,255,0.9); }
-
-  @media (max-width: 860px) {
-    nav { padding: 1rem 1.25rem; }
-    .nav-links li:not(:last-child) { display: none; }
-    .hero { padding: 7rem 1.25rem 3rem; min-height: auto; }
-    .hero-bg-text { display: none; }
-    section { padding: 4rem 1.25rem; }
-    .portas { grid-template-columns: 1fr; }
-    .como-grid, .eg-grid { grid-template-columns: 1fr; }
-    .tiers-grid { grid-template-columns: 1fr; }
-    .empresa-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-    .catalogo-grid { grid-template-columns: 1fr; }
-    .footer-inner { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  /* ---------- FAQ ---------- */
+  .faq{border-top:1px solid var(--linha)}
+  .faq .miolo{max-width:760px;margin:0 auto}
+  .faq .titulo-seccao{margin-bottom:22px}
+  .faq details{
+    background:var(--faq);
+    border:1px solid var(--linha);
+    border-radius:12px;
+    padding:16px 18px;
+    margin-bottom:9px;
   }
-  @media (max-width: 480px) {
-    .hero h1 { font-size: 2.3rem; }
-    .section-title { font-size: 1.9rem; }
-    .footer-inner { grid-template-columns: 1fr; }
-    .rede-teaser, .explicar-intro { padding: 2rem 1.25rem; }
-    body { font-size: 16px; }
+  .faq details:last-child{margin-bottom:0}
+  .faq summary{
+    cursor:pointer;font-weight:600;font-size:.905rem;list-style:none;
+    display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  }
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary .texto-p{flex:1}
+  .faq .ind{color:var(--musgo);font-size:1.125rem;line-height:1;display:inline-flex;transition:transform .2s ease}
+  .faq details[open] .ind{transform:rotate(45deg)}
+  .faq details p{color:var(--texto-2);margin-top:9px;font-size:.875rem}
+  @media (min-width:761px){
+    .faq .titulo-seccao{margin-bottom:28px}
+    .faq details{padding:18px 22px;margin-bottom:10px}
+    .faq summary{font-size:.97rem;gap:16px}
+    .faq .ind{font-size:1.185rem}
+    .faq details p{margin-top:10px;font-size:.905rem}
   }
 
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
-  .hero-tag, .hero h1, .hero-desc, .hero-desc-small, .portas { animation: fadeUp 0.6s ease both; }
-  .hero h1 { animation-delay: 0.08s; }
-  .hero-desc { animation-delay: 0.16s; }
-  .hero-desc-small { animation-delay: 0.22s; }
-  .portas { animation-delay: 0.3s; }
-  .contact-single{max-width:640px;margin:0 auto;}
-  .contact-intro{margin-bottom:2.5rem;}
+  /* ---------- Contacto ---------- */
+  .contacto{border-top:1px solid var(--linha);text-align:center}
+  .contacto .titulo-seccao{margin-bottom:16px}
+  .contacto a{
+    font-family:'Fraunces',Georgia,serif;font-size:clamp(1.185rem,3.5vw,1.5rem);
+    text-decoration:none;border-bottom:1px solid rgba(169,194,135,.4);padding-bottom:2px;
+    transition:color .15s ease,border-color .15s ease;
+  }
+  .contacto a:hover{color:var(--ocre);border-color:var(--ocre)}
+  @media (min-width:761px){ .contacto .titulo-seccao{margin-bottom:18px} }
+
+  /* ---------- Rodapé ---------- */
+  footer{
+    border-top:1px solid var(--linha);
+    padding:32px 0 40px;
+    color:var(--texto-2);font-size:.78rem;text-align:center;
+  }
+  footer .aviso{max-width:70ch;margin:0 auto 10px}
+  footer .legal{color:var(--texto-3)}
+  footer .legal a{color:var(--texto-2);text-decoration:none}
+  footer .legal a:hover{color:var(--texto)}
+  @media (min-width:761px){
+    footer{padding:36px 0 44px;font-size:.845rem}
+    footer .aviso{margin-bottom:12px}
+  }
 </style>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Organization",
-      "@id": "https://proteinaludica.com/#org",
-      "name": "Proteína Lúdica, Lda.",
-      "url": "https://proteinaludica.com",
-      "email": "info@proteinaludica.com",
-      "slogan": "Promover o uso do seu assistente digital IA.",
-      "description": "Empresa healthtech que cria assistentes digitais IA não clínicos para médicos e profissionais de saúde.",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Seixal",
-        "addressRegion": "Madeira",
-        "addressCountry": "PT"
-      },
-      "areaServed": "PT",
-      "knowsLanguage": "pt-PT"
-    },
-    {
-      "@type": "WebSite",
-      "@id": "https://proteinaludica.com/#website",
-      "url": "https://proteinaludica.com",
-      "name": "Proteína Lúdica",
-      "inLanguage": "pt-PT",
-      "publisher": { "@id": "https://proteinaludica.com/#org" }
-    },
-    {
-      "@type": "Service",
-      "name": "Assistentes digitais IA para a saúde",
-      "serviceType": "Assistente digital IA não clínico",
-      "provider": { "@id": "https://proteinaludica.com/#org" },
-      "areaServed": "PT",
-      "audience": {
-        "@type": "Audience",
-        "audienceType": "Médicos e profissionais de saúde"
-      },
-      "description": "Assistentes digitais IA que tratam da papelada, organizam a informação e preparam documentos, sempre com a voz e o critério do profissional. Não clínico, não constitui dispositivo médico."
-    },
-    {
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "Tenho de perceber de computadores?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Não. Quem sabe mandar uma mensagem pelo telemóvel, consegue usar. A instalação e a explicação ficam connosco." }
-        },
-        {
-          "@type": "Question",
-          "name": "Os dados dos meus doentes ficam protegidos?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Sim. Os dados ficam no computador e no telemóvel, não vão para lado nenhum. São seguidas todas as regras de privacidade da União Europeia." }
-        },
-        {
-          "@type": "Question",
-          "name": "O assistente faz diagnósticos ou receita?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Não e nunca. A decisão é sempre do médico. O assistente só trata da papelada: escrever notas, organizar informação, preparar documentos." }
-        },
-        {
-          "@type": "Question",
-          "name": "Quanto tempo demora a estar pronto?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Quando feito por nós, entre 3 e 7 dias depois da conversa. Quando feito pelo próprio, uns 15 a 30 minutos a responder às perguntas." }
-        }
-      ]
-    }
-  ]
-}
-</script>
-
 </head>
 <body>
 
-<nav>
-  <a href="#" class="logo">
-    <div class="logo-name">Proteína <em>Lúdica</em></div>
-    <div class="logo-sub">Assistentes digitais IA · Madeira</div>
-  </a>
-  <ul class="nav-links">
-    <li><a href="#explicar">O que é</a></li>
-    <li><a href="/catalogo">Assistentes</a></li>
-    <li><a href="/criar">Criar o meu</a></li>
-    <li><a href="#faq">Dúvidas</a></li>
-    <li><a href="#contacto" class="nav-cta">Contacto</a></li>
-  </ul>
-</nav>
+<header>
+  <div class="contentor barra">
+    <a class="marca" href="/">Proteína <span>Lúdica</span></a>
+    <nav class="so-desktop" aria-label="Navegação principal">
+      <ul>
+        <li><a href="/catalogo">Assistentes</a></li>
+        <li><a href="#comecar">Como começar</a></li>
+        <li><a href="#quem-somos">Quem somos</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a class="nav-cta" href="/criar">Criar o meu assistente</a></li>
+      </ul>
+    </nav>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu-movel" aria-label="Menu">
+      <span></span><span></span>
+    </button>
+  </div>
+  <nav id="menu-movel" hidden aria-label="Navegação principal">
+    <a href="/catalogo">Assistentes</a>
+    <a href="#comecar">Como começar</a>
+    <a href="#quem-somos">Quem somos</a>
+    <a href="#faq">FAQ</a>
+    <a class="nav-cta" href="/criar">Criar o meu assistente</a>
+  </nav>
+</header>
 
+<main>
+
+<!-- BLOCO 1 — Hero -->
 <section class="hero">
-  <div class="hero-bg-text">Lúdica</div>
-  <div class="hero-inner">
-    <div class="hero-tag">Feito por um médico · Madeira</div>
-    <h1>O profissional dita.<br>A nota vem <em>escrita.</em></h1>
-    <p class="hero-desc">
-      Um assistente digital IA que aprende uma forma de trabalhar — as frases do costume, os exames habituais, o critério — e <strong>completa a partir do que ditou, no mesmo estilo</strong>.
-    </p>
-    <p class="hero-desc-small">
-      Basta ditar 30 segundos. A nota vem completa, no mesmo estilo. E o turno acaba à hora. Pensado por quem trabalha em saúde todos os dias, em português.
-    </p>
-  </div>
-</section>
-
-<!-- === CAIXA HEALTHTECH (bloco macro de segmento) === -->
-<section class="healthtech">
-  <div class="ht-box">
-    <div class="ht-inner">
-      <div class="ht-badge">Healthtech</div>
-      <h2>A mesma maneira de trabalhar.<br><em>Sem ter de estar presente.</em></h2>
-      <p class="ht-desc">
-        Ninguém pode estar em todo o lado ao mesmo tempo. Um assistente digital IA pode. Trata da papelada, organiza a informação, prepara documentos — sempre com a mesma voz e o mesmo critério.
-      </p>
-      <a href="/catalogo" class="ht-cta">Ver os assistentes →</a>
-      <span class="ht-note">Não clínico · não é dispositivo médico · a decisão é sempre do profissional</span>
+  <div class="contentor">
+    <h1>Assistentes digitais IA, à medida de cada profissional</h1>
+    <p class="canonica">O profissional dita ou rascunha. O assistente devolve escrito, organizado, no estilo dele. O profissional revê e decide.</p>
+    <p class="ponte">Criados de raiz, ao gosto de cada um — ou especialistas prontos a usar, no catálogo.</p>
+    <div class="accoes">
+      <a class="btn btn-primario" href="/criar">Criar o meu assistente</a>
+      <a class="btn btn-secundario" href="/catalogo">Ver os assistentes</a>
     </div>
   </div>
 </section>
 
-<!-- === CRIE O SEU (Linha 2 · opção A) === -->
-<!-- === NARRATIVA "um dia real" (terça 19h40) === -->
-<section class="explicar" id="explicar">
-  <div class="container">
-    <div class="section-label">Primeiro · o que é isto</div>
-    <h2 class="section-title">Não é magia.<br>É o seu <em>método, escrito.</em></h2>
-    <p class="section-sub">Em vez de explicar, mostramos. Veja o que acontece quando se dita.</p>
-
-    <!-- Camada 1: ditado → nota -->
-    <div class="demo">
-      <div class="demo-label">◷ 30 segundos · um exemplo</div>
-      <div class="demo-grid">
-        <div class="demo-card fala">
-          <div class="demo-card-head">▸ O que se dita</div>
-          <p class="demo-fala-text">"Senhora de 68 anos, hipertensa, vinha para reavaliação. Tensão controlada, 130 por 80. Mantém a medicação, ajustei a dose do diurético. Pedi análises e marquei reavaliação para daqui a três meses."</p>
-        </div>
-        <div class="demo-arrow">→</div>
-        <div class="demo-card nota">
-          <div class="demo-card-head">✓ O que vem escrito</div>
-          <p class="demo-nota-text">S: Utente de 68 anos, hipertensa, para reavaliação.
-O: TA 130/80 mmHg, controlada.
-A: HTA controlada sob terapêutica.
-P: Mantém esquema; ajuste da dose de diurético. Pedidas análises. Reavaliação em 3 meses.</p>
-        </div>
-      </div>
-      <p class="demo-foot">Exemplo de demonstração. O formato adapta-se ao estilo de cada profissional.</p>
+<!-- BLOCO 4 — Faixa de confiança -->
+<div class="faixa" role="region" aria-label="Compromissos de confiança">
+  <div class="contentor selos">
+    <div class="selo">
+      <span class="ponto" aria-hidden="true"></span>
+      <div><strong>A voz fica no computador.</strong>
+      <p>O ditado é reconhecido no próprio browser — a voz não é enviada nem guardada.</p></div>
     </div>
+    <div class="selo">
+      <span class="ponto" aria-hidden="true"></span>
+      <div><strong>Dados na União Europeia, ao abrigo do RGPD.</strong>
+      <p>Os modelos de IA não guardam nem aprendem com o que é escrito.</p></div>
+    </div>
+    <div class="selo">
+      <span class="ponto" aria-hidden="true"></span>
+      <div><strong>A decisão é sempre do profissional.</strong>
+      <p>Os assistentes recebem, organizam e escrevem — nunca decidem por ninguém.</p></div>
+    </div>
+  </div>
+</div>
 
-    <!-- Camada 2: controlo -->
-    <div class="controlo">
-      <div class="controlo-icon">✓</div>
-      <div class="controlo-text">
-        <strong>Nada sai sem a sua revisão.</strong> O assistente propõe a nota escrita; o profissional lê, corrige se quiser, e só depois copia. A decisão e a responsabilidade clínica são sempre suas.
-      </div>
+<!-- BLOCO 2 — Como começar -->
+<section id="comecar">
+  <div class="contentor">
+    <h2 class="titulo-seccao">Como começar</h2>
+    <div class="grelha">
+      <article class="cartao">
+        <h3>Construir o seu próprio</h3>
+        <p>Para o profissional que quer um assistente com o seu nome, a sua maneira de comunicar e as suas regras. Um formulário guiado, passo a passo.</p>
+        <a class="ligacao" href="/criar">Criar o meu assistente →</a>
+      </article>
+      <article class="cartao">
+        <h3>Escolher um especialista pronto</h3>
+        <p>Cada assistente disponível tem página própria, com demonstração e período de experiência gratuito. Vê-se, experimenta-se, decide-se.</p>
+        <a class="ligacao" href="/catalogo">Ver o catálogo →</a>
+      </article>
     </div>
   </div>
 </section>
 
-<section>
-  <div class="container">
-    <div class="section-label">Como é que funciona</div>
-    <h2 class="section-title">Três <em>passos.</em></h2>
-    <p class="section-sub">Não é preciso saber nada de computadores. A parte difícil fica connosco.</p>
-
-    <div class="como-grid">
-
-      <div class="como-step">
-        <div class="como-num">1</div>
-        <div class="como-title">Uma conversa<br>de 1 hora</div>
-        <p class="como-desc">Uma conversa sobre a forma de trabalhar: como se escrevem as notas, que doentes se vê, que problemas se resolve. <strong>Fica tudo registado.</strong></p>
-      </div>
-
-      <div class="como-step">
-        <div class="como-num">2</div>
-        <div class="como-title">Montamos o<br>seu assistente digital IA</div>
-        <p class="como-desc">A partir dessa conversa, nasce um assistente digital IA que <strong>dá forma ao que o profissional dita, no estilo dele</strong>. Testado para ficar bem feito.</p>
-      </div>
-
-      <div class="como-step">
-        <div class="como-num">3</div>
-        <div class="como-title">Entregamos-lhe<br>a trabalhar</div>
-        <p class="como-desc">Explicação de uso em 30 minutos. Fica a funcionar no telemóvel e no computador. <strong>Poupa tempo no mesmo dia.</strong></p>
-      </div>
-
+<!-- BLOCO 5 — Quem somos -->
+<section id="quem-somos" class="quem">
+  <div class="contentor">
+    <div class="miolo">
+      <h2 class="titulo-seccao">Quem somos</h2>
+      <p>A Proteína Lúdica é uma empresa portuguesa, sediada na ilha da Madeira, fundada por um médico de família no activo.</p>
+      <p>Os assistentes digitais IA nascem da prática real: da documentação de quem trabalha na saúde todos os dias. Foi aí que a Proteína Lúdica começou — na área com mais papelada. O mesmo método serve outras profissões.</p>
+      <p>Ferramentas de documentação, nunca de decisão. O profissional revê e decide, sempre.</p>
     </div>
   </div>
 </section>
 
-<section class="criar-seu">
-  <div class="criar-inner">
-    <div>
-      <div class="criar-tag">Para profissionais</div>
-      <h2>Prefere construir<br>o <em>seu próprio?</em></h2>
-      <p>
-        Personalizar um assistente digital IA com a sua voz e a sua maneira de trabalhar, e oferecê-lo aos utentes. Responde-se a perguntas simples e fica tudo pronto a funcionar.
-      </p>
-      <a href="/criar" class="criar-cta">Criar o meu assistente →</a>
-    </div>
-    <div class="criar-visual">
-      <div class="criar-step"><span class="criar-step-n">1</span><span class="criar-step-t">Responder a perguntas simples sobre a forma de trabalhar.</span></div>
-      <div class="criar-step"><span class="criar-step-n">2</span><span class="criar-step-t">O assistente responde com a sua autoridade e o seu estilo.</span></div>
-      <div class="criar-step"><span class="criar-step-n">3</span><span class="criar-step-t">Fica tudo pronto a pôr a funcionar.</span></div>
-    </div>
-  </div>
-</section>
-
-<section class="faq" id="faq">
-  <div class="container">
-    <div class="section-label">Dúvidas normais</div>
-    <h2 class="section-title">Perguntas que <em>todos fazem.</em></h2>
-    <p class="section-sub">São as mesmas perguntas que toda a gente faz no início.</p>
-
-    <div class="faq-list">
-
-      <div class="faq-item" onclick="this.classList.toggle('open')">
-        <div class="faq-q">
-          Tenho de perceber de computadores?
-          <span class="faq-q-icon">+</span>
-        </div>
-        <div class="faq-a">
-          Não. Quem sabe mandar uma mensagem pelo telemóvel, consegue usar. A instalação e a explicação ficam connosco. Havendo dúvidas, há sempre ajuda de volta.
-        </div>
-      </div>
-
-      <div class="faq-item" onclick="this.classList.toggle('open')">
-        <div class="faq-q">
-          Os dados dos meus doentes ficam protegidos?
-          <span class="faq-q-icon">+</span>
-        </div>
-        <div class="faq-a">
-          Sim. <strong>Os dados ficam no computador e no telemóvel</strong>, não vão para lado nenhum. São seguidas todas as regras de privacidade da União Europeia. Os papéis de consentimento para os doentes assinarem também vão incluídos.
-        </div>
-      </div>
-
-      <div class="faq-item" onclick="this.classList.toggle('open')">
-        <div class="faq-q">
-          O assistente faz diagnósticos ou receita?
-          <span class="faq-q-icon">+</span>
-        </div>
-        <div class="faq-a">
-          <strong>Não e nunca.</strong> A decisão é sempre do médico. O assistente só trata da papelada: escrever notas, organizar informação, preparar documentos. Quem decide o que fazer ao doente é sempre o profissional.
-        </div>
-      </div>
-
-      <div class="faq-item" onclick="this.classList.toggle('open')">
-        <div class="faq-q">
-          Quanto tempo demora a estar pronto?
-          <span class="faq-q-icon">+</span>
-        </div>
-        <div class="faq-a">
-          Quando feito por nós — entre <strong>3 e 7 dias</strong> depois da conversa. Quando feito pelo próprio — uns <strong>15 a 30 minutos</strong> a responder às perguntas e fica pronto.
-        </div>
-      </div>
-
-      <div class="faq-item" onclick="this.classList.toggle('open')">
-        <div class="faq-q">
-          E se eu não gostar?
-          <span class="faq-q-icon">+</span>
-        </div>
-        <div class="faq-a">
-          Quando feito pelo próprio, o dinheiro é devolvido sem perguntas. Quando feito por nós, ajusta-se até ficar bem. Ninguém fica conformado com algo que não serve.
-        </div>
-      </div>
-
-      <div class="faq-item" onclick="this.classList.toggle('open')">
-        <div class="faq-q">
-          Preciso de comprar mais alguma coisa?
-          <span class="faq-q-icon">+</span>
-        </div>
-        <div class="faq-a">
-          É preciso ter uma conta num serviço de IA como o ChatGPT, o Claude ou o Gemini — uma pequena mensalidade paga a esse serviço, não a nós. Indicamos qual escolher e ajudamos a abrir a conta.
-        </div>
-      </div>
-
+<!-- BLOCO 6 — FAQ -->
+<section id="faq" class="faq">
+  <div class="contentor">
+    <div class="miolo">
+      <h2 class="titulo-seccao">Perguntas frequentes</h2>
+      <details>
+        <summary><span class="texto-p">O que é um assistente digital IA?</span><span class="ind" aria-hidden="true">+</span></summary>
+        <p>Uma ferramenta que recebe o que o profissional dita ou rascunha e devolve o texto escrito, organizado, no estilo dele. Não cria nada sozinho: parte sempre do que o profissional produziu.</p>
+      </details>
+      <details>
+        <summary><span class="texto-p">Os assistentes decidem alguma coisa sozinhos?</span><span class="ind" aria-hidden="true">+</span></summary>
+        <p>Não. Recebem, organizam e escrevem. A decisão é sempre do profissional.</p>
+      </details>
+      <details>
+        <summary><span class="texto-p">E a confidencialidade dos dados?</span><span class="ind" aria-hidden="true">+</span></summary>
+        <p>Os dados são tratados na União Europeia, ao abrigo do RGPD. Os modelos de IA não guardam nem aprendem com o que é escrito. No ditado, a voz é reconhecida no próprio browser — não é enviada nem guardada.</p>
+      </details>
+      <details>
+        <summary><span class="texto-p">Quanto custa?</span><span class="ind" aria-hidden="true">+</span></summary>
+        <p>Cada assistente disponível tem um período de experiência gratuito. Os valores são apresentados antes de qualquer compromisso, na adesão.</p>
+      </details>
+      <details>
+        <summary><span class="texto-p">É preciso perceber de informática?</span><span class="ind" aria-hidden="true">+</span></summary>
+        <p>Não. Quem sabe usar o browser e ditar uma mensagem, sabe usar um assistente digital IA.</p>
+      </details>
+      <details>
+        <summary><span class="texto-p">Para que profissionais é?</span><span class="ind" aria-hidden="true">+</span></summary>
+        <p>Qualquer profissional que produza muita documentação. O catálogo actual começou na área da saúde; o caminho de criação serve todas as áreas.</p>
+      </details>
     </div>
   </div>
 </section>
 
-<section class="empresa" id="empresa">
-  <div class="container">
-    <div class="section-label">Quem somos</div>
-
-    <div class="empresa-grid">
-      <div class="empresa-text">
-        <h2 class="section-title" style="margin-bottom:1.5rem">Proteína<br><em>Lúdica.</em></h2>
-        <p>Somos uma pequena empresa sediada em <strong>Seixal, Madeira</strong>.</p>
-        <p>Quem cá está é <strong>médico a trabalhar todos os dias</strong> — em cuidados primários, em urgência, em consultório. Só fazemos coisas para problemas que conhecemos por dentro.</p>
-        <p>O nome é propositado. <strong>Proteína</strong> para dizer "coisa séria, que alimenta". <strong>Lúdica</strong> para dizer "feito com gosto, não pesado". O tempo é a coisa mais cara que um profissional tem. Não vale a pena perdê-lo com ferramentas que não servem.</p>
-      </div>
-      <div class="empresa-meta">
-        <div class="meta-row">
-          <span class="meta-label">Empresa</span>
-          <span class="meta-val">Proteína Lúdica, Lda.</span>
-        </div>
-        <div class="meta-row">
-          <span class="meta-label">Sede</span>
-          <span class="meta-val">Seixal · Madeira · Portugal</span>
-        </div>
-        <div class="meta-row">
-          <span class="meta-label">O que fazemos</span>
-          <span class="meta-val">Assistentes digitais IA para profissionais</span>
-        </div>
-        <div class="meta-row">
-          <span class="meta-label">Sítio</span>
-          <span class="meta-val">proteinaludica.com</span>
-        </div>
-        <div class="meta-row">
-          <span class="meta-label">Desde</span>
-          <span class="meta-val">2026</span>
-        </div>
-      </div>
-    </div>
+<!-- Contacto -->
+<section id="contacto" class="contacto">
+  <div class="contentor">
+    <h2 class="titulo-seccao">Contacto</h2>
+    <a href="mailto:info@proteinaludica.com">info@proteinaludica.com</a>
   </div>
 </section>
 
-<section id="contacto">
-  <div class="container">
-    <div class="section-label">Falar connosco</div>
-    <div class="contact-single">
-      <div class="contact-intro">
-        <h2>Vamos<br><em>conversar.</em></h2>
-        <p>Escreva, ligue, mande email. Em 24 horas estamos de volta. <strong>É sempre uma pessoa a atender, nunca um robô.</strong></p>
-      </div>
-      <div class="contact-form-wrap">
-        <h3>Dizer olá.</h3>
-        <p>Deixe o contacto e uma palavra sobre o que procura. Ligamos de volta.</p>
-        <form id="ci-form" novalidate>
-          <div class="form-row">
-            <label for="ci-nome">Nome</label>
-            <input type="text" id="ci-nome" placeholder="Dr. / Dra." required>
-          </div>
-          <div class="form-row">
-            <label for="ci-email">Email</label>
-            <input type="email" id="ci-email" placeholder="o seu email" required>
-          </div>
-          <div class="form-row">
-            <label for="ci-tipo">O que lhe interessa?</label>
-            <select id="ci-tipo">
-              <option>Quero um assistente pronto a usar</option>
-              <option>Quero criar o meu assistente</option>
-              <option>Interessa-me um dos já prontos</option>
-              <option>Tenho uma dúvida sobre privacidade/dados</option>
-              <option>Só quero saber mais</option>
-            </select>
-          </div>
-          <div class="form-row">
-            <label for="ci-msg">O que procura (opcional)</label>
-            <textarea id="ci-msg" placeholder="Uma frase chega. Ex: 'sou radiologista, quero poupar tempo nos relatórios.'"></textarea>
-          </div>
-          <input type="text" id="ci-website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
-          <label for="ci-consent" style="display:flex;align-items:flex-start;gap:9px;font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:1rem;cursor:pointer;text-transform:none;letter-spacing:0;font-family:var(--font-body);font-weight:400">
-            <input type="checkbox" id="ci-consent" style="width:auto;margin-top:3px;flex-shrink:0">
-            <span>Autorizo o contacto e o tratamento dos meus dados para resposta, nos termos da <a href="/privacidade" style="color:var(--accent)">política de privacidade</a>.</span>
-          </label>
-          <button type="submit" class="btn-submit">Enviar mensagem →</button>
-          <p id="ci-status" role="status" aria-live="polite" style="font-size:13px;margin-top:0.75rem;min-height:1.2em"></p>
-        </form>
-        <script>
-        (function () {
-          var form = document.getElementById('ci-form');
-          if (!form) return;
-          var status = document.getElementById('ci-status');
-          var btn = form.querySelector('.btn-submit');
-          form.addEventListener('submit', function (e) {
-            e.preventDefault();
-            var nome = document.getElementById('ci-nome').value.trim();
-            var email = document.getElementById('ci-email').value.trim();
-            var consent = document.getElementById('ci-consent').checked;
-            if (!nome || !email) { status.style.color = 'var(--amber-dark)'; status.textContent = 'Indique o nome e o email.'; return; }
-            if (!consent) { status.style.color = 'var(--amber-dark)'; status.textContent = 'É preciso autorizar o contacto.'; return; }
-            var payload = {
-              nome: nome,
-              email: email,
-              tipo: document.getElementById('ci-tipo').value,
-              mensagem: document.getElementById('ci-msg').value.trim(),
-              consentimento: true,
-              website: document.getElementById('ci-website').value
-            };
-            var orig = btn.textContent;
-            btn.disabled = true; btn.textContent = 'A enviar…';
-            status.style.color = 'var(--muted)'; status.textContent = '';
-            fetch('/api/contact', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(payload)
-            }).then(function (r) {
-              return r.json().catch(function () { return {}; }).then(function (d) { return { ok: r.ok, d: d }; });
-            }).then(function (res) {
-              if (res.ok && res.d.ok) {
-                form.reset();
-                status.style.color = 'var(--accent)';
-                status.textContent = 'Obrigado. Recebemos a sua mensagem e ligamos de volta.';
-              } else {
-                status.style.color = 'var(--amber-dark)';
-                status.textContent = (res.d && res.d.error) ? res.d.error : 'Não foi possível enviar. Tente por email: info@proteinaludica.com';
-              }
-            }).catch(function () {
-              status.style.color = 'var(--amber-dark)';
-              status.textContent = 'Falha de ligação. Tente por email: info@proteinaludica.com';
-            }).then(function () {
-              btn.disabled = false; btn.textContent = orig;
-            });
-          });
-        })();
-        </script>
-      </div>
-    </div>
-  </div>
-</section>
+</main>
 
+<!-- ============================================================
+     RODAPÉ — LEGAL
+     Dados legais repostos do rodapé do site actual: denominação,
+     sede e links de política de privacidade/termos.
+     NOTA: o disclaimer CLÍNICO canónico saiu desta página de
+     propósito (homepage agnóstica) — vive em /catalogo e nas
+     páginas dos agentes. NÃO o repor aqui.
+     ============================================================ -->
 <footer>
-  <div class="footer-inner">
-    <div>
-      <div class="footer-logo-name">Proteína Lúdica</div>
-      <div class="footer-tagline">Assistentes digitais IA · Madeira · 2026</div>
-      <p class="footer-desc">Assistentes digitais IA para profissionais com muita papelada e pouco tempo. Em português, na Madeira.</p>
-    </div>
-
-    <div class="footer-col">
-      <h5>Começar</h5>
-      <a href="/catalogo">Ver os assistentes</a>
-      <a href="/criar">Quero tentar sozinho</a>
-      <a href="/catalogo">Todos os assistentes</a>
-      <a href="#explicar">O que é isto</a>
-    </div>
-
-    <div class="footer-col">
-      <h5>Os que temos</h5>
-      <a href="https://drescribia.proteinaludica.com">Dr. Escriba</a>
-      <a href="#contacto">Dr. Escriba Internato</a>
-      <a href="#contacto">RehabAssist</a>
-      <a href="#contacto">Assistente de Saúde</a>
-    </div>
-
-    <div class="footer-col">
-      <h5>Sobre</h5>
-      <a href="#empresa">Quem somos</a>
-      <a href="#faq">Dúvidas</a>
-      <a href="mailto:info@proteinaludica.com">info@proteinaludica.com</a>
-      <a href="/privacidade">Privacidade</a>
-    </div>
-  </div>
-
-  <div class="footer-bottom">
-    <span>© 2026 Proteína Lúdica, Lda.</span>
-    <div>
-      <a href="/termos">Termos</a>
-      &nbsp;·&nbsp;
-      <a href="/privacidade">Privacidade</a>
-    </div>
+  <div class="contentor">
+    <p class="aviso">Ferramentas de documentação e organização. O profissional revê e decide, sempre.</p>
+    <p class="legal">© 2026 Proteína Lúdica, Lda. · NIF 514411520 · Região Autónoma da Madeira, Portugal · <a href="/privacidade">Política de privacidade</a> · <a href="/termos">Termos</a></p>
   </div>
 </footer>
+
+<script>
+(function(){
+  var btn = document.querySelector('.menu-btn');
+  var menu = document.getElementById('menu-movel');
+  if(!btn || !menu) return;
+  function fechar(){ btn.setAttribute('aria-expanded','false'); menu.hidden = true; }
+  btn.addEventListener('click', function(){
+    var aberto = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!aberto));
+    menu.hidden = aberto;
+  });
+  menu.addEventListener('click', function(e){ if(e.target.closest('a')) fechar(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') fechar(); });
+  window.addEventListener('resize', function(){ if(window.innerWidth > 760) fechar(); });
+})();
+</script>
 
 </body>
 </html>
