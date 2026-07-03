@@ -1,5 +1,12 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/criar",
+      "destination": "https://criar.proteinaludica.com",
+      "permanent": true
+    }
+  ]
 }
