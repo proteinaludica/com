@@ -1,0 +1,2121 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Criar assistente digital IA — Proteína Lúdica · protótipo</title>
+<meta name="description" content="Protótipo clicável do wizard /criar da Proteína Lúdica. 5 ecrãs + sucesso. Para validação com médicos antes de desenvolvimento.">
+<meta name="robots" content="noindex, nofollow">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Geist:wght@300..600&family=Geist+Mono:wght@400..600&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #F5F2EC;
+    --bg2: #EDEAE2;
+    --bg3: #E4E0D5;
+    --surface: #FDFBF6;
+    --ink: #0D0F0B;
+    --ink2: #3A3D35;
+    --muted: #7A7D72;
+    --muted2: #A5A89E;
+    --accent: #2D5A1B;
+    --accent2: #3D7A26;
+    --accent-light: #EAF3DE;
+    --amber: #C47B0A;
+    --amber2: #E08A0A;
+    --amber-light: #FDF3DC;
+    --amber-dark: #8A5507;
+    --red: #8B1A1A;
+    --red-light: #FBEDED;
+    --border: rgba(13,15,11,0.10);
+    --border-strong: rgba(13,15,11,0.20);
+    --shadow-sm: 0 1px 2px rgba(13,15,11,0.04);
+    --shadow: 0 2px 8px rgba(13,15,11,0.06);
+    --shadow-lg: 0 8px 24px rgba(13,15,11,0.08);
+    --font-head: 'Fraunces', 'Instrument Serif', Georgia, serif;
+    --font-body: 'Geist', -apple-system, sans-serif;
+    --font-mono: 'Geist Mono', 'JetBrains Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.55;
+    min-height: 100vh;
+  }
+
+  /* ─── TOP BAR ─── */
+  .topbar {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(245,242,236,0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 0.5px solid var(--border);
+  }
+  .topbar-inner {
+    max-width: 1100px; margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 2rem;
+  }
+  .logo {
+    font-family: var(--font-head);
+    font-size: 17px;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .logo em { color: var(--accent); font-style: italic; }
+  .logo-sub {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    display: block;
+    margin-top: 2px;
+  }
+
+  .progress {
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .progress-bar {
+    display: flex; gap: 4px;
+  }
+  .progress-dot {
+    width: 24px; height: 3px; border-radius: 2px;
+    background: var(--border-strong);
+    transition: background 0.3s;
+  }
+  .progress-dot.active { background: var(--accent); }
+  .progress-dot.done { background: var(--accent2); }
+
+  .demo-reset {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: none;
+    border: 0.5px solid var(--border);
+    padding: 6px 12px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .demo-reset:hover { color: var(--ink); border-color: var(--border-strong); }
+
+  /* ─── DEMO BANNER ─── */
+  .demo-banner {
+    background: var(--amber-light);
+    border-bottom: 0.5px solid var(--amber);
+    color: var(--amber-dark);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-align: center;
+    padding: 6px 2rem;
+  }
+  .demo-banner strong { color: var(--amber-dark); font-weight: 500; }
+
+  /* ─── SCREENS ─── */
+  .screen { display: none; min-height: calc(100vh - 120px); padding: 3rem 2rem 5rem; }
+  .screen.active { display: block; animation: fadeIn 0.4s ease both; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .screen-inner { max-width: 1000px; margin: 0 auto; }
+
+  /* ─── HEADINGS ─── */
+  .step-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+  h1.screen-title {
+    font-family: var(--font-head);
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    line-height: 1.08;
+    margin-bottom: 0.8rem;
+  }
+  h1.screen-title em { color: var(--accent); font-style: italic; }
+  .screen-sub {
+    font-size: 16px;
+    color: var(--ink2);
+    max-width: 600px;
+    margin-bottom: 2.5rem;
+  }
+
+  /* ─── ECRÃ 1: PLATAFORMAS ─── */
+  .platform-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .platform-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 8px;
+    padding: 1.4rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    font-family: inherit;
+    color: inherit;
+    width: 100%;
+  }
+  .platform-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+  .platform-card.selected {
+    border-color: var(--accent);
+    background: var(--accent-light);
+  }
+  .platform-badge {
+    width: 36px; height: 36px;
+    border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 500;
+    color: white;
+  }
+  .b-claude { background: #C96442; }
+  .b-gpt { background: #0D9373; }
+  .b-gemini { background: #1E5EDC; }
+  .b-copilot { background: #0078D4; }
+  .b-perplexity { background: #21808D; }
+  .b-mistral { background: #F54900; }
+  .b-other { background: var(--muted); }
+  .platform-name {
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+  }
+  .platform-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.45;
+    min-height: 2.7em;
+  }
+
+  .platform-card-solo {
+    grid-column: span 3;
+    background: var(--bg2);
+    border-style: dashed;
+  }
+  .platform-card-solo:hover { background: var(--bg3); }
+  .platform-card-solo .platform-desc { min-height: auto; }
+
+  .btn-secondary-wide {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: transparent;
+    border: 0.5px solid var(--border-strong);
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: var(--ink2);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-secondary-wide:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ─── ECRÃ 2: TEMPLATE ─── */
+  .template-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+  .template-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    padding: 1.75rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    font-family: inherit;
+    color: inherit;
+    width: 100%;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+  }
+  .template-card.featured {
+    background: var(--amber-light);
+    border-color: var(--amber);
+  }
+  .template-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+  .template-card.featured:hover { border-color: var(--amber-dark); }
+  .template-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.8rem;
+  }
+  .template-card.featured .template-tag { color: var(--amber-dark); }
+  .template-title {
+    font-family: var(--font-head);
+    font-size: 1.6rem;
+    font-weight: 400;
+    line-height: 1.1;
+    margin-bottom: 0.8rem;
+    letter-spacing: -0.01em;
+  }
+  .template-desc {
+    font-size: 14px;
+    color: var(--ink2);
+    line-height: 1.5;
+    margin-bottom: 1.25rem;
+  }
+  .template-list {
+    list-style: none;
+    font-size: 13px;
+    color: var(--ink2);
+    margin-top: auto;
+  }
+  .template-list li {
+    padding: 4px 0;
+    padding-left: 18px;
+    position: relative;
+  }
+  .template-list li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 12px;
+    width: 8px; height: 1px;
+    background: var(--muted);
+  }
+  .template-card.featured .template-list li::before { background: var(--amber-dark); }
+
+  .template-skip {
+    background: var(--bg2);
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .template-skip-text { font-size: 13px; color: var(--ink2); }
+  .template-skip-link {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 0.5px solid var(--accent);
+    padding-bottom: 2px;
+    cursor: pointer;
+  }
+
+  /* ─── ECRÃ 3: PREENCHER ─── */
+  .section-progress {
+    display: flex; align-items: center; gap: 1rem;
+    margin-bottom: 2rem;
+    padding: 1rem 1.25rem;
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 8px;
+  }
+  .section-pbar {
+    flex: 1; height: 4px;
+    background: var(--bg3);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .section-pbar-fill {
+    height: 100%;
+    background: var(--accent);
+    width: 17.6%;
+    transition: width 0.3s;
+  }
+  .section-counter {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+  .section-counter strong { color: var(--ink); font-weight: 500; }
+
+  .fill-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 2rem;
+  }
+  .fill-main {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    padding: 2rem;
+  }
+  .fill-title {
+    font-family: var(--font-head);
+    font-size: 1.75rem;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.4rem;
+  }
+  .fill-guide {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+  .fill-field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .fill-field textarea, .fill-field input {
+    width: 100%;
+    padding: 12px 14px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ink);
+    background: var(--bg);
+    border: 0.5px solid var(--border-strong);
+    border-radius: 6px;
+    resize: vertical;
+    transition: border-color 0.2s;
+  }
+  .fill-field textarea { min-height: 140px; }
+  .fill-field textarea:focus, .fill-field input:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: white;
+  }
+  .fill-field + .fill-field { margin-top: 1.25rem; }
+
+  .rgpd-warn {
+    display: none;
+    background: var(--amber-light);
+    border-left: 3px solid var(--amber);
+    padding: 10px 14px;
+    border-radius: 0 4px 4px 0;
+    font-size: 13px;
+    color: var(--amber-dark);
+    margin-top: 10px;
+  }
+  .rgpd-warn.show { display: block; animation: fadeIn 0.3s ease; }
+  .rgpd-warn strong { font-weight: 500; }
+
+  .fill-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 0.5px solid var(--border);
+  }
+  .fill-nav-left { display: flex; gap: 10px; }
+
+  .fill-aside {
+    background: var(--bg2);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    height: fit-content;
+    position: sticky;
+    top: 100px;
+  }
+  .aside-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+  }
+  .aside-title {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+  }
+  .aside-example {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.55;
+    color: var(--ink2);
+    margin-bottom: 1rem;
+  }
+  .aside-hint {
+    font-size: 13px;
+    color: var(--ink2);
+    line-height: 1.5;
+  }
+  .aside-hint strong { color: var(--ink); font-weight: 500; }
+
+  .demo-skip {
+    margin-top: 2rem;
+    padding: 1rem 1.25rem;
+    background: var(--bg2);
+    border: 0.5px dashed var(--border-strong);
+    border-radius: 6px;
+    font-size: 12px;
+    color: var(--muted);
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .demo-skip button {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    background: transparent;
+    border: 0.5px solid var(--accent);
+    padding: 6px 12px;
+    border-radius: 3px;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .demo-skip button:hover { background: var(--accent); color: white; }
+
+  /* ─── ECRÃ 4: OUTPUT ─── */
+  .output-inner { max-width: 720px; margin: 0 auto; }
+  .output-title {
+    font-family: var(--font-head);
+    font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    line-height: 1.1;
+    margin-bottom: 0.6rem;
+    text-align: center;
+  }
+  .output-title em { color: var(--accent); font-style: italic; }
+  .output-sub {
+    font-size: 15px;
+    color: var(--ink2);
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .code-box {
+    background: #1A1D18;
+    border-radius: 8px;
+    position: relative;
+    margin-bottom: 2rem;
+  }
+  .code-box-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 16px;
+    border-bottom: 0.5px solid rgba(255,255,255,0.08);
+  }
+  .code-box-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.05em;
+  }
+  .code-copy-btn {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: #A5D48E;
+    background: rgba(165,212,142,0.08);
+    border: 0.5px solid rgba(165,212,142,0.3);
+    padding: 5px 12px;
+    border-radius: 3px;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: all 0.2s;
+  }
+  .code-copy-btn:hover { background: rgba(165,212,142,0.15); }
+  .code-copy-btn.copied { color: #8FAA6B; }
+  .code-content {
+    max-height: 320px;
+    overflow-y: auto;
+    padding: 1.25rem 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.65;
+    color: #D8D8D0;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .code-content::-webkit-scrollbar { width: 8px; }
+  .code-content::-webkit-scrollbar-track { background: transparent; }
+  .code-content::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+
+  /* ─── UPGRADE CTA ─── */
+  .upgrade-block {
+    background: var(--amber-light);
+    border: 0.5px solid var(--amber);
+    border-radius: 10px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+  }
+  .upgrade-tag {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--amber-dark);
+    background: white;
+    border: 0.5px solid var(--amber);
+    padding: 3px 10px;
+    border-radius: 3px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .upgrade-title {
+    font-family: var(--font-head);
+    font-size: 1.5rem;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.8rem;
+    color: var(--ink);
+  }
+  .upgrade-list {
+    list-style: none;
+    margin-bottom: 1.5rem;
+  }
+  .upgrade-list li {
+    font-size: 14px;
+    color: var(--ink2);
+    padding: 6px 0;
+    padding-left: 22px;
+    position: relative;
+  }
+  .upgrade-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0; top: 6px;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .upgrade-buy {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem;
+    padding-top: 1.25rem;
+    border-top: 0.5px solid var(--amber);
+    flex-wrap: wrap;
+  }
+  .upgrade-price {
+    font-family: var(--font-head);
+    font-size: 1.5rem;
+    color: var(--amber-dark);
+  }
+  .upgrade-price-old {
+    font-size: 14px;
+    color: var(--muted);
+    text-decoration: line-through;
+    margin-left: 8px;
+    font-family: var(--font-body);
+  }
+  .upgrade-price-note {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--amber-dark);
+    letter-spacing: 0.05em;
+    margin-top: 2px;
+    font-weight: normal;
+  }
+  .btn-primary {
+    background: var(--amber);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.01em;
+  }
+  .btn-primary:hover { background: var(--amber2); transform: translateY(-1px); }
+
+  .btn-accent {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 11px 22px;
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-accent:hover { background: var(--accent2); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink2);
+    border: 0.5px solid var(--border-strong);
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+  .upsell-link {
+    text-align: center;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+  .upsell-link a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 0.5px solid var(--accent);
+    padding-bottom: 1px;
+  }
+
+  .guarantee {
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+  .guarantee strong { color: var(--accent); font-weight: 500; }
+
+  /* ─── ECRÃ 5: PAYWALL ─── */
+  .paywall-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    max-width: 900px; margin: 0 auto;
+  }
+  .paywall-preview { position: relative; }
+  .pdf-mockup {
+    background: white;
+    border: 0.5px solid var(--border);
+    border-radius: 6px;
+    padding: 2rem;
+    aspect-ratio: 210 / 297;
+    display: flex; flex-direction: column;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+  }
+  .pdf-cover-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 2rem;
+  }
+  .pdf-cover-title {
+    font-family: var(--font-head);
+    font-size: 1.7rem;
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+  .pdf-cover-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 3rem;
+  }
+  .pdf-blur-section {
+    filter: blur(4px);
+    opacity: 0.55;
+    pointer-events: none;
+    user-select: none;
+  }
+  .pdf-section-head {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .pdf-blur-lines {
+    display: flex; flex-direction: column; gap: 5px;
+  }
+  .pdf-blur-line {
+    height: 6px;
+    background: var(--bg3);
+    border-radius: 2px;
+  }
+  .pdf-blur-line.short { width: 60%; }
+  .pdf-blur-line.med { width: 80%; }
+  .pdf-footer-mark {
+    margin-top: auto;
+    padding-top: 1rem;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-align: right;
+  }
+
+  .preview-caption {
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    margin-top: 1rem;
+  }
+
+  .paywall-form { max-width: 400px; }
+  .paywall-form .screen-title { font-size: 2rem; }
+  .paywall-form .screen-sub { margin-bottom: 2rem; }
+
+  .paywall-includes {
+    background: var(--bg2);
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+  .paywall-includes-title {
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+  }
+  .paywall-includes ul {
+    list-style: none;
+    font-size: 13px;
+    color: var(--ink2);
+  }
+  .paywall-includes li {
+    padding: 3px 0;
+    padding-left: 18px;
+    position: relative;
+  }
+  .paywall-includes li::before {
+    content: '✓';
+    position: absolute;
+    left: 0; top: 3px;
+    color: var(--accent);
+  }
+
+  .form-row { margin-bottom: 1rem; }
+  .form-row label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 5px;
+    font-family: var(--font-mono);
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+  .form-row input {
+    width: 100%;
+    padding: 11px 14px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--ink);
+    background: var(--surface);
+    border: 0.5px solid var(--border-strong);
+    border-radius: 6px;
+  }
+
+  .pay-buttons { display: flex; flex-direction: column; gap: 10px; margin-bottom: 1rem; }
+  .btn-pay {
+    display: flex; align-items: center; justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 14px 20px;
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+  }
+  .btn-mbway {
+    background: #D5006D;
+    color: white;
+  }
+  .btn-mbway:hover { background: #BF0062; }
+  .btn-card {
+    background: var(--ink);
+    color: white;
+  }
+  .btn-card:hover { background: var(--ink2); }
+  .pay-icon {
+    width: 26px; height: 16px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    background: rgba(255,255,255,0.18);
+    border-radius: 2px;
+    padding: 2px 4px;
+  }
+
+  .form-check {
+    display: flex; align-items: flex-start; gap: 8px;
+    font-size: 12px;
+    color: var(--ink2);
+    margin-bottom: 1rem;
+  }
+  .form-check input { margin-top: 2px; flex-shrink: 0; }
+  .form-check a { color: var(--accent); }
+
+  .trust-row {
+    display: flex; align-items: center; justify-content: center;
+    gap: 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    padding-top: 1rem;
+    border-top: 0.5px solid var(--border);
+  }
+  .trust-row span { display: flex; align-items: center; gap: 5px; }
+
+  /* ─── ECRÃ 6: SUCESSO ─── */
+  .success-inner {
+    max-width: 560px;
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 3rem;
+  }
+  .success-check {
+    width: 72px; height: 72px;
+    background: var(--accent-light);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 2rem;
+    position: relative;
+  }
+  .success-check::after {
+    content: '';
+    width: 28px; height: 16px;
+    border-left: 3px solid var(--accent);
+    border-bottom: 3px solid var(--accent);
+    transform: rotate(-45deg) translate(3px, -3px);
+  }
+  .success-title {
+    font-family: var(--font-head);
+    font-size: 2.2rem;
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    margin-bottom: 0.8rem;
+  }
+  .success-title em { color: var(--accent); font-style: italic; }
+  .success-text {
+    font-size: 15px;
+    color: var(--ink2);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+  .success-email { color: var(--ink); font-weight: 500; }
+
+  .success-actions {
+    display: flex; flex-direction: column; gap: 10px;
+    margin-bottom: 2rem;
+  }
+  .success-retoma {
+    background: var(--bg2);
+    border-radius: 8px;
+    padding: 1.25rem;
+    font-size: 13px;
+    color: var(--ink2);
+    text-align: left;
+  }
+  .success-retoma-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 5px;
+  }
+  .success-retoma code {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    background: var(--surface);
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin-top: 6px;
+    color: var(--accent);
+    border: 0.5px solid var(--border);
+  }
+
+  /* ─── MODAL (3 perguntas) ─── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(13,15,11,0.5);
+    z-index: 100;
+    align-items: center; justify-content: center;
+    padding: 1rem;
+  }
+  .modal-overlay.open { display: flex; animation: fadeIn 0.2s ease; }
+  .modal {
+    background: var(--bg);
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 520px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+  }
+  .modal-title {
+    font-family: var(--font-head);
+    font-size: 1.5rem;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.8rem;
+  }
+  .modal-q {
+    margin: 1.25rem 0;
+    padding-bottom: 1.25rem;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .modal-q:last-of-type { border-bottom: none; }
+  .modal-q-title {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 0.6rem;
+  }
+  .modal-q-opts {
+    display: flex; flex-wrap: wrap; gap: 6px;
+  }
+  .modal-q-opt {
+    background: var(--surface);
+    border: 0.5px solid var(--border-strong);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .modal-q-opt:hover { border-color: var(--accent); }
+  .modal-q-opt.active { background: var(--accent); color: white; border-color: var(--accent); }
+  .modal-result {
+    background: var(--accent-light);
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-top: 1.25rem;
+    display: none;
+  }
+  .modal-result.show { display: block; animation: fadeIn 0.3s ease; }
+  .modal-result-title {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .modal-result-text {
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .modal-actions {
+    display: flex; gap: 10px; justify-content: flex-end;
+    margin-top: 1.5rem;
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 860px) {
+    .platform-grid { grid-template-columns: repeat(2, 1fr); }
+    .platform-card-solo { grid-column: span 2; }
+    .template-grid { grid-template-columns: 1fr; }
+    .fill-grid { grid-template-columns: 1fr; }
+    .fill-aside { position: static; }
+    .paywall-grid { grid-template-columns: 1fr; }
+    .paywall-preview { max-width: 380px; margin: 0 auto; }
+    .topbar-inner { padding: 1rem; gap: 1rem; flex-wrap: wrap; }
+    .screen { padding: 2rem 1.25rem 4rem; }
+  }
+  @media (max-width: 520px) {
+    .platform-grid { grid-template-columns: 1fr; }
+    .platform-card-solo { grid-column: span 1; }
+    .progress-dot { width: 16px; }
+    .logo-sub { display: none; }
+    h1.screen-title { font-size: 1.7rem; }
+    .fill-main, .fill-aside { padding: 1.25rem; }
+    .upgrade-block, .pdf-mockup { padding: 1.25rem; }
+  }
+
+  /* ─── NÍVEL A: exemplos + Pro (herdado do wizard médico) ─── */
+  .field-actions { display: flex; align-items: center; gap: 8px; margin-top: 7px; flex-wrap: wrap; }
+  .btn-example { display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.04em; color: var(--accent); background: var(--accent-light); border: 0.5px solid transparent; padding: 4px 10px; border-radius: 4px; cursor: pointer; transition: all 0.15s; }
+  .btn-example:hover { border-color: var(--accent); }
+  .btn-pro { display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.04em; color: #6B3FA0; background: #F0E9F8; border: 0.5px dashed #6B3FA0; padding: 4px 10px; border-radius: 4px; cursor: not-allowed; opacity: 0.85; position: relative; }
+  .btn-pro:hover .pro-tip { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .pro-tip { position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%) translateY(4px); background: var(--ink); color: white; font-family: var(--font-body); font-size: 11px; letter-spacing: 0; padding: 6px 10px; border-radius: 5px; white-space: nowrap; opacity: 0; transition: all 0.2s; z-index: 10; box-shadow: var(--shadow-lg); pointer-events: none; }
+  .pro-tip::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-top-color: var(--ink); }
+  .example-bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; background: var(--surface); border: 0.5px solid var(--border-strong); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .example-bar-text { font-size: 13px; color: var(--ink2); }
+  .example-bar-text strong { color: var(--ink); font-weight: 500; }
+  .ex-prof-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+  .ex-prof-tab { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.03em; padding: 5px 12px; border-radius: 20px; border: 0.5px solid var(--border-strong); background: var(--surface); cursor: pointer; transition: all 0.2s; color: var(--ink2); }
+  .ex-prof-tab:hover { border-color: var(--accent); }
+  .ex-prof-tab.active { background: var(--accent); color: white; border-color: var(--accent); }
+  .aside-pro { margin-top: 1rem; padding: 1rem; background: #F0E9F8; border: 0.5px solid #6B3FA0; border-radius: 8px; }
+  .aside-pro-title { font-size: 12px; font-weight: 500; color: #6B3FA0; margin-bottom: 5px; }
+  .aside-pro-text { font-size: 12px; color: var(--ink2); line-height: 1.5; }
+  .aside-pro-text strong { color: #6B3FA0; }
+
+  /* ─── PASSO 3: índice lateral + obrigatórias (Fase 1) ─── */
+  .s3-body { display: grid; grid-template-columns: 210px 1fr; gap: 1.75rem; align-items: start; }
+  .s3-content { min-width: 0; }
+  .s3-index { position: sticky; top: 100px; background: var(--surface); border: 0.5px solid var(--border); border-radius: 10px; padding: 1rem; }
+  .s3-index-title { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; padding: 0 4px; }
+  .s3-index-list { display: flex; flex-direction: column; gap: 1px; }
+  .s3-index-item { display: flex; align-items: baseline; gap: 7px; padding: 5px 8px; border-radius: 5px; font-size: 12px; color: var(--ink2); text-decoration: none; line-height: 1.35; transition: background 0.15s, color 0.15s; }
+  a.s3-index-item:hover { background: var(--accent-light); color: var(--accent); }
+  .s3-index-num { font-family: var(--font-mono); font-size: 10px; color: var(--muted2); flex-shrink: 0; width: 16px; }
+  .s3-index-name { flex: 1; }
+  .s3-index-item.is-oblig .s3-index-num { color: var(--accent); }
+  .s3-index-item.is-oblig .s3-index-name { color: var(--ink); font-weight: 500; }
+  .s3-index-item.is-todo { color: var(--muted2); cursor: default; }
+  .s3-index-badge { font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.04em; text-transform: uppercase; padding: 1px 5px; border-radius: 3px; flex-shrink: 0; align-self: center; }
+  .s3-index-badge.oblig { color: var(--accent); background: var(--accent-light); }
+  .s3-index-badge.todo { color: var(--muted); background: var(--bg3); }
+  .oblig-list { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 1.5rem; }
+  .oblig-block { scroll-margin-top: 90px; }
+  .oblig-tag { display: inline-block; font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); background: var(--accent-light); padding: 2px 8px; border-radius: 3px; margin-bottom: 0.6rem; }
+  #sec-09 { scroll-margin-top: 90px; }
+  /* Fase 2: recolher opcionais */
+  .afinar-bar { margin: 0.5rem 0 1.5rem; }
+  .btn-afinar { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; background: var(--bg2); border: 0.5px dashed var(--border-strong); border-radius: 8px; padding: 0.9rem 1.25rem; cursor: pointer; font-family: var(--font-body); font-size: 14px; color: var(--ink); transition: all 0.2s; }
+  .btn-afinar:hover { border-color: var(--accent); background: var(--accent-light); }
+  .afinar-left { display: flex; align-items: baseline; gap: 8px; }
+  .afinar-left .opc-opt { color: var(--muted); font-size: 12px; }
+  .opc-count { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 0.04em; margin-left: auto; }
+  .opc-chevron { font-family: var(--font-mono); font-size: 18px; line-height: 1; color: var(--muted); transition: transform 0.2s; }
+  .btn-afinar.open .opc-chevron { transform: rotate(45deg); }
+  .opcionais[hidden] { display: none; }
+  .opcionais { animation: fadeIn 0.3s ease; }
+  .opc-note { font-size: 12px; color: var(--muted); line-height: 1.5; background: var(--bg2); border-radius: 6px; padding: 0.75rem 1rem; margin-bottom: 1.25rem; }
+  .opc-note strong { color: var(--ink); font-weight: 500; }
+  /* Fase 3: rever e terminar */
+  .rever-bar { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin: 1.5rem 0; padding: 1.1rem 1.25rem; background: var(--accent-light); border: 0.5px solid var(--accent); border-radius: 10px; }
+  .btn-rever { white-space: nowrap; }
+  .btn-rever[disabled] { opacity: 0.45; cursor: not-allowed; }
+  .btn-rever[disabled]:hover { background: var(--accent); transform: none; }
+  .rever-hint { font-size: 12px; color: var(--ink2); line-height: 1.45; }
+  .rever-hint strong { color: var(--accent); font-weight: 500; }
+  /* Fase 4: congelamento da profissão */
+  .prof-frozen { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 1.25rem; font-size: 12px; color: var(--ink2); background: var(--accent-light); border: 0.5px solid var(--accent); border-radius: 6px; padding: 8px 12px; }
+  .prof-frozen[hidden] { display: none; }
+  .prof-frozen strong { color: var(--accent); font-weight: 500; }
+  .prof-unfreeze { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.04em; color: var(--accent); background: transparent; border: 0.5px solid var(--accent); border-radius: 3px; padding: 3px 9px; cursor: pointer; margin-left: auto; transition: all 0.2s; }
+  .prof-unfreeze:hover { background: var(--accent); color: white; }
+  .ex-prof-tab.frozen { border-color: var(--accent); }
+  .ex-prof-tab.frozen::after { content: ' 🔒'; font-size: 10px; }
+  /* Chips de sugestão (ponto de partida editável) */
+  .chips { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 9px; }
+  .chips-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted2); margin-right: 2px; }
+  .chip { font-family: var(--font-body); font-size: 12px; color: var(--ink2); background: var(--bg2); border: 0.5px solid var(--border-strong); border-radius: 14px; padding: 5px 12px; cursor: pointer; transition: all 0.15s; }
+  .chip:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+  .chip.used { opacity: 0.4; cursor: default; text-decoration: line-through; pointer-events: none; }
+  @media (max-width: 860px) {
+    .s3-body { grid-template-columns: 1fr; }
+    .s3-index { position: static; }
+  }
+</style>
+</head>
+<body>
+
+<div class="demo-banner">
+  <strong>Protótipo clicável</strong> · Dados não são guardados · <strong>R</strong> para recomeçar
+</div>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="logo" href="#" onclick="return false">
+      Proteína <em>Lúdica</em>
+      <span class="logo-sub">Criar assistente digital IA · /criar</span>
+    </a>
+    <div class="progress">
+      <span id="stepLabel">1 / 4</span>
+      <div class="progress-bar" id="progressBar">
+        <div class="progress-dot active"></div>
+        <div class="progress-dot"></div>
+        <div class="progress-dot"></div>
+        <div class="progress-dot"></div>
+      </div>
+    </div>
+    <button class="demo-reset" onclick="resetDemo()">↻ Reiniciar</button>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- ECRÃ 1: PLATAFORMA                          -->
+<!-- ════════════════════════════════════════════ -->
+<section class="screen active" id="screen-1">
+  <div class="screen-inner">
+    <div class="step-label">Passo 1 de 4</div>
+    <h1 class="screen-title">Onde queres que o teu assistente digital IA <em>viva?</em></h1>
+    <p class="screen-sub">Cada plataforma tem vantagens diferentes. Escolhe a que já usas — ou pede-nos para escolher por ti.</p>
+
+    <div class="platform-grid">
+      <button class="platform-card" style="border-color:var(--accent); position:relative;" onclick="selectPlatform('claude','Claude Projects')">
+        <div style="position:absolute; top:10px; right:10px; font-family:var(--font-mono); font-size:9px; letter-spacing:0.06em; text-transform:uppercase; color:var(--accent); background:var(--accent-light); padding:2px 8px; border-radius:3px;">Recomendado</div>
+        <div class="platform-badge b-claude">C</div>
+        <div class="platform-name">Claude Projects</div>
+        <div class="platform-desc">Melhor para texto longo e raciocínio clínico detalhado.</div>
+      </button>
+
+      <button class="platform-card" onclick="selectPlatform('gpt','ChatGPT Custom GPTs')">
+        <div class="platform-badge b-gpt">G</div>
+        <div class="platform-name">ChatGPT Custom GPTs</div>
+        <div class="platform-desc">Mais integrações, plugins e acções disponíveis.</div>
+      </button>
+
+      <button class="platform-card" onclick="selectPlatform('gemini','Google Gemini Gems')">
+        <div class="platform-badge b-gemini">◆</div>
+        <div class="platform-name">Google Gemini Gems</div>
+        <div class="platform-desc">Se já usas Gmail, Drive e Documentos Google.</div>
+      </button>
+
+      <button class="platform-card" onclick="selectPlatform('copilot','Microsoft Copilot Agents')">
+        <div class="platform-badge b-copilot">M</div>
+        <div class="platform-name">Microsoft Copilot</div>
+        <div class="platform-desc">Se já usas Teams, Outlook e SharePoint no M365.</div>
+      </button>
+
+      <button class="platform-card" onclick="selectPlatform('perplexity','Perplexity Spaces')">
+        <div class="platform-badge b-perplexity">P</div>
+        <div class="platform-name">Perplexity Spaces</div>
+        <div class="platform-desc">Se precisas de citações e fontes verificáveis.</div>
+      </button>
+
+      <button class="platform-card" onclick="selectPlatform('mistral','Mistral Le Chat')">
+        <div class="platform-badge b-mistral">M</div>
+        <div class="platform-name">Mistral Le Chat</div>
+        <div class="platform-desc">LLM europeu. Privacidade máxima, dados na UE.</div>
+      </button>
+
+      <button class="platform-card" style="border-style:dashed; border-color:#6B3FA0; cursor:not-allowed; opacity:0.85; position:relative;" onclick="alert('Em desenvolvimento. Em breve poderás alojar o teu assistente directamente na Proteína Lúdica, sem o copiar para outra plataforma.')">
+        <div style="position:absolute; top:10px; right:10px; font-family:var(--font-mono); font-size:9px; letter-spacing:0.06em; text-transform:uppercase; color:#6B3FA0; background:#F0E9F8; padding:2px 8px; border-radius:3px;">Em breve</div>
+        <div class="platform-badge" style="background:#6B3FA0;">PL</div>
+        <div class="platform-name">Proteína Lúdica</div>
+        <div class="platform-desc">Aloja o assistente connosco — sem copiar para fora. O utente acede por link. <strong>Em desenvolvimento.</strong></div>
+      </button>
+
+      <button class="platform-card platform-card-solo" onclick="selectPlatform('outro','Outro / não sei')">
+        <div style="display:flex; align-items:center; gap:1rem;">
+          <div class="platform-badge b-other">?</div>
+          <div>
+            <div class="platform-name">Outro / não sei</div>
+            <div class="platform-desc">Recebes um bloco universal que funciona em qualquer LLM. Cola no campo de instructions da tua plataforma.</div>
+          </div>
+        </div>
+      </button>
+    </div>
+
+    <button class="btn-secondary-wide" onclick="openQuizModal()">
+      Responder a 3 perguntas e receber recomendação →
+    </button>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- ECRÃ 2: TEMPLATE                             -->
+<!-- ════════════════════════════════════════════ -->
+<section class="screen" id="screen-2">
+  <div class="screen-inner">
+    <div class="step-label">Passo 2 de 4</div>
+    <h1 class="screen-title">Partir do <em>quê?</em></h1>
+    <p class="screen-sub">Podes clonar um assistente digital IA pronto e só mudar o que importa. Ou começar em branco se tens ideia própria.</p>
+
+    <div class="template-grid">
+      <button class="template-card" onclick="selectTemplate('catalogo')">
+        <div class="template-tag">Catálogo · 5 assistentes digitais IA prontos</div>
+        <div class="template-title">Partir de um<br>assistente digital IA pronto</div>
+        <div class="template-desc">As 17 secções já pré-preenchidas com o assistente digital IA que escolheres. Só editas o que é específico de ti.</div>
+        <ul class="template-list">
+          <li>Dr. Escriba IA · MGF + Urgência</li>
+          <li>Dr. Escriba IA · Internato</li>
+          <li>RehabAssist · Reabilitação</li>
+          <li>Assistente de Saúde · 12 semanas</li>
+          <li>Assistente Clínico · gestão</li>
+        </ul>
+      </button>
+
+      <button class="template-card featured" onclick="selectTemplate('branco')">
+        <div class="template-tag">Branco · 17 secções</div>
+        <div class="template-title">Template em<br>branco</div>
+        <div class="template-desc">Para profissionais que querem construir algo próprio do zero. A estrutura das 17 secções está definida, os campos estão vazios — tu preenches.</div>
+        <ul class="template-list">
+          <li>Identidade e persona</li>
+          <li>Protocolo de reconhecimento</li>
+          <li>Onboarding em etapas</li>
+          <li>Regras de segurança e red lines</li>
+          <li>Fecho dinâmico</li>
+          <li>+ 12 outras secções</li>
+        </ul>
+      </button>
+    </div>
+
+    <div class="template-skip">
+      <div class="template-skip-text">
+        Já tens um assistente digital IA a funcionar e só queres os materiais de RGPD e guia de configuração?
+      </div>
+      <span class="template-skip-link" onclick="goTo(4); updatePaymentState();">Ir direto ao upgrade →</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- ECRÃ 3: PREENCHER                            -->
+<!-- ════════════════════════════════════════════ -->
+<section class="screen" id="screen-3">
+  <div class="screen-inner">
+    <div class="step-label">Passo 3 de 4</div>
+    <h1 class="screen-title">Preencher as <em>17 secções</em></h1>
+    <p class="screen-sub">Uma secção por ecrã. O que for preenchido fica guardado — pode sair e voltar quando quiser.</p>
+
+    <div class="section-progress">
+      <div class="section-counter">Secção <strong>3</strong> de 17 · <span style="color:var(--ink)">Protocolo de reconhecimento</span></div>
+      <div class="section-pbar"><div class="section-pbar-fill"></div></div>
+    </div>
+
+    <div class="s3-body">
+      <nav class="s3-index" aria-label="Índice das 17 secções">
+        <div class="s3-index-title">As 17 secções</div>
+        <div class="s3-index-list">
+          <a class="s3-index-item is-oblig" href="#sec-01"><span class="s3-index-num">01</span><span class="s3-index-name">Nome e propósito</span><span class="s3-index-badge oblig">obrig.</span></a>
+          <a class="s3-index-item is-oblig" href="#sec-02"><span class="s3-index-num">02</span><span class="s3-index-name">Missão</span><span class="s3-index-badge oblig">obrig.</span></a>
+          <span class="s3-index-item is-todo"><span class="s3-index-num">03</span><span class="s3-index-name">Público-alvo</span><span class="s3-index-badge todo">por construir</span></span>
+          <span class="s3-index-item is-todo"><span class="s3-index-num">04</span><span class="s3-index-name">Contexto local</span><span class="s3-index-badge todo">por construir</span></span>
+          <span class="s3-index-item is-todo"><span class="s3-index-num">05</span><span class="s3-index-name">Voz e tom</span><span class="s3-index-badge todo">por construir</span></span>
+          <span class="s3-index-item is-todo"><span class="s3-index-num">06</span><span class="s3-index-name">Linguagem</span><span class="s3-index-badge todo">por construir</span></span>
+          <span class="s3-index-item is-todo"><span class="s3-index-num">07</span><span class="s3-index-name">Estilo de resposta</span><span class="s3-index-badge todo">por construir</span></span>
+          <span class="s3-index-item is-todo"><span class="s3-index-num">08</span><span class="s3-index-name">Onboarding</span><span class="s3-index-badge todo">por construir</span></span>
+          <a class="s3-index-item" href="#sec-09" onclick="openOpcionais()"><span class="s3-index-num">09</span><span class="s3-index-name">Protocolo de reconhecimento</span></a>
+          <span class="s3-index-item is-todo"><span class="s3-index-num">10</span><span class="s3-index-name">Tarefas específicas</span><span class="s3-index-badge todo">por construir</span></span>
+          <span class="s3-index-item is-todo"><span class="s3-index-num">11</span><span class="s3-index-name">Fontes oficiais</span><span class="s3-index-badge todo">por construir</span></span>
+          <span class="s3-index-item is-todo"><span class="s3-index-num">12</span><span class="s3-index-name">Conhecimento técnico</span><span class="s3-index-badge todo">por construir</span></span>
+          <a class="s3-index-item is-oblig" href="#sec-13"><span class="s3-index-num">13</span><span class="s3-index-name">Red lines</span><span class="s3-index-badge oblig">obrig.</span></a>
+          <a class="s3-index-item is-oblig" href="#sec-14"><span class="s3-index-num">14</span><span class="s3-index-name">Alertas de emergência</span><span class="s3-index-badge oblig">obrig.</span></a>
+          <span class="s3-index-item is-todo"><span class="s3-index-num">15</span><span class="s3-index-name">Tratamento de dados</span><span class="s3-index-badge todo">por construir</span></span>
+          <a class="s3-index-item is-oblig" href="#sec-16"><span class="s3-index-num">16</span><span class="s3-index-name">Fecho dinâmico</span><span class="s3-index-badge oblig">obrig.</span></a>
+          <span class="s3-index-item is-todo"><span class="s3-index-num">17</span><span class="s3-index-name">Continuidade</span><span class="s3-index-badge todo">por construir</span></span>
+        </div>
+      </nav>
+
+      <div class="s3-content">
+
+        <div class="oblig-list">
+
+          <div class="fill-main oblig-block" id="sec-01">
+            <div class="oblig-tag">Obrigatória · 01</div>
+            <div class="fill-title">Nome e propósito</div>
+            <div class="fill-guide">Como se chama o assistente e para que serve — numa frase.</div>
+            <div class="fill-field">
+              <label for="f-nome">Nome e propósito</label>
+              <textarea id="f-nome" placeholder="ex: Assistente de apoio que responde a dúvidas frequentes dos utentes." oninput="checkRGPD(this)"></textarea>
+              <div class="chips" aria-label="Sugestões para começar">
+                <span class="chips-label">começar com</span>
+                <button type="button" class="chip" data-insert="Chama-se " onclick="insertChip('f-nome', this)">Chama-se…</button>
+                <button type="button" class="chip" data-insert="Serve para " onclick="insertChip('f-nome', this)">Serve para…</button>
+                <button type="button" class="chip" data-insert="Ajuda os utentes a " onclick="insertChip('f-nome', this)">Ajuda os utentes a…</button>
+                <button type="button" class="chip" data-insert="É o assistente que " onclick="insertChip('f-nome', this)">É o assistente que…</button>
+              </div>
+              <div class="field-actions">
+                <span class="btn-pro">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="fill-main oblig-block" id="sec-02">
+            <div class="oblig-tag">Obrigatória · 02</div>
+            <div class="fill-title">Missão</div>
+            <div class="fill-guide">O objetivo central do assistente: o que entrega, e a quem.</div>
+            <div class="fill-field">
+              <label for="f-missao">Missão</label>
+              <textarea id="f-missao" placeholder="ex: Ajudar os utentes a prepararem-se para a consulta e a esclarecer dúvidas entre consultas." oninput="checkRGPD(this)"></textarea>
+              <div class="chips" aria-label="Sugestões para começar">
+                <span class="chips-label">começar com</span>
+                <button type="button" class="chip" data-insert="A minha missão é " onclick="insertChip('f-missao', this)">A minha missão é…</button>
+                <button type="button" class="chip" data-insert="Quero que os meus utentes " onclick="insertChip('f-missao', this)">Quero que os meus utentes…</button>
+                <button type="button" class="chip" data-insert="O que me distingue é " onclick="insertChip('f-missao', this)">O que me distingue é…</button>
+              </div>
+              <div class="field-actions">
+                <span class="btn-pro">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="fill-main oblig-block" id="sec-13">
+            <div class="oblig-tag">Obrigatória · 13</div>
+            <div class="fill-title">Red lines</div>
+            <div class="fill-guide">Os limites absolutos — o que o assistente nunca faz, em nenhuma circunstância.</div>
+            <div class="fill-field">
+              <label for="f-redline">O que o assistente nunca faz</label>
+              <textarea id="f-redline" placeholder="ex: não dá diagnósticos, não prescreve, não interpreta análises." oninput="checkRGPD(this)"></textarea>
+              <div class="chips" aria-label="Sugestões para começar">
+                <span class="chips-label">começar com</span>
+                <button type="button" class="chip" data-insert="Nunca " onclick="insertChip('f-redline', this)">Nunca…</button>
+                <button type="button" class="chip" data-insert="Não dá " onclick="insertChip('f-redline', this)">Não dá…</button>
+                <button type="button" class="chip" data-insert="Recusa sempre " onclick="insertChip('f-redline', this)">Recusa sempre…</button>
+                <button type="button" class="chip" data-insert="Em nenhum caso " onclick="insertChip('f-redline', this)">Em nenhum caso…</button>
+              </div>
+              <div class="field-actions">
+                <span class="btn-pro">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="fill-main oblig-block" id="sec-14">
+            <div class="oblig-tag">Obrigatória · 14</div>
+            <div class="fill-title">Alertas de emergência</div>
+            <div class="fill-guide">Sinais que exigem encaminhamento imediato, e a resposta a dar.</div>
+            <div class="fill-field">
+              <label for="f-emerg">Alertas e encaminhamento de emergência</label>
+              <textarea id="f-emerg" placeholder="ex: dor no peito ou falta de ar súbita → instruir a contactar o 112." oninput="checkRGPD(this)"></textarea>
+              <div class="chips" aria-label="Sugestões para começar">
+                <span class="chips-label">começar com</span>
+                <button type="button" class="chip" data-insert="Perante " onclick="insertChip('f-emerg', this)">Perante…</button>
+                <button type="button" class="chip" data-insert="Em caso de " onclick="insertChip('f-emerg', this)">Em caso de…</button>
+                <button type="button" class="chip" data-insert="Encaminha de imediato para " onclick="insertChip('f-emerg', this)">Encaminha de imediato para…</button>
+                <button type="button" class="chip" data-insert="Se surgir " onclick="insertChip('f-emerg', this)">Se surgir…</button>
+              </div>
+              <div class="field-actions">
+                <span class="btn-pro">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="fill-main oblig-block" id="sec-16">
+            <div class="oblig-tag">Obrigatória · 16</div>
+            <div class="fill-title">Fecho dinâmico</div>
+            <div class="fill-guide">Como o assistente se despede — variando, para não soar repetitivo.</div>
+            <div class="fill-field">
+              <label for="f-fecho">Forma de fecho</label>
+              <textarea id="f-fecho" placeholder="ex: reforça o passo seguinte e lembra que a decisão final é do profissional." oninput="checkRGPD(this)"></textarea>
+              <div class="chips" aria-label="Sugestões para começar">
+                <span class="chips-label">começar com</span>
+                <button type="button" class="chip" data-insert="Despede-se " onclick="insertChip('f-fecho', this)">Despede-se…</button>
+                <button type="button" class="chip" data-insert="No fim, reforça " onclick="insertChip('f-fecho', this)">No fim, reforça…</button>
+                <button type="button" class="chip" data-insert="Termina sempre com " onclick="insertChip('f-fecho', this)">Termina sempre com…</button>
+                <button type="button" class="chip" data-insert="Lembra que " onclick="insertChip('f-fecho', this)">Lembra que…</button>
+              </div>
+              <div class="field-actions">
+                <span class="btn-pro">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+    <div class="rever-bar">
+      <button class="btn-accent btn-rever" id="btnRever" onclick="reverTerminar()" disabled>Rever e terminar →</button>
+      <span class="rever-hint" id="reverHint">Faltam as <strong>5 secções obrigatórias</strong> para terminar. As opcionais ficam de fora.</span>
+    </div>
+
+    <div class="afinar-bar">
+      <button class="btn-afinar" id="btnAfinar" onclick="toggleOpcionais()" aria-expanded="false" aria-controls="opcionais">
+        <span class="afinar-left"><strong>Afinar mais</strong> <span class="opc-opt">(opcional)</span></span>
+        <span class="opc-count">12 secções opcionais</span>
+        <span class="opc-chevron">+</span>
+      </button>
+    </div>
+
+    <div class="opcionais" id="opcionais" hidden>
+      <div class="opc-note">Das 12 secções opcionais, só <strong>Protocolo de reconhecimento</strong> está disponível neste protótipo. As restantes 11 aparecem no índice como <em>por construir</em>.</div>
+
+    <div class="example-bar" id="sec-09">
+      <div class="example-bar-text"><strong>Sem ideia do que pôr?</strong> Veja como ficaria para a sua área — escolha uma profissão e carregue em "ver exemplo".</div>
+      <div class="ex-prof-tabs" id="exProfTabs">
+        <button class="ex-prof-tab active" data-prof="nutri" onclick="setProf('nutri')">Nutricionista</button>
+        <button class="ex-prof-tab" data-prof="adv" onclick="setProf('adv')">Advogado</button>
+        <button class="ex-prof-tab" data-prof="eng" onclick="setProf('eng')">Engenheiro</button>
+      </div>
+    </div>
+
+    <div class="prof-frozen" id="profFrozen" hidden>
+      🔒 Profissão congelada: <strong id="frozenProfName">Nutricionista</strong> · o exemplo foi aplicado a esta profissão.
+      <button class="prof-unfreeze" onclick="unfreezeProf()">trocar profissão</button>
+    </div>
+
+    <div class="fill-grid">
+      <div class="fill-main">
+        <div class="fill-title">Protocolo de reconhecimento</div>
+        <div class="fill-guide">Um código ou palavra secreta que distingue o profissional do cliente comum. Muda a conversa para modo técnico.</div>
+
+        <div class="fill-field">
+          <label for="f-code">Código ou gesto de reconhecimento</label>
+          <input type="text" id="f-code" placeholder="ex: o seu nº profissional, ou uma palavra só sua" oninput="checkRGPD(this)">
+          <div class="field-actions">
+            <button class="btn-example" onclick="fillEx('f-code')">↳ ver exemplo</button>
+            <span class="btn-pro">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></span>
+          </div>
+        </div>
+
+        <div class="fill-field">
+          <label for="f-behaviour">O que acontece quando o código é detectado?</label>
+          <textarea id="f-behaviour" placeholder="Descreva em 2-3 frases o comportamento do assistente no modo técnico." oninput="checkRGPD(this)"></textarea>
+          <div class="chips" aria-label="Sugestões para começar">
+            <span class="chips-label">começar com</span>
+            <button type="button" class="chip" data-insert="Passa a modo técnico e " onclick="insertChip('f-behaviour', this)">Passa a modo técnico e…</button>
+            <button type="button" class="chip" data-insert="Mostra " onclick="insertChip('f-behaviour', this)">Mostra…</button>
+            <button type="button" class="chip" data-insert="Resume " onclick="insertChip('f-behaviour', this)">Resume…</button>
+            <button type="button" class="chip" data-insert="Apresenta " onclick="insertChip('f-behaviour', this)">Apresenta…</button>
+          </div>
+          <div class="field-actions">
+            <button class="btn-example" onclick="fillEx('f-behaviour')">↳ ver exemplo</button>
+            <span class="btn-pro">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></span>
+          </div>
+        </div>
+
+        <div class="fill-field">
+          <label for="f-exit">Palavra para regressar ao modo normal</label>
+          <input type="text" id="f-exit" placeholder="ex: fim" oninput="checkRGPD(this)">
+          <div class="field-actions">
+            <button class="btn-example" onclick="fillEx('f-exit')">↳ ver exemplo</button>
+            <span class="btn-pro">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></span>
+          </div>
+        </div>
+
+        <div class="rgpd-warn" id="rgpdWarn">
+          <strong>Atenção RGPD:</strong> detectámos o que parece ser um dado pessoal identificável (nome completo, número de cliente, data de nascimento ou similar). Para respeitar a privacidade dos seus clientes, use apenas iniciais + idade — ex: <em>"M.A., 62a"</em>. Este aviso aparece só para si, não bloqueia.
+        </div>
+
+        <div class="fill-nav">
+          <div class="fill-nav-left">
+            <button class="btn-ghost" onclick="alert('Demo: voltaria à secção 2.')">← Voltar</button>
+            <button class="btn-ghost" onclick="alert('Demo: pediria email para enviar link de retoma.')">Guardar e continuar depois</button>
+          </div>
+          <button class="btn-accent" onclick="goTo(4)">Próximo →</button>
+        </div>
+      </div>
+
+      <aside class="fill-aside">
+        <div class="aside-label">Exemplo · <span id="asideProfName">Nutricionista</span></div>
+        <div class="aside-title" id="asideTitle">Nutricionista Digital · acompanhamento</div>
+        <div class="aside-example" id="asideExample">Ao detectar o código <strong>nutri-c12</strong>, o assistente passa a modo técnico: mostra histórico de peso, registo alimentar e metas calóricas em tabela. Ao digitar <strong>fim</strong>, regressa ao modo cliente e omite o código.</div>
+        <div class="aside-hint">
+          <strong>Dica.</strong> Use um código que só o profissional conheça — não algo óbvio. Serve para o assistente saber quando é o profissional a falar, e não um cliente.
+        </div>
+        <div class="aside-pro">
+          <div class="aside-pro-title">✨ Versão Pro · 49€</div>
+          <div class="aside-pro-text">No grátis há <strong>exemplos fixos</strong>. Na Pro, o <strong>IA ajuda a responder</strong>: parte do rascunho do profissional e devolve a secção escrita no estilo dele. O profissional revê e decide.</div>
+        </div>
+      </aside>
+    </div>
+    </div><!-- /opcionais -->
+
+      </div>
+    </div>
+
+    <div class="demo-skip">
+      <div>No protótipo real seriam preenchidas todas as 17 secções. Para esta demonstração:</div>
+      <button onclick="goTo(4)">Saltar para output ⏭</button>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- ECRÃ 4: OUTPUT (grátis)                      -->
+<!-- ════════════════════════════════════════════ -->
+<section class="screen" id="screen-4">
+  <div class="screen-inner output-inner">
+    <div class="step-label" style="text-align:center">Passo 4 de 4 · Grátis</div>
+    <h1 class="output-title">O assistente digital IA está <em>pronto.</em></h1>
+    <p class="output-sub">Copie o bloco abaixo e cole no campo de <em>instructions</em> da sua plataforma.</p>
+
+    <div class="code-box">
+      <div class="code-box-header">
+        <div class="code-box-label">system-instructions.md</div>
+        <button class="code-copy-btn" id="copyBtn" onclick="copyCode()">Copiar tudo</button>
+      </div>
+      <div class="code-content" id="codeContent"># SYSTEM PROMPT · Assistente digital IA
+Gerado por Proteína Lúdica · proteinaludica.com/criar
+
+## 1. Identidade e persona
+[Identidade do assistente digital IA, missão, voz e tom — preenchido pelo utilizador]
+
+## 2. Contexto e público-alvo
+[Quem usa o assistente digital IA, em que situação, com que frequência]
+
+## 3. Protocolo de reconhecimento
+Código: med46316
+Comportamento técnico: ao detectar o código, interrompe a conversa
+pedagógica e passa a linguagem técnica objectiva. Apresenta painel
+estruturado com os dados biométricos, vigilância preventiva e checklist
+de preparação para consulta.
+Palavra de saída: fim
+
+## 4. Onboarding do utente
+[Sequência de 8 etapas de primeiro contacto]
+
+## 5. Regras de segurança clínica
+- Diagnóstico interdito (só triagem de gravidade)
+- Prescrição interdita (excepto paracetamol para dor ligeira)
+- Interpretação de análises interdita
+- Valores acima de 200mg/dl em jejum → alerta urgente
+- Dor no peito, falta de ar súbita, quedas → 112
+
+## 6. Fontes oficiais
+Prontuário Terapêutico do Infarmed · SNS24 · DGS
+
+## 7. Red lines
+[Limites éticos e legais — o que o assistente digital IA nunca faz]
+
+## 8. Fecho dinâmico
+[4 variações de despedida para não ser robotizado]
+
+[... mais 9 secções ...]
+
+---
+Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
+    </div>
+
+    <div class="upgrade-block">
+      <span class="upgrade-tag">Kit completo · RGPD incluído</span>
+      <div class="upgrade-title">Configurar e pôr a correr sem voltas</div>
+      <ul class="upgrade-list">
+        <li>Guia visual passo-a-passo para <span id="platformNameUp">a sua plataforma</span> (com printscreens)</li>
+        <li>Checklist RGPD clínico · pseudonimização · zero-retention · EU-only</li>
+        <li>Template de consentimento para doentes + disclaimer não-clínico</li>
+        <li>PDF A4 formatado · capa · índice · pronto a imprimir</li>
+        <li>Link de retoma 30 dias · editar e re-gerar sem pagar outra vez</li>
+      </ul>
+      <div class="upgrade-buy">
+        <div class="upgrade-price">
+          19€ <span class="upgrade-price-old">29€</span>
+          <span class="upgrade-price-note">Preço de lançamento · primeiras 100 vendas</span>
+        </div>
+        <button class="btn-primary" onclick="goTo(5)">Obter kit completo →</button>
+      </div>
+    </div>
+
+    <div class="upsell-link">
+      Prefere que alguém faça isto por si? <a onclick="alert('Demo: redirecionaria para /#medida — serviço à medida.')">Assistente digital IA à medida desde 290€ →</a>
+    </div>
+
+    <div class="guarantee">● <strong>Reembolso 7 dias sem perguntas</strong> · pagamento seguro</div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- ECRÃ 5: PAYWALL                              -->
+<!-- ════════════════════════════════════════════ -->
+<section class="screen" id="screen-5">
+  <div class="screen-inner">
+    <div class="paywall-grid">
+
+      <div class="paywall-preview">
+        <div class="pdf-mockup">
+          <div class="pdf-cover-tag">Kit de assistente digital IA</div>
+          <div class="pdf-cover-title">Médico de Família<br>Digital</div>
+          <div class="pdf-cover-sub">Configurado para Claude Projects</div>
+
+          <div class="pdf-blur-section">
+            <div class="pdf-section-head">Guia de configuração</div>
+            <div class="pdf-blur-lines">
+              <div class="pdf-blur-line"></div>
+              <div class="pdf-blur-line med"></div>
+              <div class="pdf-blur-line"></div>
+              <div class="pdf-blur-line short"></div>
+            </div>
+          </div>
+
+          <div style="height:1.5rem"></div>
+
+          <div class="pdf-blur-section">
+            <div class="pdf-section-head">Checklist RGPD clínico</div>
+            <div class="pdf-blur-lines">
+              <div class="pdf-blur-line med"></div>
+              <div class="pdf-blur-line"></div>
+              <div class="pdf-blur-line short"></div>
+            </div>
+          </div>
+
+          <div class="pdf-footer-mark">Proteína Lúdica · 2026</div>
+        </div>
+        <div class="preview-caption">↑ Preview · PDF completo após pagamento</div>
+      </div>
+
+      <div class="paywall-form">
+        <div class="step-label">Finalizar</div>
+        <h1 class="screen-title">Kit completo<br><em>19€</em></h1>
+
+        <div class="paywall-includes">
+          <div class="paywall-includes-title">Incluído:</div>
+          <ul>
+            <li>Guia de configuração · <span id="platformName">plataforma escolhida</span></li>
+            <li>Checklist RGPD clínico</li>
+            <li>Template de consentimento para doentes</li>
+            <li>Disclaimer não-clínico</li>
+            <li>Link de retoma 30 dias</li>
+          </ul>
+        </div>
+
+        <div class="form-row">
+          <label for="f-email">Email para entrega</label>
+          <input type="email" id="f-email" placeholder="medico@clinica.pt">
+        </div>
+
+        <div class="pay-buttons">
+          <button class="btn-pay btn-mbway" onclick="goTo(6)">
+            <span class="pay-icon">MB</span>
+            Pagar com MB WAY · 19€
+          </button>
+          <button class="btn-pay btn-card" onclick="goTo(6)">
+            <span class="pay-icon">VISA</span>
+            Pagar com cartão · 19€
+          </button>
+        </div>
+
+        <div class="form-check">
+          <input type="checkbox" id="f-terms" checked>
+          <label for="f-terms" style="font-family:var(--font-body); font-size:12px; letter-spacing:0; text-transform:none; font-weight:400;">
+            Aceito os <a href="#" onclick="return false">termos</a> e a <a href="#" onclick="return false">política de privacidade</a>.
+          </label>
+        </div>
+
+        <div class="trust-row">
+          <span>● Stripe + IfthenPay</span>
+          <span>● Reembolso 7 dias</span>
+          <span>● UE</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- ECRÃ 6: SUCESSO                              -->
+<!-- ════════════════════════════════════════════ -->
+<section class="screen" id="screen-6">
+  <div class="screen-inner success-inner">
+    <div class="success-check"></div>
+    <h1 class="success-title">Pagamento <em>confirmado.</em></h1>
+    <p class="success-text">
+      Enviámos o teu kit completo para <span class="success-email" id="successEmail">o teu email</span>.<br>
+      Também o podes descarregar já:
+    </p>
+
+    <div class="success-actions">
+      <button class="btn-primary" onclick="alert('Demo: descarregaria o PDF.')">↓ Descarregar PDF</button>
+      <button class="btn-ghost" onclick="resetDemo()">↻ Recomeçar protótipo</button>
+    </div>
+
+    <div class="success-retoma">
+      <div class="success-retoma-title">Link de retoma · 30 dias</div>
+      Guarda este link para editares o teu assistente digital IA e re-gerar o PDF sem pagar outra vez:
+      <code>proteinaludica.com/criar/retomar/a7f3-9b2c-x8d1</code>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- MODAL: 3 perguntas                          -->
+<!-- ════════════════════════════════════════════ -->
+<div class="modal-overlay" id="quizModal" onclick="if(event.target===this) closeQuizModal()">
+  <div class="modal">
+    <div class="modal-title">Deixa-nos recomendar</div>
+    <p style="font-size:14px; color:var(--ink2); margin-bottom:0.5rem;">Três perguntas rápidas.</p>
+
+    <div class="modal-q">
+      <div class="modal-q-title">1. Já tens licença paga de alguma destas?</div>
+      <div class="modal-q-opts" data-q="1">
+        <button class="modal-q-opt" onclick="selectQuiz(this,1,'none')">Nenhuma</button>
+        <button class="modal-q-opt" onclick="selectQuiz(this,1,'claude')">Claude Pro</button>
+        <button class="modal-q-opt" onclick="selectQuiz(this,1,'gpt')">ChatGPT Plus</button>
+        <button class="modal-q-opt" onclick="selectQuiz(this,1,'gws')">Google Workspace</button>
+        <button class="modal-q-opt" onclick="selectQuiz(this,1,'m365')">Microsoft 365</button>
+      </div>
+    </div>
+
+    <div class="modal-q">
+      <div class="modal-q-title">2. Precisas que leia o teu email, Drive ou SharePoint?</div>
+      <div class="modal-q-opts" data-q="2">
+        <button class="modal-q-opt" onclick="selectQuiz(this,2,'yes')">Sim</button>
+        <button class="modal-q-opt" onclick="selectQuiz(this,2,'no')">Não</button>
+        <button class="modal-q-opt" onclick="selectQuiz(this,2,'maybe')">Talvez</button>
+      </div>
+    </div>
+
+    <div class="modal-q">
+      <div class="modal-q-title">3. Quantas pessoas vão usar?</div>
+      <div class="modal-q-opts" data-q="3">
+        <button class="modal-q-opt" onclick="selectQuiz(this,3,'solo')">Só eu</button>
+        <button class="modal-q-opt" onclick="selectQuiz(this,3,'team')">2-10 (equipa)</button>
+        <button class="modal-q-opt" onclick="selectQuiz(this,3,'clinic')">10+ (clínica)</button>
+      </div>
+    </div>
+
+    <div class="modal-result" id="modalResult">
+      <div class="modal-result-title">Recomendação</div>
+      <div class="modal-result-text" id="modalResultText">—</div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-ghost" onclick="closeQuizModal()">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ─────────── STATE ───────────
+  const state = {
+    current: 1,
+    platform: null,
+    platformLabel: null,
+    template: null,
+    quiz: { 1: null, 2: null, 3: null }
+  };
+
+  // ─────────── NAVIGATION ───────────
+  function goTo(n) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById('screen-' + n);
+    if (target) target.classList.add('active');
+    state.current = n;
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function updateProgress() {
+    const n = state.current;
+    const label = document.getElementById('stepLabel');
+    const dots = document.querySelectorAll('.progress-dot');
+
+    // progress behaves 1..4 (screens 1-4), screen 5 = "pagamento", screen 6 = "concluído"
+    if (n <= 4) {
+      label.textContent = n + ' / 4';
+    } else if (n === 5) {
+      label.textContent = 'pagamento';
+    } else {
+      label.textContent = 'concluído ✓';
+    }
+
+    dots.forEach((d, i) => {
+      d.classList.remove('active', 'done');
+      if (i + 1 < n) d.classList.add('done');
+      else if (i + 1 === n) d.classList.add('active');
+    });
+    if (n >= 5) dots.forEach(d => d.classList.add('done'));
+  }
+
+  // ─────────── PLATAFORMA ───────────
+  function selectPlatform(id, label) {
+    state.platform = id;
+    state.platformLabel = label;
+    document.getElementById('platformName').textContent = label;
+    document.getElementById('platformNameUp').textContent = label;
+    goTo(2);
+  }
+
+  // ─────────── TEMPLATE ───────────
+  function selectTemplate(id) {
+    state.template = id;
+    goTo(3);
+  }
+
+  // ─────────── RGPD DETECTOR ───────────
+  function checkRGPD(input) {
+    const val = input.value;
+    const warn = document.getElementById('rgpdWarn');
+    // detecta NIF 9 dígitos, CC com letra, datas DD/MM/AAAA, nomes próprios completos
+    const hasNIF = /\b\d{9}\b/.test(val);
+    const hasCC = /\b\d{8}\s?[A-Z]{1,2}\d{0,3}\b/.test(val);
+    const hasDate = /\b\d{1,2}\/\d{1,2}\/(?:19|20)\d{2}\b/.test(val);
+    const hasFullName = /\b(?:Sr\.?|Sra\.?|Dr\.?|Dra\.?|D\.?)\s+[A-ZÁÉÍÓÚÂÊÎÔÛÃÕÇ][a-záéíóúâêîôûãõç]+\s+[A-ZÁÉÍÓÚÂÊÎÔÛÃÕÇ][a-záéíóúâêîôûãõç]+/.test(val);
+
+    if (hasNIF || hasCC || hasDate || hasFullName) {
+      warn.classList.add('show');
+    } else {
+      // limpa só se nenhuma das 3 inputs tem alerta
+      const allInputs = document.querySelectorAll('#screen-3 input, #screen-3 textarea');
+      let any = false;
+      allInputs.forEach(i => {
+        const v = i.value;
+        if (/\b\d{9}\b/.test(v)) any = true;
+        if (/\b\d{8}\s?[A-Z]{1,2}\d{0,3}\b/.test(v)) any = true;
+        if (/\b\d{1,2}\/\d{1,2}\/(?:19|20)\d{2}\b/.test(v)) any = true;
+        if (/\b(?:Sr\.?|Sra\.?|Dr\.?|Dra\.?|D\.?)\s+[A-ZÁÉÍÓÚÂÊÎÔÛÃÕÇ][a-záéíóúâêîôûãõç]+\s+[A-ZÁÉÍÓÚÂÊÎÔÛÃÕÇ][a-záéíóúâêîôûãõç]+/.test(v)) any = true;
+      });
+      if (!any) warn.classList.remove('show');
+    }
+  }
+
+  // ─────────── COPY ───────────
+  function copyCode() {
+    const btn = document.getElementById('copyBtn');
+    const content = document.getElementById('codeContent').textContent;
+    try {
+      navigator.clipboard.writeText(content).then(() => {
+        btn.textContent = '✓ Copiado';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = 'Copiar tudo';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    } catch(e) {
+      btn.textContent = 'Seleccionar texto manual';
+    }
+  }
+
+  // ─────────── PAYMENT ───────────
+  function updatePaymentState() {
+    // usa state.platformLabel se definido
+    if (state.platformLabel) {
+      document.getElementById('platformName').textContent = state.platformLabel;
+    }
+  }
+
+  // ─────────── SUCCESS ───────────
+  function goToSuccess() {
+    const email = document.getElementById('f-email').value || 'o teu email';
+    document.getElementById('successEmail').textContent = email;
+    goTo(6);
+  }
+  // hook nos botões de pagamento
+  document.querySelectorAll('.btn-mbway, .btn-card').forEach(btn => {
+    btn.addEventListener('click', goToSuccess);
+  });
+
+  // ─────────── RESET ───────────
+  function resetDemo() {
+    state.current = 1;
+    state.platform = null;
+    state.platformLabel = null;
+    state.template = null;
+    state.quiz = { 1: null, 2: null, 3: null };
+    document.querySelectorAll('input, textarea').forEach(el => el.value = '');
+    document.querySelectorAll('.modal-q-opt').forEach(el => el.classList.remove('active'));
+    document.getElementById('modalResult').classList.remove('show');
+    document.getElementById('rgpdWarn').classList.remove('show');
+    const _opc = document.getElementById('opcionais');
+    if (_opc) _opc.setAttribute('hidden', '');
+    const _btn = document.getElementById('btnAfinar');
+    if (_btn) { _btn.classList.remove('open'); _btn.setAttribute('aria-expanded', 'false'); }
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('used'));
+    checkObrigatorias();
+    unfreezeProf();
+    setProf('nutri');
+    goTo(1);
+    closeQuizModal();
+  }
+
+  // ─────────── MODAL ───────────
+  function openQuizModal() {
+    document.getElementById('quizModal').classList.add('open');
+  }
+  function closeQuizModal() {
+    document.getElementById('quizModal').classList.remove('open');
+  }
+  function selectQuiz(el, q, val) {
+    // desmarca outros
+    el.parentNode.querySelectorAll('.modal-q-opt').forEach(o => o.classList.remove('active'));
+    el.classList.add('active');
+    state.quiz[q] = val;
+    // mostra recomendação se todas respondidas
+    if (state.quiz[1] && state.quiz[2] && state.quiz[3]) {
+      showQuizResult();
+    }
+  }
+  function showQuizResult() {
+    const q = state.quiz;
+    let rec = '';
+    // lógica simples de recomendação
+    if (q[1] === 'claude') rec = 'Claude Projects. Já tens Pro e é o mais forte em raciocínio clínico longo.';
+    else if (q[1] === 'm365') rec = 'Microsoft Copilot Agents. Integra-se com o Outlook e SharePoint que já usas.';
+    else if (q[1] === 'gws') rec = 'Google Gemini Gems. Liga directo ao teu Gmail e Drive sem setup.';
+    else if (q[1] === 'gpt') rec = 'ChatGPT Custom GPTs. Aproveita a licença Plus que já tens.';
+    else if (q[2] === 'yes') rec = 'Gemini (se usas Google) ou Copilot (se usas M365). Ambos lêem emails e ficheiros sem ficheiro-a-ficheiro.';
+    else if (q[3] === 'solo') rec = 'Claude Projects. Sem licenças de equipa, melhor para uso individual e privado.';
+    else if (q[3] === 'clinic') rec = 'Microsoft Copilot ou Google Gemini. Ambos têm gestão central e licenças por utilizador.';
+    else rec = 'Claude Projects. Melhor ponto de partida neutro — sem integrações obrigatórias, privado por defeito.';
+
+    document.getElementById('modalResultText').textContent = rec;
+    document.getElementById('modalResult').classList.add('show');
+  }
+
+  // ─────────── KEYBOARD ───────────
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'r' || e.key === 'R') {
+      // só se não estiver a escrever num input
+      const tag = document.activeElement.tagName.toLowerCase();
+      if (tag !== 'input' && tag !== 'textarea') resetDemo();
+    }
+    if (e.key === 'Escape') closeQuizModal();
+  });
+
+  // ─── NÍVEL A: exemplos por profissão (sem IA, texto fixo) ───
+  const PROF = {
+    nutri: {
+      nome: 'Nutricionista',
+      title: 'Nutricionista Digital · acompanhamento',
+      'f-code': 'nutri-c12',
+      'f-behaviour': 'Ao detectar o código, passa a modo técnico: mostra histórico de peso, registo alimentar e metas calóricas em tabela. Linguagem objectiva, para o profissional rever antes da consulta.',
+      'f-exit': 'fim',
+      example: 'Ao detectar o código <strong>nutri-c12</strong>, o assistente passa a modo técnico: mostra histórico de peso, registo alimentar e metas calóricas em tabela. Ao digitar <strong>fim</strong>, regressa ao modo cliente e omite o código.'
+    },
+    adv: {
+      nome: 'Advogado',
+      title: 'Assistente Jurídico Digital · escritório',
+      'f-code': 'adv-47x',
+      'f-behaviour': 'Ao detectar o código, passa a modo técnico: resume o processo, lista prazos processuais e peças em falta. Linguagem jurídica precisa, para o advogado rever antes de avançar.',
+      'f-exit': 'fechar',
+      example: 'Ao detectar o código <strong>adv-47x</strong>, o assistente resume o processo, lista prazos e peças em falta em formato técnico. Ao digitar <strong>fechar</strong>, regressa ao modo cliente e omite o código.'
+    },
+    eng: {
+      nome: 'Engenheiro',
+      title: 'Assistente Técnico Digital · gabinete',
+      'f-code': 'eng-31k',
+      'f-behaviour': 'Ao detectar o código, passa a modo técnico: resume o estado do projeto, lista prazos de entrega e pontos por validar. Linguagem técnica precisa, para o engenheiro rever antes de avançar.',
+      'f-exit': 'fim',
+      example: 'Ao detectar o código <strong>eng-31k</strong>, o assistente resume o estado do projeto, lista prazos e pontos por validar em formato técnico. Ao digitar <strong>fim</strong>, regressa ao modo cliente e omite o código.'
+    }
+  };
+  let curProf = 'nutri';
+  let frozenProf = null; // profissão congelada ao aplicar um exemplo
+
+  function setProf(p) {
+    // tabs continuam a funcionar: trocar de tab descongela a escolha
+    if (frozenProf && p !== frozenProf) unfreezeProf();
+    curProf = p;
+    document.querySelectorAll('.ex-prof-tab').forEach(t => t.classList.toggle('active', t.dataset.prof === p));
+    const d = PROF[p];
+    document.getElementById('asideProfName').textContent = d.nome;
+    document.getElementById('asideTitle').textContent = d.title;
+    document.getElementById('asideExample').innerHTML = d.example;
+  }
+
+  // ─── Fase 4: congelar a profissão ativa ───
+  function freezeProf(p) {
+    frozenProf = p;
+    const banner = document.getElementById('profFrozen');
+    if (banner) {
+      document.getElementById('frozenProfName').textContent = PROF[p].nome;
+      banner.removeAttribute('hidden');
+    }
+    document.querySelectorAll('.ex-prof-tab').forEach(t => t.classList.toggle('frozen', t.dataset.prof === p));
+  }
+  function unfreezeProf() {
+    frozenProf = null;
+    const banner = document.getElementById('profFrozen');
+    if (banner) banner.setAttribute('hidden', '');
+    document.querySelectorAll('.ex-prof-tab').forEach(t => t.classList.remove('frozen'));
+  }
+
+  function fillEx(id) {
+    // ao aplicar um exemplo, a profissão ativa congela; se já está congelada, usa essa
+    if (!frozenProf) freezeProf(curProf);
+    else if (curProf !== frozenProf) setProf(frozenProf);
+    const el = document.getElementById(id);
+    const d = PROF[frozenProf];
+    if (el && d[id] !== undefined) el.value = d[id];
+  }
+
+  // ─── Fase 2: recolher opcionais ───
+  function toggleOpcionais() {
+    const panel = document.getElementById('opcionais');
+    const btn = document.getElementById('btnAfinar');
+    const willOpen = panel.hasAttribute('hidden');
+    if (willOpen) {
+      panel.removeAttribute('hidden');
+      btn.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+    } else {
+      panel.setAttribute('hidden', '');
+      btn.classList.remove('open');
+      btn.setAttribute('aria-expanded', 'false');
+    }
+  }
+  function openOpcionais() {
+    const panel = document.getElementById('opcionais');
+    const btn = document.getElementById('btnAfinar');
+    if (panel && panel.hasAttribute('hidden')) {
+      panel.removeAttribute('hidden');
+      btn.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+    }
+  }
+
+  // ─── Fase 3: rever e terminar ───
+  const OBRIGATORIAS = ['f-nome', 'f-missao', 'f-redline', 'f-emerg', 'f-fecho'];
+  function checkObrigatorias() {
+    const preenchidas = OBRIGATORIAS.filter(id => {
+      const el = document.getElementById(id);
+      return el && el.value.trim() !== '';
+    }).length;
+    const btn = document.getElementById('btnRever');
+    const hint = document.getElementById('reverHint');
+    if (!btn || !hint) return;
+    const todas = preenchidas === OBRIGATORIAS.length;
+    btn.disabled = !todas;
+    if (todas) {
+      hint.innerHTML = 'As <strong>5 obrigatórias</strong> estão preenchidas. As opcionais ficam de fora.';
+    } else {
+      hint.innerHTML = 'Faltam <strong>' + (OBRIGATORIAS.length - preenchidas) + ' de 5</strong> secções obrigatórias. As opcionais ficam de fora.';
+    }
+  }
+  function reverTerminar() {
+    if (document.getElementById('btnRever').disabled) return;
+    goTo(4);
+  }
+
+  // ─── Chips de sugestão (ponto de partida editável) ───
+  function insertChip(fieldId, btn) {
+    const el = document.getElementById(fieldId);
+    if (!el || btn.classList.contains('used')) return;
+    const text = btn.dataset.insert || btn.textContent.trim();
+    const cur = el.value;
+    // acrescenta no fim, sem apagar o que já lá está
+    el.value = (cur.trim() && !/\s$/.test(cur)) ? (cur + ' ' + text) : (cur + text);
+    btn.classList.add('used'); // cada chip tocado uma vez
+    el.focus();
+    try { el.setSelectionRange(el.value.length, el.value.length); } catch (e) {}
+    el.dispatchEvent(new Event('input', { bubbles: true })); // atualiza RGPD / "Rever e terminar"
+  }
+
+  // init
+  OBRIGATORIAS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', checkObrigatorias);
+  });
+  checkObrigatorias();
+  updateProgress();
+</script>
+
+</body>
+</html>
