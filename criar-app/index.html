@@ -1404,7 +1404,7 @@
             <div class="fill-guide">Sinais que exigem encaminhamento imediato, e a resposta a dar.</div>
             <div class="fill-field">
               <label for="f-emerg">Alertas e encaminhamento de emergência</label>
-              <textarea id="f-emerg" placeholder="ex: dor no peito ou falta de ar súbita → instruir a contactar o 112." oninput="checkRGPD(this)"></textarea>
+              <textarea id="f-emerg" placeholder="ex: situação que exige contacto imediato com o serviço de emergência aplicável à área do profissional → indicar o quê e para onde encaminhar." oninput="checkRGPD(this)"></textarea>
               <div class="chips" aria-label="Sugestões para começar">
                 <span class="chips-label">começar com</span>
                 <button type="button" class="chip" data-insert="Perante " onclick="insertChip('f-emerg', this)">Perante…</button>
@@ -1571,25 +1571,23 @@ Gerado por Proteína Lúdica · proteinaludica.com/criar
 [Quem usa o assistente digital IA, em que situação, com que frequência]
 
 ## 3. Protocolo de reconhecimento
-Código: med46316
-Comportamento técnico: ao detectar o código, interrompe a conversa
-pedagógica e passa a linguagem técnica objectiva. Apresenta painel
-estruturado com os dados biométricos, vigilância preventiva e checklist
-de preparação para consulta.
+Código: nutri-c12
+Comportamento técnico: ao detectar o código, passa a modo técnico e
+apresenta painel estruturado com os dados relevantes do histórico,
+pontos a validar e checklist de preparação para o atendimento.
 Palavra de saída: fim
 
 ## 4. Onboarding do utente
 [Sequência de 8 etapas de primeiro contacto]
 
-## 5. Regras de segurança clínica
-- Diagnóstico interdito (só triagem de gravidade)
-- Prescrição interdita (excepto paracetamol para dor ligeira)
-- Interpretação de análises interdita
-- Valores acima de 200mg/dl em jejum → alerta urgente
-- Dor no peito, falta de ar súbita, quedas → 112
+## 5. Regras de segurança
+- Não decide em nome do profissional — apenas organiza e sugere
+- Não avança sem confirmação nos pontos assinalados como incertos
+- Informação em falta → assinala em vez de assumir
+- Situação fora do âmbito habitual → encaminha para o profissional
 
 ## 6. Fontes oficiais
-Prontuário Terapêutico do Infarmed · SNS24 · DGS
+Documentos e modelos fornecidos pelo profissional
 
 ## 7. Red lines
 [Limites éticos e legais — o que o assistente digital IA nunca faz]
