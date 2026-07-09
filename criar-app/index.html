@@ -713,6 +713,96 @@
   .guarantee strong { color: var(--accent); font-weight: 500; }
 
   /* ─── ECRÃ 5: PAYWALL ─── */
+  .tier-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+  .tier-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    font-family: inherit;
+    color: inherit;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .tier-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+  .tier-card.selected {
+    border-color: var(--accent);
+    background: var(--accent-light);
+  }
+  .tier-title {
+    font-family: var(--font-head);
+    font-size: 1.25rem;
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+  .tier-price {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--accent);
+  }
+  .tier-desc {
+    font-size: 13px;
+    color: var(--ink2);
+    line-height: 1.5;
+  }
+  .tier-includes {
+    list-style: none;
+    font-size: 12px;
+    color: var(--ink2);
+    margin-top: auto;
+    padding-top: 0.25rem;
+  }
+  .tier-includes li {
+    padding: 3px 0;
+    padding-left: 18px;
+    position: relative;
+  }
+  .tier-includes li::before {
+    content: '✓';
+    position: absolute;
+    left: 0; top: 3px;
+    color: var(--accent);
+  }
+  .tier-cta {
+    margin-top: 0.75rem;
+    text-align: center;
+    padding: 10px;
+    border-radius: 6px;
+    background: var(--accent);
+    color: white;
+    font-size: 13px;
+    font-weight: 500;
+    transition: background 0.2s;
+  }
+  .tier-card:hover .tier-cta { background: var(--accent2); }
+  .tier-card.selected .tier-cta { background: var(--accent2); }
+
+  .paywall-step-back { margin-bottom: 1.5rem; }
+  .paywall-note {
+    font-size: 12px;
+    color: var(--muted);
+    background: var(--bg2);
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin-bottom: 1rem;
+  }
+
   .paywall-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1776,86 +1866,153 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
 <!-- ════════════════════════════════════════════ -->
 <section class="screen" id="screen-5">
   <div class="screen-inner">
-    <div class="paywall-grid">
 
-      <div class="paywall-preview">
-        <div class="pdf-mockup">
-          <div class="pdf-cover-tag">Kit de assistente digital IA</div>
-          <div class="pdf-cover-title">Médico de Família<br>Digital</div>
-          <div class="pdf-cover-sub">Configurado para Claude Projects</div>
+    <div id="paywallTiers">
+      <div class="step-label">Passo final</div>
+      <h1 class="screen-title">Como queres <em>continuar?</em></h1>
+      <p class="screen-sub">Escolhe o patamar que melhor serve o que precisas agora — podes sempre voltar a este ecrã.</p>
 
-          <div class="pdf-blur-section">
-            <div class="pdf-section-head">Guia de configuração</div>
-            <div class="pdf-blur-lines">
-              <div class="pdf-blur-line"></div>
-              <div class="pdf-blur-line med"></div>
-              <div class="pdf-blur-line"></div>
-              <div class="pdf-blur-line short"></div>
-            </div>
-          </div>
-
-          <div style="height:1.5rem"></div>
-
-          <div class="pdf-blur-section">
-            <div class="pdf-section-head">Checklist RGPD clínico</div>
-            <div class="pdf-blur-lines">
-              <div class="pdf-blur-line med"></div>
-              <div class="pdf-blur-line"></div>
-              <div class="pdf-blur-line short"></div>
-            </div>
-          </div>
-
-          <div class="pdf-footer-mark">Proteína Lúdica · 2026</div>
-        </div>
-        <div class="preview-caption">↑ Preview · PDF completo após pagamento</div>
-      </div>
-
-      <div class="paywall-form">
-        <div class="step-label">Finalizar</div>
-        <h1 class="screen-title">Kit completo<br><em>19€</em></h1>
-
-        <div class="paywall-includes">
-          <div class="paywall-includes-title">Incluído:</div>
-          <ul>
-            <li>Guia de configuração · <span id="platformName">plataforma escolhida</span></li>
-            <li>Checklist RGPD clínico</li>
-            <li>Template de consentimento para doentes</li>
-            <li>Disclaimer não-clínico</li>
-            <li>Link de retoma 30 dias</li>
+      <div class="tier-grid">
+        <button class="tier-card" data-tier="free" onclick="selectTier('free', this)">
+          <div class="tier-title">Prompt final · grátis</div>
+          <div class="tier-price">0€</div>
+          <div class="tier-desc">Recebe o prompt pronto a copiar, sem apoio da IA a preencher os campos.</div>
+          <ul class="tier-includes">
+            <li>Prompt final gerado a partir do que o profissional determinou</li>
           </ul>
+          <div class="tier-cta">Continuar sem custo</div>
+        </button>
+
+        <button class="tier-card" data-tier="kit" onclick="selectTier('kit', this)">
+          <div class="tier-title">Kit completo · 19€</div>
+          <div class="tier-price">19€</div>
+          <div class="tier-desc">O prompt final mais um guia de instalação na plataforma escolhida.</div>
+          <ul class="tier-includes">
+            <li>Prompt final</li>
+            <li>PDF com o passo-a-passo de instalação na plataforma escolhida (Claude Projects, ChatGPT ou Gemini)</li>
+          </ul>
+          <div class="tier-cta">Comprar Kit completo · 19€</div>
+        </button>
+
+        <button class="tier-card" data-tier="pro" onclick="selectTier('pro', this)">
+          <div class="tier-title">Pro · 49€</div>
+          <div class="tier-price">49€</div>
+          <div class="tier-desc">A IA ajuda a preencher os campos do wizard, a partir do que o profissional indicar.</div>
+          <ul class="tier-includes">
+            <li>Tudo o que está incluído no Kit completo</li>
+            <li>Apoio da IA a completar cada campo do wizard</li>
+          </ul>
+          <div class="tier-cta">Continuar com Pro · 49€</div>
+        </button>
+
+        <button class="tier-card" data-tier="medida" onclick="selectTier('medida', this)">
+          <div class="tier-title">Entramos em contacto</div>
+          <div class="tier-desc">Para quem precisa de um assistente mais elaborado, ou de acompanhamento dedicado.<br>Sem preço fixo — orçamento à medida.</div>
+          <div class="tier-cta">Pedir contacto</div>
+        </button>
+      </div>
+    </div>
+
+    <div id="paywallCheckout" hidden>
+      <button class="btn-ghost paywall-step-back" onclick="backToTiers()">← Voltar</button>
+      <div class="paywall-grid">
+
+        <div class="paywall-preview">
+          <div class="pdf-mockup">
+            <div class="pdf-cover-tag">Kit de assistente digital IA</div>
+            <div class="pdf-cover-title" id="checkoutPreviewTitle">Kit completo</div>
+            <div class="pdf-cover-sub">Configurado para <span id="platformName">plataforma escolhida</span></div>
+
+            <div class="pdf-blur-section">
+              <div class="pdf-section-head">Guia de instalação</div>
+              <div class="pdf-blur-lines">
+                <div class="pdf-blur-line"></div>
+                <div class="pdf-blur-line med"></div>
+                <div class="pdf-blur-line"></div>
+                <div class="pdf-blur-line short"></div>
+              </div>
+            </div>
+
+            <div class="pdf-footer-mark">Proteína Lúdica · 2026</div>
+          </div>
+          <div class="preview-caption">↑ Preview · PDF completo após confirmação</div>
         </div>
+
+        <div class="paywall-form">
+          <div class="step-label">Finalizar</div>
+          <h1 class="screen-title" id="checkoutTitle">Kit completo<br><em>19€</em></h1>
+
+          <div class="paywall-includes">
+            <div class="paywall-includes-title">Incluído:</div>
+            <ul id="checkoutIncludes">
+              <li>Prompt final</li>
+              <li>PDF com o passo-a-passo de instalação na plataforma escolhida</li>
+            </ul>
+          </div>
+
+          <div class="paywall-note">O PDF com o passo-a-passo de instalação é enviado por email após a confirmação.</div>
+
+          <div class="form-row">
+            <label for="f-email">Email para entrega</label>
+            <input type="email" id="f-email" placeholder="email@exemplo.pt">
+          </div>
+
+          <div class="pay-buttons">
+            <button class="btn-pay btn-mbway" id="btnPayMbway" onclick="goTo(6)">
+              <span class="pay-icon">MB</span>
+              Pagar com MB WAY · 19€
+            </button>
+            <button class="btn-pay btn-card" id="btnPayCard" onclick="goTo(6)">
+              <span class="pay-icon">VISA</span>
+              Pagar com cartão · 19€
+            </button>
+          </div>
+
+          <div class="form-check">
+            <input type="checkbox" id="f-terms" checked>
+            <label for="f-terms" style="font-family:var(--font-body); font-size:12px; letter-spacing:0; text-transform:none; font-weight:400;">
+              Aceito os <a href="#" onclick="return false">termos</a> e a <a href="#" onclick="return false">política de privacidade</a>.
+            </label>
+          </div>
+
+          <div class="trust-row">
+            <span>● Stripe + IfthenPay</span>
+            <span>● Reembolso 7 dias</span>
+            <span>● UE</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div id="paywallContact" hidden>
+      <button class="btn-ghost paywall-step-back" onclick="backToTiers()">← Voltar</button>
+      <div class="paywall-form" style="max-width:420px; margin:0 auto;">
+        <div class="step-label">Entramos em contacto</div>
+        <h1 class="screen-title">Pedir <em>contacto.</em></h1>
+        <p class="screen-sub">Deixa o teu nome e email — respondemos com uma proposta à medida.</p>
 
         <div class="form-row">
-          <label for="f-email">Email para entrega</label>
-          <input type="email" id="f-email" placeholder="medico@clinica.pt">
+          <label for="f-contact-name">Nome</label>
+          <input type="text" id="f-contact-name" placeholder="O teu nome">
+        </div>
+        <div class="form-row">
+          <label for="f-contact-email">Email</label>
+          <input type="email" id="f-contact-email" placeholder="email@exemplo.pt">
         </div>
 
-        <div class="pay-buttons">
-          <button class="btn-pay btn-mbway" onclick="goTo(6)">
-            <span class="pay-icon">MB</span>
-            Pagar com MB WAY · 19€
-          </button>
-          <button class="btn-pay btn-card" onclick="goTo(6)">
-            <span class="pay-icon">VISA</span>
-            Pagar com cartão · 19€
-          </button>
-        </div>
-
-        <div class="form-check">
-          <input type="checkbox" id="f-terms" checked>
-          <label for="f-terms" style="font-family:var(--font-body); font-size:12px; letter-spacing:0; text-transform:none; font-weight:400;">
-            Aceito os <a href="#" onclick="return false">termos</a> e a <a href="#" onclick="return false">política de privacidade</a>.
-          </label>
-        </div>
-
-        <div class="trust-row">
-          <span>● Stripe + IfthenPay</span>
-          <span>● Reembolso 7 dias</span>
-          <span>● UE</span>
-        </div>
+        <button class="btn-accent" onclick="submitContact()">Enviar pedido</button>
       </div>
-
     </div>
+
+    <div id="paywallContactSent" hidden>
+      <div class="paywall-form" style="max-width:420px; margin:0 auto; text-align:center;">
+        <h1 class="screen-title">Pedido <em>enviado.</em></h1>
+        <p class="screen-sub">Obrigado — entramos em contacto brevemente por email.</p>
+        <button class="btn-ghost" onclick="backToTiers()">← Voltar</button>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -1939,6 +2096,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     platform: null,
     platformLabel: null,
     template: null,
+    tier: null,
     quiz: { 1: null, 2: null, 3: null }
   };
 
@@ -1987,6 +2145,67 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   function selectTemplate(id) {
     state.template = id;
     goTo(3);
+  }
+
+  // ─────────── PAYWALL: PATAMARES ───────────
+  const TIERS = {
+    kit: {
+      title: 'Kit completo<br><em>19€</em>',
+      previewTitle: 'Kit completo',
+      price: '19€',
+      includes: [
+        'Prompt final',
+        'PDF com o passo-a-passo de instalação na plataforma escolhida'
+      ]
+    },
+    pro: {
+      title: 'Pro<br><em>49€</em>',
+      previewTitle: 'Pro',
+      price: '49€',
+      includes: [
+        'Tudo o que está incluído no Kit completo',
+        'Apoio da IA a completar cada campo do wizard'
+      ]
+    }
+  };
+
+  function showPaywallStep(id) {
+    ['paywallTiers', 'paywallCheckout', 'paywallContact', 'paywallContactSent'].forEach(s => {
+      document.getElementById(s).hidden = s !== id;
+    });
+  }
+
+  function selectTier(tier, btn) {
+    document.querySelectorAll('.tier-card').forEach(c => c.classList.remove('selected'));
+    if (btn) btn.classList.add('selected');
+    state.tier = tier;
+
+    if (tier === 'free') {
+      goTo(4);
+      return;
+    }
+    if (tier === 'medida') {
+      showPaywallStep('paywallContact');
+      return;
+    }
+
+    const t = TIERS[tier];
+    document.getElementById('checkoutTitle').innerHTML = t.title;
+    document.getElementById('checkoutPreviewTitle').textContent = t.previewTitle;
+    document.getElementById('checkoutIncludes').innerHTML = t.includes.map(i => '<li>' + i + '</li>').join('');
+    document.getElementById('btnPayMbway').innerHTML = '<span class="pay-icon">MB</span>Pagar com MB WAY · ' + t.price;
+    document.getElementById('btnPayCard').innerHTML = '<span class="pay-icon">VISA</span>Pagar com cartão · ' + t.price;
+    showPaywallStep('paywallCheckout');
+  }
+
+  function backToTiers() {
+    document.querySelectorAll('.tier-card').forEach(c => c.classList.remove('selected'));
+    state.tier = null;
+    showPaywallStep('paywallTiers');
+  }
+
+  function submitContact() {
+    showPaywallStep('paywallContactSent');
   }
 
   // ─────────── RGPD DETECTOR ───────────
@@ -2059,8 +2278,11 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     state.platform = null;
     state.platformLabel = null;
     state.template = null;
+    state.tier = null;
     state.quiz = { 1: null, 2: null, 3: null };
     document.querySelectorAll('input, textarea').forEach(el => el.value = '');
+    document.querySelectorAll('.tier-card').forEach(c => c.classList.remove('selected'));
+    showPaywallStep('paywallTiers');
     document.querySelectorAll('.modal-q-opt').forEach(el => el.classList.remove('active'));
     document.getElementById('modalResult').classList.remove('show');
     document.getElementById('rgpdWarn').classList.remove('show');
