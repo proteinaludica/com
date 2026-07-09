@@ -2046,7 +2046,25 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   function goToSuccess() {
     const email = document.getElementById('f-email').value || 'o teu email';
     document.getElementById('successEmail').textContent = email;
+    enviarGuiaInstalacao(email);
     goTo(6);
+  }
+
+  // Pede a geração e o envio por email do guia de instalação (PDF) com o
+  // conteúdo real do profissional, para a plataforma escolhida no Ecrã 1.
+  function enviarGuiaInstalacao(email) {
+    if (!email || email === 'o teu email') return;
+    fetch('/api/gerar-pdf-instalacao', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        plataforma: state.platform,
+        nome_assistente: (document.getElementById('f-nome') || {}).value || '',
+        missao: (document.getElementById('f-missao') || {}).value || '',
+        prompt_completo: (document.getElementById('codeContent') || {}).textContent || '',
+        email: email,
+      }),
+    }).catch((err) => console.error('Erro ao pedir o guia de instalação:', err));
   }
   // hook nos botões de pagamento
   document.querySelectorAll('.btn-mbway, .btn-card').forEach(btn => {
