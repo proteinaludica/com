@@ -135,10 +135,34 @@ function escolherGuia(plataforma) {
 }
 
 // ─────────── GERAÇÃO DO PDF (pdf-lib) ───────────
+//
+// Paleta "Laurissilva Digital" já usada no resto do site (proteinaludica.com):
+// fundo/texto principal quase-preto, verde-musgo e dourado-ocre como destaques.
+// Tipografia real do site é Fraunces (display) + Geist (corpo); pdf-lib não
+// embebe essas fontes sem carregar ficheiros .ttf externos (o que obrigaria a
+// depender de fontkit + bundle de fontes, contra o critério de função leve
+// definido para este endpoint) — por isso usam-se as 14 fontes padrão do PDF
+// mais próximas: Times (serif, para títulos/notas) e Helvetica (sans, corpo).
+
+const COR = {
+  escuro: rgb(11 / 255, 14 / 255, 12 / 255), // #0B0E0C
+  verde: rgb(143 / 255, 170 / 255, 107 / 255), // #8FAA6B
+  verdeClaro: rgb(169 / 255, 194 / 255, 135 / 255),
+  dourado: rgb(200 / 255, 168 / 255, 107 / 255), // #C8A86B
+  douradoEscuro: rgb(0.5, 0.38, 0.16),
+  papel: rgb(0.968, 0.965, 0.951),
+  branco: rgb(1, 1, 1),
+  texto: rgb(0.11, 0.13, 0.11),
+  textoSuave: rgb(0.33, 0.37, 0.31),
+  textoFraco: rgb(0.48, 0.52, 0.45),
+  caixaCopiarFundo: rgb(0.918, 0.936, 0.888),
+  caixaCopiarLinha: rgb(0.72, 0.79, 0.62),
+  notaFundo: rgb(0.973, 0.951, 0.899),
+};
 
 const PAGE_WIDTH = 595.28; // A4
 const PAGE_HEIGHT = 841.89;
-const MARGIN = 56;
+const MARGIN = 50;
 const CONTENT_WIDTH = PAGE_WIDTH - MARGIN * 2;
 
 function quebrarLinhas(texto, font, size, maxWidth) {
@@ -165,70 +189,299 @@ function quebrarLinhas(texto, font, size, maxWidth) {
   return linhas;
 }
 
+// Desenha texto com tracking (espaçamento entre letras) manual — usado só no
+// wordmark, para simular o efeito "small caps" tracked do resto do site.
+function desenharTexto(page, texto, x, y, font, size, color, tracking) {
+  if (!tracking) {
+    page.drawText(texto, { x, y, size, font, color });
+    return;
+  }
+  let cursorX = x;
+  for (const ch of String(texto)) {
+    page.drawText(ch, { x: cursorX, y, size, font, color });
+    cursorX += font.widthOfTextAtSize(ch, size) + tracking;
+  }
+}
+
 async function gerarPdf({ plataforma, nome_assistente, missao, prompt_completo }) {
   const guia = escolherGuia(plataforma);
   const valores = { nome_assistente, missao, prompt_completo };
 
   const pdf = await PDFDocument.create();
+  const fontDisplay = await pdf.embedFont(StandardFonts.TimesRomanBold);
+  const fontDisplayItalic = await pdf.embedFont(StandardFonts.TimesRomanItalic);
+  const fontDisplayBoldItalic = await pdf.embedFont(StandardFonts.TimesRomanBoldItalic);
   const fontRegular = await pdf.embedFont(StandardFonts.Helvetica);
   const fontBold = await pdf.embedFont(StandardFonts.HelveticaBold);
   const fontMono = await pdf.embedFont(StandardFonts.Courier);
 
-  let page = pdf.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
-  let y = PAGE_HEIGHT - MARGIN;
+  // ── Cabeçalho: dimensões calculadas uma vez (é igual em todas as páginas) ──
+  const HEAD_PAD_TOP = 24;
+  const HEAD_PAD_BOTTOM = 20;
+  const WORDMARK_H = 12;
+  const GAP_WORDMARK_TITULO = 10;
+  const GAP_TITULO_ASSISTENTE = 6;
+  const TITULO_SIZE = 21;
+  const TITULO_LH = 25;
+  const ASSISTENTE_SIZE = 12;
+  const ASSISTENTE_LH = 15;
+
+  const tituloLinhas = quebrarLinhas(guia.titulo, fontDisplay, TITULO_SIZE, CONTENT_WIDTH);
+  const assistenteLinhas = quebrarLinhas(
+    'Assistente: ' + (nome_assistente || '—'),
+    fontDisplayItalic,
+    ASSISTENTE_SIZE,
+    CONTENT_WIDTH
+  );
+
+  const HEADER_HEIGHT =
+    HEAD_PAD_TOP +
+    WORDMARK_H +
+    GAP_WORDMARK_TITULO +
+    tituloLinhas.length * TITULO_LH +
+    GAP_TITULO_ASSISTENTE +
+    assistenteLinhas.length * ASSISTENTE_LH +
+    HEAD_PAD_BOTTOM;
+
+  // ── Rodapé: dimensões calculadas uma vez ──
+  const FOOT_PAD_TOP = 14;
+  const FOOT_PAD_BOTTOM = 16;
+  const LINHA_MARCA_H = 12;
+  const GAP_RODAPE = 4;
+  const NOTA_RODAPE_SIZE = 7.5;
+  const NOTA_RODAPE_LH = 10;
+  const notaRodapeTexto = 'Gerado automaticamente a partir do assistente digital IA criado em criar.proteinaludica.com';
+  const notaRodapeLinhas = quebrarLinhas(notaRodapeTexto, fontRegular, NOTA_RODAPE_SIZE, CONTENT_WIDTH);
+  const FOOTER_HEIGHT =
+    FOOT_PAD_TOP + LINHA_MARCA_H + GAP_RODAPE + notaRodapeLinhas.length * NOTA_RODAPE_LH + FOOT_PAD_BOTTOM;
+
+  const CONTENT_TOP_GAP = 26;
+  const CONTENT_TOP = PAGE_HEIGHT - HEADER_HEIGHT - CONTENT_TOP_GAP;
+  const CONTENT_BOTTOM = FOOTER_HEIGHT + 14;
+
+  function criarPagina() {
+    const p = pdf.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
+    // Fundo da página (papel quente, nunca branco puro nem preto puro) —
+    // tem de ser o primeiro traço na página, antes de qualquer conteúdo.
+    p.drawRectangle({ x: 0, y: 0, width: PAGE_WIDTH, height: PAGE_HEIGHT, color: COR.papel });
+    return p;
+  }
+
+  let page = criarPagina();
+  let y = CONTENT_TOP;
 
   function novaPagina() {
-    page = pdf.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
-    y = PAGE_HEIGHT - MARGIN;
+    page = criarPagina();
+    y = CONTENT_TOP;
   }
 
   function garantirEspaco(altura) {
-    if (y - altura < MARGIN) novaPagina();
+    if (y - altura < CONTENT_BOTTOM) novaPagina();
   }
 
-  function desenharLinhas(linhas, font, size, lineHeight, color) {
+  function desenharLinhas(x, largura, linhas, font, size, lineHeight, color) {
     linhas.forEach((linha) => {
       garantirEspaco(lineHeight);
       if (linha) {
-        page.drawText(linha, { x: MARGIN, y, size, font, color: color || rgb(0.1, 0.1, 0.1) });
+        page.drawText(linha, { x, y, size, font, color: color || COR.texto, maxWidth: largura });
       }
       y -= lineHeight;
     });
   }
 
-  // Cabeçalho
-  desenharLinhas(quebrarLinhas(guia.titulo, fontBold, 20, CONTENT_WIDTH), fontBold, 20, 26);
-  y -= 4;
-  desenharLinhas(
-    quebrarLinhas('Assistente: ' + (nome_assistente || ''), fontRegular, 12, CONTENT_WIDTH),
-    fontRegular,
-    12,
-    16
-  );
-  desenharLinhas(
-    quebrarLinhas('Gerado por Proteína Lúdica · proteinaludica.com', fontRegular, 10, CONTENT_WIDTH),
-    fontRegular,
-    10,
-    14,
-    rgb(0.4, 0.4, 0.4)
-  );
-  y -= 12;
+  // ── Bloco "isto é para copiar": fundo verde muito claro, barra de destaque
+  // à esquerda, tipografia monoespaçada — paginação própria porque o
+  // prompt_completo pode ser bastante longo. ──
+  function desenharBlocoCopiar(x, largura, conteudo) {
+    const PAD_X = 12;
+    const PAD_Y = 10;
+    const BARRA = 4;
+    const LH = 13;
+    const SIZE = 9.5;
+    const larguraTexto = largura - BARRA - PAD_X * 2;
+    const linhas = quebrarLinhas(conteudo, fontMono, SIZE, larguraTexto);
 
+    let idx = 0;
+    while (idx < linhas.length) {
+      if (y - (PAD_Y * 2 + LH) < CONTENT_BOTTOM) {
+        novaPagina();
+        continue;
+      }
+      const disponivel = y - CONTENT_BOTTOM;
+      const maxLinhas = Math.max(1, Math.floor((disponivel - PAD_Y * 2) / LH));
+      const linhasPagina = linhas.slice(idx, idx + maxLinhas);
+      const altura = PAD_Y * 2 + linhasPagina.length * LH;
+
+      page.drawRectangle({
+        x,
+        y: y - altura,
+        width: largura,
+        height: altura,
+        color: COR.caixaCopiarFundo,
+        borderColor: COR.caixaCopiarLinha,
+        borderWidth: 0.75,
+      });
+      page.drawRectangle({ x, y: y - altura, width: BARRA, height: altura, color: COR.verde });
+
+      let ty = y - PAD_Y - SIZE * 0.85;
+      linhasPagina.forEach((linha) => {
+        if (linha) {
+          page.drawText(linha, { x: x + BARRA + PAD_X, y: ty, size: SIZE, font: fontMono, color: COR.escuro });
+        }
+        ty -= LH;
+      });
+
+      y -= altura + 10;
+      idx += linhasPagina.length;
+      if (idx < linhas.length) novaPagina();
+    }
+  }
+
+  // ── Bloco "Nota": fundo dourado muito claro, itálico, mais discreto ──
+  function desenharNota(passo) {
+    const PAD_X = 12;
+    const PAD_Y = 10;
+    const BARRA = 4;
+    const LH = 13.5;
+    const larguraTexto = CONTENT_WIDTH - BARRA - PAD_X * 2;
+
+    const headingLinhas = passo.heading
+      ? quebrarLinhas(passo.heading, fontDisplayBoldItalic, 10.5, larguraTexto)
+      : [];
+    const textoLinhas = passo.texto ? quebrarLinhas(passo.texto, fontDisplayItalic, 10, larguraTexto) : [];
+    const gapInterno = headingLinhas.length && textoLinhas.length ? 4 : 0;
+    const altura = PAD_Y * 2 + headingLinhas.length * LH + gapInterno + textoLinhas.length * LH;
+
+    garantirEspaco(altura);
+    const topo = y;
+    page.drawRectangle({ x: MARGIN, y: topo - altura, width: CONTENT_WIDTH, height: altura, color: COR.notaFundo });
+    page.drawRectangle({ x: MARGIN, y: topo - altura, width: BARRA, height: altura, color: COR.dourado });
+
+    let ty = topo - PAD_Y - 9;
+    headingLinhas.forEach((linha) => {
+      page.drawText(linha, { x: MARGIN + BARRA + PAD_X, y: ty, size: 10.5, font: fontDisplayBoldItalic, color: COR.douradoEscuro });
+      ty -= LH;
+    });
+    ty -= gapInterno;
+    textoLinhas.forEach((linha) => {
+      if (linha) {
+        page.drawText(linha, { x: MARGIN + BARRA + PAD_X, y: ty, size: 10, font: fontDisplayItalic, color: COR.textoSuave });
+      }
+      ty -= LH;
+    });
+
+    y = topo - altura - 14;
+  }
+
+  // ── Passo numerado: círculo de destaque + título ao lado ──
+  const INDENT = 34; // diâmetro do círculo (22) + espaço (12)
+  function desenharPassoNumerado(numero, heading) {
+    const larguraHeading = CONTENT_WIDTH - INDENT;
+    const headingLinhas = quebrarLinhas(heading, fontBold, 13, larguraHeading);
+    const alturaBloco = Math.max(22, headingLinhas.length * 16);
+
+    garantirEspaco(alturaBloco);
+    const raio = 11;
+    const cx = MARGIN + raio;
+    const cy = y - alturaBloco / 2; // círculo centrado com a altura total do heading (1 ou várias linhas)
+    page.drawCircle({ x: cx, y: cy, size: raio, color: COR.verde });
+    const numTexto = String(numero);
+    const numLargura = fontBold.widthOfTextAtSize(numTexto, 11);
+    page.drawText(numTexto, { x: cx - numLargura / 2, y: cy - 4, size: 11, font: fontBold, color: COR.branco });
+
+    let ty = y - 13 * 0.8; // baseline da 1ª linha, alinhada ao topo do bloco
+    headingLinhas.forEach((linha) => {
+      page.drawText(linha, { x: MARGIN + INDENT, y: ty, size: 13, font: fontBold, color: COR.texto });
+      ty -= 16;
+    });
+
+    y -= alturaBloco + 6;
+  }
+
+  // ═══════════════ CONTEÚDO ═══════════════
   guia.passos.forEach((passo) => {
-    if (passo.heading) {
-      garantirEspaco(22);
-      desenharLinhas(quebrarLinhas(passo.heading, fontBold, 13, CONTENT_WIDTH), fontBold, 13, 18);
+    const isNota = !!(passo.heading && /^Nota/i.test(passo.heading));
+    const numeroMatch = !isNota && passo.heading && passo.heading.match(/^Passo\s+(\d+)/i);
+
+    if (isNota) {
+      desenharNota(passo);
+      return;
+    }
+
+    const indentX = numeroMatch ? MARGIN + INDENT : MARGIN;
+    const larguraIndentada = numeroMatch ? CONTENT_WIDTH - INDENT : CONTENT_WIDTH;
+
+    if (numeroMatch) {
+      desenharPassoNumerado(numeroMatch[1], passo.heading);
+    } else if (passo.heading) {
+      desenharLinhas(MARGIN, CONTENT_WIDTH, quebrarLinhas(passo.heading, fontBold, 13, CONTENT_WIDTH), fontBold, 13, 18);
       y -= 2;
     }
+
     if (passo.texto) {
-      desenharLinhas(quebrarLinhas(passo.texto, fontRegular, 11, CONTENT_WIDTH), fontRegular, 11, 15);
+      desenharLinhas(
+        indentX,
+        larguraIndentada,
+        quebrarLinhas(passo.texto, fontRegular, 11, larguraIndentada),
+        fontRegular,
+        11,
+        15,
+        COR.textoSuave
+      );
     }
+
     if (passo.copiar) {
       y -= 4;
       const conteudo = cortar(valores[passo.copiar], LIMITES[passo.copiar] || 20000) || '(não indicado)';
-      desenharLinhas(quebrarLinhas(conteudo, fontMono, 10, CONTENT_WIDTH), fontMono, 10, 14, rgb(0.05, 0.05, 0.35));
+      desenharBlocoCopiar(MARGIN, CONTENT_WIDTH, conteudo);
     }
-    y -= 14;
+
+    y -= 12;
+  });
+
+  // ═══════════════ CABEÇALHO + RODAPÉ (em todas as páginas) ═══════════════
+  const paginas = pdf.getPages();
+  paginas.forEach((pagina, i) => {
+    // Cabeçalho — faixa escura de topo a fundo, com wordmark, título do guia
+    // e nome do assistente. Desenhado por cima do conteúdo (que já respeita
+    // CONTENT_TOP, portanto não há sobreposição real).
+    pagina.drawRectangle({ x: 0, y: PAGE_HEIGHT - HEADER_HEIGHT, width: PAGE_WIDTH, height: HEADER_HEIGHT, color: COR.escuro });
+
+    let hy = PAGE_HEIGHT - HEAD_PAD_TOP - 9;
+    desenharTexto(pagina, 'PROTEÍNA LÚDICA', MARGIN, hy, fontBold, 9.5, COR.dourado, 1.6);
+    hy -= WORDMARK_H + GAP_WORDMARK_TITULO;
+
+    tituloLinhas.forEach((linha) => {
+      pagina.drawText(linha, { x: MARGIN, y: hy, size: TITULO_SIZE, font: fontDisplay, color: COR.branco });
+      hy -= TITULO_LH;
+    });
+    hy -= GAP_TITULO_ASSISTENTE;
+
+    assistenteLinhas.forEach((linha) => {
+      pagina.drawText(linha, { x: MARGIN, y: hy, size: ASSISTENTE_SIZE, font: fontDisplayItalic, color: COR.verdeClaro });
+      hy -= ASSISTENTE_LH;
+    });
+
+    // Rodapé — linha subtil, marca + domínio à esquerda, página à direita,
+    // nota de proveniência por baixo.
+    pagina.drawLine({
+      start: { x: MARGIN, y: FOOTER_HEIGHT },
+      end: { x: PAGE_WIDTH - MARGIN, y: FOOTER_HEIGHT },
+      thickness: 0.75,
+      color: COR.caixaCopiarLinha,
+    });
+
+    let fy = FOOTER_HEIGHT - FOOT_PAD_TOP - 8;
+    pagina.drawText('Proteína Lúdica · proteinaludica.com', { x: MARGIN, y: fy, size: 8.5, font: fontRegular, color: COR.textoFraco });
+    const pagLabel = (i + 1) + '/' + paginas.length;
+    const pagLabelLargura = fontRegular.widthOfTextAtSize(pagLabel, 8.5);
+    pagina.drawText(pagLabel, { x: PAGE_WIDTH - MARGIN - pagLabelLargura, y: fy, size: 8.5, font: fontRegular, color: COR.textoFraco });
+
+    fy -= LINHA_MARCA_H + GAP_RODAPE;
+    notaRodapeLinhas.forEach((linha) => {
+      pagina.drawText(linha, { x: MARGIN, y: fy, size: NOTA_RODAPE_SIZE, font: fontRegular, color: COR.textoFraco });
+      fy -= NOTA_RODAPE_LH;
+    });
   });
 
   return pdf.save();
