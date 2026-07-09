@@ -1113,7 +1113,7 @@
   .oblig-list { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 1.5rem; }
   .oblig-block { scroll-margin-top: 90px; }
   .oblig-tag { display: inline-block; font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); background: var(--accent-light); padding: 2px 8px; border-radius: 3px; margin-bottom: 0.6rem; }
-  #sec-03, #sec-04, #sec-05, #sec-06, #sec-09 { scroll-margin-top: 90px; }
+  #sec-03, #sec-04, #sec-05, #sec-06, #sec-09, #sec-12, #sec-15, #sec-17 { scroll-margin-top: 90px; }
   /* Fase 2: recolher opcionais */
   .afinar-bar { margin: 0.5rem 0 1.5rem; }
   .btn-afinar { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; background: var(--bg2); border: 0.5px dashed var(--border-strong); border-radius: 8px; padding: 0.9rem 1.25rem; cursor: pointer; font-family: var(--font-body); font-size: 14px; color: var(--ink); transition: all 0.2s; }
@@ -1326,12 +1326,12 @@
           <a class="s3-index-item" href="#sec-09" onclick="openOpcionais()"><span class="s3-index-num">09</span><span class="s3-index-name">Protocolo de reconhecimento</span></a>
           <span class="s3-index-item is-todo"><span class="s3-index-num">10</span><span class="s3-index-name">Tarefas específicas</span><span class="s3-index-badge todo">por construir</span></span>
           <span class="s3-index-item is-todo"><span class="s3-index-num">11</span><span class="s3-index-name">Fontes oficiais</span><span class="s3-index-badge todo">por construir</span></span>
-          <span class="s3-index-item is-todo"><span class="s3-index-num">12</span><span class="s3-index-name">Conhecimento técnico</span><span class="s3-index-badge todo">por construir</span></span>
+          <a class="s3-index-item" href="#sec-12" onclick="openOpcionais()"><span class="s3-index-num">12</span><span class="s3-index-name">Conhecimento técnico</span></a>
           <a class="s3-index-item is-oblig" href="#sec-13"><span class="s3-index-num">13</span><span class="s3-index-name">Red lines</span><span class="s3-index-badge oblig">obrig.</span></a>
           <a class="s3-index-item is-oblig" href="#sec-14"><span class="s3-index-num">14</span><span class="s3-index-name">Alertas de emergência</span><span class="s3-index-badge oblig">obrig.</span></a>
-          <span class="s3-index-item is-todo"><span class="s3-index-num">15</span><span class="s3-index-name">Tratamento de dados</span><span class="s3-index-badge todo">por construir</span></span>
+          <a class="s3-index-item" href="#sec-15" onclick="openOpcionais()"><span class="s3-index-num">15</span><span class="s3-index-name">Tratamento de dados</span></a>
           <a class="s3-index-item is-oblig" href="#sec-16"><span class="s3-index-num">16</span><span class="s3-index-name">Fecho dinâmico</span><span class="s3-index-badge oblig">obrig.</span></a>
-          <span class="s3-index-item is-todo"><span class="s3-index-num">17</span><span class="s3-index-name">Continuidade</span><span class="s3-index-badge todo">por construir</span></span>
+          <a class="s3-index-item" href="#sec-17" onclick="openOpcionais()"><span class="s3-index-num">17</span><span class="s3-index-name">Continuidade</span></a>
         </div>
       </nav>
 
@@ -1454,7 +1454,7 @@
     </div>
 
     <div class="opcionais" id="opcionais" hidden>
-      <div class="opc-note">Das 12 secções opcionais, <strong>Público-alvo, Contexto local, Voz e tom, Linguagem</strong> e <strong>Protocolo de reconhecimento</strong> estão disponíveis neste protótipo. As restantes 7 aparecem no índice como <em>por construir</em>.</div>
+      <div class="opc-note">Das 12 secções opcionais, <strong>Público-alvo, Contexto local, Voz e tom, Linguagem, Conhecimento técnico, Tratamento de dados, Continuidade</strong> e <strong>Protocolo de reconhecimento</strong> estão disponíveis neste protótipo. As restantes 4 aparecem no índice como <em>por construir</em>.</div>
 
     <div class="fill-main" id="sec-03">
       <div class="fill-title">Público-alvo</div>
@@ -1503,6 +1503,45 @@
         <textarea id="f-linguagem" placeholder="Descreva em 1-2 frases o registo de linguagem." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button class="btn-example" data-example="Linguagem simples; sempre que aparece um termo técnico, é explicado por comparação. Escreve em português; alguns clientes estrangeiros pedem inglês. Um nutricionista poderia pedir que &quot;kcal&quot; fosse sempre escrito por extenso na primeira menção." onclick="fillFieldExample('f-linguagem', this)">↳ ver exemplo</button>
+          <span class="btn-pro">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="fill-main" id="sec-12">
+      <div class="fill-title">Conhecimento técnico</div>
+      <div class="fill-guide">A informação fixa que o assistente deve manter presente em todas as interações, e as regras sobre como tratar dados variáveis.</div>
+      <div class="fill-field">
+        <label for="f-conhecimento">Que dados precisa de ter sempre presentes? Que formato de entrada usa, e como prefere receber o resultado final? Tem um glossário ou termos próprios? Assina sempre com nome e contacto, ou só nalguns casos? Há dados que mudam com frequência (preços, morada, horários) e o assistente deve confirmar em vez de assumir? Há frases ou fórmulas que nunca quer que o assistente use?</label>
+        <textarea id="f-conhecimento" placeholder="Descreva os dados fixos e as regras para dados variáveis." oninput="checkRGPD(this)"></textarea>
+        <div class="field-actions">
+          <button class="btn-example" data-example="Nome do profissional, contactos, modelos habituais. Entrada: notas ou informação dispersa. Saída: texto pronto a copiar, ou já preenchido no email/WhatsApp para rever e enviar. Termos próprios: sempre por extenso na primeira menção. Assinatura: só em documentos formais. Horários e preços mudam com frequência — o assistente pergunta em vez de presumir os antigos. Nunca usar: 'garantido', 'sem falhas', '100%'." onclick="fillFieldExample('f-conhecimento', this)">↳ ver exemplo</button>
+          <span class="btn-pro">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="fill-main" id="sec-15">
+      <div class="fill-title">Tratamento de dados</div>
+      <div class="fill-guide">As regras de privacidade que o assistente segue ao receber informação de terceiros.</div>
+      <div class="fill-field">
+        <label for="f-dados">Que dados aceita? Quais recusa (RGPD)? Deve confirmar sempre o género (ele/ela) de quem é mencionado no texto, em vez de assumir?</label>
+        <textarea id="f-dados" placeholder="Descreva as regras de privacidade e tratamento de dados." oninput="checkRGPD(this)"></textarea>
+        <div class="field-actions">
+          <button class="btn-example" data-example="Aceita iniciais e idade. Se surgir nome completo, sugere iniciais. Não guarda dados pessoais após organizar o texto. Se o género não for claro pelo nome, pergunta em vez de assumir." onclick="fillFieldExample('f-dados', this)">↳ ver exemplo</button>
+          <span class="btn-pro">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="fill-main" id="sec-17">
+      <div class="fill-title">Continuidade</div>
+      <div class="fill-guide">A forma como o assistente mantém coerência entre sessões, sem guardar nada sem autorização explícita.</div>
+      <div class="fill-field">
+        <label for="f-continuidade">Como liga uma interação à seguinte? Se notar um padrão que se repete, pode sugerir guardá-lo como preferência — mas só grava se o profissional confirmar?</label>
+        <textarea id="f-continuidade" placeholder="Descreva como o assistente mantém continuidade entre sessões." oninput="checkRGPD(this)"></textarea>
+        <div class="field-actions">
+          <button class="btn-example" data-example="Pergunta se há algo a retomar. Se notar que o profissional pede sempre o mesmo ajuste, sugere: 'Quer guardar isto como preferência?' — só grava depois de confirmado. Nunca guarda dados pessoais de clientes." onclick="fillFieldExample('f-continuidade', this)">↳ ver exemplo</button>
           <span class="btn-pro">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></span>
         </div>
       </div>
@@ -2096,7 +2135,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     if (el && d[id] !== undefined) el.value = d[id];
   }
 
-  // ─── Secções 03-06: exemplo estático por campo (sem abas de profissão) ───
+  // ─── Secções de campo único: exemplo estático (sem abas de profissão) ───
   function fillFieldExample(fieldId, btn) {
     const el = document.getElementById(fieldId);
     if (!el || !btn.dataset.example) return;
