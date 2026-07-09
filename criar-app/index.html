@@ -1113,7 +1113,7 @@
   .oblig-list { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 1.5rem; }
   .oblig-block { scroll-margin-top: 90px; }
   .oblig-tag { display: inline-block; font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); background: var(--accent-light); padding: 2px 8px; border-radius: 3px; margin-bottom: 0.6rem; }
-  #sec-09 { scroll-margin-top: 90px; }
+  #sec-03, #sec-04, #sec-05, #sec-06, #sec-09 { scroll-margin-top: 90px; }
   /* Fase 2: recolher opcionais */
   .afinar-bar { margin: 0.5rem 0 1.5rem; }
   .btn-afinar { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; background: var(--bg2); border: 0.5px dashed var(--border-strong); border-radius: 8px; padding: 0.9rem 1.25rem; cursor: pointer; font-family: var(--font-body); font-size: 14px; color: var(--ink); transition: all 0.2s; }
@@ -1317,10 +1317,10 @@
         <div class="s3-index-list">
           <a class="s3-index-item is-oblig" href="#sec-01"><span class="s3-index-num">01</span><span class="s3-index-name">Nome e propósito</span><span class="s3-index-badge oblig">obrig.</span></a>
           <a class="s3-index-item is-oblig" href="#sec-02"><span class="s3-index-num">02</span><span class="s3-index-name">Missão</span><span class="s3-index-badge oblig">obrig.</span></a>
-          <span class="s3-index-item is-todo"><span class="s3-index-num">03</span><span class="s3-index-name">Público-alvo</span><span class="s3-index-badge todo">por construir</span></span>
-          <span class="s3-index-item is-todo"><span class="s3-index-num">04</span><span class="s3-index-name">Contexto local</span><span class="s3-index-badge todo">por construir</span></span>
-          <span class="s3-index-item is-todo"><span class="s3-index-num">05</span><span class="s3-index-name">Voz e tom</span><span class="s3-index-badge todo">por construir</span></span>
-          <span class="s3-index-item is-todo"><span class="s3-index-num">06</span><span class="s3-index-name">Linguagem</span><span class="s3-index-badge todo">por construir</span></span>
+          <a class="s3-index-item" href="#sec-03" onclick="openOpcionais()"><span class="s3-index-num">03</span><span class="s3-index-name">Público-alvo</span></a>
+          <a class="s3-index-item" href="#sec-04" onclick="openOpcionais()"><span class="s3-index-num">04</span><span class="s3-index-name">Contexto local</span></a>
+          <a class="s3-index-item" href="#sec-05" onclick="openOpcionais()"><span class="s3-index-num">05</span><span class="s3-index-name">Voz e tom</span></a>
+          <a class="s3-index-item" href="#sec-06" onclick="openOpcionais()"><span class="s3-index-num">06</span><span class="s3-index-name">Linguagem</span></a>
           <span class="s3-index-item is-todo"><span class="s3-index-num">07</span><span class="s3-index-name">Estilo de resposta</span><span class="s3-index-badge todo">por construir</span></span>
           <span class="s3-index-item is-todo"><span class="s3-index-num">08</span><span class="s3-index-name">Onboarding</span><span class="s3-index-badge todo">por construir</span></span>
           <a class="s3-index-item" href="#sec-09" onclick="openOpcionais()"><span class="s3-index-num">09</span><span class="s3-index-name">Protocolo de reconhecimento</span></a>
@@ -1454,7 +1454,59 @@
     </div>
 
     <div class="opcionais" id="opcionais" hidden>
-      <div class="opc-note">Das 12 secções opcionais, só <strong>Protocolo de reconhecimento</strong> está disponível neste protótipo. As restantes 11 aparecem no índice como <em>por construir</em>.</div>
+      <div class="opc-note">Das 12 secções opcionais, <strong>Público-alvo, Contexto local, Voz e tom, Linguagem</strong> e <strong>Protocolo de reconhecimento</strong> estão disponíveis neste protótipo. As restantes 7 aparecem no índice como <em>por construir</em>.</div>
+
+    <div class="fill-main" id="sec-03">
+      <div class="fill-title">Público-alvo</div>
+      <div class="fill-guide">Descrever quem vai ler ou usar aquilo que o assistente ajuda a organizar.</div>
+      <div class="fill-field">
+        <label for="f-publico">Com quem fala o assistente? Que idade, que literacia, que contexto?</label>
+        <textarea id="f-publico" placeholder="Descreva em 1-2 frases quem recebe estes textos." oninput="checkRGPD(this)"></textarea>
+        <div class="field-actions">
+          <button class="btn-example" data-example="Um nutricionista poderia indicar &quot;clientes adultos, com pouca familiaridade com termos técnicos&quot;. Um advogado poderia indicar &quot;clientes empresariais que esperam linguagem formal&quot;." onclick="fillFieldExample('f-publico', this)">↳ ver exemplo</button>
+          <span class="btn-pro">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="fill-main" id="sec-04">
+      <div class="fill-title">Contexto local</div>
+      <div class="fill-guide">Detalhes do contexto ajudam o assistente a organizar os textos de forma adequada ao meio onde o profissional actua.</div>
+      <div class="fill-field">
+        <label for="f-contexto">Em que ambiente trabalha o profissional? O que caracteriza o sítio ou o sector?</label>
+        <textarea id="f-contexto" placeholder="Descreva em 1-2 frases o ambiente onde o profissional actua." oninput="checkRGPD(this)"></textarea>
+        <div class="field-actions">
+          <button class="btn-example" data-example="Um treinador poderia indicar &quot;ginásio de bairro, público de todas as idades&quot;. O contexto molda o vocabulário e o grau de formalidade dos textos." onclick="fillFieldExample('f-contexto', this)">↳ ver exemplo</button>
+          <span class="btn-pro">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="fill-main" id="sec-05">
+      <div class="fill-title">Voz e tom</div>
+      <div class="fill-guide">O tom deve ser o do próprio profissional — o assistente imita o estilo dele, não inventa um.</div>
+      <div class="fill-field">
+        <label for="f-tom">Formal ou próximo? Sério ou leve? Que impressão devem deixar os textos?</label>
+        <textarea id="f-tom" placeholder="Descreva em 1-2 frases o tom pretendido." oninput="checkRGPD(this)"></textarea>
+        <div class="field-actions">
+          <button class="btn-example" data-example="&quot;Próximo mas rigoroso.&quot; Um advogado poderia preferir &quot;formal e sóbrio&quot;; um treinador, &quot;directo e motivador&quot;." onclick="fillFieldExample('f-tom', this)">↳ ver exemplo</button>
+          <span class="btn-pro">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="fill-main" id="sec-06">
+      <div class="fill-title">Linguagem</div>
+      <div class="fill-guide">Definir se os textos usam linguagem técnica ou linguagem simples para quem os recebe, e se há necessidade de outra língua além do português.</div>
+      <div class="fill-field">
+        <label for="f-linguagem">Que palavras usa? Explica termos técnicos? Recorre a analogias? Trabalha sempre em português, ou às vezes precisa de outra língua?</label>
+        <textarea id="f-linguagem" placeholder="Descreva em 1-2 frases o registo de linguagem." oninput="checkRGPD(this)"></textarea>
+        <div class="field-actions">
+          <button class="btn-example" data-example="Linguagem simples; sempre que aparece um termo técnico, é explicado por comparação. Escreve em português; alguns clientes estrangeiros pedem inglês. Um nutricionista poderia pedir que &quot;kcal&quot; fosse sempre escrito por extenso na primeira menção." onclick="fillFieldExample('f-linguagem', this)">↳ ver exemplo</button>
+          <span class="btn-pro">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></span>
+        </div>
+      </div>
+    </div>
 
     <div class="example-bar" id="sec-09">
       <div class="example-bar-text"><strong>Sem ideia do que pôr?</strong> Veja como ficaria para a sua área — escolha uma profissão e carregue em "ver exemplo".</div>
@@ -2042,6 +2094,14 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     const el = document.getElementById(id);
     const d = PROF[frozenProf];
     if (el && d[id] !== undefined) el.value = d[id];
+  }
+
+  // ─── Secções 03-06: exemplo estático por campo (sem abas de profissão) ───
+  function fillFieldExample(fieldId, btn) {
+    const el = document.getElementById(fieldId);
+    if (!el || !btn.dataset.example) return;
+    el.value = btn.dataset.example;
+    el.dispatchEvent(new Event('input', { bubbles: true }));
   }
 
   // ─── Fase 2: recolher opcionais ───
