@@ -2177,6 +2177,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
 
   // ─────────── NAVIGATION ───────────
   function goTo(n) {
+    if (n === 4) gerarOutput();
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     const target = document.getElementById('screen-' + n);
     if (target) target.classList.add('active');
@@ -2524,6 +2525,61 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       btn.textContent = '✨ ver versão Pro →';
       btn.classList.remove('open');
     }
+  }
+
+  // ─── Ecrã 4: gerar output a partir dos valores reais das 17 secções ───
+  const OUTPUT_SECOES = [
+    { num: '01', title: 'Nome e propósito', field: 'f-nome' },
+    { num: '02', title: 'Missão', field: 'f-missao' },
+    { num: '03', title: 'Público-alvo', field: 'f-publico' },
+    { num: '04', title: 'Contexto local', field: 'f-contexto' },
+    { num: '05', title: 'Voz e tom', field: 'f-tom' },
+    { num: '06', title: 'Linguagem', field: 'f-linguagem' },
+    { num: '07', title: 'Estilo de resposta', field: 'f-estilo' },
+    { num: '08', title: 'Onboarding', field: 'f-onboarding' },
+    { num: '09', title: 'Protocolo de reconhecimento', special: 'reconhecimento' },
+    { num: '10', title: 'Tarefas específicas', field: 'f-tarefas' },
+    { num: '11', title: 'Fontes oficiais', field: 'f-fontes' },
+    { num: '12', title: 'Conhecimento técnico', field: 'f-conhecimento' },
+    { num: '13', title: 'Red lines', field: 'f-redline' },
+    { num: '14', title: 'Alertas de emergência', field: 'f-emerg' },
+    { num: '15', title: 'Tratamento de dados', field: 'f-dados' },
+    { num: '16', title: 'Fecho dinâmico', field: 'f-fecho' },
+    { num: '17', title: 'Continuidade', field: 'f-continuidade' },
+  ];
+
+  function campoOuPlaceholder(fieldId) {
+    const el = document.getElementById(fieldId);
+    const val = el && el.value.trim();
+    return val ? val : '[Não preenchido]';
+  }
+
+  function gerarSecaoReconhecimento() {
+    const linhas = [
+      'Código: ' + campoOuPlaceholder('f-code'),
+      'Comportamento técnico: ' + campoOuPlaceholder('f-behaviour'),
+      'Palavra de saída: ' + campoOuPlaceholder('f-exit'),
+    ];
+    if (frozenProf && PROF[frozenProf]) {
+      linhas.push('Exemplo de referência aplicado: ' + PROF[frozenProf].nome + ' (congelado)');
+    }
+    return linhas.join('\n');
+  }
+
+  function gerarOutput() {
+    const corpo = OUTPUT_SECOES.map(s => {
+      const conteudo = s.special === 'reconhecimento' ? gerarSecaoReconhecimento() : campoOuPlaceholder(s.field);
+      return '## ' + s.num + '. ' + s.title + '\n' + conteudo;
+    }).join('\n\n');
+
+    const md = '# SYSTEM PROMPT · Assistente digital IA\n'
+      + 'Gerado por Proteína Lúdica · proteinaludica.com/criar\n\n'
+      + corpo
+      + '\n\n---\n'
+      + 'Gerado em ' + new Date().getFullYear() + ' · Proteína Lúdica LDA · proteinaludica.com';
+
+    const el = document.getElementById('codeContent');
+    if (el) el.textContent = md;
   }
 
   // ─── Fase 2: recolher opcionais ───
