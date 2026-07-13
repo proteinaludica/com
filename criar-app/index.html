@@ -2281,9 +2281,23 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   }
 
   function submitContact() {
-    const nome = document.getElementById('f-contact-name').value;
-    const email = document.getElementById('f-contact-email').value;
+    const nome = (document.getElementById('f-contact-name').value || '').trim();
+    const email = (document.getElementById('f-contact-email').value || '').trim();
     const plataforma = state.platform || '';
+
+    // Validação no frontend
+    if (!nome) {
+      alert('Por favor, preenche o nome.');
+      return;
+    }
+    if (!email) {
+      alert('Por favor, preenche o email.');
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      alert('O email não parece válido.');
+      return;
+    }
 
     fetch('/api/pedido-medida', {
       method: 'POST',
