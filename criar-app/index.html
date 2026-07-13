@@ -2281,7 +2281,34 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   }
 
   function submitContact() {
-    showPaywallStep('paywallContactSent');
+    const nome = document.getElementById('f-contact-name').value;
+    const email = document.getElementById('f-contact-email').value;
+    const plataforma = state.platform || '';
+
+    fetch('/api/pedido-medida', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        nome: nome,
+        email: email,
+        plataforma: plataforma,
+      }),
+    }).then(resp => {
+      if (resp.ok) {
+        showPaywallStep('paywallContactSent');
+      } else {
+        resp.json().then(data => {
+          console.error('Erro ao enviar pedido:', data.error);
+          alert('Ocorreu um erro. Tenta novamente mais tarde.');
+        }).catch(() => {
+          console.error('Erro desconhecido ao enviar pedido.');
+          alert('Ocorreu um erro. Tenta novamente mais tarde.');
+        });
+      }
+    }).catch(err => {
+      console.error('Erro de rede ao enviar pedido:', err);
+      alert('Erro de rede. Tenta novamente mais tarde.');
+    });
   }
 
   // ─────────── RGPD DETECTOR ───────────
