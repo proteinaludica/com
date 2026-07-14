@@ -2075,6 +2075,10 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
           <label for="f-contact-email">Email</label>
           <input type="email" id="f-contact-email" placeholder="email@exemplo.pt">
         </div>
+        <div class="form-row">
+          <label for="f-contact-telemovel">Telemóvel <span style="color:#999;">(opcional)</span></label>
+          <input type="tel" id="f-contact-telemovel" placeholder="Ex: +351 912 345 678">
+        </div>
 
         <button class="btn-accent" onclick="submitContact()">Enviar pedido</button>
       </div>
@@ -2281,9 +2285,27 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   }
 
   function submitContact() {
-    const nome = document.getElementById('f-contact-name').value;
-    const email = document.getElementById('f-contact-email').value;
+    const nome = (document.getElementById('f-contact-name').value || '').trim();
+    const email = (document.getElementById('f-contact-email').value || '').trim();
+    const telemovel = (document.getElementById('f-contact-telemovel').value || '').trim();
     const plataforma = state.platform || '';
+
+    if (!nome) {
+      alert('Por favor, preenche o nome.');
+      return;
+    }
+    if (!email) {
+      alert('Por favor, preenche o email.');
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      alert('O email não parece válido.');
+      return;
+    }
+    if (telemovel && !/^\+\d+/.test(telemovel.replace(/\s/g, ''))) {
+      alert('Telemóvel não parece válido.');
+      return;
+    }
 
     fetch('/api/pedido-medida', {
       method: 'POST',
@@ -2291,6 +2313,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       body: JSON.stringify({
         nome: nome,
         email: email,
+        telemovel: telemovel || null,
         plataforma: plataforma,
       }),
     }).then(resp => {
