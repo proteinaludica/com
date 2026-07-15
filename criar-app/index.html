@@ -2174,8 +2174,46 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     platformLabel: null,
     template: null,
     tier: null,
-    quiz: { 1: null, 2: null, 3: null }
+    quiz: { 1: null, 2: null, 3: null },
+    is_retoma: false
   };
+
+  // ─────────── RETOMA (30-DAY RESUME) ───────────
+  function carregarRetomaData() {
+    const retomaStr = sessionStorage.getItem('retoma_data');
+    if (!retomaStr) return;
+
+    try {
+      const data = JSON.parse(retomaStr);
+      sessionStorage.removeItem('retoma_data');
+
+      state.is_retoma = true;
+      state.platform = data.plataforma;
+
+      if (data.plataforma === 'claude') {
+        state.platformLabel = 'Claude Projects';
+      } else if (data.plataforma === 'gpt' || data.plataforma === 'chatgpt') {
+        state.platformLabel = 'ChatGPT Custom GPTs';
+      } else if (data.plataforma === 'gemini') {
+        state.platformLabel = 'Google Gemini Gems';
+      } else {
+        state.platformLabel = data.plataforma;
+      }
+
+      document.getElementById('f-nome').value = data.nome_assistente || '';
+      document.getElementById('f-email').value = data.email || '';
+      document.getElementById('codeContent').textContent = data.prompt_completo || '';
+
+      document.getElementById('platformName').textContent = state.platformLabel;
+      document.getElementById('platformNameUp').textContent = state.platformLabel;
+
+      goTo(4);
+    } catch (err) {
+      console.error('Erro ao carregar dados de retoma:', err);
+    }
+  }
+
+  carregarRetomaData();
 
   // ─────────── NAVIGATION ───────────
   function goTo(n) {
