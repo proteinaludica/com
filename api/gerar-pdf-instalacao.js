@@ -1,5 +1,9 @@
+// ═══════════════════════════════════════════════════════════════════
+// FICHEIRO: /api/gerar-pdf-instalacao.js (VERSÃO ACTUALIZADA)
+// ═══════════════════════════════════════════════════════════════════
 // Função serverless (Vercel) — gera PDF personalizado com guia de instalação,
-// envia via Resend com attachment, e devolve JWT token para download.
+// insere em Supabase (generated_pdfs), envia via Resend com attachment,
+// e devolve JWT token para download.
 //
 // Rate limit: 5 PDFs por IP por 24h (via Supabase `rate_limits` table)
 //
@@ -7,10 +11,10 @@
 //   SUPABASE_URL                  — URL da API Supabase
 //   SUPABASE_SERVICE_ROLE_KEY     — chave service_role
 //   RESEND_API_KEY                — chave da API Resend
-//   JWT_SECRET                    — chave para assinar JWT (gera uma aleatória de 32 chars)
+//   JWT_SECRET                    — chave para assinar JWT (32+ chars)
 //   PDF_FROM                      — remetente (fallback: nao-responder@proteinaludica.com)
 //
-// Dependências: pdfkit (já instalado)
+// Dependências: pdfkit
 
 const PDFDocument = require('pdfkit');
 const crypto = require('crypto');
@@ -29,7 +33,7 @@ function formatarDataPT() {
   return `${dia}/${mes}/${ano} ${hora}:${minuto}`;
 }
 
-// ─── TEMPLATES DOS 3 GUIAS (PT-PT, validados AMÁLIA) ───
+// ─── TEMPLATES DOS 3 GUIAS ───
 const templates = {
   claude: (nome_assistente, prompt_completo) => `Guia de instalação
 Assistente digital IA: ${nome_assistente}
@@ -175,99 +179,6 @@ O assistente organiza e dá forma ao que o profissional
 escreve ou dita. O profissional revê e decide sempre.`
 };
 
-// ─── VERIFICAÇÃO RATE LIMIT ───
-async function verificarRateLimit(ip) {
-  const supabaseUrl = process.env.SUPABASE_URL;
-  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-  if (!supabaseUrl || !supabaseKey) {
-    console.warn('Rate limit desactivado (Supabase não configurado)');
-    return { ok: true };
-  }
-
-  try {
-    // Buscar registo atual
-    const getResp = await fetch(
-      `${supabaseUrl}/rest/v1/rate_limits?ip_address=eq.${encodeURIComponent(ip)}`,
-      {
-        method: 'GET',
-        headers: {
-          'apikey': supabaseKey,
-          'Authorization': `Bearer ${supabaseKey}`,
-        },
-      }
-    );
-
-    if (!getResp.ok) throw new Error(`GET rate_limits failed: ${getResp.status}`);
-
-    const records = await getResp.json();
-    const agora = new Date();
-    const hoje = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate());
-
-    if (records.length === 0) {
-      // Novo IP — inserir
-      await fetch(`${supabaseUrl}/rest/v1/rate_limits`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'apikey': supabaseKey,
-          'Authorization': `Bearer ${supabaseKey}`,
-        },
-        body: JSON.stringify({
-          ip_address: ip,
-          request_count: 1,
-          last_reset: hoje.toISOString(),
-        }),
-      });
-      return { ok: true };
-    }
-
-    const record = records[0];
-    const lastReset = new Date(record.last_reset);
-    const lastResetDate = new Date(lastReset.getFullYear(), lastReset.getMonth(), lastReset.getDate());
-
-    // Se passou 24h, reseta
-    if (lastResetDate.getTime() < hoje.getTime()) {
-      await fetch(`${supabaseUrl}/rest/v1/rate_limits?id=eq.${record.id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          'apikey': supabaseKey,
-          'Authorization': `Bearer ${supabaseKey}`,
-        },
-        body: JSON.stringify({
-          request_count: 1,
-          last_reset: hoje.toISOString(),
-        }),
-      });
-      return { ok: true };
-    }
-
-    // Se atingiu limite (5), bloqueia
-    if (record.request_count >= 5) {
-      return { ok: false, error: 'Limite de 5 PDFs por 24 horas atingido. Tenta mais tarde.' };
-    }
-
-    // Incrementa
-    await fetch(`${supabaseUrl}/rest/v1/rate_limits?id=eq.${record.id}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        'apikey': supabaseKey,
-        'Authorization': `Bearer ${supabaseKey}`,
-      },
-      body: JSON.stringify({
-        request_count: record.request_count + 1,
-      }),
-    });
-    return { ok: true };
-  } catch (err) {
-    console.error('Erro ao verificar rate limit:', err);
-    // Fallback: permite (assume que rate limit falhou temporariamente)
-    return { ok: true };
-  }
-}
-
 // ─── GERADOR DE PDF ───
 function gerarPDF(conteudo_texto) {
   return new Promise((resolve, reject) => {
@@ -308,14 +219,104 @@ function gerarJWT(payload) {
   const secret = process.env.JWT_SECRET || 'fallback-secret-dev-only-32chars!!';
   const header = Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString('base64');
   const exp = Math.floor(Date.now() / 1000) + (30 * 24 * 60 * 60); // 30 dias
-  const body = Buffer.from(JSON.stringify({ ...payload, exp })).toString('base64');
+  const jti = crypto.randomBytes(16).toString('hex'); // JWT ID único
+  const body = Buffer.from(JSON.stringify({ ...payload, exp, jti })).toString('base64');
   const signature = crypto
     .createHmac('sha256', secret)
     .update(`${header}.${body}`)
     .digest('base64');
-  return `${header}.${body}.${signature}`;
+  return {
+    token: `${header}.${body}.${signature}`,
+    jti: jti,
+  };
 }
 
+// ─── VERIFICAÇÃO RATE LIMIT ───
+async function verificarRateLimit(ip) {
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!supabaseUrl || !supabaseKey) {
+    console.warn('Rate limit desactivado (Supabase não configurado)');
+    return { ok: true };
+  }
+
+  try {
+    const getResp = await fetch(
+      `${supabaseUrl}/rest/v1/rate_limits?ip_address=eq.${encodeURIComponent(ip)}`,
+      {
+        method: 'GET',
+        headers: {
+          'apikey': supabaseKey,
+          'Authorization': `Bearer ${supabaseKey}`,
+        },
+      }
+    );
+
+    if (!getResp.ok) throw new Error(`GET rate_limits failed: ${getResp.status}`);
+
+    const records = await getResp.json();
+    const agora = new Date();
+    const hoje = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate());
+
+    if (records.length === 0) {
+      await fetch(`${supabaseUrl}/rest/v1/rate_limits`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': supabaseKey,
+          'Authorization': `Bearer ${supabaseKey}`,
+        },
+        body: JSON.stringify({
+          ip_address: ip,
+          request_count: 1,
+          last_reset: hoje.toISOString(),
+        }),
+      });
+      return { ok: true };
+    }
+
+    const record = records[0];
+    const lastReset = new Date(record.last_reset);
+    const lastResetDate = new Date(lastReset.getFullYear(), lastReset.getMonth(), lastReset.getDate());
+
+    if (lastResetDate.getTime() < hoje.getTime()) {
+      await fetch(`${supabaseUrl}/rest/v1/rate_limits?id=eq.${record.id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': supabaseKey,
+          'Authorization': `Bearer ${supabaseKey}`,
+        },
+        body: JSON.stringify({
+          request_count: 1,
+          last_reset: hoje.toISOString(),
+        }),
+      });
+      return { ok: true };
+    }
+
+    if (record.request_count >= 5) {
+      return { ok: false, error: 'Limite de 5 PDFs por 24 horas atingido. Tenta mais tarde.' };
+    }
+
+    await fetch(`${supabaseUrl}/rest/v1/rate_limits?id=eq.${record.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': supabaseKey,
+        'Authorization': `Bearer ${supabaseKey}`,
+      },
+      body: JSON.stringify({
+        request_count: record.request_count + 1,
+      }),
+    });
+    return { ok: true };
+  } catch (err) {
+    console.error('Erro ao verificar rate limit:', err);
+    return { ok: true };
+  }
+}
 
 // ─── HANDLER PRINCIPAL ───
 module.exports = async (req, res) => {
@@ -359,13 +360,41 @@ module.exports = async (req, res) => {
     const pdfBase64 = pdfBuffer.toString('base64');
 
     // Gerar JWT para download (30 dias)
-    const token = gerarJWT({
+    const jwtData = gerarJWT({
       email: email,
       plataforma: plataforma,
       nome_assistente: nome_assistente,
     });
 
-    // Email via Resend
+    // ─── INSERIR EM SUPABASE (generated_pdfs) ───
+    const supabaseUrl = process.env.SUPABASE_URL;
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+    if (supabaseUrl && supabaseKey) {
+      try {
+        await fetch(`${supabaseUrl}/rest/v1/generated_pdfs`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': supabaseKey,
+            'Authorization': `Bearer ${supabaseKey}`,
+            'Prefer': 'return=minimal',
+          },
+          body: JSON.stringify({
+            email: email,
+            nome_assistente: nome_assistente,
+            prompt_completo: prompt_completo,
+            plataforma: plataforma,
+            token_jti: jwtData.jti,
+          }),
+        });
+      } catch (err) {
+        console.error('Erro ao guardar em generated_pdfs:', err);
+        // Não bloquear; continuar com email
+      }
+    }
+
+    // ─── EMAIL VIA RESEND ───
     const apiKey = process.env.RESEND_API_KEY;
     if (!apiKey) {
       console.error('RESEND_API_KEY em falta.');
@@ -385,7 +414,7 @@ module.exports = async (req, res) => {
       `proteinaludica.com/suporte`,
       ``,
       `Podes voltar a editar e re-gerar o PDF sem pagar outra vez:`,
-      `proteinaludica.com/criar/retomar/${token}`,
+      `proteinaludica.com/criar/retomar/${jwtData.token}`,
       ``,
       `—`,
       `Proteína Lúdica`,
@@ -422,8 +451,8 @@ module.exports = async (req, res) => {
     return res.status(200).json({
       ok: true,
       message: 'PDF gerado e enviado com sucesso.',
-      downloadUrl: `/api/download-pdf?token=${token}`,
-      token: token, // Para debugging
+      downloadUrl: `/api/download-pdf?token=${jwtData.token}`,
+      retomaUrl: `proteinaludica.com/criar/retomar/${jwtData.token}`,
     });
   } catch (err) {
     console.error('Erro no handler gerar-pdf-instalacao:', err);
