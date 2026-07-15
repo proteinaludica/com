@@ -1,0 +1,184 @@
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- FICHEIRO: /criar-app/retomar.html (NOVO) -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- Página de retoma (30 dias) — carrega dados do JWT e preenche o wizard -->
+<!-- URL: /criar/retomar/[token] -->
+
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Retomar · Assistente digital IA — Proteína Lúdica</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .retoma-loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: #f5f3f0;
+      font-family: 'Geist', sans-serif;
+    }
+    .retoma-loading h2 {
+      font-size: 18px;
+      color: #0b0e0c;
+      margin-bottom: 16px;
+    }
+    .retoma-loading p {
+      font-size: 14px;
+      color: #666;
+    }
+    .retoma-error {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: #f5f3f0;
+      padding: 20px;
+    }
+    .retoma-error-box {
+      max-width: 500px;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 40px;
+      text-align: center;
+    }
+    .retoma-error h2 {
+      font-size: 20px;
+      color: #c44536;
+      margin-bottom: 16px;
+    }
+    .retoma-error p {
+      font-size: 14px;
+      color: #666;
+      line-height: 1.6;
+    }
+    .retoma-error-code {
+      font-size: 12px;
+      color: #999;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #eee;
+    }
+    .retoma-error a {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #8faa6b;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    .retoma-error a:hover {
+      background: #7a9356;
+    }
+  </style>
+</head>
+<body>
+
+<div id="retoma-container">
+  <!-- Carregamento inicial -->
+  <div class="retoma-loading" id="retoma-loading">
+    <h2>A carregar os teus dados...</h2>
+    <p>Aguarda um momento.</p>
+  </div>
+
+  <!-- Erro (mostrado se validação falhar) -->
+  <div class="retoma-error" id="retoma-error" style="display: none;">
+    <div class="retoma-error-box">
+      <h2>Não foi possível carregar</h2>
+      <p id="retoma-error-msg">Ocorreu um erro ao validar o link.</p>
+      <div class="retoma-error-code" id="retoma-error-code"></div>
+      <a href="/criar">← Voltar ao início</a>
+    </div>
+  </div>
+
+  <!-- Wizard (mostrado se tudo OK) -->
+  <div id="retoma-wizard" style="display: none;"></div>
+</div>
+
+<script>
+  // ─── EXTRACTAR TOKEN DA URL ───
+  function extractToken() {
+    const path = window.location.pathname;
+    // /criar/retomar/[token]
+    const match = path.match(/\/criar\/retomar\/([a-zA-Z0-9._-]+)$/);
+    return match ? match[1] : null;
+  }
+
+  // ─── VALIDAR E BUSCAR DADOS ───
+  async function carregarDados() {
+    const token = extractToken();
+
+    if (!token) {
+      mostrarErro('Token em falta.', '400');
+      return;
+    }
+
+    try {
+      const resp = await fetch(`/api/retoma-dados?token=${encodeURIComponent(token)}`);
+      const json = await resp.json();
+
+      if (!resp.ok || !json.ok) {
+        let msg = json.error || 'Erro desconhecido.';
+        let code = resp.status;
+
+        if (code === 401) {
+          msg = 'Token inválido ou assinatura incorrecta.';
+        } else if (code === 410) {
+          msg = 'Link expirado. O link é válido por 30 dias.';
+        } else if (code === 404) {
+          msg = 'Dados não encontrados. Tenta novamente.';
+        }
+
+        mostrarErro(msg, code);
+        return;
+      }
+
+      // Sucesso: carregar wizard com dados
+      carregarWizardComDados(json.data, token);
+    } catch (err) {
+      console.error('Erro ao buscar dados:', err);
+      mostrarErro('Erro de conexão. Tenta mais tarde.', 'network');
+    }
+  }
+
+  // ─── MOSTRAR ERRO ───
+  function mostrarErro(msg, code) {
+    document.getElementById('retoma-loading').style.display = 'none';
+    document.getElementById('retoma-wizard').style.display = 'none';
+    document.getElementById('retoma-error').style.display = 'flex';
+    document.getElementById('retoma-error-msg').textContent = msg;
+    if (code) {
+      document.getElementById('retoma-error-code').textContent = `Código: ${code}`;
+    }
+  }
+
+  // ─── CARREGAR WIZARD COM DADOS ───
+  function carregarWizardComDados(data, token) {
+    // Guardar dados em sessionStorage para o criar.html ler
+    sessionStorage.setItem('retoma_data', JSON.stringify({
+      email: data.email,
+      nome_assistente: data.nome_assistente,
+      prompt_completo: data.prompt_completo,
+      plataforma: data.plataforma,
+      token_jti: data.token_jti,
+      expires_at: data.expires_at,
+      is_retoma: true,
+    }));
+
+    // Redireccionar para /criar
+    window.location.href = '/criar';
+  }
+
+  // ─── INICIAR ───
+  document.addEventListener('DOMContentLoaded', carregarDados);
+</script>
+
+</body>
+</html>
