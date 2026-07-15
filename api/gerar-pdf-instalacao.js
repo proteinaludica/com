@@ -1,16 +1,33 @@
 // Função serverless (Vercel) — gera PDF personalizado com guia de instalação,
-// envia via Resend, implementa rate limit via Supabase.
+// envia via Resend com attachment, e devolve JWT token para download.
 //
-// Variáveis de ambiente a definir no painel da Vercel:
+// Rate limit: 5 PDFs por IP por 24h (via Supabase `rate_limits` table)
+//
+// Variáveis de ambiente:
 //   SUPABASE_URL                  — URL da API Supabase
-//   SUPABASE_SERVICE_ROLE_KEY     — chave service_role (secreta)
-//   RESEND_API_KEY                — chave da API Resend (secreta)
-//   JWT_SECRET                    — chave para assinar tokens de download (secreta)
-//   PDF_FROM                      — remetente verificado no Resend (fallback: onboarding@resend.dev)
+//   SUPABASE_SERVICE_ROLE_KEY     — chave service_role
+//   RESEND_API_KEY                — chave da API Resend
+//   JWT_SECRET                    — chave para assinar JWT (gera uma aleatória de 32 chars)
+//   PDF_FROM                      — remetente (fallback: nao-responder@proteinaludica.com)
 //
-// Dependências: pdfkit (instalado em criar-app/package.json)
+// Dependências: pdfkit (já instalado)
 
 const PDFDocument = require('pdfkit');
+const crypto = require('crypto');
+
+function cortar(v, max) {
+  return (v == null ? '' : String(v)).trim().slice(0, max);
+}
+
+function formatarDataPT() {
+  const agora = new Date();
+  const dia = String(agora.getDate()).padStart(2, '0');
+  const mes = String(agora.getMonth() + 1).padStart(2, '0');
+  const ano = agora.getFullYear();
+  const hora = String(agora.getHours()).padStart(2, '0');
+  const minuto = String(agora.getMinutes()).padStart(2, '0');
+  return `${dia}/${mes}/${ano} ${hora}:${minuto}`;
+}
 
 // ─── TEMPLATES DOS 3 GUIAS (PT-PT, validados AMÁLIA) ───
 const templates = {
@@ -158,261 +175,237 @@ O assistente organiza e dá forma ao que o profissional
 escreve ou dita. O profissional revê e decide sempre.`
 };
 
-// ─── RATE LIMIT: verificar e atualizar ───
-async function verificarRateLimit(ipAddress) {
+// ─── VERIFICAÇÃO RATE LIMIT ───
+async function verificarRateLimit(ip) {
   const supabaseUrl = process.env.SUPABASE_URL;
   const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
   if (!supabaseUrl || !supabaseKey) {
-    // Se Supabase não está configurado, permitir (fallback)
-    return { permitido: true, mensagem: 'Rate limit não configurado' };
+    console.warn('Rate limit desactivado (Supabase não configurado)');
+    return { ok: true };
   }
 
   try {
-    // Tentar buscar o registo actual
-    const getResp = await fetch(`${supabaseUrl}/rest/v1/rate_limits?ip_address=eq.${encodeURIComponent(ipAddress)}`, {
-      method: 'GET',
-      headers: {
-        'apikey': supabaseKey,
-        'Authorization': `Bearer ${supabaseKey}`,
-      },
-    });
+    // Buscar registo atual
+    const getResp = await fetch(
+      `${supabaseUrl}/rest/v1/rate_limits?ip_address=eq.${encodeURIComponent(ip)}`,
+      {
+        method: 'GET',
+        headers: {
+          'apikey': supabaseKey,
+          'Authorization': `Bearer ${supabaseKey}`,
+        },
+      }
+    );
 
-    if (!getResp.ok) {
-      console.error('Erro ao buscar rate limit:', getResp.status);
-      return { permitido: true, mensagem: 'Erro ao verificar rate limit' };
-    }
+    if (!getResp.ok) throw new Error(`GET rate_limits failed: ${getResp.status}`);
 
-    const dados = await getResp.json();
+    const records = await getResp.json();
     const agora = new Date();
-    const limiteRequisicoes = 5; // max 5 por hora
-    const janela = 3600000; // 1 hora em ms
+    const hoje = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate());
 
-    if (dados.length === 0) {
-      // Primeiro pedido desta IP — criar registo
-      const insertResp = await fetch(`${supabaseUrl}/rest/v1/rate_limits`, {
+    if (records.length === 0) {
+      // Novo IP — inserir
+      await fetch(`${supabaseUrl}/rest/v1/rate_limits`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'apikey': supabaseKey,
           'Authorization': `Bearer ${supabaseKey}`,
-          'Prefer': 'return=minimal',
         },
         body: JSON.stringify({
-          ip_address: ipAddress,
+          ip_address: ip,
           request_count: 1,
-          last_reset: agora.toISOString(),
+          last_reset: hoje.toISOString(),
         }),
       });
-
-      if (!insertResp.ok) {
-        console.error('Erro ao criar rate limit:', insertResp.status);
-      }
-
-      return { permitido: true, mensagem: 'Primeira requisição' };
+      return { ok: true };
     }
 
-    const registo = dados[0];
-    const lastReset = new Date(registo.last_reset);
-    const tempoDecorrido = agora - lastReset;
+    const record = records[0];
+    const lastReset = new Date(record.last_reset);
+    const lastResetDate = new Date(lastReset.getFullYear(), lastReset.getMonth(), lastReset.getDate());
 
-    if (tempoDecorrido > janela) {
-      // Janela expirou — resetar contador
-      const updateResp = await fetch(`${supabaseUrl}/rest/v1/rate_limits?ip_address=eq.${encodeURIComponent(ipAddress)}`, {
+    // Se passou 24h, reseta
+    if (lastResetDate.getTime() < hoje.getTime()) {
+      await fetch(`${supabaseUrl}/rest/v1/rate_limits?id=eq.${record.id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           'apikey': supabaseKey,
           'Authorization': `Bearer ${supabaseKey}`,
-          'Prefer': 'return=minimal',
         },
         body: JSON.stringify({
           request_count: 1,
-          last_reset: agora.toISOString(),
+          last_reset: hoje.toISOString(),
         }),
       });
-
-      if (!updateResp.ok) {
-        console.error('Erro ao resetar rate limit:', updateResp.status);
-      }
-
-      return { permitido: true, mensagem: 'Contador resetado' };
+      return { ok: true };
     }
 
-    // Janela ainda activa — verificar se atingiu limite
-    if (registo.request_count >= limiteRequisicoes) {
-      return { permitido: false, mensagem: `Limite de ${limiteRequisicoes} PDFs por hora atingido. Tenta novamente mais tarde.` };
+    // Se atingiu limite (5), bloqueia
+    if (record.request_count >= 5) {
+      return { ok: false, error: 'Limite de 5 PDFs por 24 horas atingido. Tenta mais tarde.' };
     }
 
-    // Incrementar contador
-    const updateResp = await fetch(`${supabaseUrl}/rest/v1/rate_limits?ip_address=eq.${encodeURIComponent(ipAddress)}`, {
+    // Incrementa
+    await fetch(`${supabaseUrl}/rest/v1/rate_limits?id=eq.${record.id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
         'apikey': supabaseKey,
         'Authorization': `Bearer ${supabaseKey}`,
-        'Prefer': 'return=minimal',
       },
       body: JSON.stringify({
-        request_count: registo.request_count + 1,
+        request_count: record.request_count + 1,
       }),
     });
-
-    if (!updateResp.ok) {
-      console.error('Erro ao incrementar rate limit:', updateResp.status);
-    }
-
-    return { permitido: true, mensagem: 'Dentro do limite' };
+    return { ok: true };
   } catch (err) {
     console.error('Erro ao verificar rate limit:', err);
-    return { permitido: true, mensagem: 'Erro ao verificar rate limit (fallback)' };
+    // Fallback: permite (assume que rate limit falhou temporariamente)
+    return { ok: true };
   }
 }
 
-// ─── GERAR PDF ───
-function gerarPDF(conteudo) {
+// ─── GERADOR DE PDF ───
+function gerarPDF(conteudo_texto) {
   return new Promise((resolve, reject) => {
-    const chunks = [];
     const doc = new PDFDocument({
       size: 'A4',
-      margin: 40,
+      margin: 50,
       bufferPages: true,
     });
 
-    doc.on('data', chunk => chunks.push(chunk));
-    doc.on('end', () => resolve(Buffer.concat(chunks)));
+    let buffers = [];
+    doc.on('data', (chunk) => buffers.push(chunk));
+    doc.on('end', () => resolve(Buffer.concat(buffers)));
     doc.on('error', reject);
 
-    // Fonte padrão
-    doc.fontSize(11).font('Helvetica');
+    // Título
+    doc.fontSize(16).font('Helvetica-Bold').text('Guia de instalação', { align: 'left' });
+    doc.moveDown(0.5);
 
-    // Dividir conteúdo em linhas e renderizar
-    const linhas = conteudo.split('\n');
-    let y = doc.y;
-    const maxY = doc.page.height - 40;
-
-    linhas.forEach((linha, index) => {
-      // Verificar se precisa de nova página
-      if (y > maxY) {
-        doc.addPage();
-        y = 40;
-      }
-
-      // Detectar títulos (linhas com apenas '─' ou texto simples)
-      if (linha.startsWith('──────')) {
-        doc.fontSize(10).font('Helvetica-Bold');
-        y = doc.y;
-      } else if (linha.match(/^Guia de instalação|^Assistente digital|^Plataforma:/)) {
-        doc.fontSize(13).font('Helvetica-Bold');
-        y = doc.y;
-      } else if (linha.match(/^O que é preciso ter|^Passo a passo|^O prompt do assistente|^Nota/)) {
-        doc.fontSize(11).font('Helvetica-Bold');
-        y = doc.y;
-      } else if (linha.match(/^\d+\.|^────────/)) {
-        doc.fontSize(10).font('Helvetica');
-        y = doc.y;
+    // Conteúdo (quebra de linhas respeitadas)
+    doc.fontSize(10).font('Helvetica');
+    const linhas = conteudo_texto.split('\n');
+    linhas.forEach((linha) => {
+      if (linha.trim() === '') {
+        doc.moveDown(0.3);
+      } else if (linha.startsWith('─')) {
+        doc.moveDown(0.2);
       } else {
-        doc.fontSize(10).font('Helvetica');
-        y = doc.y;
+        doc.text(linha, { width: 495 });
       }
-
-      doc.text(linha);
-      y = doc.y;
     });
 
     doc.end();
   });
 }
 
-// ─── EMAIL TEMPLATE ───
-function gerarEmailBody(nome_assistente, plataforma_label) {
-  return `Olá!
-
-O teu assistente digital IA "${nome_assistente}" está pronto para usar em ${plataforma_label}.
-
-Anexado encontras o guia passo-a-passo com todas as instruções de instalação.
-
-Se tiveres dúvidas, responde a este email ou visita proteinaludica.com/suporte.
-
-Podes voltar a editar e re-gerar o PDF sem pagar outra vez em:
-proteinaludica.com/criar/retomar
-
-—
-Proteína Lúdica
-proteinaludica.com`;
+// ─── GERADOR DE JWT (30 dias) ───
+function gerarJWT(payload) {
+  const secret = process.env.JWT_SECRET || 'fallback-secret-dev-only-32chars!!';
+  const header = Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString('base64');
+  const exp = Math.floor(Date.now() / 1000) + (30 * 24 * 60 * 60); // 30 dias
+  const body = Buffer.from(JSON.stringify({ ...payload, exp })).toString('base64');
+  const signature = crypto
+    .createHmac('sha256', secret)
+    .update(`${header}.${body}`)
+    .digest('base64');
+  return `${header}.${body}.${signature}`;
 }
+
 
 // ─── HANDLER PRINCIPAL ───
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
-    return res.status(405).json({ success: false, error: 'Método não permitido.' });
+    return res.status(405).json({ ok: false, error: 'Método não permitido.' });
   }
 
   try {
     const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
 
-    // Validar campos obrigatórios
-    const { plataforma, nome_assistente, missao, prompt_completo, email } = body;
+    // Validação de entrada
+    const plataforma = cortar(body.plataforma, 60);
+    const nome_assistente = cortar(body.nome_assistente, 120);
+    const prompt_completo = cortar(body.prompt_completo, 50000);
+    const email = cortar(body.email, 200);
 
     if (!plataforma || !['claude', 'chatgpt', 'gemini'].includes(plataforma)) {
-      return res.status(400).json({ success: false, error: 'Plataforma inválida. Use: claude, chatgpt ou gemini.' });
+      return res.status(400).json({ ok: false, error: 'Plataforma inválida.' });
+    }
+    if (!nome_assistente || !prompt_completo || !email) {
+      return res.status(400).json({ ok: false, error: 'Campos obrigatórios em falta.' });
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return res.status(400).json({ ok: false, error: 'Email inválido.' });
     }
 
-    if (!nome_assistente || nome_assistente.trim().length === 0) {
-      return res.status(400).json({ success: false, error: 'Nome do assistente obrigatório.' });
+    // Rate limit
+    const ip = req.headers['x-forwarded-for']?.split(',')[0] || req.socket.remoteAddress || 'unknown';
+    const rateLimitCheck = await verificarRateLimit(ip);
+    if (!rateLimitCheck.ok) {
+      return res.status(429).json({ ok: false, error: rateLimitCheck.error });
     }
 
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      return res.status(400).json({ success: false, error: 'Email inválido.' });
-    }
+    // Gerar conteúdo do PDF
+    const templateFunc = templates[plataforma];
+    const conteudo_pdf = templateFunc(nome_assistente, prompt_completo);
 
-    if (!prompt_completo || prompt_completo.trim().length === 0) {
-      return res.status(400).json({ success: false, error: 'Prompt completo obrigatório.' });
-    }
-
-    // ─── RATE LIMIT ───
-    const ipAddress = (req.headers['x-forwarded-for'] || req.socket.remoteAddress || '').split(',')[0].trim();
-    const rateLimit = await verificarRateLimit(ipAddress);
-
-    if (!rateLimit.permitido) {
-      return res.status(429).json({ success: false, error: rateLimit.mensagem });
-    }
-
-    // ─── GERAR PDF ───
-    const template = templates[plataforma];
-    const conteudo = template(nome_assistente, prompt_completo);
-    const pdfBuffer = await gerarPDF(conteudo);
+    // Gerar PDF
+    const pdfBuffer = await gerarPDF(conteudo_pdf);
     const pdfBase64 = pdfBuffer.toString('base64');
 
-    // ─── PREPARAR EMAIL ───
-    const plataformas = { claude: 'Claude Projects', chatgpt: 'ChatGPT', gemini: 'Google Gemini' };
-    const plataformaLabel = plataformas[plataforma];
-    const resendApiKey = process.env.RESEND_API_KEY;
-    const pdfFrom = process.env.PDF_FROM || 'Proteína Lúdica <onboarding@resend.dev>';
+    // Gerar JWT para download (30 dias)
+    const token = gerarJWT({
+      email: email,
+      plataforma: plataforma,
+      nome_assistente: nome_assistente,
+    });
 
-    if (!resendApiKey) {
+    // Email via Resend
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) {
       console.error('RESEND_API_KEY em falta.');
-      return res.status(500).json({ success: false, error: 'Serviço de email não configurado.' });
+      return res.status(500).json({ ok: false, error: 'Serviço de email não configurado.' });
     }
 
-    // ─── ENVIAR RESEND COM ATTACHMENT ───
-    const emailBody = gerarEmailBody(nome_assistente, plataformaLabel);
+    const from = process.env.PDF_FROM || 'Proteína Lúdica <nao-responder@proteinaludica.com>';
+    const dataPT = formatarDataPT();
+
+    const emailBody = [
+      `Olá!`,
+      ``,
+      `O teu assistente digital IA "${nome_assistente}" está pronto.`,
+      `Anexado encontras o guia passo-a-passo para instalares em ${plataforma === 'claude' ? 'Claude Projects' : plataforma === 'chatgpt' ? 'ChatGPT' : 'Google Gemini'}.`,
+      ``,
+      `Se tiveres dúvidas, responde a este email ou visita:`,
+      `proteinaludica.com/suporte`,
+      ``,
+      `Podes voltar a editar e re-gerar o PDF sem pagar outra vez:`,
+      `proteinaludica.com/criar/retomar/${token}`,
+      ``,
+      `—`,
+      `Proteína Lúdica`,
+      `proteinaludica.com`,
+    ].join('\n');
 
     const emailResp = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${resendApiKey}`,
+        'Authorization': 'Bearer ' + apiKey,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: pdfFrom,
+        from: from,
         to: [email],
         subject: `O teu assistente digital IA: ${nome_assistente} — Guia de instalação`,
         text: emailBody,
         attachments: [
           {
-            filename: `${nome_assistente.replace(/\s+/g, '-')}-guia-instalacao.pdf`,
+            filename: `Guia_${nome_assistente.replace(/\s+/g, '_')}.pdf`,
             content: pdfBase64,
           },
         ],
@@ -422,20 +415,18 @@ module.exports = async (req, res) => {
     if (!emailResp.ok) {
       const detalhe = await emailResp.text();
       console.error('Erro Resend:', emailResp.status, detalhe);
-      return res.status(502).json({ success: false, error: 'Não foi possível enviar o PDF agora.' });
+      return res.status(502).json({ ok: false, error: 'Não foi possível enviar o email agora.' });
     }
 
-    // ─── RESPOSTA COM DOWNLOAD URL ───
-    // Nota: Para MVP, devolver um placeholder. A URL real seria gerada com token JWT.
-    const downloadUrl = `/download-pdf?token=temp-${Date.now()}`;
-
+    // Resposta sucesso
     return res.status(200).json({
-      success: true,
-      downloadUrl: downloadUrl,
-      mensagem: `PDF enviado para ${email}`,
+      ok: true,
+      message: 'PDF gerado e enviado com sucesso.',
+      downloadUrl: `/api/download-pdf?token=${token}`,
+      token: token, // Para debugging
     });
   } catch (err) {
-    console.error('Erro ao gerar PDF:', err);
-    return res.status(500).json({ success: false, error: 'Ocorreu um erro inesperado.' });
+    console.error('Erro no handler gerar-pdf-instalacao:', err);
+    return res.status(500).json({ ok: false, error: 'Ocorreu um erro inesperado.' });
   }
 };
