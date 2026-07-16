@@ -1281,8 +1281,8 @@
 <section class="screen active" id="screen-1">
   <div class="screen-inner">
     <div class="step-label">Passo 1 de 4</div>
-    <h1 class="screen-title">Onde queres que o teu assistente digital IA <em>viva?</em></h1>
-    <p class="screen-sub">Cada plataforma tem vantagens diferentes. Escolhe a que já usas — ou pede-nos para escolher por ti.</p>
+    <h1 class="screen-title">Onde vai instalar o assistente digital IA?</h1>
+    <p class="screen-sub">Cada plataforma tem vantagens diferentes. Escolher a que se usa — ou pedir à Proteína Lúdica que escolha.</p>
 
     <div class="platform-grid">
       <button class="platform-card" style="border-color:var(--accent); position:relative;" onclick="selectPlatform('claude','Claude Projects')">
@@ -1313,7 +1313,7 @@
       <button class="platform-card" onclick="selectPlatform('perplexity','Perplexity Spaces')">
         <div class="platform-badge b-perplexity">P</div>
         <div class="platform-name">Perplexity Spaces</div>
-        <div class="platform-desc">Se precisas de citações e fontes verificáveis.</div>
+        <div class="platform-desc">Para quem precisa de citações e fontes verificáveis.</div>
       </button>
 
       <button class="platform-card" onclick="selectPlatform('mistral','Mistral Le Chat')">
@@ -1322,7 +1322,7 @@
         <div class="platform-desc">LLM europeu. Privacidade máxima, dados na UE.</div>
       </button>
 
-      <button class="platform-card" style="border-style:dashed; border-color:#6B3FA0; cursor:not-allowed; opacity:0.85; position:relative;" onclick="alert('Em desenvolvimento. Em breve poderás alojar o teu assistente directamente na Proteína Lúdica, sem o copiar para outra plataforma.')">
+      <button class="platform-card" style="border-style:dashed; border-color:#6B3FA0; cursor:not-allowed; opacity:0.85; position:relative;" onclick="alert('Em desenvolvimento. Em breve, será possível alojar o assistente digital IA diretamente na Proteína Lúdica, sem o copiar para outra plataforma.')">
         <div style="position:absolute; top:10px; right:10px; font-family:var(--font-mono); font-size:9px; letter-spacing:0.06em; text-transform:uppercase; color:#6B3FA0; background:#F0E9F8; padding:2px 8px; border-radius:3px;">Em breve</div>
         <div class="platform-badge" style="background:#6B3FA0;">PL</div>
         <div class="platform-name">Proteína Lúdica</div>
@@ -1334,7 +1334,7 @@
           <div class="platform-badge b-other">?</div>
           <div>
             <div class="platform-name">Outro / não sei</div>
-            <div class="platform-desc">Recebes um bloco universal que funciona em qualquer LLM. Cola no campo de instructions da tua plataforma.</div>
+            <div class="platform-desc">É devolvido um bloco universal que funciona em qualquer LLM. A colar no campo de instruções da plataforma escolhida.</div>
           </div>
         </div>
       </button>
@@ -1353,13 +1353,13 @@
   <div class="screen-inner">
     <div class="step-label">Passo 2 de 4</div>
     <h1 class="screen-title">Partir do <em>quê?</em></h1>
-    <p class="screen-sub">Podes clonar um assistente digital IA pronto e só mudar o que importa. Ou começar em branco se tens ideia própria.</p>
+    <p class="screen-sub">É possível clonar um assistente digital IA pronto e mudar apenas o que importa. Ou começar do zero, caso  tenha uma ideia própria.</p>
 
     <div class="template-grid">
       <button class="template-card" onclick="selectTemplate('catalogo')">
         <div class="template-tag">Catálogo · 5 assistentes digitais IA prontos</div>
         <div class="template-title">Partir de um<br>assistente digital IA pronto</div>
-        <div class="template-desc">As 17 secções já pré-preenchidas com o assistente digital IA que escolheres. Só editas o que é específico de ti.</div>
+        <div class="template-desc">As 17 secções já estão pré-preenchidas com o assistente digital IA escolhido. Edição apenas do que é específico de cada caso.</div>
         <ul class="template-list">
           <li>Dr. Escriba IA · MGF + Urgência</li>
           <li>Dr. Escriba IA · Internato</li>
@@ -1372,7 +1372,7 @@
       <button class="template-card featured" onclick="selectTemplate('branco')">
         <div class="template-tag">Branco · 17 secções</div>
         <div class="template-title">Template em<br>branco</div>
-        <div class="template-desc">Para profissionais que querem construir algo próprio do zero. A estrutura das 17 secções está definida, os campos estão vazios — tu preenches.</div>
+        <div class="template-desc">Para profissionais que querem construir algo próprio do zero. A estrutura das 17 secções está definida, os campos estão vazios — o preenchimento fica a cargo do utilizador.</div>
         <ul class="template-list">
           <li>Identidade e persona</li>
           <li>Protocolo de reconhecimento</li>
@@ -1386,7 +1386,7 @@
 
     <div class="template-skip">
       <div class="template-skip-text">
-        Já tens um assistente digital IA a funcionar e só queres os materiais de RGPD e guia de configuração?
+        Já existe um assistente digital IA a funcionar e faltam apenas os materiais de RGPD e o guia de configuração?
       </div>
       <span class="template-skip-link" onclick="goTo(4); updatePaymentState();">Ir direto ao upgrade →</span>
     </div>
@@ -1945,8 +1945,8 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
 
     <div id="paywallTiers">
       <div class="step-label">Passo final</div>
-      <h1 class="screen-title">Como queres <em>continuar?</em></h1>
-      <p class="screen-sub">Escolhe o patamar que melhor serve o que precisas agora — podes sempre voltar a este ecrã.</p>
+      <h1 class="screen-title">Como continuar?</h1>
+      <p class="screen-sub">O patamar que melhor serve a necessidade atual — é sempre possível voltar a este ecrã.</p>
 
       <div class="tier-grid">
         <button class="tier-card" data-tier="free" onclick="selectTier('free', this)">
@@ -2067,11 +2067,11 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       <div class="paywall-form" style="max-width:420px; margin:0 auto;">
         <div class="step-label">Entramos em contacto</div>
         <h1 class="screen-title">Pedir <em>contacto.</em></h1>
-        <p class="screen-sub">Deixa o teu nome e email — respondemos com uma proposta à medida.</p>
+        <p class="screen-sub">Nome e email — a resposta segue com uma proposta à medida.</p>
 
         <div class="form-row">
           <label for="f-contact-name">Nome</label>
-          <input type="text" id="f-contact-name" placeholder="O teu nome">
+          <input type="text" id="f-contact-name" placeholder="Nome">
         </div>
         <div class="form-row">
           <label for="f-contact-email">Email</label>
@@ -2101,8 +2101,8 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     <div class="success-check"></div>
     <h1 class="success-title">Pagamento <em>confirmado.</em></h1>
     <p class="success-text">
-      Enviámos o teu kit completo para <span class="success-email" id="successEmail">o teu email</span>.<br>
-      Também o podes descarregar já:
+      O kit completo foi enviado para <span class="success-email" id="successEmail">o email indicado</span>.<br>
+      Também pode ser descarregado já:
     </p>
 
     <div class="success-actions">
@@ -2112,7 +2112,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
 
     <div class="success-retoma">
       <div class="success-retoma-title">Link de retoma · 30 dias</div>
-      Guarda este link para editares o teu assistente digital IA e re-gerar o PDF sem pagar outra vez:
+      Este link permite editar o assistente digital IA e voltar a gerar o PDF sem novo pagamento:
       <code>proteinaludica.com/criar/retomar/a7f3-9b2c-x8d1</code>
     </div>
   </div>
@@ -2123,11 +2123,11 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
 <!-- ════════════════════════════════════════════ -->
 <div class="modal-overlay" id="quizModal" onclick="if(event.target===this) closeQuizModal()">
   <div class="modal">
-    <div class="modal-title">Deixa-nos recomendar</div>
+    <div class="modal-title">Deixa-nos uma recomendação</div>
     <p style="font-size:14px; color:var(--ink2); margin-bottom:0.5rem;">Três perguntas rápidas.</p>
 
     <div class="modal-q">
-      <div class="modal-q-title">1. Já tens licença paga de alguma destas?</div>
+      <div class="modal-q-title">1. Já existe licença paga de alguma destas?</div>
       <div class="modal-q-opts" data-q="1">
         <button class="modal-q-opt" onclick="selectQuiz(this,1,'none')">Nenhuma</button>
         <button class="modal-q-opt" onclick="selectQuiz(this,1,'claude')">Claude Pro</button>
@@ -2138,7 +2138,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     </div>
 
     <div class="modal-q">
-      <div class="modal-q-title">2. Precisas que leia o teu email, Drive ou SharePoint?</div>
+      <div class="modal-q-title">2. É necessário que leia email, Drive ou SharePoint?</div>
       <div class="modal-q-opts" data-q="2">
         <button class="modal-q-opt" onclick="selectQuiz(this,2,'yes')">Sim</button>
         <button class="modal-q-opt" onclick="selectQuiz(this,2,'no')">Não</button>
@@ -2376,7 +2376,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
 
   // ─────────── SUCCESS ───────────
   function goToSuccess() {
-    const email = document.getElementById('f-email').value || 'o teu email';
+    const email = document.getElementById('f-email').value || 'o email indicado';
     document.getElementById('successEmail').textContent = email;
     enviarGuiaInstalacao(email);
     goTo(6);
@@ -2385,7 +2385,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   // Pede a geração e o envio por email do guia de instalação (PDF) com o
   // conteúdo real do profissional, para a plataforma escolhida no Ecrã 1.
   function enviarGuiaInstalacao(email) {
-    if (!email || email === 'o teu email') return;
+    if (!email || email === 'o email indicado') return;
     fetch('/api/gerar-pdf-instalacao', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -2450,10 +2450,10 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     const q = state.quiz;
     let rec = '';
     // lógica simples de recomendação
-    if (q[1] === 'claude') rec = 'Claude Projects. Já tens Pro e é o mais forte em raciocínio clínico longo.';
+    if (q[1] === 'claude') rec = 'Claude Projects. Para quem já tem Pro; é o mais forte no raciocínio longo.';
     else if (q[1] === 'm365') rec = 'Microsoft Copilot Agents. Integra-se com o Outlook e SharePoint que já usas.';
-    else if (q[1] === 'gws') rec = 'Google Gemini Gems. Liga directo ao teu Gmail e Drive sem setup.';
-    else if (q[1] === 'gpt') rec = 'ChatGPT Custom GPTs. Aproveita a licença Plus que já tens.';
+    else if (q[1] === 'gws') rec = 'Google Gemini Gems. Liga-se diretamente a Gmail e Drive sem configuração.';
+    else if (q[1] === 'gpt') rec = 'ChatGPT Custom GPTs. Aproveita uma licença Plus já existente.';
     else if (q[2] === 'yes') rec = 'Gemini (se usas Google) ou Copilot (se usas M365). Ambos lêem emails e ficheiros sem ficheiro-a-ficheiro.';
     else if (q[3] === 'solo') rec = 'Claude Projects. Sem licenças de equipa, melhor para uso individual e privado.';
     else if (q[3] === 'clinic') rec = 'Microsoft Copilot ou Google Gemini. Ambos têm gestão central e licenças por utilizador.';
