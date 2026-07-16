@@ -1168,7 +1168,8 @@
   .field-actions { display: flex; align-items: center; gap: 8px; margin-top: 7px; flex-wrap: wrap; }
   .btn-example { display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.04em; color: var(--accent); background: var(--accent-light); border: 0.5px solid transparent; padding: 4px 10px; border-radius: 4px; cursor: pointer; transition: all 0.15s; }
   .btn-example:hover { border-color: var(--accent); }
-  .btn-pro { display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.04em; color: #6B3FA0; background: #F0E9F8; border: 0.5px dashed #6B3FA0; padding: 4px 10px; border-radius: 4px; cursor: not-allowed; opacity: 0.85; position: relative; }
+  .btn-pro { display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.04em; color: #6B3FA0; background: #F0E9F8; border: 0.5px dashed #6B3FA0; padding: 4px 10px; border-radius: 4px; cursor: pointer; opacity: 1; position: relative; transition: all 0.15s; }
+  .btn-pro:hover { background: #E8DFF5; border-style: solid; }
   .btn-pro:hover .pro-tip { opacity: 1; transform: translateX(-50%) translateY(0); }
   .pro-tip { position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%) translateY(4px); background: var(--ink); color: white; font-family: var(--font-body); font-size: 11px; letter-spacing: 0; padding: 6px 10px; border-radius: 5px; white-space: nowrap; opacity: 0; transition: all 0.2s; z-index: 10; box-shadow: var(--shadow-lg); pointer-events: none; }
   .pro-tip::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-top-color: var(--ink); }
@@ -1280,8 +1281,8 @@
 <section class="screen active" id="screen-1">
   <div class="screen-inner">
     <div class="step-label">Passo 1 de 4</div>
-    <h1 class="screen-title">Onde queres que o teu assistente digital IA <em>viva?</em></h1>
-    <p class="screen-sub">Cada plataforma tem vantagens diferentes. Escolhe a que já usas — ou pede-nos para escolher por ti.</p>
+    <h1 class="screen-title">Onde vai instalar o assistente digital IA?</h1>
+    <p class="screen-sub">Cada plataforma tem vantagens diferentes. Escolher a que se usa — ou pedir à Proteína Lúdica que escolha.</p>
 
     <div class="platform-grid">
       <button class="platform-card" style="border-color:var(--accent); position:relative;" onclick="selectPlatform('claude','Claude Projects')">
@@ -1312,7 +1313,7 @@
       <button class="platform-card" onclick="selectPlatform('perplexity','Perplexity Spaces')">
         <div class="platform-badge b-perplexity">P</div>
         <div class="platform-name">Perplexity Spaces</div>
-        <div class="platform-desc">Se precisas de citações e fontes verificáveis.</div>
+        <div class="platform-desc">Para quem precisa de citações e fontes verificáveis.</div>
       </button>
 
       <button class="platform-card" onclick="selectPlatform('mistral','Mistral Le Chat')">
@@ -1321,7 +1322,7 @@
         <div class="platform-desc">LLM europeu. Privacidade máxima, dados na UE.</div>
       </button>
 
-      <button class="platform-card" style="border-style:dashed; border-color:#6B3FA0; cursor:not-allowed; opacity:0.85; position:relative;" onclick="alert('Em desenvolvimento. Em breve poderás alojar o teu assistente directamente na Proteína Lúdica, sem o copiar para outra plataforma.')">
+      <button class="platform-card" style="border-style:dashed; border-color:#6B3FA0; cursor:not-allowed; opacity:0.85; position:relative;" onclick="alert('Em desenvolvimento. Em breve, será possível alojar o assistente digital IA diretamente na Proteína Lúdica, sem o copiar para outra plataforma.')">
         <div style="position:absolute; top:10px; right:10px; font-family:var(--font-mono); font-size:9px; letter-spacing:0.06em; text-transform:uppercase; color:#6B3FA0; background:#F0E9F8; padding:2px 8px; border-radius:3px;">Em breve</div>
         <div class="platform-badge" style="background:#6B3FA0;">PL</div>
         <div class="platform-name">Proteína Lúdica</div>
@@ -1333,7 +1334,7 @@
           <div class="platform-badge b-other">?</div>
           <div>
             <div class="platform-name">Outro / não sei</div>
-            <div class="platform-desc">Recebes um bloco universal que funciona em qualquer LLM. Cola no campo de instructions da tua plataforma.</div>
+            <div class="platform-desc">É devolvido um bloco universal que funciona em qualquer LLM. A colar no campo de instruções da plataforma escolhida.</div>
           </div>
         </div>
       </button>
@@ -1352,13 +1353,13 @@
   <div class="screen-inner">
     <div class="step-label">Passo 2 de 4</div>
     <h1 class="screen-title">Partir do <em>quê?</em></h1>
-    <p class="screen-sub">Podes clonar um assistente digital IA pronto e só mudar o que importa. Ou começar em branco se tens ideia própria.</p>
+    <p class="screen-sub">É possível clonar um assistente digital IA pronto e mudar apenas o que importa. Ou começar do zero, caso tenha uma ideia própria.</p>
 
     <div class="template-grid">
       <button class="template-card" onclick="selectTemplate('catalogo')">
         <div class="template-tag">Catálogo · 5 assistentes digitais IA prontos</div>
         <div class="template-title">Partir de um<br>assistente digital IA pronto</div>
-        <div class="template-desc">As 17 secções já pré-preenchidas com o assistente digital IA que escolheres. Só editas o que é específico de ti.</div>
+        <div class="template-desc">As 17 secções já estão pré-preenchidas com o assistente digital IA escolhido. Edição apenas do que é específico de cada caso.</div>
         <ul class="template-list">
           <li>Dr. Escriba IA · MGF + Urgência</li>
           <li>Dr. Escriba IA · Internato</li>
@@ -1371,7 +1372,7 @@
       <button class="template-card featured" onclick="selectTemplate('branco')">
         <div class="template-tag">Branco · 17 secções</div>
         <div class="template-title">Template em<br>branco</div>
-        <div class="template-desc">Para profissionais que querem construir algo próprio do zero. A estrutura das 17 secções está definida, os campos estão vazios — tu preenches.</div>
+        <div class="template-desc">Para profissionais que querem construir algo próprio do zero. A estrutura das 17 secções está definida, os campos estão vazios — o preenchimento fica a cargo do utilizador.</div>
         <ul class="template-list">
           <li>Identidade e persona</li>
           <li>Protocolo de reconhecimento</li>
@@ -1385,7 +1386,7 @@
 
     <div class="template-skip">
       <div class="template-skip-text">
-        Já tens um assistente digital IA a funcionar e só queres os materiais de RGPD e guia de configuração?
+        Já existe um assistente digital IA a funcionar e faltam apenas os materiais de RGPD e o guia de configuração?
       </div>
       <span class="template-skip-link" onclick="goTo(4); updatePaymentState();">Ir direto ao upgrade →</span>
     </div>
@@ -1449,7 +1450,7 @@
                 <button type="button" class="chip" data-insert="É o assistente que " onclick="insertChip('f-nome', this)">É o assistente que…</button>
               </div>
               <div class="field-actions">
-                <span class="btn-pro">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></span>
+                <button type="button" class="btn-pro" onclick="goToProPricing()">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></button>
               </div>
             </div>
           </div>
@@ -1468,7 +1469,7 @@
                 <button type="button" class="chip" data-insert="O que me distingue é " onclick="insertChip('f-missao', this)">O que me distingue é…</button>
               </div>
               <div class="field-actions">
-                <span class="btn-pro">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></span>
+                <button type="button" class="btn-pro" onclick="goToProPricing()">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></button>
               </div>
             </div>
           </div>
@@ -1488,7 +1489,7 @@
                 <button type="button" class="chip" data-insert="Em nenhum caso " onclick="insertChip('f-redline', this)">Em nenhum caso…</button>
               </div>
               <div class="field-actions">
-                <span class="btn-pro">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></span>
+                <button type="button" class="btn-pro" onclick="goToProPricing()">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></button>
               </div>
             </div>
           </div>
@@ -1508,7 +1509,7 @@
                 <button type="button" class="chip" data-insert="Se surgir " onclick="insertChip('f-emerg', this)">Se surgir…</button>
               </div>
               <div class="field-actions">
-                <span class="btn-pro">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></span>
+                <button type="button" class="btn-pro" onclick="goToProPricing()">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></button>
               </div>
             </div>
           </div>
@@ -1528,7 +1529,7 @@
                 <button type="button" class="chip" data-insert="Lembra que " onclick="insertChip('f-fecho', this)">Lembra que…</button>
               </div>
               <div class="field-actions">
-                <span class="btn-pro">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></span>
+                <button type="button" class="btn-pro" onclick="goToProPricing()">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></button>
               </div>
             </div>
           </div>
@@ -1559,10 +1560,10 @@
         <textarea id="f-publico" placeholder="Descreva em 1-2 frases quem recebe estes textos." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button class="btn-example" data-example="Um nutricionista poderia indicar &quot;clientes adultos, com pouca familiaridade com termos técnicos&quot;. Um advogado poderia indicar &quot;clientes empresariais que esperam linguagem formal&quot;." onclick="fillFieldExample('f-publico', this)">↳ ver exemplo</button>
-          <span class="btn-pro">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></span>
+          <button type="button" class="btn-pro" onclick="goToProPricing()">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></button>
         </div>
         <div class="pro-reveal">
-          <button type="button" class="btn-pro-toggle" onclick="toggleProExample(this)">✨ ver versão Pro →</button>
+          <button type="button" class="btn-pro-toggle">✨ ver versão Pro →</button>
           <div class="pro-reveal-panel" hidden>
             <div class="pro-reveal-text"><strong>Clientes empresariais:</strong> PMEs entre 5-50 colaboradores, sem departamento financeiro próprio, que pedem sobretudo apoio em <strong>IVA trimestral</strong> e <strong>fecho de contas</strong>. Tom: directo, sem jargão contabilístico não explicado. <strong>Clientes particulares:</strong> sobretudo <strong>IRS anual</strong>, menor tolerância a prazos apertados — avisar sempre com antecedência.</div>
             <button class="btn-example" data-example="Clientes empresariais: PMEs entre 5-50 colaboradores, sem departamento financeiro próprio, que pedem sobretudo apoio em IVA trimestral e fecho de contas. Tom: directo, sem jargão contabilístico não explicado. Clientes particulares: sobretudo IRS anual, menor tolerância a prazos apertados — avisar sempre com antecedência." onclick="fillFieldExample('f-publico', this)">↳ usar este exemplo</button>
@@ -1579,10 +1580,10 @@
         <textarea id="f-contexto" placeholder="Descreva em 1-2 frases o ambiente onde o profissional actua." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button class="btn-example" data-example="Um treinador poderia indicar &quot;ginásio de bairro, público de todas as idades&quot;. O contexto molda o vocabulário e o grau de formalidade dos textos." onclick="fillFieldExample('f-contexto', this)">↳ ver exemplo</button>
-          <span class="btn-pro">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></span>
+          <button type="button" class="btn-pro" onclick="goToProPricing()">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></button>
         </div>
         <div class="pro-reveal">
-          <button type="button" class="btn-pro-toggle" onclick="toggleProExample(this)">✨ ver versão Pro →</button>
+          <button type="button" class="btn-pro-toggle">✨ ver versão Pro →</button>
           <div class="pro-reveal-panel" hidden>
             <div class="pro-reveal-text">Clínica de bairro, dois perfis de utente predominantes: <strong>50+ em recuperação pós-cirúrgica</strong> — ritmo mais lento, linguagem tranquilizadora, evitar prazos rígidos · <strong>Desportivos 20-40</strong> — directos, focados em resultado e retoma de actividade. O assistente ajusta o tom consoante o perfil identificado nas notas.</div>
             <button class="btn-example" data-example="Clínica de bairro, dois perfis de utente predominantes: 50+ em recuperação pós-cirúrgica — ritmo mais lento, linguagem tranquilizadora, evitar prazos rígidos · Desportivos 20-40 — directos, focados em resultado e retoma de actividade. O assistente ajusta o tom consoante o perfil identificado nas notas." onclick="fillFieldExample('f-contexto', this)">↳ usar este exemplo</button>
@@ -1599,10 +1600,10 @@
         <textarea id="f-tom" placeholder="Descreva em 1-2 frases o tom pretendido." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button class="btn-example" data-example="&quot;Próximo mas rigoroso.&quot; Um advogado poderia preferir &quot;formal e sóbrio&quot;; um treinador, &quot;directo e motivador&quot;." onclick="fillFieldExample('f-tom', this)">↳ ver exemplo</button>
-          <span class="btn-pro">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></span>
+          <button type="button" class="btn-pro" onclick="goToProPricing()">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></button>
         </div>
         <div class="pro-reveal">
-          <button type="button" class="btn-pro-toggle" onclick="toggleProExample(this)">✨ ver versão Pro →</button>
+          <button type="button" class="btn-pro-toggle">✨ ver versão Pro →</button>
           <div class="pro-reveal-panel" hidden>
             <div class="pro-reveal-text"><strong>Advogado:</strong> formal e sóbrio, frases completas, sem contracções coloquiais, precisão terminológica mesmo em comunicações informais como email. <strong>Treinador:</strong> directo e motivador, frases curtas, imperativo frequente ("Foca nisto esta semana"), evita jargão técnico de fisiologia salvo pedido expresso.</div>
             <button class="btn-example" data-example="Advogado: formal e sóbrio, frases completas, sem contracções coloquiais, precisão terminológica mesmo em comunicações informais como email. Treinador: directo e motivador, frases curtas, imperativo frequente (&quot;Foca nisto esta semana&quot;), evita jargão técnico de fisiologia salvo pedido expresso." onclick="fillFieldExample('f-tom', this)">↳ usar este exemplo</button>
@@ -1619,10 +1620,10 @@
         <textarea id="f-linguagem" placeholder="Descreva em 1-2 frases o registo de linguagem." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button class="btn-example" data-example="Linguagem simples; sempre que aparece um termo técnico, é explicado por comparação. Escreve em português; alguns clientes estrangeiros pedem inglês. Um nutricionista poderia pedir que &quot;kcal&quot; fosse sempre escrito por extenso na primeira menção." onclick="fillFieldExample('f-linguagem', this)">↳ ver exemplo</button>
-          <span class="btn-pro">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></span>
+          <button type="button" class="btn-pro" onclick="goToProPricing()">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></button>
         </div>
         <div class="pro-reveal">
-          <button type="button" class="btn-pro-toggle" onclick="toggleProExample(this)">✨ ver versão Pro →</button>
+          <button type="button" class="btn-pro-toggle">✨ ver versão Pro →</button>
           <div class="pro-reveal-panel" hidden>
             <div class="pro-reveal-text">Termos técnicos sempre explicados por comparação simples na primeira menção do documento ("IVA dedutível — o que a empresa pode descontar nas suas próprias compras"); da segunda em diante, usa o termo directo. <strong>Números sempre com separador de milhares</strong> · <strong>Datas fiscais sempre por extenso</strong> ("30 de Junho", nunca "30/06")</div>
             <button class="btn-example" data-example="Termos técnicos sempre explicados por comparação simples na primeira menção do documento (&quot;IVA dedutível — o que a empresa pode descontar nas suas próprias compras&quot;); da segunda em diante, usa o termo directo. Números sempre com separador de milhares. Datas fiscais sempre por extenso (&quot;30 de Junho&quot;, nunca &quot;30/06&quot;)." onclick="fillFieldExample('f-linguagem', this)">↳ usar este exemplo</button>
@@ -1639,10 +1640,10 @@
         <textarea id="f-estilo" placeholder="Descreva o formato-tipo dos textos e eventuais necessidades de acessibilidade." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button class="btn-example" data-example="Curto primeiro, detalhe só se for pedido. Conclusão no início. Sem emojis decorativos. Alguns clientes preferem frases curtas, fáceis de ler em voz alta. Avisar se o texto sair fora do tamanho habitual." onclick="fillFieldExample('f-estilo', this)">↳ ver exemplo</button>
-          <span class="btn-pro">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></span>
+          <button type="button" class="btn-pro" onclick="goToProPricing()">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></button>
         </div>
         <div class="pro-reveal">
-          <button type="button" class="btn-pro-toggle" onclick="toggleProExample(this)">✨ ver versão Pro →</button>
+          <button type="button" class="btn-pro-toggle">✨ ver versão Pro →</button>
           <div class="pro-reveal-panel" hidden>
             <div class="pro-reveal-text">Conclusão sempre na primeira frase (ex.: "O orçamento cabe no tecto definido"). Detalhe técnico só surge se o cliente perguntar "porquê" ou "como". Referências a normas/regulamentos citadas por nome, nunca por número de artigo isolado — o cliente não decora números de lei.</div>
             <button class="btn-example" data-example="Conclusão sempre na primeira frase (ex.: &quot;O orçamento cabe no tecto definido&quot;). Detalhe técnico só surge se o cliente perguntar &quot;porquê&quot; ou &quot;como&quot;. Referências a normas/regulamentos citadas por nome, nunca por número de artigo isolado — o cliente não decora números de lei." onclick="fillFieldExample('f-estilo', this)">↳ usar este exemplo</button>
@@ -1659,10 +1660,10 @@
         <textarea id="f-onboarding" placeholder="Descreva a sequência de perguntas do primeiro contacto." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button class="btn-example" data-example="1) O que precisa de organizar hoje? 2) Tem notas ou informação dispersa sobre isso? 3) Para quem é o texto final?" onclick="fillFieldExample('f-onboarding', this)">↳ ver exemplo</button>
-          <span class="btn-pro">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></span>
+          <button type="button" class="btn-pro" onclick="goToProPricing()">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></button>
         </div>
         <div class="pro-reveal">
-          <button type="button" class="btn-pro-toggle" onclick="toggleProExample(this)">✨ ver versão Pro →</button>
+          <button type="button" class="btn-pro-toggle">✨ ver versão Pro →</button>
           <div class="pro-reveal-panel" hidden>
             <div class="pro-reveal-text">1. É para um <strong>utente novo</strong> ou já em acompanhamento? 2. Tem as <strong>notas da última sessão</strong> ou vamos partir do zero? 3. O texto é para o <strong>processo clínico interno</strong> ou para entregar ao utente/médico de família? A pergunta 3 muda completamente o registo do texto final.</div>
             <button class="btn-example" data-example="1. É para um utente novo ou já em acompanhamento? 2. Tem as notas da última sessão ou vamos partir do zero? 3. O texto é para o processo clínico interno ou para entregar ao utente/médico de família? A pergunta 3 muda completamente o registo do texto final." onclick="fillFieldExample('f-onboarding', this)">↳ usar este exemplo</button>
@@ -1695,7 +1696,7 @@
           <input type="text" id="f-code" placeholder="ex: o seu nº profissional, ou uma palavra só sua" oninput="checkRGPD(this)">
           <div class="field-actions">
             <button class="btn-example" onclick="fillEx('f-code')">↳ ver exemplo</button>
-            <span class="btn-pro">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></span>
+            <button type="button" class="btn-pro" onclick="goToProPricing()">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></button>
           </div>
         </div>
 
@@ -1711,7 +1712,7 @@
           </div>
           <div class="field-actions">
             <button class="btn-example" onclick="fillEx('f-behaviour')">↳ ver exemplo</button>
-            <span class="btn-pro">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></span>
+            <button type="button" class="btn-pro" onclick="goToProPricing()">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></button>
           </div>
         </div>
 
@@ -1720,7 +1721,7 @@
           <input type="text" id="f-exit" placeholder="ex: fim" oninput="checkRGPD(this)">
           <div class="field-actions">
             <button class="btn-example" onclick="fillEx('f-exit')">↳ ver exemplo</button>
-            <span class="btn-pro">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></span>
+            <button type="button" class="btn-pro" onclick="goToProPricing()">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></button>
           </div>
         </div>
 
@@ -1759,10 +1760,10 @@
         <textarea id="f-tarefas" placeholder="Descreva os fluxos de trabalho e as regras para correcções e versões." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button class="btn-example" data-example="Organizar notas soltas por temas; preparar um resumo a partir de informação dispersa; estruturar uma lista de tarefas. Se pedido, corrige só o trecho indicado — não reescreve o resto. Mantém a versão anterior visível, para comparar antes de substituir." onclick="fillFieldExample('f-tarefas', this)">↳ ver exemplo</button>
-          <span class="btn-pro">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></span>
+          <button type="button" class="btn-pro" onclick="goToProPricing()">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></button>
         </div>
         <div class="pro-reveal">
-          <button type="button" class="btn-pro-toggle" onclick="toggleProExample(this)">✨ ver versão Pro →</button>
+          <button type="button" class="btn-pro-toggle">✨ ver versão Pro →</button>
           <div class="pro-reveal-panel" hidden>
             <div class="pro-reveal-text">Organizar notas de treino <strong>por atleta e por semana</strong>; a partir de observações soltas ("hoje mais cansado", "melhorou no agachamento"), preparar um <strong>resumo de progressão mensal</strong> pronto a enviar; estruturar plano da próxima semana em lista de tarefas com prioridade.</div>
             <button class="btn-example" data-example="Organizar notas de treino por atleta e por semana; a partir de observações soltas (&quot;hoje mais cansado&quot;, &quot;melhorou no agachamento&quot;), preparar um resumo de progressão mensal pronto a enviar; estruturar plano da próxima semana em lista de tarefas com prioridade." onclick="fillFieldExample('f-tarefas', this)">↳ usar este exemplo</button>
@@ -1779,7 +1780,7 @@
         <textarea id="f-fontes" placeholder="Descreva as fontes autorizadas e as que estão excluídas." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button class="btn-example" data-example="Apoia-se apenas nos documentos e modelos fornecidos pelo profissional. Não recorre a fontes externas não autorizadas." onclick="fillFieldExample('f-fontes', this)">↳ ver exemplo</button>
-          <span class="btn-pro">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></span>
+          <button type="button" class="btn-pro" onclick="goToProPricing()">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></button>
         </div>
       </div>
     </div>
@@ -1792,10 +1793,10 @@
         <textarea id="f-conhecimento" placeholder="Descreva os dados fixos e as regras para dados variáveis." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button class="btn-example" data-example="Nome do profissional, contactos, modelos habituais. Entrada: notas ou informação dispersa. Saída: texto pronto a copiar, ou já preenchido no email/WhatsApp para rever e enviar. Termos próprios: sempre por extenso na primeira menção. Assinatura: só em documentos formais. Horários e preços mudam com frequência — o assistente pergunta em vez de presumir os antigos. Nunca usar: 'garantido', 'sem falhas', '100%'." onclick="fillFieldExample('f-conhecimento', this)">↳ ver exemplo</button>
-          <span class="btn-pro">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></span>
+          <button type="button" class="btn-pro" onclick="goToProPricing()">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></button>
         </div>
         <div class="pro-reveal">
-          <button type="button" class="btn-pro-toggle" onclick="toggleProExample(this)">✨ ver versão Pro →</button>
+          <button type="button" class="btn-pro-toggle">✨ ver versão Pro →</button>
           <div class="pro-reveal-panel" hidden>
             <div class="pro-reveal-text">Nome do atelier, contactos, modelos de orçamento e caderno de encargos habituais. Entrada: notas de reunião com cliente ou medições soltas. Saída: texto pronto a copiar, já com secções separadas: Memória descritiva · Orçamento · Prazo estimado. <strong>Nunca usar:</strong> "garantido", "sem imprevistos", "prazo fixo".</div>
             <button class="btn-example" data-example="Nome do atelier, contactos, modelos de orçamento e caderno de encargos habituais. Entrada: notas de reunião com cliente ou medições soltas. Saída: texto pronto a copiar, já com secções separadas: Memória descritiva · Orçamento · Prazo estimado. Nunca usar: &quot;garantido&quot;, &quot;sem imprevistos&quot;, &quot;prazo fixo&quot;." onclick="fillFieldExample('f-conhecimento', this)">↳ usar este exemplo</button>
@@ -1812,10 +1813,10 @@
         <textarea id="f-dados" placeholder="Descreva as regras de privacidade e tratamento de dados." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button class="btn-example" data-example="Aceita iniciais e idade. Se surgir nome completo, sugere iniciais. Não guarda dados pessoais após organizar o texto. Se o género não for claro pelo nome, pergunta em vez de assumir." onclick="fillFieldExample('f-dados', this)">↳ ver exemplo</button>
-          <span class="btn-pro">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></span>
+          <button type="button" class="btn-pro" onclick="goToProPricing()">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></button>
         </div>
         <div class="pro-reveal">
-          <button type="button" class="btn-pro-toggle" onclick="toggleProExample(this)">✨ ver versão Pro →</button>
+          <button type="button" class="btn-pro-toggle">✨ ver versão Pro →</button>
           <div class="pro-reveal-panel" hidden>
             <div class="pro-reveal-text">Aceita <strong>NIF apenas se necessário</strong> para o documento fiscal em causa; fora disso, usa iniciais. <strong>Nunca guarda dados bancários ou NIF</strong> em texto de rascunho intermédio — só no documento final gerado. Se faltar dado obrigatório (ex. NIF em factura), pergunta em vez de inventar ou deixar em branco.</div>
             <button class="btn-example" data-example="Aceita NIF apenas se necessário para o documento fiscal em causa; fora disso, usa iniciais. Nunca guarda dados bancários ou NIF em texto de rascunho intermédio — só no documento final gerado. Se faltar dado obrigatório (ex. NIF em factura), pergunta em vez de inventar ou deixar em branco." onclick="fillFieldExample('f-dados', this)">↳ usar este exemplo</button>
@@ -1832,10 +1833,10 @@
         <textarea id="f-continuidade" placeholder="Descreva como o assistente mantém continuidade entre sessões." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button class="btn-example" data-example="Pergunta se há algo a retomar. Se notar que o profissional pede sempre o mesmo ajuste, sugere: 'Quer guardar isto como preferência?' — só grava depois de confirmado. Nunca guarda dados pessoais de clientes." onclick="fillFieldExample('f-continuidade', this)">↳ ver exemplo</button>
-          <span class="btn-pro">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></span>
+          <button type="button" class="btn-pro" onclick="goToProPricing()">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></button>
         </div>
         <div class="pro-reveal">
-          <button type="button" class="btn-pro-toggle" onclick="toggleProExample(this)">✨ ver versão Pro →</button>
+          <button type="button" class="btn-pro-toggle">✨ ver versão Pro →</button>
           <div class="pro-reveal-panel" hidden>
             <div class="pro-reveal-text">Pergunta se há algo a retomar do utente anterior. Se notar que o profissional pede sempre o mesmo formato de resumo de progressão, sugere: "Quer guardar isto como modelo para os próximos utentes com o mesmo tipo de recuperação?" — só grava depois de confirmado. <strong>Nunca guarda dados pessoais de utentes.</strong></div>
             <button class="btn-example" data-example="Pergunta se há algo a retomar do utente anterior. Se notar que o profissional pede sempre o mesmo formato de resumo de progressão, sugere: &quot;Quer guardar isto como modelo para os próximos utentes com o mesmo tipo de recuperação?&quot; — só grava depois de confirmado. Nunca guarda dados pessoais de utentes." onclick="fillFieldExample('f-continuidade', this)">↳ usar este exemplo</button>
@@ -1944,45 +1945,46 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
 
     <div id="paywallTiers">
       <div class="step-label">Passo final</div>
-      <h1 class="screen-title">Como queres <em>continuar?</em></h1>
-      <p class="screen-sub">Escolhe o patamar que melhor serve o que precisas agora — podes sempre voltar a este ecrã.</p>
+      <h1 class="screen-title">Como continuar?</h1>
+      <p class="screen-sub">O patamar que melhor serve a necessidade atual — é sempre possível voltar a este ecrã.</p>
 
       <div class="tier-grid">
         <button class="tier-card" data-tier="free" onclick="selectTier('free', this)">
-          <div class="tier-title">Prompt final · grátis</div>
+          <div class="tier-title">Grátis</div>
           <div class="tier-price">0€</div>
-          <div class="tier-desc">Recebe o prompt pronto a copiar, sem apoio da IA a preencher os campos.</div>
+          <div class="tier-desc">O prompt final, pronto a copiar.<br>Sem instalação. Sem apoio.</div>
           <ul class="tier-includes">
-            <li>Prompt final gerado a partir do que o profissional determinou</li>
+            <li>Prompt final</li>
           </ul>
-          <div class="tier-cta">Continuar sem custo</div>
+          <div class="tier-cta">Copiar prompt</div>
         </button>
 
         <button class="tier-card" data-tier="kit" onclick="selectTier('kit', this)">
-          <div class="tier-title">Kit completo · 19€</div>
+          <div class="tier-title">19€ · Kit completo</div>
           <div class="tier-price">19€</div>
-          <div class="tier-desc">O prompt final mais um guia de instalação na plataforma escolhida.</div>
+          <div class="tier-desc">O prompt + o guia de instalação em PDF, feito para a plataforma escolhida.</div>
           <ul class="tier-includes">
             <li>Prompt final</li>
-            <li>PDF com o passo-a-passo de instalação na plataforma escolhida (Claude Projects, ChatGPT ou Gemini)</li>
+            <li>Guia de instalação em PDF (Claude Projects, ChatGPT ou Gemini)</li>
           </ul>
-          <div class="tier-cta">Comprar Kit completo · 19€</div>
+          <div class="tier-cta">Comprar Kit — 19€</div>
         </button>
 
         <button class="tier-card" data-tier="pro" onclick="selectTier('pro', this)">
-          <div class="tier-title">Pro · 49€</div>
+          <div class="tier-title">49€ · Pro</div>
           <div class="tier-price">49€</div>
-          <div class="tier-desc">A IA ajuda a preencher os campos do wizard, a partir do que o profissional indicar.</div>
+          <div class="tier-desc">A IA ajuda a preencher cada campo, em tempo real, enquanto o profissional escreve.</div>
           <ul class="tier-includes">
-            <li>Tudo o que está incluído no Kit completo</li>
-            <li>Apoio da IA a completar cada campo do wizard</li>
+            <li>Tudo do Kit completo</li>
+            <li>Assistente digital IA em tempo real</li>
           </ul>
-          <div class="tier-cta">Continuar com Pro · 49€</div>
+          <div class="tier-cta">Comprar Pro — 49€</div>
         </button>
 
         <button class="tier-card" data-tier="medida" onclick="selectTier('medida', this)">
-          <div class="tier-title">Entramos em contacto</div>
-          <div class="tier-desc">Para quem precisa de um assistente mais elaborado, ou de acompanhamento dedicado.<br>Sem preço fixo — orçamento à medida.</div>
+          <div class="tier-title">290€ · À medida</div>
+          <div class="tier-price">À medida</div>
+          <div class="tier-desc">Entramos em contacto. Sem preço fixo — depende do que precisa.</div>
           <div class="tier-cta">Pedir contacto</div>
         </button>
       </div>
@@ -2065,11 +2067,11 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       <div class="paywall-form" style="max-width:420px; margin:0 auto;">
         <div class="step-label">Entramos em contacto</div>
         <h1 class="screen-title">Pedir <em>contacto.</em></h1>
-        <p class="screen-sub">Deixa o teu nome e email — respondemos com uma proposta à medida.</p>
+        <p class="screen-sub">Nome e email — a resposta segue com uma proposta à medida.</p>
 
         <div class="form-row">
           <label for="f-contact-name">Nome</label>
-          <input type="text" id="f-contact-name" placeholder="O teu nome">
+          <input type="text" id="f-contact-name" placeholder="Nome">
         </div>
         <div class="form-row">
           <label for="f-contact-email">Email</label>
@@ -2099,19 +2101,19 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     <div class="success-check"></div>
     <h1 class="success-title">Pagamento <em>confirmado.</em></h1>
     <p class="success-text">
-      Enviámos o teu kit completo para <span class="success-email" id="successEmail">o teu email</span>.<br>
-      Também o podes descarregar já:
+      O kit completo foi enviado para <span class="success-email" id="successEmail">o email indicado</span>.<br>
+      Também pode ser descarregado já:
     </p>
 
     <div class="success-actions">
-      <button class="btn-primary" onclick="alert('Demo: descarregaria o PDF.')">↓ Descarregar PDF</button>
+      <button class="btn-primary" id="btnDescarregaPdf" disabled>A preparar o PDF…</button>
       <button class="btn-ghost" onclick="resetDemo()">↻ Recomeçar protótipo</button>
     </div>
 
     <!-- Retoma escondida até o backend devolver retomaUrl real. Frontend pronto (retomar.html + pl_retomaDados). Reativar quando o fluxo de sucesso do wizard devolver o URL. -->
     <div class="success-retoma" style="display:none;">
       <div class="success-retoma-title">Link de retoma · 30 dias</div>
-      Guarda este link para editares o teu assistente digital IA e re-gerar o PDF sem pagar outra vez:
+      Este link permite editar o assistente digital IA e voltar a gerar o PDF sem novo pagamento:
       <code>proteinaludica.com/criar/retomar/a7f3-9b2c-x8d1</code>
     </div>
   </div>
@@ -2122,11 +2124,11 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
 <!-- ════════════════════════════════════════════ -->
 <div class="modal-overlay" id="quizModal" onclick="if(event.target===this) closeQuizModal()">
   <div class="modal">
-    <div class="modal-title">Deixa-nos recomendar</div>
+    <div class="modal-title">Deixa-nos uma recomendação</div>
     <p style="font-size:14px; color:var(--ink2); margin-bottom:0.5rem;">Três perguntas rápidas.</p>
 
     <div class="modal-q">
-      <div class="modal-q-title">1. Já tens licença paga de alguma destas?</div>
+      <div class="modal-q-title">1. Já existe licença paga de alguma destas?</div>
       <div class="modal-q-opts" data-q="1">
         <button class="modal-q-opt" onclick="selectQuiz(this,1,'none')">Nenhuma</button>
         <button class="modal-q-opt" onclick="selectQuiz(this,1,'claude')">Claude Pro</button>
@@ -2137,7 +2139,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     </div>
 
     <div class="modal-q">
-      <div class="modal-q-title">2. Precisas que leia o teu email, Drive ou SharePoint?</div>
+      <div class="modal-q-title">2. É necessário que leia email, Drive ou SharePoint?</div>
       <div class="modal-q-opts" data-q="2">
         <button class="modal-q-opt" onclick="selectQuiz(this,2,'yes')">Sim</button>
         <button class="modal-q-opt" onclick="selectQuiz(this,2,'no')">Não</button>
@@ -2179,6 +2181,10 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   // ─────────── NAVIGATION ───────────
   function goTo(n) {
     if (n === 4) gerarOutput();
+    if (n === 6) {
+      const urlExistente = sessionStorage.getItem('pl_downloadUrl');
+      if (urlExistente) activarBotaoDescarrega();
+    }
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     const target = document.getElementById('screen-' + n);
     if (target) target.classList.add('active');
@@ -2232,7 +2238,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       price: '19€',
       includes: [
         'Prompt final',
-        'PDF com o passo-a-passo de instalação na plataforma escolhida'
+        'Guia de instalação em PDF'
       ]
     },
     pro: {
@@ -2240,8 +2246,8 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       previewTitle: 'Pro',
       price: '49€',
       includes: [
-        'Tudo o que está incluído no Kit completo',
-        'Apoio da IA a completar cada campo do wizard'
+        'Tudo do Kit completo',
+        'Assistente digital IA em tempo real'
       ]
     }
   };
@@ -2275,6 +2281,14 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     showPaywallStep('paywallCheckout');
   }
 
+  function goToProPricing() {
+    goTo(5);
+    setTimeout(() => {
+      const proCard = document.querySelector('[data-tier="pro"]');
+      if (proCard) selectTier('pro', proCard);
+    }, 100);
+  }
+
   function backToTiers() {
     document.querySelectorAll('.tier-card').forEach(c => c.classList.remove('selected'));
     state.tier = null;
@@ -2282,7 +2296,34 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   }
 
   function submitContact() {
-    showPaywallStep('paywallContactSent');
+    const nome = document.getElementById('f-contact-name').value;
+    const email = document.getElementById('f-contact-email').value;
+    const plataforma = state.platform || '';
+
+    fetch('/api/pedido-medida', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        nome: nome,
+        email: email,
+        plataforma: plataforma,
+      }),
+    }).then(resp => {
+      if (resp.ok) {
+        showPaywallStep('paywallContactSent');
+      } else {
+        resp.json().then(data => {
+          console.error('Erro ao enviar pedido:', data.error);
+          alert('Ocorreu um erro. Tenta novamente mais tarde.');
+        }).catch(() => {
+          console.error('Erro desconhecido ao enviar pedido.');
+          alert('Ocorreu um erro. Tenta novamente mais tarde.');
+        });
+      }
+    }).catch(err => {
+      console.error('Erro de rede ao enviar pedido:', err);
+      alert('Erro de rede. Tenta novamente mais tarde.');
+    });
   }
 
   // ─────────── RGPD DETECTOR ───────────
@@ -2340,7 +2381,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
 
   // ─────────── SUCCESS ───────────
   function goToSuccess() {
-    const email = document.getElementById('f-email').value || 'o teu email';
+    const email = document.getElementById('f-email').value || 'o email indicado';
     document.getElementById('successEmail').textContent = email;
     enviarGuiaInstalacao(email);
     goTo(6);
@@ -2349,7 +2390,10 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   // Pede a geração e o envio por email do guia de instalação (PDF) com o
   // conteúdo real do profissional, para a plataforma escolhida no Ecrã 1.
   function enviarGuiaInstalacao(email) {
-    if (!email || email === 'o teu email') return;
+    if (!email || email === 'o email indicado') return;
+    const timeoutErro = setTimeout(() => {
+      if (!sessionStorage.getItem('pl_downloadUrl')) estadoErroDescarrega();
+    }, 30000);
     fetch('/api/gerar-pdf-instalacao', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -2360,7 +2404,39 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
         prompt_completo: (document.getElementById('codeContent') || {}).textContent || '',
         email: email,
       }),
-    }).catch((err) => console.error('Erro ao pedir o guia de instalação:', err));
+    }).then(r => r.json())
+      .then(resposta => {
+        clearTimeout(timeoutErro);
+        if (resposta.ok && resposta.downloadUrl) {
+          sessionStorage.setItem('pl_downloadUrl', resposta.downloadUrl);
+          activarBotaoDescarrega();
+        } else {
+          estadoErroDescarrega();
+        }
+      })
+      .catch((err) => {
+        clearTimeout(timeoutErro);
+        console.error('Erro ao pedir o guia de instalação:', err);
+        estadoErroDescarrega();
+      });
+  }
+
+  function activarBotaoDescarrega() {
+    const btn = document.getElementById('btnDescarregaPdf');
+    if (!btn) return;
+    btn.disabled = false;
+    btn.textContent = '↓ Descarregar PDF';
+    btn.onclick = () => {
+      const url = sessionStorage.getItem('pl_downloadUrl');
+      if (url) window.location.href = url;
+    };
+  }
+
+  function estadoErroDescarrega() {
+    const btn = document.getElementById('btnDescarregaPdf');
+    if (!btn) return;
+    btn.disabled = true;
+    btn.textContent = 'Não foi possível preparar o download. O PDF segue no email.';
   }
   // hook nos botões de pagamento
   document.querySelectorAll('.btn-mbway, .btn-card').forEach(btn => {
@@ -2414,10 +2490,10 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     const q = state.quiz;
     let rec = '';
     // lógica simples de recomendação
-    if (q[1] === 'claude') rec = 'Claude Projects. Já tens Pro e é o mais forte em raciocínio clínico longo.';
-    else if (q[1] === 'm365') rec = 'Microsoft Copilot Agents. Integra-se com o Outlook e SharePoint que já usas.';
-    else if (q[1] === 'gws') rec = 'Google Gemini Gems. Liga directo ao teu Gmail e Drive sem setup.';
-    else if (q[1] === 'gpt') rec = 'ChatGPT Custom GPTs. Aproveita a licença Plus que já tens.';
+    if (q[1] === 'claude') rec = 'Claude Projects. Para quem já tem Pro; é o mais forte no raciocínio longo.';
+    else if (q[1] === 'm365') rec = 'Microsoft Copilot Agents. Integra-se com Outlook e SharePoint já existentes.';
+    else if (q[1] === 'gws') rec = 'Google Gemini Gems. Liga-se diretamente a Gmail e Drive sem configuração.';
+    else if (q[1] === 'gpt') rec = 'ChatGPT Custom GPTs. Aproveita uma licença Plus já existente.';
     else if (q[2] === 'yes') rec = 'Gemini (se usas Google) ou Copilot (se usas M365). Ambos lêem emails e ficheiros sem ficheiro-a-ficheiro.';
     else if (q[3] === 'solo') rec = 'Claude Projects. Sem licenças de equipa, melhor para uso individual e privado.';
     else if (q[3] === 'clinic') rec = 'Microsoft Copilot ou Google Gemini. Ambos têm gestão central e licenças por utilizador.';
@@ -2581,6 +2657,23 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
 
     const el = document.getElementById('codeContent');
     if (el) el.textContent = md;
+  }
+
+  // ─── Inicializar event listeners do toggle Pro ───
+  function initProToggleListeners() {
+    const toggleBtns = document.querySelectorAll('.btn-pro-toggle');
+    toggleBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        toggleProExample(this);
+      });
+    });
+  }
+
+  // Executar ao carregar o DOM
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initProToggleListeners);
+  } else {
+    initProToggleListeners();
   }
 
   // ─── Fase 2: recolher opcionais ───
