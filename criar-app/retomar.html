@@ -130,7 +130,7 @@
       <div class="err-icon" aria-hidden="true">!</div>
       <h1 class="err-title" id="erroTitulo"></h1>
       <p class="err-msg" id="erroMensagem"></p>
-      <a class="btn" id="erroBotao" href="/criar"></a>
+      <a class="btn" id="erroBotao" href="/"></a>
     </div>
   </div>
 
@@ -140,15 +140,16 @@
   // guarda os campos em sessionStorage e reencaminha em silêncio para /criar;
   // 4) em erro, mostra uma mensagem simples (sem jargão técnico).
   //
-  // Contrato do backend em GET /api/retoma-dados?token=<token>:
-  //   200 → corpo JSON { "f-nome": "...", "f-missao": "...", ... }
-  //         (chaves = ids dos campos do formulário em /criar)
-  //   401 → ligação inválida · 404 → rascunho não encontrado · 410 → expirada
+  // Contrato do backend em GET /api/retoma-dados?token=<jwt>:
+  //   200 → { ok: true, dados: { email, plataforma, nome_assistente, missao, prompt_completo } }
+  //         (mapeado abaixo para os ids dos campos do formulário do wizard)
+  //   401 → ligação inválida/expirada · 404 → rascunho não encontrado · 410 → expirada
   (function () {
     'use strict';
 
     var CHAVE_RETOMA = 'pl_retomaDados';
-    var DESTINO = '/criar';
+    // Em criar.proteinaludica.com o wizard é servido na raiz do projecto.
+    var DESTINO = '/';
 
     // Mensagens PT-PT (impessoal, sem termos técnicos visíveis)
     var MENSAGENS = {
@@ -183,9 +184,10 @@
     function extrairToken() {
       var partes = window.location.pathname.split('/').filter(Boolean);
       var ultimo = partes.length ? partes[partes.length - 1] : '';
-      // aceita o último segmento como token só se não for 'retomar' nem um
-      // nome de ficheiro (ex.: 'retomar.html'); senão, tenta ?token=
-      if (ultimo && ultimo !== 'retomar' && ultimo.indexOf('.') === -1) return ultimo;
+      // aceita o último segmento como token desde que não seja a própria
+      // página; o token é um JWT (contém pontos), por isso não se pode
+      // filtrar por '.' — só se excluem os nomes da página em si
+      if (ultimo && ultimo !== 'retomar' && ultimo !== 'retomar.html') return ultimo;
       var q = new URLSearchParams(window.location.search).get('token');
       return q || '';
     }
@@ -202,9 +204,17 @@
     })
       .then(function (res) {
         if (res.ok) {
-          return res.json().then(function (dados) {
+          return res.json().then(function (resposta) {
+            // mapeia o payload do backend para os ids dos campos do wizard;
+            // plataforma e prompt_completo ficam de fora (a plataforma
+            // volta a escolher-se no Ecrã 1 e o prompt é re-gerado)
+            var dados = (resposta && resposta.dados) || {};
+            var campos = {};
+            if (typeof dados.nome_assistente === 'string') campos['f-nome'] = dados.nome_assistente;
+            if (typeof dados.missao === 'string') campos['f-missao'] = dados.missao;
+            if (typeof dados.email === 'string') campos['f-email'] = dados.email;
             try {
-              sessionStorage.setItem(CHAVE_RETOMA, JSON.stringify(dados));
+              sessionStorage.setItem(CHAVE_RETOMA, JSON.stringify(campos));
             } catch (e) { /* sessionStorage indisponível: segue na mesma */ }
             window.location.replace(DESTINO);
           });
