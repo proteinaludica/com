@@ -2106,11 +2106,12 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     </p>
 
     <div class="success-actions">
-      <button class="btn-primary" onclick="alert('Demo: descarregaria o PDF.')">↓ Descarregar PDF</button>
+      <button class="btn-primary" id="btnDescarregaPdf" disabled>A preparar o PDF…</button>
       <button class="btn-ghost" onclick="resetDemo()">↻ Recomeçar protótipo</button>
     </div>
 
-    <div class="success-retoma">
+    <!-- Retoma ligada no PR da Tarefa 2 -->
+    <div class="success-retoma" style="display:none;">
       <div class="success-retoma-title">Link de retoma · 30 dias</div>
       Este link permite editar o assistente digital IA e voltar a gerar o PDF sem novo pagamento:
       <code>proteinaludica.com/criar/retomar/a7f3-9b2c-x8d1</code>
@@ -2396,7 +2397,35 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
         prompt_completo: (document.getElementById('codeContent') || {}).textContent || '',
         email: email,
       }),
-    }).catch((err) => console.error('Erro ao pedir o guia de instalação:', err));
+    }).then(r => r.json())
+      .then(resposta => {
+        if (resposta.ok && resposta.downloadUrl) {
+          sessionStorage.setItem('pl_downloadUrl', resposta.downloadUrl);
+          activarBotaoDescarrega();
+        }
+      })
+      .catch((err) => {
+        console.error('Erro ao pedir o guia de instalação:', err);
+        estadoErroDescarrega();
+      });
+  }
+
+  function activarBotaoDescarrega() {
+    const btn = document.getElementById('btnDescarregaPdf');
+    if (!btn) return;
+    btn.disabled = false;
+    btn.textContent = '↓ Descarregar PDF';
+    btn.onclick = () => {
+      const url = sessionStorage.getItem('pl_downloadUrl');
+      if (url) window.location.href = url;
+    };
+  }
+
+  function estadoErroDescarrega() {
+    const btn = document.getElementById('btnDescarregaPdf');
+    if (!btn) return;
+    btn.disabled = true;
+    btn.textContent = 'Não foi possível preparar o download. O PDF segue no email.';
   }
   // hook nos botões de pagamento
   document.querySelectorAll('.btn-mbway, .btn-card').forEach(btn => {
