@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A recuperar o rascunho · Proteína Lúdica</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Geist:wght@300..600&family=Geist+Mono:wght@400..600&display=swap" rel="stylesheet">
+<style>
+  /* Coerente com criar-app/index.html (mesmo sistema de tokens) */
+  :root {
+    --bg: #F5F2EC;
+    --bg2: #EDEAE2;
+    --surface: #FDFBF6;
+    --ink: #0D0F0B;
+    --ink2: #3A3D35;
+    --accent: #2D5A1B;
+    --accent2: #3D7A26;
+    --accent-light: #EAF3DE;
+    --border: rgba(13,15,11,0.10);
+    --border-strong: rgba(13,15,11,0.20);
+    --font-head: 'Fraunces', 'Instrument Serif', Georgia, serif;
+    --font-body: 'Geist', -apple-system, sans-serif;
+    --font-mono: 'Geist Mono', 'JetBrains Mono', monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    line-height: 1.55;
+  }
+  .card {
+    width: 100%;
+    max-width: 420px;
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 14px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+  }
+  .brand {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink2);
+    margin-bottom: 1.75rem;
+  }
+  .brand em { color: var(--accent); font-style: normal; }
+
+  /* Estado de carregamento */
+  .spinner {
+    width: 34px; height: 34px;
+    margin: 0 auto 1.25rem;
+    border: 2.5px solid var(--accent-light);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-text {
+    font-size: 15px;
+    color: var(--ink2);
+  }
+
+  /* Estado de erro */
+  .err-icon {
+    width: 44px; height: 44px;
+    margin: 0 auto 1.25rem;
+    border-radius: 50%;
+    background: var(--bg2);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-head);
+    font-size: 22px;
+    color: var(--ink2);
+    font-style: italic;
+  }
+  .err-title {
+    font-family: var(--font-head);
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 0.6rem;
+  }
+  .err-msg {
+    font-size: 14px;
+    color: var(--ink2);
+    margin-bottom: 1.75rem;
+  }
+  .btn {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+    background: var(--accent);
+    border: none;
+    border-radius: 9px;
+    padding: 12px 22px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.15s ease;
+  }
+  .btn:hover { background: var(--accent2); }
+
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="brand">Proteína <em>Lúdica</em></div>
+
+    <!-- Estado: a recuperar -->
+    <div id="loading">
+      <div class="spinner" aria-hidden="true"></div>
+      <p class="loading-text">A recuperar o rascunho…</p>
+    </div>
+
+    <!-- Estado: erro -->
+    <div id="erro" class="hidden" role="alert">
+      <div class="err-icon" aria-hidden="true">!</div>
+      <h1 class="err-title" id="erroTitulo"></h1>
+      <p class="err-msg" id="erroMensagem"></p>
+      <a class="btn" id="erroBotao" href="/criar"></a>
+    </div>
+  </div>
+
+<script>
+  // Página de retoma. Serve a ligação /criar/retomar/<token>:
+  // 1) lê o token do path; 2) pede os dados ao backend; 3) em sucesso,
+  // guarda os campos em sessionStorage e reencaminha em silêncio para /criar;
+  // 4) em erro, mostra uma mensagem simples (sem jargão técnico).
+  //
+  // Contrato do backend em GET /api/retoma-dados?token=<token>:
+  //   200 → corpo JSON { "f-nome": "...", "f-missao": "...", ... }
+  //         (chaves = ids dos campos do formulário em /criar)
+  //   401 → ligação inválida · 404 → rascunho não encontrado · 410 → expirada
+  (function () {
+    'use strict';
+
+    var CHAVE_RETOMA = 'pl_retomaDados';
+    var DESTINO = '/criar';
+
+    // Mensagens PT-PT (impessoal, sem termos técnicos visíveis)
+    var MENSAGENS = {
+      inval: {
+        titulo: 'Ligação inválida',
+        texto: 'Esta ligação não é válida. Para continuar, é necessário criar um novo assistente digital IA.',
+        botao: 'Criar novo assistente'
+      },
+      naoEncontrado: {
+        titulo: 'Rascunho não encontrado',
+        texto: 'Não foi possível encontrar este rascunho. Pode ter sido removido ou a ligação está incorreta.',
+        botao: 'Começar de novo'
+      },
+      expirado: {
+        titulo: 'Ligação expirada',
+        texto: 'Esta ligação já não está disponível. Os rascunhos ficam guardados durante um período limitado.',
+        botao: 'Criar novo assistente'
+      }
+    };
+
+    function mostrarErro(m) {
+      document.getElementById('loading').classList.add('hidden');
+      document.getElementById('erroTitulo').textContent = m.titulo;
+      document.getElementById('erroMensagem').textContent = m.texto;
+      var botao = document.getElementById('erroBotao');
+      botao.textContent = m.botao;
+      botao.setAttribute('href', DESTINO);
+      document.getElementById('erro').classList.remove('hidden');
+    }
+
+    // Extrai o token do path /criar/retomar/<token> (fallback: ?token=)
+    function extrairToken() {
+      var partes = window.location.pathname.split('/').filter(Boolean);
+      var ultimo = partes.length ? partes[partes.length - 1] : '';
+      // aceita o último segmento como token só se não for 'retomar' nem um
+      // nome de ficheiro (ex.: 'retomar.html'); senão, tenta ?token=
+      if (ultimo && ultimo !== 'retomar' && ultimo.indexOf('.') === -1) return ultimo;
+      var q = new URLSearchParams(window.location.search).get('token');
+      return q || '';
+    }
+
+    var token = extrairToken();
+    if (!token) {
+      mostrarErro(MENSAGENS.inval);
+      return;
+    }
+
+    fetch('/api/retoma-dados?token=' + encodeURIComponent(token), {
+      method: 'GET',
+      headers: { 'Accept': 'application/json' }
+    })
+      .then(function (res) {
+        if (res.ok) {
+          return res.json().then(function (dados) {
+            try {
+              sessionStorage.setItem(CHAVE_RETOMA, JSON.stringify(dados));
+            } catch (e) { /* sessionStorage indisponível: segue na mesma */ }
+            window.location.replace(DESTINO);
+          });
+        }
+        if (res.status === 401) return mostrarErro(MENSAGENS.inval);
+        if (res.status === 410) return mostrarErro(MENSAGENS.expirado);
+        // 404 e qualquer outro código: rascunho indisponível
+        return mostrarErro(MENSAGENS.naoEncontrado);
+      })
+      .catch(function () {
+        // Falha de rede: trata como rascunho indisponível
+        mostrarErro(MENSAGENS.naoEncontrado);
+      });
+  })();
+</script>
+</body>
+</html>
