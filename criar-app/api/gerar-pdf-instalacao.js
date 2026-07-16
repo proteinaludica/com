@@ -547,7 +547,12 @@ module.exports = async (req, res) => {
       return res.status(502).json({ ok: false, error: 'Não foi possível enviar o guia agora.' });
     }
 
-    return res.status(200).json({ ok: true });
+    return res.status(200).json({
+      ok: true,
+      message: 'PDF gerado e enviado com sucesso.',
+      downloadUrl: `/api/download-pdf?token=${jwtData.token}`,
+      retomaUrl: `proteinaludica.com/criar/retomar/${jwtData.token}`,
+    });
   } catch (err) {
     console.error('Erro no handler de geração do PDF:', err);
     return res.status(500).json({ ok: false, error: 'Ocorreu um erro inesperado.' });
