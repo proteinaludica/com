@@ -29,14 +29,14 @@ function cortar(v, max) {
 // ─── GERADOR DE JWT (30 dias) ───
 function gerarJWT(payload) {
   const secret = process.env.JWT_SECRET || 'fallback-secret-dev-only-32chars!!';
-  const header = Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString('base64');
+  const header = Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString('base64url');
   const exp = Math.floor(Date.now() / 1000) + (30 * 24 * 60 * 60); // 30 dias
   const jti = crypto.randomBytes(16).toString('hex'); // JWT ID único
-  const body = Buffer.from(JSON.stringify({ ...payload, exp, jti })).toString('base64');
+  const body = Buffer.from(JSON.stringify({ ...payload, exp, jti })).toString('base64url');
   const signature = crypto
     .createHmac('sha256', secret)
     .update(`${header}.${body}`)
-    .digest('base64');
+    .digest('base64url');
   return {
     token: `${header}.${body}.${signature}`,
     jti: jti,
@@ -536,6 +536,41 @@ module.exports = async (req, res) => {
       plataforma: plataforma,
       nome_assistente: nome_assistente,
     });
+
+    // ─── PERSISTIR DADOS (indexado por token_jti) — serve /api/download-pdf e /api/retoma-dados ───
+    // Best-effort: não bloqueia a entrega por email do PDF. Se falhar, o download/retoma
+    // ficam indisponíveis mas o utilizador já recebeu o guia em anexo.
+    const supabaseUrl = process.env.SUPABASE_URL;
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    if (!supabaseUrl || !supabaseKey) {
+      console.error('SUPABASE_URL ou SUPABASE_SERVICE_ROLE_KEY em falta.');
+    } else {
+      try {
+        const insertResp = await fetch(`${supabaseUrl}/rest/v1/generated_pdfs`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': supabaseKey,
+            'Authorization': `Bearer ${supabaseKey}`,
+            'Prefer': 'return=minimal',
+          },
+          body: JSON.stringify({
+            token_jti: jwtData.jti,
+            email: email,
+            plataforma: plataforma || '',
+            nome_assistente: nome_assistente,
+            missao: missao || null,
+            prompt_completo: prompt_completo,
+          }),
+        });
+        if (!insertResp.ok) {
+          const detalhe = await insertResp.text();
+          console.error('Erro Supabase (generated_pdfs):', insertResp.status, detalhe);
+        }
+      } catch (err) {
+        console.error('Erro ao inserir em Supabase (generated_pdfs):', err);
+      }
+    }
 
     const apiKey = process.env.RESEND_API_KEY;
     if (!apiKey) {
