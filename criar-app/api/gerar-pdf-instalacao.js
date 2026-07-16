@@ -12,6 +12,7 @@
 // sem browser headless) e o fetch nativo do Node 18+ na Vercel.
 
 const { PDFDocument, StandardFonts, rgb } = require('pdf-lib');
+const crypto = require('crypto');
 
 const LIMITES = {
   plataforma: 60,
@@ -23,6 +24,23 @@ const LIMITES = {
 
 function cortar(v, max) {
   return (v == null ? '' : String(v)).trim().slice(0, max);
+}
+
+// ─── GERADOR DE JWT (30 dias) ───
+function gerarJWT(payload) {
+  const secret = process.env.JWT_SECRET || 'fallback-secret-dev-only-32chars!!';
+  const header = Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString('base64');
+  const exp = Math.floor(Date.now() / 1000) + (30 * 24 * 60 * 60); // 30 dias
+  const jti = crypto.randomBytes(16).toString('hex'); // JWT ID único
+  const body = Buffer.from(JSON.stringify({ ...payload, exp, jti })).toString('base64');
+  const signature = crypto
+    .createHmac('sha256', secret)
+    .update(`${header}.${body}`)
+    .digest('base64');
+  return {
+    token: `${header}.${body}.${signature}`,
+    jti: jti,
+  };
 }
 
 // ─────────── MAPEAMENTO PLATAFORMA (Ecrã 1) → GUIA ───────────
@@ -511,6 +529,13 @@ module.exports = async (req, res) => {
 
     const pdfBytes = await gerarPdf({ plataforma, nome_assistente, missao, prompt_completo });
     const pdfBase64 = Buffer.from(pdfBytes).toString('base64');
+
+    // ─── GERAR JWT PARA DOWNLOAD (30 dias) ───
+    const jwtData = gerarJWT({
+      email: email,
+      plataforma: plataforma,
+      nome_assistente: nome_assistente,
+    });
 
     const apiKey = process.env.RESEND_API_KEY;
     if (!apiKey) {
