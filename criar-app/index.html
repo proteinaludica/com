@@ -2651,6 +2651,39 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   });
   checkObrigatorias();
   updateProgress();
+
+  // ─── Retoma: preencher o formulário a partir de um rascunho recuperado ───
+  // A página /criar/retomar/<token> guarda os campos em sessionStorage
+  // ('pl_retomaDados') e reencaminha para aqui. No arranque, se existirem,
+  // preenchemos os campos correspondentes e limpamos a chave (uso único).
+  (function retomarRascunho() {
+    let dados;
+    try {
+      const bruto = sessionStorage.getItem('pl_retomaDados');
+      if (!bruto) return;
+      dados = JSON.parse(bruto);
+    } catch (e) {
+      return; // JSON inválido ou sessionStorage indisponível
+    } finally {
+      try { sessionStorage.removeItem('pl_retomaDados'); } catch (e) {}
+    }
+    if (!dados || typeof dados !== 'object') return;
+
+    Object.keys(dados).forEach(id => {
+      // só campos do formulário (id "f-...") que existam na página
+      if (!/^f-[a-z0-9-]+$/.test(id)) return;
+      const el = document.getElementById(id);
+      if (!el || !('value' in el)) return;
+      const valor = dados[id];
+      if (typeof valor !== 'string') return;
+      el.value = valor;
+      // atualiza obrigatórias / RGPD / progresso
+      el.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+
+    checkObrigatorias();
+    updateProgress();
+  })();
 </script>
 
 </body>
