@@ -2181,6 +2181,10 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   // ─────────── NAVIGATION ───────────
   function goTo(n) {
     if (n === 4) gerarOutput();
+    if (n === 6) {
+      const urlExistente = sessionStorage.getItem('pl_downloadUrl');
+      if (urlExistente) activarBotaoDescarrega();
+    }
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     const target = document.getElementById('screen-' + n);
     if (target) target.classList.add('active');
@@ -2387,6 +2391,9 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   // conteúdo real do profissional, para a plataforma escolhida no Ecrã 1.
   function enviarGuiaInstalacao(email) {
     if (!email || email === 'o email indicado') return;
+    const timeoutErro = setTimeout(() => {
+      if (!sessionStorage.getItem('pl_downloadUrl')) estadoErroDescarrega();
+    }, 30000);
     fetch('/api/gerar-pdf-instalacao', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -2399,12 +2406,16 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       }),
     }).then(r => r.json())
       .then(resposta => {
+        clearTimeout(timeoutErro);
         if (resposta.ok && resposta.downloadUrl) {
           sessionStorage.setItem('pl_downloadUrl', resposta.downloadUrl);
           activarBotaoDescarrega();
+        } else {
+          estadoErroDescarrega();
         }
       })
       .catch((err) => {
+        clearTimeout(timeoutErro);
         console.error('Erro ao pedir o guia de instalação:', err);
         estadoErroDescarrega();
       });
