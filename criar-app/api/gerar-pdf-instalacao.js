@@ -611,7 +611,7 @@ module.exports = async (req, res) => {
       ok: true,
       message: 'PDF gerado e enviado com sucesso.',
       downloadUrl: `/api/download-pdf?token=${jwtData.token}`,
-      retomaUrl: `proteinaludica.com/criar/retomar/${jwtData.token}`,
+      retomaUrl: `https://criar.proteinaludica.com/criar/retomar/${jwtData.token}`,
     });
   } catch (err) {
     console.error('Erro no handler de geração do PDF:', err);

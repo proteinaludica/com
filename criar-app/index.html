@@ -2110,11 +2110,11 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       <button class="btn-ghost" onclick="resetDemo()">↻ Recomeçar protótipo</button>
     </div>
 
-    <!-- Retoma escondida até o backend devolver retomaUrl real. Frontend pronto (retomar.html + pl_retomaDados). Reativar quando o fluxo de sucesso do wizard devolver o URL. -->
-    <div class="success-retoma" style="display:none;">
+    <!-- Escondido por defeito; mostrado quando a resposta de gerar-pdf-instalacao traz retomaUrl. -->
+    <div class="success-retoma" id="successRetoma" style="display:none;">
       <div class="success-retoma-title">Link de retoma · 30 dias</div>
       Este link permite editar o assistente digital IA e voltar a gerar o PDF sem novo pagamento:
-      <code>proteinaludica.com/criar/retomar/a7f3-9b2c-x8d1</code>
+      <code id="retomaLink"></code>
     </div>
   </div>
 </section>
@@ -2413,6 +2413,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
         } else {
           estadoErroDescarrega();
         }
+        if (resposta.ok && resposta.retomaUrl) mostrarRetoma(resposta.retomaUrl);
       })
       .catch((err) => {
         clearTimeout(timeoutErro);
@@ -2430,6 +2431,15 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       const url = sessionStorage.getItem('pl_downloadUrl');
       if (url) window.location.href = url;
     };
+  }
+
+  // Mostra o bloco de retoma no Ecrã 6 com o link real devolvido pelo backend.
+  function mostrarRetoma(url) {
+    const bloco = document.getElementById('successRetoma');
+    const codigo = document.getElementById('retomaLink');
+    if (!bloco || !codigo) return;
+    codigo.textContent = url;
+    bloco.style.display = '';
   }
 
   function estadoErroDescarrega() {
