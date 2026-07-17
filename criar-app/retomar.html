@@ -135,8 +135,9 @@
   </div>
 
 <script>
-  // Página de retoma. Serve a ligação /criar/retomar/<token>:
-  // 1) lê o token do path; 2) pede os dados ao backend; 3) em sucesso,
+  // Página de retoma. Serve a ligação /retomar?token=<token>:
+  // 1) lê o token da query string (fallback: último segmento do path);
+  // 2) pede os dados ao backend; 3) em sucesso,
   // guarda os campos em sessionStorage e reencaminha em silêncio para /criar;
   // 4) em erro, mostra uma mensagem simples (sem jargão técnico).
   //
