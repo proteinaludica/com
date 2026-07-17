@@ -1,16 +1,6 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
-  "functions": {
-    "api/retomar.js": {
-      "memory": 128,
-      "maxDuration": 10
-    }
-  },
-  "routes": [
-    { "src": "/retomar/(?<token>[^/]+)/?$", "dest": "/api/retomar?token=$token" },
-    { "src": "/retomar/?$", "dest": "/retomar.html" }
-  ],
   "headers": [
     {
       "source": "/(.*)",
