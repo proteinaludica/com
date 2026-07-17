@@ -1248,6 +1248,75 @@
     .s3-body { grid-template-columns: 1fr; }
     .s3-index { position: static; }
   }
+  /* ─── Sticky de preço (Ecrã 3) — paleta Laurissilva sobre fundo claro ─── */
+  .sticky-preco {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    z-index: 60;
+    background: #0B0E0C;
+    border-top: 1px solid rgba(200, 168, 107, 0.35);
+    padding: 12px 1.25rem;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom));
+    font-family: var(--font-body);
+    display: none;
+  }
+  .sticky-preco.visible { display: block; }
+  .sticky-preco-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .sticky-preco-atual {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .sticky-preco-titulo {
+    font-size: 14px;
+    font-weight: 500;
+    color: #F5F2EC;
+  }
+  .sticky-preco-valor {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 600;
+    color: #C8A86B;
+  }
+  .sticky-preco-inclui {
+    font-size: 12px;
+    color: #8FAA6B;
+  }
+  .sticky-preco-upgrade {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .sticky-preco-upsell {
+    font-size: 12px;
+    color: rgba(245, 242, 236, 0.75);
+  }
+  .sticky-preco-btn {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 500;
+    color: #0B0E0C;
+    background: #8FAA6B;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 16px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s ease;
+  }
+  .sticky-preco-btn:hover { background: #C8A86B; }
+  /* espaço no fundo do Ecrã 3 para o conteúdo não ficar tapado pela barra */
+  #screen-3 .screen-inner { padding-bottom: 130px; }
 </style>
 </head>
 <body>
@@ -1856,6 +1925,21 @@
   </div>
 </section>
 
+<!-- Sticky de preço — barra fixa no fundo, visível apenas no Ecrã 3 -->
+<div class="sticky-preco" id="stickyPreco" aria-live="polite">
+  <div class="sticky-preco-inner">
+    <div class="sticky-preco-atual">
+      <span class="sticky-preco-titulo" id="stickyPrecoTitulo"></span>
+      <span class="sticky-preco-valor" id="stickyPrecoValor"></span>
+      <span class="sticky-preco-inclui" id="stickyPrecoInclui"></span>
+    </div>
+    <div class="sticky-preco-upgrade">
+      <span class="sticky-preco-upsell" id="stickyPrecoUpsell"></span>
+      <button type="button" class="sticky-preco-btn" id="stickyPrecoBtn"></button>
+    </div>
+  </div>
+</div>
+
 <!-- ════════════════════════════════════════════ -->
 <!-- ECRÃ 4: OUTPUT (grátis)                      -->
 <!-- ════════════════════════════════════════════ -->
@@ -2190,6 +2274,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     if (target) target.classList.add('active');
     state.current = n;
     updateProgress();
+    atualizarStickyPreco();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -2232,7 +2317,15 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
 
   // ─────────── PAYWALL: PATAMARES ───────────
   const TIERS = {
+    free: {
+      titulo: 'Versão grátis',
+      preco: '0€',
+      inclui: 'Apenas o prompt final'
+    },
     kit: {
+      titulo: 'Kit completo',
+      preco: '19€',
+      inclui: 'Prompt final + guia de instalação em PDF',
       title: 'Kit completo<br><em>19€</em>',
       previewTitle: 'Kit completo',
       price: '19€',
@@ -2242,6 +2335,9 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       ]
     },
     pro: {
+      titulo: 'Pro',
+      preco: '49€',
+      inclui: 'A IA ajuda a preencher cada campo em tempo real',
       title: 'Pro<br><em>49€</em>',
       previewTitle: 'Pro',
       price: '49€',
@@ -2249,6 +2345,11 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
         'Tudo do Kit completo',
         'Assistente digital IA em tempo real'
       ]
+    },
+    medida: {
+      titulo: 'À medida',
+      preco: '290€',
+      inclui: 'Falar connosco'
     }
   };
 
@@ -2262,6 +2363,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     document.querySelectorAll('.tier-card').forEach(c => c.classList.remove('selected'));
     if (btn) btn.classList.add('selected');
     state.tier = tier;
+    atualizarStickyPreco();
 
     if (tier === 'free') {
       goTo(4);
@@ -2287,6 +2389,53 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       const proCard = document.querySelector('[data-tier="pro"]');
       if (proCard) selectTier('pro', proCard);
     }, 100);
+  }
+
+  // ─────────── STICKY DE PREÇO (Ecrã 3) ───────────
+  // Barra fixa no fundo que mostra o patamar ativo (state.tier) e o upgrade
+  // seguinte. Só tem 3 estados (free/kit/pro); sem escolha ainda — ou com
+  // "à medida" — mostra o default (kit).
+  const STICKY_ESTADOS = {
+    free: {
+      upsell: '✨ Com o Kit, recebe também o guia de instalação · 19€',
+      botao: 'Ver Kit →',
+      acao: () => goTo(5)
+    },
+    kit: {
+      upsell: '✨ Com Pro, a IA preenche por si · 49€',
+      botao: 'Ver Pro →',
+      acao: goToProPricing
+    },
+    pro: {
+      upsell: 'Precisa de algo à medida? · 290€',
+      botao: 'Falar connosco →',
+      acao: goToMedida
+    }
+  };
+
+  function goToMedida() {
+    goTo(5);
+    setTimeout(() => {
+      const card = document.querySelector('[data-tier="medida"]');
+      if (card) selectTier('medida', card);
+    }, 100);
+  }
+
+  function atualizarStickyPreco() {
+    const barra = document.getElementById('stickyPreco');
+    if (!barra) return;
+    barra.classList.toggle('visible', state.current === 3);
+
+    const estado = STICKY_ESTADOS[state.tier] ? state.tier : 'kit';
+    const tier = TIERS[estado];
+    const extra = STICKY_ESTADOS[estado];
+    document.getElementById('stickyPrecoTitulo').textContent = tier.titulo;
+    document.getElementById('stickyPrecoValor').textContent = tier.preco;
+    document.getElementById('stickyPrecoInclui').textContent = tier.inclui;
+    document.getElementById('stickyPrecoUpsell').textContent = extra.upsell;
+    const btn = document.getElementById('stickyPrecoBtn');
+    btn.textContent = extra.botao;
+    btn.onclick = extra.acao;
   }
 
   function backToTiers() {
@@ -2755,6 +2904,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   });
   checkObrigatorias();
   updateProgress();
+  atualizarStickyPreco();
 
   // ─── Retoma: preencher o formulário a partir de um rascunho recuperado ───
   // A página /criar/retomar/<token> guarda os campos em sessionStorage

@@ -4,6 +4,11 @@
   "trailingSlash": false,
   "redirects": [
     {
+      "source": "/criar/retomar/(.*)",
+      "destination": "https://criar.proteinaludica.com/criar/retomar/$1",
+      "permanent": true
+    },
+    {
       "source": "/criar",
       "destination": "https://criar.proteinaludica.com",
       "permanent": true
