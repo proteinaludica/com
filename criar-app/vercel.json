@@ -2,7 +2,7 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "routes": [
-    { "src": "/criar/retomar/(.*)", "dest": "/retomar.html?token=$1" }
+    { "src": "/retomar/(.*)", "dest": "/retomar.html?token=$1" }
   ],
   "headers": [
     {

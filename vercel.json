@@ -5,7 +5,7 @@
   "redirects": [
     {
       "source": "/criar/retomar/(.*)",
-      "destination": "https://criar.proteinaludica.com/criar/retomar/$1",
+      "destination": "https://criar.proteinaludica.com/retomar/$1",
       "permanent": true
     },
     {
