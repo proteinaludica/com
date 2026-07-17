@@ -1,20 +1,19 @@
+export const config = {
+  matcher: ['/retomar/:path*'],
+};
+
 export function middleware(request) {
-  const { pathname } = new URL(request.url);
+  const url = new URL(request.url);
+  const pathname = url.pathname;
 
-  // Match /retomar/<token> paths and rewrite to /retomar.html with token query parameter
-  const match = pathname.match(/^\/retomar\/([^/]+)$/);
-  if (match) {
-    const token = match[1];
-    const url = new URL(request.url);
-    url.pathname = '/retomar.html';
-    url.searchParams.set('token', token);
-    return new Response(null, {
-      status: 307,
-      headers: {
-        location: url.toString(),
-      },
-    });
+  // Match /retomar/<token> and rewrite to /retomar.html
+  if (pathname.match(/^\/retomar\/[^/]+$/)) {
+    const match = pathname.match(/^\/retomar\/(.+)$/);
+    if (match) {
+      const token = match[1];
+      url.pathname = '/retomar.html';
+      url.searchParams.set('token', token);
+      return Response.redirect(url, 307);
+    }
   }
-
-  return null;
 }
