@@ -2,7 +2,7 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
-    { "source": "/criar/retomar/(.*)", "destination": "/retomar.html" }
+    { "source": "/retomar/(.*)", "destination": "/retomar.html" }
   ],
   "headers": [
     {
