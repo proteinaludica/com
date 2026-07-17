@@ -1,8 +1,8 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
-  "rewrites": [
-    { "source": "/retomar/(.*)", "destination": "/retomar.html" }
+  "routes": [
+    { "src": "/criar/retomar/(.*)", "dest": "/retomar.html?token=$1" }
   ],
   "headers": [
     {
