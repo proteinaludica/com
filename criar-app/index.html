@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Criar assistente digital IA — Proteína Lúdica · protótipo</title>
-<meta name="description" content="Protótipo clicável do wizard /criar da Proteína Lúdica. 5 ecrãs + sucesso. Para validação com médicos antes de desenvolvimento.">
+<title>Criar assistente digital IA — Proteína Lúdica</title>
+<meta name="description" content="Criar um assistente digital IA à medida de cada profissional. O profissional determina, a IA organiza e dá forma, o profissional revê e decide.">
 <meta name="robots" content="noindex, nofollow">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1164,7 +1164,7 @@
     .upgrade-block, .pdf-mockup { padding: 1.25rem; }
   }
 
-  /* ─── NÍVEL A: exemplos + Pro (herdado do wizard médico) ─── */
+  /* ─── NÍVEL A: exemplos + Pro ─── */
   .field-actions { display: flex; align-items: center; gap: 8px; margin-top: 7px; flex-wrap: wrap; }
   .btn-example { display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.04em; color: var(--accent); background: var(--accent-light); border: 0.5px solid transparent; padding: 4px 10px; border-radius: 4px; cursor: pointer; transition: all 0.15s; }
   .btn-example:hover { border-color: var(--accent); }
@@ -1321,10 +1321,6 @@
 </head>
 <body>
 
-<div class="demo-banner">
-  <strong>Protótipo clicável</strong> · Dados não são guardados · <strong>R</strong> para recomeçar
-</div>
-
 <header class="topbar">
   <div class="topbar-inner">
     <a class="logo" href="#" onclick="return false">
@@ -1340,7 +1336,7 @@
         <div class="progress-dot"></div>
       </div>
     </div>
-    <button class="demo-reset" onclick="resetDemo()">↻ Reiniciar</button>
+    <button class="demo-reset">↻ Reiniciar</button>
   </div>
 </header>
 
@@ -1358,7 +1354,7 @@
         <div style="position:absolute; top:10px; right:10px; font-family:var(--font-mono); font-size:9px; letter-spacing:0.06em; text-transform:uppercase; color:var(--accent); background:var(--accent-light); padding:2px 8px; border-radius:3px;">Recomendado</div>
         <div class="platform-badge b-claude">C</div>
         <div class="platform-name">Claude Projects</div>
-        <div class="platform-desc">Melhor para texto longo e raciocínio clínico detalhado.</div>
+        <div class="platform-desc">Melhor para texto longo e raciocínio detalhado.</div>
       </button>
 
       <button class="platform-card" onclick="selectPlatform('gpt','ChatGPT Custom GPTs')">
@@ -1370,13 +1366,13 @@
       <button class="platform-card" onclick="selectPlatform('gemini','Google Gemini Gems')">
         <div class="platform-badge b-gemini">◆</div>
         <div class="platform-name">Google Gemini Gems</div>
-        <div class="platform-desc">Se já usas Gmail, Drive e Documentos Google.</div>
+        <div class="platform-desc">Indicado para quem já utiliza Gmail, Drive e Google Documentos.</div>
       </button>
 
       <button class="platform-card" onclick="selectPlatform('copilot','Microsoft Copilot Agents')">
         <div class="platform-badge b-copilot">M</div>
         <div class="platform-name">Microsoft Copilot</div>
-        <div class="platform-desc">Se já usas Teams, Outlook e SharePoint no M365.</div>
+        <div class="platform-desc">Indicado para quem já utiliza Teams, Outlook e Microsoft 365.</div>
       </button>
 
       <button class="platform-card" onclick="selectPlatform('perplexity','Perplexity Spaces')">
@@ -1395,7 +1391,7 @@
         <div style="position:absolute; top:10px; right:10px; font-family:var(--font-mono); font-size:9px; letter-spacing:0.06em; text-transform:uppercase; color:#6B3FA0; background:#F0E9F8; padding:2px 8px; border-radius:3px;">Em breve</div>
         <div class="platform-badge" style="background:#6B3FA0;">PL</div>
         <div class="platform-name">Proteína Lúdica</div>
-        <div class="platform-desc">Aloja o assistente connosco — sem copiar para fora. O utente acede por link. <strong>Em desenvolvimento.</strong></div>
+        <div class="platform-desc">Aloja o assistente connosco — sem copiar para fora. Quem o procura acede por link. <strong>Em desenvolvimento.</strong></div>
       </button>
 
       <button class="platform-card platform-card-solo" onclick="selectPlatform('outro','Outro / não sei')">
@@ -1426,13 +1422,12 @@
 
     <div class="template-grid">
       <button class="template-card" onclick="selectTemplate('catalogo')">
-        <div class="template-tag">Catálogo · 5 assistentes digitais IA prontos</div>
+        <div class="template-tag">ASSISTENTES PRONTOS · SAÚDE</div>
         <div class="template-title">Partir de um<br>assistente digital IA pronto</div>
-        <div class="template-desc">As 17 secções já estão pré-preenchidas com o assistente digital IA escolhido. Edição apenas do que é específico de cada caso.</div>
+        <div class="template-desc">Assistentes já construídos para profissionais de saúde. As 17 secções chegam pré-preenchidas. Edição apenas do que é específico de cada caso. Para outras áreas, começar do template em branco.</div>
         <ul class="template-list">
           <li>Dr. Escriba IA · MGF + Urgência</li>
           <li>Dr. Escriba IA · Internato</li>
-          <li>RehabAssist · Reabilitação</li>
           <li>Assistente de Saúde · 12 semanas</li>
           <li>Assistente Clínico · gestão</li>
         </ul>
@@ -1510,12 +1505,12 @@
             <div class="fill-guide">Como se chama o assistente e para que serve — numa frase.</div>
             <div class="fill-field">
               <label for="f-nome">Nome e propósito</label>
-              <textarea id="f-nome" placeholder="ex: Assistente de apoio que responde a dúvidas frequentes dos utentes." oninput="checkRGPD(this)"></textarea>
+              <textarea id="f-nome" placeholder="ex: Assistente de apoio que responde às dúvidas mais frequentes de quem procura o serviço." oninput="checkRGPD(this)"></textarea>
               <div class="chips" aria-label="Sugestões para começar">
                 <span class="chips-label">começar com</span>
                 <button type="button" class="chip" data-insert="Chama-se " onclick="insertChip('f-nome', this)">Chama-se…</button>
                 <button type="button" class="chip" data-insert="Serve para " onclick="insertChip('f-nome', this)">Serve para…</button>
-                <button type="button" class="chip" data-insert="Ajuda os utentes a " onclick="insertChip('f-nome', this)">Ajuda os utentes a…</button>
+                <button type="button" class="chip" data-insert="Ajuda quem me procura a " onclick="insertChip('f-nome', this)">Ajuda quem me procura a…</button>
                 <button type="button" class="chip" data-insert="É o assistente que " onclick="insertChip('f-nome', this)">É o assistente que…</button>
               </div>
               <div class="field-actions">
@@ -1530,11 +1525,11 @@
             <div class="fill-guide">O objetivo central do assistente: o que entrega, e a quem.</div>
             <div class="fill-field">
               <label for="f-missao">Missão</label>
-              <textarea id="f-missao" placeholder="ex: Ajudar os utentes a prepararem-se para a consulta e a esclarecer dúvidas entre consultas." oninput="checkRGPD(this)"></textarea>
+              <textarea id="f-missao" placeholder="ex: Ajudar a preparar a reunião e a esclarecer dúvidas entre contactos." oninput="checkRGPD(this)"></textarea>
               <div class="chips" aria-label="Sugestões para começar">
                 <span class="chips-label">começar com</span>
                 <button type="button" class="chip" data-insert="A minha missão é " onclick="insertChip('f-missao', this)">A minha missão é…</button>
-                <button type="button" class="chip" data-insert="Quero que os meus utentes " onclick="insertChip('f-missao', this)">Quero que os meus utentes…</button>
+                <button type="button" class="chip" data-insert="Quero que as pessoas que atendo " onclick="insertChip('f-missao', this)">Quero que as pessoas que atendo…</button>
                 <button type="button" class="chip" data-insert="O que me distingue é " onclick="insertChip('f-missao', this)">O que me distingue é…</button>
               </div>
               <div class="field-actions">
@@ -1549,7 +1544,7 @@
             <div class="fill-guide">Os limites absolutos — o que o assistente nunca faz, em nenhuma circunstância.</div>
             <div class="fill-field">
               <label for="f-redline">O que o assistente nunca faz</label>
-              <textarea id="f-redline" placeholder="ex: não dá diagnósticos, não prescreve, não interpreta análises." oninput="checkRGPD(this)"></textarea>
+              <textarea id="f-redline" placeholder="ex: não dá pareceres definitivos, não substitui a análise do profissional, não compromete a empresa." oninput="checkRGPD(this)"></textarea>
               <div class="chips" aria-label="Sugestões para começar">
                 <span class="chips-label">começar com</span>
                 <button type="button" class="chip" data-insert="Nunca " onclick="insertChip('f-redline', this)">Nunca…</button>
@@ -1619,7 +1614,7 @@
     </div>
 
     <div class="opcionais" id="opcionais" hidden>
-      <div class="opc-note">As 12 secções opcionais estão todas disponíveis neste protótipo.</div>
+      <div class="opc-note">As 12 secções opcionais estão todas disponíveis.</div>
 
     <div class="fill-main" id="sec-03">
       <div class="fill-title">Público-alvo</div>
@@ -1654,8 +1649,8 @@
         <div class="pro-reveal">
           <button type="button" class="btn-pro-toggle">✨ ver versão Pro →</button>
           <div class="pro-reveal-panel" hidden>
-            <div class="pro-reveal-text">Clínica de bairro, dois perfis de utente predominantes: <strong>50+ em recuperação pós-cirúrgica</strong> — ritmo mais lento, linguagem tranquilizadora, evitar prazos rígidos · <strong>Desportivos 20-40</strong> — directos, focados em resultado e retoma de actividade. O assistente ajusta o tom consoante o perfil identificado nas notas.</div>
-            <button class="btn-example" data-example="Clínica de bairro, dois perfis de utente predominantes: 50+ em recuperação pós-cirúrgica — ritmo mais lento, linguagem tranquilizadora, evitar prazos rígidos · Desportivos 20-40 — directos, focados em resultado e retoma de actividade. O assistente ajusta o tom consoante o perfil identificado nas notas." onclick="fillFieldExample('f-contexto', this)">↳ usar este exemplo</button>
+            <div class="pro-reveal-text">Gabinete de contabilidade, dois perfis predominantes: <strong>empresários em nome individual</strong> — linguagem simples, evitar termos técnicos, explicar prazos com antecedência · <strong>Empresas com contabilidade organizada</strong> — directos, focados em prazos e valores. O assistente ajusta o tom consoante o perfil identificado nas notas.</div>
+            <button class="btn-example" data-example="Gabinete de contabilidade, dois perfis predominantes: empresários em nome individual — linguagem simples, evitar termos técnicos, explicar prazos com antecedência · Empresas com contabilidade organizada — directos, focados em prazos e valores. O assistente ajusta o tom consoante o perfil identificado nas notas." onclick="fillFieldExample('f-contexto', this)">↳ usar este exemplo</button>
           </div>
         </div>
       </div>
@@ -1734,8 +1729,8 @@
         <div class="pro-reveal">
           <button type="button" class="btn-pro-toggle">✨ ver versão Pro →</button>
           <div class="pro-reveal-panel" hidden>
-            <div class="pro-reveal-text">1. É para um <strong>utente novo</strong> ou já em acompanhamento? 2. Tem as <strong>notas da última sessão</strong> ou vamos partir do zero? 3. O texto é para o <strong>processo clínico interno</strong> ou para entregar ao utente/médico de família? A pergunta 3 muda completamente o registo do texto final.</div>
-            <button class="btn-example" data-example="1. É para um utente novo ou já em acompanhamento? 2. Tem as notas da última sessão ou vamos partir do zero? 3. O texto é para o processo clínico interno ou para entregar ao utente/médico de família? A pergunta 3 muda completamente o registo do texto final." onclick="fillFieldExample('f-onboarding', this)">↳ usar este exemplo</button>
+            <div class="pro-reveal-text">1. É um <strong>contacto novo</strong> ou já acompanhado? 2. Há <strong>notas do contacto anterior</strong> ou parte-se do zero? 3. O texto é para <strong>registo interno</strong> ou para entregar ao cliente? A pergunta 3 muda completamente o registo do texto final.</div>
+            <button class="btn-example" data-example="1. É um contacto novo ou já acompanhado? 2. Há notas do contacto anterior ou parte-se do zero? 3. O texto é para registo interno ou para entregar ao cliente? A pergunta 3 muda completamente o registo do texto final." onclick="fillFieldExample('f-onboarding', this)">↳ usar este exemplo</button>
           </div>
         </div>
       </div>
@@ -1907,8 +1902,8 @@
         <div class="pro-reveal">
           <button type="button" class="btn-pro-toggle">✨ ver versão Pro →</button>
           <div class="pro-reveal-panel" hidden>
-            <div class="pro-reveal-text">Pergunta se há algo a retomar do utente anterior. Se notar que o profissional pede sempre o mesmo formato de resumo de progressão, sugere: "Quer guardar isto como modelo para os próximos utentes com o mesmo tipo de recuperação?" — só grava depois de confirmado. <strong>Nunca guarda dados pessoais de utentes.</strong></div>
-            <button class="btn-example" data-example="Pergunta se há algo a retomar do utente anterior. Se notar que o profissional pede sempre o mesmo formato de resumo de progressão, sugere: &quot;Quer guardar isto como modelo para os próximos utentes com o mesmo tipo de recuperação?&quot; — só grava depois de confirmado. Nunca guarda dados pessoais de utentes." onclick="fillFieldExample('f-continuidade', this)">↳ usar este exemplo</button>
+            <div class="pro-reveal-text">Pergunta se há algo a retomar do contacto anterior. Se notar que o profissional pede sempre o mesmo formato de resumo, sugere: "Quer guardar isto como modelo para os próximos casos semelhantes?" — só grava depois de confirmado. <strong>Nunca guarda dados pessoais.</strong></div>
+            <button class="btn-example" data-example="Pergunta se há algo a retomar do contacto anterior. Se notar que o profissional pede sempre o mesmo formato de resumo, sugere: &quot;Quer guardar isto como modelo para os próximos casos semelhantes?&quot; — só grava depois de confirmado. Nunca guarda dados pessoais." onclick="fillFieldExample('f-continuidade', this)">↳ usar este exemplo</button>
           </div>
         </div>
       </div>
@@ -1919,7 +1914,7 @@
     </div>
 
     <div class="demo-skip">
-      <div>No protótipo real seriam preenchidas todas as 17 secções. Para esta demonstração:</div>
+      <div>As 12 secções opcionais estão todas disponíveis.</div>
       <button onclick="goTo(4)">Saltar para output ⏭</button>
     </div>
   </div>
@@ -1970,7 +1965,7 @@ apresenta painel estruturado com os dados relevantes do histórico,
 pontos a validar e checklist de preparação para o atendimento.
 Palavra de saída: fim
 
-## 4. Onboarding do utente
+## 4. Primeiro contacto
 [Sequência de 8 etapas de primeiro contacto]
 
 ## 5. Regras de segurança
@@ -1999,8 +1994,8 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       <div class="upgrade-title">Configurar e pôr a correr sem voltas</div>
       <ul class="upgrade-list">
         <li>Guia visual passo-a-passo para <span id="platformNameUp">a sua plataforma</span> (com printscreens)</li>
-        <li>Checklist RGPD clínico · pseudonimização · zero-retention · EU-only</li>
-        <li>Template de consentimento para doentes + disclaimer não-clínico</li>
+        <li>Checklist RGPD · dados minimizados · sem retenção · tratamento na União Europeia</li>
+        <li>Template de consentimento + aviso de que o assistente não decide</li>
         <li>PDF A4 formatado · capa · índice · pronto a imprimir</li>
         <li>Link de retoma 30 dias · editar e re-gerar sem pagar outra vez</li>
       </ul>
@@ -2191,7 +2186,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
 
     <div class="success-actions">
       <button class="btn-primary" id="btnDescarregaPdf" disabled>A preparar o PDF…</button>
-      <button class="btn-ghost" onclick="resetDemo()">↻ Recomeçar protótipo</button>
+      <button class="btn-ghost" onclick="resetDemo()">↻ Criar outro assistente</button>
     </div>
 
     <!-- Escondido por defeito; mostrado quando a resposta de gerar-pdf-instalacao traz retomaUrl. -->
@@ -2236,7 +2231,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       <div class="modal-q-opts" data-q="3">
         <button class="modal-q-opt" onclick="selectQuiz(this,3,'solo')">Só eu</button>
         <button class="modal-q-opt" onclick="selectQuiz(this,3,'team')">2-10 (equipa)</button>
-        <button class="modal-q-opt" onclick="selectQuiz(this,3,'clinic')">10+ (clínica)</button>
+        <button class="modal-q-opt" onclick="selectQuiz(this,3,'equipa')">10+ (equipa)</button>
       </div>
     </div>
 
@@ -2653,9 +2648,9 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     else if (q[1] === 'm365') rec = 'Microsoft Copilot Agents. Integra-se com Outlook e SharePoint já existentes.';
     else if (q[1] === 'gws') rec = 'Google Gemini Gems. Liga-se diretamente a Gmail e Drive sem configuração.';
     else if (q[1] === 'gpt') rec = 'ChatGPT Custom GPTs. Aproveita uma licença Plus já existente.';
-    else if (q[2] === 'yes') rec = 'Gemini (se usas Google) ou Copilot (se usas M365). Ambos lêem emails e ficheiros sem ficheiro-a-ficheiro.';
+    else if (q[2] === 'yes') rec = 'Para quem utiliza Google, a integração faz-se com o Drive. Para quem utiliza Microsoft 365, faz-se com o OneDrive.';
     else if (q[3] === 'solo') rec = 'Claude Projects. Sem licenças de equipa, melhor para uso individual e privado.';
-    else if (q[3] === 'clinic') rec = 'Microsoft Copilot ou Google Gemini. Ambos têm gestão central e licenças por utilizador.';
+    else if (q[3] === 'equipa') rec = 'Microsoft Copilot ou Google Gemini. Ambos têm gestão central e licenças por utilizador.';
     else rec = 'Claude Projects. Melhor ponto de partida neutro — sem integrações obrigatórias, privado por defeito.';
 
     document.getElementById('modalResultText').textContent = rec;
@@ -2664,11 +2659,6 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
 
   // ─────────── KEYBOARD ───────────
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'r' || e.key === 'R') {
-      // só se não estiver a escrever num input
-      const tag = document.activeElement.tagName.toLowerCase();
-      if (tag !== 'input' && tag !== 'textarea') resetDemo();
-    }
     if (e.key === 'Escape') closeQuizModal();
   });
 
@@ -2678,7 +2668,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       nome: 'Nutricionista',
       title: 'Nutricionista Digital · acompanhamento',
       'f-code': 'nutri-c12',
-      'f-behaviour': 'Ao detectar o código, passa a modo técnico: mostra histórico de peso, registo alimentar e metas calóricas em tabela. Linguagem objectiva, para o profissional rever antes da consulta.',
+      'f-behaviour': 'Ao detectar o código, passa a modo técnico: mostra o histórico do processo, os registos anteriores e os prazos em tabela. Linguagem objectiva, para o profissional rever antes do contacto.',
       'f-exit': 'fim',
       example: 'Ao detectar o código <strong>nutri-c12</strong>, o assistente passa a modo técnico: mostra histórico de peso, registo alimentar e metas calóricas em tabela. Ao digitar <strong>fim</strong>, regressa ao modo cliente e omite o código.'
     },
