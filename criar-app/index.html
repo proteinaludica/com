@@ -2380,10 +2380,9 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
 
   function goToProPricing() {
     goTo(5);
-    setTimeout(() => {
-      const proCard = document.querySelector('[data-tier="pro"]');
-      if (proCard) selectTier('pro', proCard);
-    }, 100);
+    const proCard = document.querySelector('[data-tier="pro"]');
+    if (proCard) selectTier('pro', proCard);
+    else showPaywallStep('paywallTiers');
   }
 
   // ─────────── STICKY DE PREÇO (Ecrã 3) ───────────
