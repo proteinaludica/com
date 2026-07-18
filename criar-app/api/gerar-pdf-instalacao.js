@@ -590,8 +590,8 @@ module.exports = async (req, res) => {
       body: JSON.stringify({
         from: from,
         to: [email],
-        subject: 'O teu guia de instalação · Proteína Lúdica',
-        text: 'Em anexo o guia de instalação do teu assistente digital IA (' + nome_assistente + ').',
+        subject: 'O guia de instalação do assistente digital IA · Proteína Lúdica',
+        text: 'Obrigado pela confiança.\n\nEm anexo segue o guia de instalação do assistente digital IA, com os passos a seguir na plataforma escolhida.\n\nO guia foi preparado para ser seguido do princípio ao fim, sem conhecimentos de informática. Basta abrir o PDF e avançar passo a passo.\n\nPara qualquer dúvida, basta responder a esta mensagem ou escrever para info@proteinaludica.com.\n\nProteína Lúdica, Lda.',
         attachments: [
           {
             filename: nomeFicheiro,
