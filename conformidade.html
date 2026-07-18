@@ -9,62 +9,111 @@
 <link rel="canonical" href="https://proteinaludica.com/conformidade">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Geist:wght@300..600&family=Geist+Mono:wght@400..600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --bg: #F5F2EC; --surface: #FDFBF6;
-    --ink: #0D0F0B; --ink2: #3A3D35; --muted: #7A7D72;
-    --accent: #2D5A1B; --accent2: #3D7A26; --accent-light: #EAF3DE;
-    --border: rgba(13,15,11,0.10);
-    --font-head: 'Fraunces', Georgia, serif;
-    --font-body: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
-    --font-mono: 'Geist Mono', 'JetBrains Mono', monospace;
+  :root{
+    --fundo:#141A10;          /* verde-escuro Laurissilva — nunca preto puro */
+    --fundo-2:#1A2214;
+    --cartao-a:#1B2315;
+    --cartao-b:#161C11;
+    --musgo:#8FAA6B;
+    --musgo-claro:#A9C287;
+    --ocre:#C8A86B;
+    --texto:#E9EDE3;
+    --texto-2:#B9C2AD;
+    --texto-3:#8A9478;
+    --linha:rgba(143,170,107,.14);
+    --linha-2:rgba(143,170,107,.35);
   }
-  html { scroll-behavior: smooth; }
-  body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 17px; line-height: 1.65; }
-  nav {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 1.1rem 2.5rem; background: rgba(245,242,236,0.92);
-    backdrop-filter: blur(12px); border-bottom: 0.5px solid var(--border);
-    position: sticky; top: 0; z-index: 10;
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation:none!important;transition:none!important}
   }
-  .logo { display: flex; flex-direction: column; text-decoration: none; }
-  .logo-name { font-family: var(--font-head); font-size: 19px; font-weight: 400; color: var(--ink); line-height: 1; }
-  .logo-name em { font-style: italic; color: var(--accent); }
-  .logo-sub { font-family: var(--font-mono); font-size: 9px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 3px; }
-  .nav-back { font-size: 14px; color: var(--ink2); text-decoration: none; font-family: var(--font-mono); letter-spacing: 0.03em; }
-  .nav-back:hover { color: var(--accent); }
-  .wrap { max-width: 760px; margin: 0 auto; padding: 4rem 1.5rem 6rem; }
-  .eyebrow { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
-  h1 { font-family: var(--font-head); font-size: clamp(2.2rem, 5vw, 3.2rem); font-weight: 400; letter-spacing: -0.02em; line-height: 1.05; margin: 0.6rem 0 0.5rem; }
-  h1 em { font-style: italic; color: var(--accent); }
-  .updated { font-family: var(--font-mono); font-size: 12px; color: var(--muted); margin-bottom: 3rem; }
-  h2 { font-family: var(--font-head); font-size: 1.5rem; font-weight: 400; letter-spacing: -0.01em; margin: 2.5rem 0 0.75rem; }
-  p { color: var(--ink2); margin-bottom: 1rem; }
-  ul { margin: 0 0 1rem 1.25rem; color: var(--ink2); }
-  li { margin-bottom: 0.4rem; }
-  a { color: var(--accent); }
-  strong { color: var(--ink); font-weight: 500; }
-  .card { background: var(--surface); border: 0.5px solid var(--border); border-radius: 10px; padding: 1.5rem 1.75rem; margin-top: 1rem; }
-  .meta-row { display: flex; gap: 1rem; padding: 0.6rem 0; border-bottom: 0.5px solid var(--border); font-size: 15px; }
-  .meta-row:last-child { border-bottom: none; }
-  .meta-label { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; min-width: 130px; flex-shrink: 0; }
-  footer { border-top: 0.5px solid var(--border); padding: 2rem 1.5rem; text-align: center; font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
-  footer a { color: var(--muted); text-decoration: none; }
-  footer a:hover { color: var(--accent); }
-  @media (max-width: 560px) { nav { padding: 1rem 1.25rem; } .meta-row { flex-direction: column; gap: 0.2rem; } }
+  body{
+    background:var(--fundo);
+    color:var(--texto);
+    font-family:'Geist',system-ui,-apple-system,sans-serif;
+    font-size:16px;line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  a:focus-visible{outline:2px solid var(--ocre);outline-offset:3px;border-radius:4px}
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky;top:0;z-index:20;
+    background:rgba(20,26,16,.92);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--linha);
+  }
+  .barra{
+    max-width:1040px;margin:0 auto;padding:0 20px;
+    display:flex;align-items:center;justify-content:space-between;height:56px;
+  }
+  .marca{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:1rem;color:var(--texto);text-decoration:none}
+  .marca span{color:var(--musgo)}
+  .nav-voltar{color:var(--texto-2);text-decoration:none;font-size:.845rem;transition:color .15s ease}
+  .nav-voltar:hover{color:var(--texto)}
+  @media (min-width:761px){
+    .barra{height:60px}
+    .marca{font-size:1.06rem}
+  }
+
+  /* ---------- Conteúdo ---------- */
+  .wrap{max-width:760px;margin:0 auto;padding:56px 20px 72px}
+  .eyebrow{
+    font-size:.72rem;color:var(--texto-3);
+    letter-spacing:.12em;text-transform:uppercase;
+  }
+  h1{
+    font-family:'Fraunces',Georgia,serif;font-weight:600;
+    font-size:clamp(1.95rem,6vw,2.8rem);line-height:1.1;letter-spacing:-.015em;
+    margin:.6rem 0 1rem;
+  }
+  h1 em{font-style:italic;color:var(--musgo)}
+  h2{
+    font-family:'Fraunces',Georgia,serif;font-weight:600;
+    font-size:clamp(1.25rem,3.5vw,1.5rem);line-height:1.15;letter-spacing:-.015em;
+    margin:2.5rem 0 .75rem;
+  }
+  p{color:var(--texto-2);margin-bottom:1rem}
+  .wrap > p:first-of-type{color:var(--texto);font-size:1.05rem}
+  ul{margin:0 0 1rem 1.25rem;color:var(--texto-2)}
+  li{margin-bottom:.4rem}
+  a{color:var(--musgo-claro)}
+  a:hover{color:var(--ocre)}
+  strong{color:var(--texto);font-weight:600}
+  @media (min-width:761px){
+    .wrap{padding:80px 20px 96px}
+  }
+
+  /* ---------- Rodapé ---------- */
+  footer{
+    border-top:1px solid var(--linha);
+    padding:32px 0 40px;
+    color:var(--texto-2);font-size:.78rem;text-align:center;
+  }
+  footer .contentor{max-width:1040px;margin:0 auto;padding:0 20px}
+  footer .aviso{max-width:70ch;margin:0 auto 10px}
+  footer .legal{color:var(--texto-3)}
+  footer .legal a{color:var(--texto-2);text-decoration:none}
+  footer .legal a:hover{color:var(--texto)}
+  @media (min-width:761px){
+    footer{padding:36px 0 44px;font-size:.845rem}
+    footer .aviso{margin-bottom:12px}
+  }
 </style>
 </head>
 <body>
 
-<nav>
-  <a href="/" class="logo">
-    <div class="logo-name">Proteína <em>Lúdica</em></div>
-    <div class="logo-sub">Assistentes digitais IA · Madeira</div>
-  </a>
-  <a href="/" class="nav-back">← Voltar ao início</a>
-</nav>
+<header>
+  <div class="barra">
+    <a class="marca" href="/">Proteína <span>Lúdica</span></a>
+    <a class="nav-voltar" href="/">← Voltar ao início</a>
+  </div>
+</header>
 
 <main class="wrap">
   <span class="eyebrow">Conformidade &amp; Regulação</span>
@@ -95,7 +144,10 @@
 </main>
 
 <footer>
-  © 2026 Proteína Lúdica, Lda. &nbsp;·&nbsp; <a href="/">Início</a> &nbsp;·&nbsp; <a href="mailto:info@proteinaludica.com">info@proteinaludica.com</a>
+  <div class="contentor">
+    <p class="aviso">Ferramentas de documentação e organização. O profissional revê e decide, sempre.</p>
+    <p class="legal">© 2026 Proteína Lúdica, Lda. · NIF 514411520 · Região Autónoma da Madeira, Portugal · <a href="/">Início</a> · <a href="/privacidade">Política de privacidade</a> · <a href="/termos">Termos</a></p>
+  </div>
 </footer>
 
 </body>
