@@ -253,7 +253,7 @@ function construirMensagens({ contextoBloco, familia, profissao, rotulo, ajuda, 
   return [{ role: 'user', content: conteudo }];
 }
 
-async function chamarAnthropic({ apiKey, contextoBloco, familia, profissao, rotulo, ajuda, orientacao, maxPalavras, motivoRejeicao }) {
+async function chamarAnthropic({ apiKey, contextoBloco, familia, profissao, rotulo, ajuda, orientacao, maxPalavras, motivoRejeicao, campoId, tentativa }) {
   const resp = await fetch(ANTHROPIC_URL, {
     method: 'POST',
     headers: {
@@ -283,6 +283,19 @@ async function chamarAnthropic({ apiKey, contextoBloco, familia, profissao, rotu
   }
 
   const dados = await resp.json();
+
+  // Métricas de cache ([DEC-13]) — só números e ids, nunca o texto gerado nem o
+  // contexto. cache_read_input_tokens > 0 confirma que o cache activou.
+  const u = dados.usage || {};
+  console.log('[assistir-campo] cache ' + JSON.stringify({
+    campo: campoId || null,
+    familia: familia || null,
+    tentativa: tentativa || 1,
+    input_tokens: u.input_tokens != null ? u.input_tokens : null,
+    cache_creation_input_tokens: u.cache_creation_input_tokens != null ? u.cache_creation_input_tokens : null,
+    cache_read_input_tokens: u.cache_read_input_tokens != null ? u.cache_read_input_tokens : null,
+  }));
+
   const bruto = Array.isArray(dados.content)
     ? dados.content.filter((b) => b && b.type === 'text').map((b) => b.text).join('').trim()
     : '';
@@ -525,13 +538,13 @@ module.exports = async (req, res) => {
   const opts = { maxPalavras, profissao };
   let resultado;
   try {
-    const bruto1 = await chamarAnthropic({ apiKey, contextoBloco, familia, profissao, rotulo: rotuloLabel, ajuda, orientacao, maxPalavras });
+    const bruto1 = await chamarAnthropic({ apiKey, contextoBloco, familia, profissao, rotulo: rotuloLabel, ajuda, orientacao, maxPalavras, campoId: campo, tentativa: 1 });
     let r = validador.processar(bruto1, opts);
 
     if (!r.valido) {
       const motivo = motivoDosErros(r.erros);
       const bruto2 = await chamarAnthropic({
-        apiKey, contextoBloco, familia, profissao, rotulo: rotuloLabel, ajuda, orientacao, maxPalavras, motivoRejeicao: motivo,
+        apiKey, contextoBloco, familia, profissao, rotulo: rotuloLabel, ajuda, orientacao, maxPalavras, motivoRejeicao: motivo, campoId: campo, tentativa: 2,
       });
       r = validador.processar(bruto2, opts);
       if (!r.valido) {
