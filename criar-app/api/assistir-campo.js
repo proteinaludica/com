@@ -41,10 +41,11 @@ const validador = require('./validador-campo');
 // ---------------------------------------------------------------------------
 
 const LIMITES = {
+  campo: 200,
   rotulo: 200,
   orientacao: 2000,
   profissao: 200,
-  contexto: 20000,
+  valor: 8000,
   familia: 1,
 };
 
@@ -53,8 +54,57 @@ const FAMILIAS_VALIDAS = ['A', 'B', 'C', 'D'];
 // Tecto absoluto de palavras aceite no pedido (o valor efectivo vem do cliente).
 const MAX_PALAVRAS_TECTO = 400;
 
+// Tecto do bloco de contexto montado (caracteres). O corte é feito em fronteira
+// de linha completa, nunca a meio de uma linha.
+const CONTEXTO_MAX_CHARS = 8000;
+
+const CABECALHO_CONTEXTO = 'CONTEXTO JÁ PREENCHIDO PELO PROFISSIONAL';
+
 function cortar(v, max) {
   return (v == null ? '' : String(v)).trim().slice(0, max);
+}
+
+// Achata um valor numa única linha: quebras de linha e espaços múltiplos viram
+// um só espaço. Impede injecção de linhas falsas no bloco de contexto.
+function achatar(v, max) {
+  const s = String(v == null ? '' : v).replace(/[\r\n]+/g, ' ').replace(/\s+/g, ' ').trim();
+  return max ? s.slice(0, max) : s;
+}
+
+// Constrói o bloco CONTEXTO_CAMPOS_PREENCHIDOS a partir dos campos estruturados,
+// pela ordem recebida. Regras:
+//   - Ignora entradas com rótulo ou valor vazio (após achatar).
+//   - Ignora o próprio campo a gerar (comparação por rótulo achatado, sem
+//     distinção de maiúsculas, contra qualquer dos alvos indicados).
+//   - Cada campo ocupa exactamente uma linha "<rotulo>: <valor>".
+//   - Sem campos válidos: "Nenhum campo preenchido até ao momento.".
+//   - Trunca a CONTEXTO_MAX_CHARS cortando linhas inteiras pelo fim.
+function construirContexto(campos, alvos) {
+  const alvosNorm = (alvos || []).map((a) => achatar(a).toLowerCase()).filter(Boolean);
+  const linhas = [];
+
+  if (Array.isArray(campos)) {
+    for (const c of campos) {
+      if (!c || typeof c !== 'object') continue;
+      const rotulo = achatar(c.rotulo, LIMITES.rotulo);
+      const valor = achatar(c.valor, LIMITES.valor);
+      if (!rotulo || !valor) continue;
+      if (alvosNorm.includes(rotulo.toLowerCase())) continue;
+      linhas.push(rotulo + ': ' + valor);
+    }
+  }
+
+  const corpo = linhas.length ? linhas : ['Nenhum campo preenchido até ao momento.'];
+  const cabecalho = [CABECALHO_CONTEXTO, ''];
+  let ls = cabecalho.concat(corpo);
+
+  // Corte por fronteira de linha completa: remove linhas do fim enquanto exceder
+  // o tecto, mantendo sempre cabeçalho + linha em branco + pelo menos uma linha.
+  while (ls.length > 3 && ls.join('\n').length > CONTEXTO_MAX_CHARS) {
+    ls.pop();
+  }
+
+  return ls.join('\n');
 }
 
 // ---------------------------------------------------------------------------
@@ -170,11 +220,11 @@ const MODELO = 'claude-sonnet-5';
 // O terceiro bloco (instrução específica) fica sem cache. No retry ([DEC-10]),
 // acrescenta-se um quarto bloco de user com o motivo da rejeição, mantendo os
 // dois breakpoints intactos para o cache continuar a acertar.
-function construirMensagens({ contexto, familia, rotulo, orientacao, maxPalavras, motivoRejeicao }) {
+function construirMensagens({ contextoBloco, familia, rotulo, orientacao, maxPalavras, motivoRejeicao }) {
   const conteudo = [
     {
       type: 'text',
-      text: 'CONTEXTO JÁ PREENCHIDO PELO PROFISSIONAL:\n' + (contexto || '(sem contexto fornecido)'),
+      text: contextoBloco,
       cache_control: { type: 'ephemeral' },
     },
     {
@@ -200,7 +250,7 @@ function construirMensagens({ contexto, familia, rotulo, orientacao, maxPalavras
   return [{ role: 'user', content: conteudo }];
 }
 
-async function chamarAnthropic({ apiKey, contexto, familia, rotulo, orientacao, maxPalavras, motivoRejeicao }) {
+async function chamarAnthropic({ apiKey, contextoBloco, familia, rotulo, orientacao, maxPalavras, motivoRejeicao }) {
   const resp = await fetch(ANTHROPIC_URL, {
     method: 'POST',
     headers: {
@@ -218,7 +268,7 @@ async function chamarAnthropic({ apiKey, contexto, familia, rotulo, orientacao, 
           cache_control: { type: 'ephemeral' },
         },
       ],
-      messages: construirMensagens({ contexto, familia, rotulo, orientacao, maxPalavras, motivoRejeicao }),
+      messages: construirMensagens({ contextoBloco, familia, rotulo, orientacao, maxPalavras, motivoRejeicao }),
     }),
   });
 
@@ -398,24 +448,36 @@ module.exports = async (req, res) => {
     return res.status(400).json({ ok: false, error: 'Corpo do pedido inválido.' });
   }
 
+  // O contexto pré-formatado deixou de ser aceite: o bloco é montado aqui a
+  // partir de campos[] estruturados.
+  if (body.contexto != null) {
+    return res.status(400).json({ ok: false, error: 'body.contexto já não é aceite; enviar campos[].' });
+  }
+
   // ── Entrada ──
   const familia = cortar(body.familia, LIMITES.familia).toUpperCase();
-  const rotulo = cortar(body.rotulo || body.campo, LIMITES.rotulo);
+  const campo = cortar(body.campo, LIMITES.campo); // id do campo a gerar (ex.: "f-tom")
+  const rotulo = cortar(body.rotulo, LIMITES.rotulo); // rótulo humano opcional
   const orientacao = cortar(body.orientacao, LIMITES.orientacao);
   const profissao = cortar(body.profissao, LIMITES.profissao);
-  const contexto = cortar(body.contexto, LIMITES.contexto);
   const sessao = cortar(body.sessao, 200);
   const maxPalavras = Math.min(MAX_PALAVRAS_TECTO, Math.max(1, parseInt(body.maxPalavras, 10) || 0));
 
   if (!FAMILIAS_VALIDAS.includes(familia)) {
     return res.status(400).json({ ok: false, error: 'Família inválida. Indicar A, B, C ou D.' });
   }
-  if (!rotulo || !orientacao) {
-    return res.status(400).json({ ok: false, error: 'Indicar o rótulo do campo e a orientação.' });
+  if (!campo || !orientacao) {
+    return res.status(400).json({ ok: false, error: 'Indicar o campo e a orientação.' });
   }
   if (!body.maxPalavras || maxPalavras <= 0) {
     return res.status(400).json({ ok: false, error: 'Indicar o máximo de palavras.' });
   }
+
+  // Rótulo usado na instrução ao modelo; recai no id quando não há rótulo humano.
+  const rotuloLabel = rotulo || campo;
+  // Bloco de contexto montado a partir de campos[], ignorando o próprio campo
+  // a gerar (por id ou rótulo).
+  const contextoBloco = construirContexto(body.campos, [campo, rotulo]);
 
   // ── Identidade (Pro por JWT válido; senão, grátis por sessão + IP) ──
   const token = (req.headers && (req.headers.authorization || req.headers.Authorization) || '')
@@ -446,7 +508,7 @@ module.exports = async (req, res) => {
   // ── D) Rate-limit ANTES de gerar (fail-closed) ──
   let limites;
   try {
-    limites = await verificarLimites(cfg, { ehPago, subPago, sessao, ip, campoId: rotulo });
+    limites = await verificarLimites(cfg, { ehPago, subPago, sessao, ip, campoId: campo });
   } catch (err) {
     console.error('Rate-limit indisponível (fail-closed):', err && err.message);
     return res.status(503).json({ ok: false, error: 'Serviço de limites indisponível. Tentar novamente mais tarde.' });
@@ -459,13 +521,13 @@ module.exports = async (req, res) => {
   const opts = { maxPalavras, profissao };
   let resultado;
   try {
-    const bruto1 = await chamarAnthropic({ apiKey, contexto, familia, rotulo, orientacao, maxPalavras });
+    const bruto1 = await chamarAnthropic({ apiKey, contextoBloco, familia, rotulo: rotuloLabel, orientacao, maxPalavras });
     let r = validador.processar(bruto1, opts);
 
     if (!r.valido) {
       const motivo = motivoDosErros(r.erros);
       const bruto2 = await chamarAnthropic({
-        apiKey, contexto, familia, rotulo, orientacao, maxPalavras, motivoRejeicao: motivo,
+        apiKey, contextoBloco, familia, rotulo: rotuloLabel, orientacao, maxPalavras, motivoRejeicao: motivo,
       });
       r = validador.processar(bruto2, opts);
       if (!r.valido) {
