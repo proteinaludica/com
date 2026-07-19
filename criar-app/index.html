@@ -433,6 +433,24 @@
   .rgpd-warn.show { display: block; animation: fadeIn 0.3s ease; }
   .rgpd-warn strong { font-weight: 500; }
 
+  .assist-contradicao {
+    display: none;
+    background: var(--amber-light);
+    border-left: 3px solid var(--amber);
+    padding: 10px 14px;
+    border-radius: 0 4px 4px 0;
+    font-size: 13px;
+    color: var(--amber-dark);
+    margin-top: 10px;
+  }
+  .assist-contradicao.show { display: block; animation: fadeIn 0.3s ease; }
+  .assist-contradicao strong { font-weight: 500; }
+
+  .btn-pro:disabled { opacity: 0.65; cursor: default; }
+  .btn-pro.is-error { border-style: solid; border-color: #B3261E; color: #B3261E; background: #FBEAE9; }
+  .btn-pro.is-limite { border-style: solid; }
+  .btn-pro.is-limite a { color: inherit; text-decoration: underline; }
+
   .fill-nav {
     display: flex; align-items: center; justify-content: space-between;
     gap: 1rem;
@@ -2254,6 +2272,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     platformLabel: null,
     template: null,
     tier: null,
+    token: null,
     quiz: { 1: null, 2: null, 3: null }
   };
 
@@ -2494,6 +2513,217 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       });
       if (!any) warn.classList.remove('show');
     }
+  }
+
+  // ─────────── ASSISTIR-CAMPO: ligação da UI ao endpoint /api/assistir-campo ───────────
+  // familia/orientacao/maxPalavras por campo. rotulo = label do campo; orientacao =
+  // texto de apoio (.fill-guide) já existente na secção respectiva.
+  const FIELD_META = {
+    'f-nome': { familia: 'A', rotulo: 'Nome e propósito', orientacao: 'Como se chama o assistente e para que serve — numa frase.', maxPalavras: 40 },
+    'f-missao': { familia: 'A', rotulo: 'Missão', orientacao: 'O objetivo central do assistente: o que entrega, e a quem.', maxPalavras: 40 },
+    'f-publico': { familia: 'A', rotulo: 'Público-alvo', orientacao: 'Descrever quem vai ler ou usar aquilo que o assistente ajuda a organizar.', maxPalavras: 60 },
+    'f-contexto': { familia: 'A', rotulo: 'Contexto local', orientacao: 'Detalhes do contexto ajudam o assistente a organizar os textos de forma adequada ao meio onde o profissional actua.', maxPalavras: 60 },
+    'f-tom': { familia: 'B', rotulo: 'Voz e tom', orientacao: 'O tom deve ser o do próprio profissional — o assistente imita o estilo dele, não inventa um.', maxPalavras: 50 },
+    'f-linguagem': { familia: 'B', rotulo: 'Linguagem', orientacao: 'Definir se os textos usam linguagem técnica ou linguagem simples para quem os recebe, e se há necessidade de outra língua além do português.', maxPalavras: 60 },
+    'f-estilo': { familia: 'B', rotulo: 'Estilo de resposta', orientacao: 'O formato-tipo dos textos que o assistente devolve, incluindo necessidades de acessibilidade e alertas de tamanho invulgar.', maxPalavras: 60 },
+    'f-onboarding': { familia: 'B', rotulo: 'Onboarding', orientacao: 'A sequência de arranque, uma pergunta de cada vez, antes de o assistente organizar o que recebeu.', maxPalavras: 60 },
+    'f-code': { familia: 'D', rotulo: 'Código ou gesto de reconhecimento', orientacao: 'Um código ou palavra secreta que distingue o profissional do cliente comum. Muda a conversa para modo técnico.', maxPalavras: 8 },
+    'f-behaviour': { familia: 'D', rotulo: 'O que acontece quando o código é detectado', orientacao: 'Um código ou palavra secreta que distingue o profissional do cliente comum. Muda a conversa para modo técnico.', maxPalavras: 60 },
+    'f-exit': { familia: 'D', rotulo: 'Palavra para regressar ao modo normal', orientacao: 'Um código ou palavra secreta que distingue o profissional do cliente comum. Muda a conversa para modo técnico.', maxPalavras: 6 },
+    'f-tarefas': { familia: 'B', rotulo: 'Tarefas específicas', orientacao: 'A lista concreta do que o assistente sabe organizar a partir do material que o profissional determina, incluindo como lida com correcções parciais e histórico de versões.', maxPalavras: 70 },
+    'f-fontes': { familia: 'D', rotulo: 'Fontes oficiais', orientacao: 'As fontes de referência que o profissional autoriza — e as que exclui.', maxPalavras: 50 },
+    'f-conhecimento': { familia: 'D', rotulo: 'Conhecimento técnico', orientacao: 'A informação fixa que o assistente deve manter presente em todas as interações, e as regras sobre como tratar dados variáveis.', maxPalavras: 80 },
+    'f-redline': { familia: 'C', rotulo: 'O que o assistente nunca faz', orientacao: 'Os limites absolutos — o que o assistente nunca faz, em nenhuma circunstância.', maxPalavras: 50 },
+    'f-emerg': { familia: 'C', rotulo: 'Alertas e encaminhamento de emergência', orientacao: 'Sinais que exigem encaminhamento imediato, e a resposta a dar.', maxPalavras: 50 },
+    'f-dados': { familia: 'C', rotulo: 'Tratamento de dados', orientacao: 'As regras de privacidade que o assistente segue ao receber informação de terceiros.', maxPalavras: 60 },
+    'f-fecho': { familia: 'B', rotulo: 'Forma de fecho', orientacao: 'Como o assistente se despede — variando, para não soar repetitivo.', maxPalavras: 40 },
+    'f-continuidade': { familia: 'B', rotulo: 'Continuidade', orientacao: 'A forma como o assistente mantém coerência entre sessões, sem guardar nada sem autorização explícita.', maxPalavras: 60 }
+  };
+
+  // Identificador de sessão do wizard — gerado uma vez, mantido em sessionStorage
+  // enquanto durar a sessão (mesmo padrão de prefixo 'pl_' já usado no ficheiro).
+  function getSessao() {
+    let id = sessionStorage.getItem('pl_sessao');
+    if (!id) {
+      id = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : ('sess-' + Date.now() + '-' + Math.random().toString(36).slice(2));
+      try { sessionStorage.setItem('pl_sessao', id); } catch (e) {}
+    }
+    return id;
+  }
+
+  // Monta campos[] a partir do state actual: todos os campos já preenchidos,
+  // excluindo o próprio campo a gerar. Envia {rotulo, valor} tal como estão.
+  function collectCampos(excludeFieldId) {
+    const campos = [];
+    Object.keys(FIELD_META).forEach(function (id) {
+      if (id === excludeFieldId) return;
+      const el = document.getElementById(id);
+      const valor = el && el.value ? el.value.trim() : '';
+      if (!valor) return;
+      campos.push({ rotulo: FIELD_META[id].rotulo, valor: valor });
+    });
+    return campos;
+  }
+
+  function podeGerarIA() {
+    return state.tier === 'pro' || sessionStorage.getItem('pl_freeUsed') !== '1';
+  }
+
+  function handleProClick(btn, fieldId) {
+    if (podeGerarIA()) {
+      assistirCampo(btn, fieldId);
+    } else {
+      // Limite grátis já usado: mostrar apenas o estado discreto "limite
+      // atingido". NÃO navegar automaticamente para checkout — a navegação
+      // só pode acontecer por clique explícito no link "ver Pro →" (spec 3B).
+      setBtnProState(btn, 'limite');
+    }
+  }
+
+  const BTN_PRO_ORIGINAL = new WeakMap();
+
+  function setBtnProState(btn, estado) {
+    if (!BTN_PRO_ORIGINAL.has(btn)) BTN_PRO_ORIGINAL.set(btn, btn.innerHTML);
+    btn.classList.remove('is-loading', 'is-error', 'is-limite');
+    switch (estado) {
+      case 'loading':
+        btn.disabled = true;
+        btn.classList.add('is-loading');
+        btn.textContent = '⏳ A escrever…';
+        break;
+      case 'erro':
+        btn.disabled = false;
+        btn.classList.add('is-error');
+        btn.textContent = '⚠ Não foi possível gerar · tentar de novo';
+        break;
+      case 'limite':
+        btn.disabled = false;
+        btn.classList.add('is-limite');
+        btn.innerHTML = 'Geração grátis já usada · <a href="#" onclick="goToProPricing();return false;">ver Pro →</a>';
+        break;
+      default:
+        btn.disabled = false;
+        btn.innerHTML = BTN_PRO_ORIGINAL.get(btn);
+    }
+  }
+
+  function obterCaixaContradicao(fieldId) {
+    let box = document.getElementById('contradicao-' + fieldId);
+    if (box) return box;
+    const el = document.getElementById(fieldId);
+    const field = el && el.closest('.fill-field');
+    if (!field) return null;
+    box = document.createElement('div');
+    box.className = 'assist-contradicao';
+    box.id = 'contradicao-' + fieldId;
+    field.appendChild(box);
+    return box;
+  }
+
+  function mostrarContradicao(fieldId, texto) {
+    const box = obterCaixaContradicao(fieldId);
+    if (!box) return;
+    box.textContent = '';
+    const strong = document.createElement('strong');
+    strong.textContent = 'Possível contradição: ';
+    box.appendChild(strong);
+    box.appendChild(document.createTextNode(texto));
+    box.classList.add('show');
+  }
+
+  function esconderContradicao(fieldId) {
+    const box = document.getElementById('contradicao-' + fieldId);
+    if (box) box.classList.remove('show');
+  }
+
+  // Chamada ao endpoint com um único retry automático em erro 502 (falha de
+  // geração). Em 429/503 (ou qualquer outro erro) não há retry.
+  async function chamarAssistirCampo(body, permitirRetry) {
+    let resp, dados = null;
+    try {
+      resp = await fetch('/api/assistir-campo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+    } catch (redeErr) {
+      if (permitirRetry) return chamarAssistirCampo(body, false);
+      const erro = new Error('Falha de rede.');
+      erro.status = 0;
+      throw erro;
+    }
+    try { dados = await resp.json(); } catch (e) {}
+
+    if (resp.ok && dados && dados.ok) return dados;
+    if (resp.status === 502 && permitirRetry) return chamarAssistirCampo(body, false);
+
+    const erro = new Error((dados && dados.error) || 'Erro ao gerar.');
+    erro.status = resp.status;
+    throw erro;
+  }
+
+  async function assistirCampo(btn, fieldId) {
+    const meta = FIELD_META[fieldId];
+    const el = document.getElementById(fieldId);
+    if (!meta || !el || btn.disabled) return;
+
+    setBtnProState(btn, 'loading');
+
+    const body = {
+      familia: meta.familia,
+      campo: fieldId,
+      rotulo: meta.rotulo,
+      orientacao: meta.orientacao,
+      maxPalavras: meta.maxPalavras,
+      // O wizard genérico não tem, por desenho, campo de profissão do próprio
+      // profissional; curProf/frozenProf são só a profissão de exemplo da UI.
+      // Enviar uma string genérica fixa em vez da profissão de demonstração.
+      profissao: 'profissional',
+      campos: collectCampos(fieldId),
+      sessao: getSessao(),
+      token: state.token || undefined
+    };
+
+    try {
+      const resultado = await chamarAssistirCampo(body, true);
+      el.value = resultado.texto;
+      el.dispatchEvent(new Event('input', { bubbles: true }));
+      if (resultado.contradicao) {
+        mostrarContradicao(fieldId, resultado.contradicao);
+      } else {
+        esconderContradicao(fieldId);
+      }
+      if (state.tier !== 'pro') {
+        try { sessionStorage.setItem('pl_freeUsed', '1'); } catch (e) {}
+      }
+      setBtnProState(btn, 'normal');
+    } catch (err) {
+      if (err && err.status === 429) {
+        setBtnProState(btn, 'limite');
+      } else {
+        setBtnProState(btn, 'erro');
+        setTimeout(function () { setBtnProState(btn, 'normal'); }, 4000);
+      }
+    }
+  }
+
+  function initAssistirCampo() {
+    Object.keys(FIELD_META).forEach(function (fieldId) {
+      const el = document.getElementById(fieldId);
+      const field = el && el.closest('.fill-field');
+      const btn = field && field.querySelector('.btn-pro');
+      if (!btn) return;
+      btn.onclick = function (e) {
+        if (e) e.preventDefault();
+        handleProClick(btn, fieldId);
+      };
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAssistirCampo);
+  } else {
+    initAssistirCampo();
   }
 
   // ─────────── COPY ───────────
