@@ -313,6 +313,7 @@ async function chamarAnthropic({ apiKey, contextoBloco, familia, profissao, rotu
 //
 // Chaves:
 //   Grátis  — `sess:<id>`  campo `__all__`  limite 1  (1 geração por sessão/dia)
+//           — `sess:<id>`  campo `f-nome`   limite 3  (contador próprio [DEC-22])
 //           — `ip:<ip>`    campo `__all__`  limite 3  (3 gerações por IP/dia)
 //   Pago    — `pro:<sub>`  campo `<id>`     limite 3  (3 gerações por campo/dia)
 // A janela é o dia UTC corrente. Índice único em (chave, campo, janela).
@@ -320,6 +321,14 @@ async function chamarAnthropic({ apiKey, contextoBloco, familia, profissao, rotu
 
 const TABELA_LIMITES = 'assistir_campo_limites';
 const SENTINELA_CAMPO = '__all__';
+
+// [DEC-22] O campo "Nome e propósito" (f-nome) tem um contador de sessão
+// próprio e separado: chave `sess:<id>`, campo o seu próprio id, limite 3/dia.
+// Fica independente do contador de sessão geral (`__all__`, 1/dia) dos outros
+// 18 campos — gastar cota num não consome a do outro.
+const CAMPO_SESSAO_PROPRIO = 'f-nome';
+const LIMITE_SESSAO_PROPRIO = 3;
+const LIMITE_SESSAO_GERAL = 1;
 
 class ErroSupabase extends Error {}
 
@@ -413,9 +422,22 @@ async function verificarLimites(cfg, { ehPago, subPago, sessao, ip, campoId }) {
   const chaveSessao = 'sess:' + (sessao || '');
   const chaveIp = 'ip:' + (ip || '');
 
-  const nSessao = await lerContagem(cfg, chaveSessao, SENTINELA_CAMPO, janela);
-  if (nSessao >= 1) {
-    return { permitido: false, motivo: 'Limite gratuito de 1 geração por sessão atingido.' };
+  // [DEC-22] f-nome usa um contador de sessão próprio (campo = o seu id,
+  // limite 3/dia); os restantes campos partilham o contador de sessão geral
+  // (campo __all__, limite 1/dia). As duas contagens são independentes. O
+  // limite de IP (__all__, 3/dia) aplica-se por cima de ambos, sem alteração.
+  const ehCampoProprio = campoId === CAMPO_SESSAO_PROPRIO;
+  const campoSessao = ehCampoProprio ? CAMPO_SESSAO_PROPRIO : SENTINELA_CAMPO;
+  const limiteSessao = ehCampoProprio ? LIMITE_SESSAO_PROPRIO : LIMITE_SESSAO_GERAL;
+
+  const nSessao = await lerContagem(cfg, chaveSessao, campoSessao, janela);
+  if (nSessao >= limiteSessao) {
+    return {
+      permitido: false,
+      motivo: ehCampoProprio
+        ? 'Limite gratuito de 3 gerações neste campo por sessão. Alcançado.'
+        : 'Limite gratuito de 1 geração por sessão atingido.',
+    };
   }
   const nIp = await lerContagem(cfg, chaveIp, SENTINELA_CAMPO, janela);
   if (nIp >= 3) {
@@ -424,7 +446,7 @@ async function verificarLimites(cfg, { ehPago, subPago, sessao, ip, campoId }) {
   return {
     permitido: true,
     incrementos: [
-      { chave: chaveSessao, campo: SENTINELA_CAMPO },
+      { chave: chaveSessao, campo: campoSessao },
       { chave: chaveIp, campo: SENTINELA_CAMPO },
     ],
   };
@@ -581,3 +603,10 @@ module.exports = async (req, res) => {
     palavras: resultado.palavras,
   });
 };
+
+// Exportado apenas para testes (sem rede). O handler continua a ser o export
+// principal; estas propriedades não afectam a invocação como função na Vercel.
+module.exports.verificarLimites = verificarLimites;
+module.exports.incrementarContagem = incrementarContagem;
+module.exports.lerContagem = lerContagem;
+module.exports.janelaHoje = janelaHoje;
