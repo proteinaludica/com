@@ -1335,6 +1335,8 @@
   .sticky-preco-btn:hover { background: #C8A86B; }
   /* espaço no fundo do Ecrã 3 para o conteúdo não ficar tapado pela barra */
   #screen-3 .screen-inner { padding-bottom: 130px; }
+  .pro-session-chip { display: inline-block; margin: 10px 0 0; padding: 5px 12px; border-radius: 14px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.04em; color: var(--accent); background: var(--accent-light); border: 0.5px solid var(--accent); }
+  .pro-session-chip[hidden] { display: none; }
 </style>
 </head>
 <body>
@@ -1483,6 +1485,8 @@
     <div class="step-label">Passo 3 de 4</div>
     <h1 class="screen-title">Preencher as <em>17 secções</em></h1>
     <p class="screen-sub">Uma secção por ecrã. O que for preenchido fica guardado — pode sair e voltar quando quiser.</p>
+
+    <div class="pro-session-chip" id="proSessionChip" hidden>Sessão Pro activa · 3 gerações por campo, por dia</div>
 
     <div class="section-progress">
       <div class="section-counter">Secção <strong>3</strong> de 17 · <span style="color:var(--ink)">Protocolo de reconhecimento</span></div>
@@ -2271,7 +2275,8 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     platform: null,
     platformLabel: null,
     template: null,
-    tier: null,
+    plan: null,        // patamar de preço escolhido (free/kit/pro/medida) — só UI
+    tier: 'gratis',    // nível de acesso, DERIVADO do token: "gratis" | "pro"
     token: null,
     quiz: { 1: null, 2: null, 3: null }
   };
@@ -2376,7 +2381,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   function selectTier(tier, btn) {
     document.querySelectorAll('.tier-card').forEach(c => c.classList.remove('selected'));
     if (btn) btn.classList.add('selected');
-    state.tier = tier;
+    state.plan = tier;
     atualizarStickyPreco();
 
     if (tier === 'free') {
@@ -2439,7 +2444,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     if (!barra) return;
     barra.classList.toggle('visible', state.current === 3);
 
-    const estado = STICKY_ESTADOS[state.tier] ? state.tier : 'kit';
+    const estado = STICKY_ESTADOS[state.plan] ? state.plan : 'kit';
     const tier = TIERS[estado];
     const extra = STICKY_ESTADOS[estado];
     document.getElementById('stickyPrecoTitulo').textContent = tier.titulo;
@@ -2453,7 +2458,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
 
   function backToTiers() {
     document.querySelectorAll('.tier-card').forEach(c => c.classList.remove('selected'));
-    state.tier = null;
+    state.plan = null;
     showPaywallStep('paywallTiers');
   }
 
@@ -2565,6 +2570,54 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     return campos;
   }
 
+  // ─── Sessão Pro (JWT em sessionStorage["pl_proToken"]) ───
+  // O cliente NÃO valida a assinatura — apenas descodifica o payload (base64url)
+  // para decorar a UI. A autoridade é sempre o servidor. Se o exp já passou,
+  // remove a chave e cai para grátis.
+  function descodificarPayload(token) {
+    try {
+      const body = token.split('.')[1];
+      if (!body) return null;
+      const b64 = body.replace(/-/g, '+').replace(/_/g, '/');
+      return JSON.parse(decodeURIComponent(escape(atob(b64))));
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function inicializarPro() {
+    const token = sessionStorage.getItem('pl_proToken');
+    if (token) {
+      const payload = descodificarPayload(token);
+      const agora = Math.floor(Date.now() / 1000);
+      if (payload && typeof payload.exp === 'number' && payload.exp >= agora && payload.tier === 'pro') {
+        state.token = token;
+        state.tier = 'pro';
+      } else {
+        try { sessionStorage.removeItem('pl_proToken'); } catch (e) {}
+        state.token = null;
+        state.tier = 'gratis';
+      }
+    } else {
+      state.token = null;
+      state.tier = 'gratis';
+    }
+    atualizarProChip();
+  }
+
+  // Descartar a sessão Pro no cliente (após 401 sessao_expirada ou exp local).
+  function limparPro() {
+    try { sessionStorage.removeItem('pl_proToken'); } catch (e) {}
+    state.token = null;
+    state.tier = 'gratis';
+    atualizarProChip();
+  }
+
+  function atualizarProChip() {
+    const chip = document.getElementById('proSessionChip');
+    if (chip) chip.hidden = state.tier !== 'pro';
+  }
+
   function podeGerarIA() {
     return state.tier === 'pro' || sessionStorage.getItem('pl_freeUsed') !== '1';
   }
@@ -2600,6 +2653,19 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
         btn.disabled = false;
         btn.classList.add('is-limite');
         btn.innerHTML = 'Geração grátis já usada · <a href="#" onclick="goToProPricing();return false;">ver Pro →</a>';
+        break;
+      case 'sessao':
+        // Sessão Pro terminou (401). O texto no campo mantém-se editável.
+        // A navegação SÓ acontece por clique explícito no link (spec 3B/DEC-24).
+        btn.disabled = false;
+        btn.classList.add('is-limite');
+        btn.innerHTML = 'A sessão Pro terminou. <a href="#" onclick="goToProPricing();return false;">Recuperar acesso →</a>';
+        break;
+      case 'sessao-erro':
+        // Erro de rede/500 ao confirmar a sessão Pro (sem navegação automática).
+        btn.disabled = false;
+        btn.classList.add('is-error');
+        btn.innerHTML = 'Não foi possível confirmar a sessão Pro. <a href="#" onclick="goToProPricing();return false;">Recuperar acesso →</a>';
         break;
       default:
         btn.disabled = false;
@@ -2639,11 +2705,16 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   // Chamada ao endpoint com um único retry automático em erro 502 (falha de
   // geração). Em 429/503 (ou qualquer outro erro) não há retry.
   async function chamarAssistirCampo(body, permitirRetry) {
+    const headers = { 'Content-Type': 'application/json' };
+    // Sempre que houver token, enviar Authorization: Bearer <token>. Só o header
+    // conta no servidor — o body já não transporta o token.
+    if (state.token) headers['Authorization'] = 'Bearer ' + state.token;
+
     let resp, dados = null;
     try {
       resp = await fetch('/api/assistir-campo', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: headers,
         body: JSON.stringify(body)
       });
     } catch (redeErr) {
@@ -2657,8 +2728,9 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     if (resp.ok && dados && dados.ok) return dados;
     if (resp.status === 502 && permitirRetry) return chamarAssistirCampo(body, false);
 
-    const erro = new Error((dados && dados.error) || 'Erro ao gerar.');
+    const erro = new Error((dados && (dados.error || dados.erro)) || 'Erro ao gerar.');
     erro.status = resp.status;
+    erro.codigo = dados && dados.erro;
     throw erro;
   }
 
@@ -2680,8 +2752,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       // Enviar uma string genérica fixa em vez da profissão de demonstração.
       profissao: 'profissional',
       campos: collectCampos(fieldId),
-      sessao: getSessao(),
-      token: state.token || undefined
+      sessao: getSessao()
     };
 
     try {
@@ -2698,8 +2769,17 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       }
       setBtnProState(btn, 'normal');
     } catch (err) {
-      if (err && err.status === 429) {
+      if (err && err.status === 401 && err.codigo === 'sessao_expirada') {
+        // A sessão Pro terminou. Descartar token/tier no cliente, mas MANTER o
+        // texto já escrito no campo (continua editável). Sem navegação
+        // automática — só o clique explícito no link navega (spec 3B/DEC-24).
+        limparPro();
+        setBtnProState(btn, 'sessao');
+      } else if (err && err.status === 429) {
         setBtnProState(btn, 'limite');
+      } else if (err && state.tier === 'pro') {
+        // Erro de rede/500 com sessão Pro activa: não foi possível confirmar.
+        setBtnProState(btn, 'sessao-erro');
       } else {
         setBtnProState(btn, 'erro');
         setTimeout(function () { setBtnProState(btn, 'normal'); }, 4000);
@@ -2720,10 +2800,15 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     });
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initAssistirCampo);
-  } else {
+  function bootAssistirCampo() {
+    inicializarPro();
     initAssistirCampo();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bootAssistirCampo);
+  } else {
+    bootAssistirCampo();
   }
 
   // ─────────── COPY ───────────
@@ -2832,7 +2917,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     state.platform = null;
     state.platformLabel = null;
     state.template = null;
-    state.tier = null;
+    state.plan = null;
     state.quiz = { 1: null, 2: null, 3: null };
     document.querySelectorAll('input, textarea').forEach(el => el.value = '');
     document.querySelectorAll('.tier-card').forEach(c => c.classList.remove('selected'));

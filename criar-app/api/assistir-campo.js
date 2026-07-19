@@ -518,13 +518,28 @@ module.exports = async (req, res) => {
   // a gerar (por id ou rótulo).
   const contextoBloco = construirContexto(body.campos, [campo, rotulo]);
 
-  // ── Identidade (Pro por JWT válido; senão, grátis por sessão + IP) ──
-  const token = (req.headers && (req.headers.authorization || req.headers.Authorization) || '')
-    .replace(/^Bearer\s+/i, '') || body.token;
-  const payloadPro = verificarJWT(token);
-  const ehPago = !!(payloadPro && (payloadPro.jti || payloadPro.email));
-  const subPago = ehPago ? (payloadPro.email || payloadPro.jti) : null;
+  // ── Identidade ──
+  // Só o header Authorization: Bearer <token> conta. body.tier / body.token
+  // são ignorados em silêncio.
+  //   · sem header          → caminho grátis actual, inalterado (sess + IP).
+  //   · header inválido/exp  → 401 sessao_expirada (verificarJWT devolve null).
+  //   · header válido s/ pro → 401 sessao_expirada (ex.: JWT de PDF/retoma).
+  //   · header válido + pro  → Pago, chave pro:<sub>, 3/campo/dia.
+  const authHeader = (req.headers && (req.headers.authorization || req.headers.Authorization)) || '';
+  const temHeader = /^Bearer\s+\S/i.test(authHeader);
   const ip = obterIp(req);
+
+  let ehPago = false;
+  let subPago = null;
+  if (temHeader) {
+    const token = authHeader.replace(/^Bearer\s+/i, '').trim();
+    const payloadPro = verificarJWT(token);
+    if (!payloadPro || payloadPro.tier !== 'pro') {
+      return res.status(401).json({ erro: 'sessao_expirada' });
+    }
+    ehPago = true;
+    subPago = payloadPro.sub;
+  }
 
   if (!ehPago && !sessao) {
     return res.status(400).json({ ok: false, error: 'Sessão em falta.' });
