@@ -220,7 +220,7 @@ const MODELO = 'claude-sonnet-5';
 // O terceiro bloco (instrução específica) fica sem cache. No retry ([DEC-10]),
 // acrescenta-se um quarto bloco de user com o motivo da rejeição, mantendo os
 // dois breakpoints intactos para o cache continuar a acertar.
-function construirMensagens({ contextoBloco, familia, rotulo, orientacao, maxPalavras, motivoRejeicao }) {
+function construirMensagens({ contextoBloco, familia, profissao, rotulo, ajuda, orientacao, maxPalavras, motivoRejeicao }) {
   const conteudo = [
     {
       type: 'text',
@@ -229,11 +229,14 @@ function construirMensagens({ contextoBloco, familia, rotulo, orientacao, maxPal
     },
     {
       type: 'text',
-      text:
-        'Família aplicável: ' + familia + '. ' +
-        'Campo: ' + rotulo + '. ' +
-        'Orientação: ' + orientacao + '. ' +
+      text: [
+        'Família aplicável: ' + familia + '.',
+        'Profissão: ' + (profissao || '(não indicada)') + '.',
+        'Campo: ' + rotulo + '.',
+        'O que este campo pretende: ' + (ajuda || '(não indicado)') + '.',
+        'Orientação do campo: ' + orientacao + '.',
         'Máximo: ' + maxPalavras + ' palavras.',
+      ].join('\n'),
     },
   ];
 
@@ -250,7 +253,7 @@ function construirMensagens({ contextoBloco, familia, rotulo, orientacao, maxPal
   return [{ role: 'user', content: conteudo }];
 }
 
-async function chamarAnthropic({ apiKey, contextoBloco, familia, rotulo, orientacao, maxPalavras, motivoRejeicao }) {
+async function chamarAnthropic({ apiKey, contextoBloco, familia, profissao, rotulo, ajuda, orientacao, maxPalavras, motivoRejeicao }) {
   const resp = await fetch(ANTHROPIC_URL, {
     method: 'POST',
     headers: {
@@ -268,7 +271,7 @@ async function chamarAnthropic({ apiKey, contextoBloco, familia, rotulo, orienta
           cache_control: { type: 'ephemeral' },
         },
       ],
-      messages: construirMensagens({ contextoBloco, familia, rotulo, orientacao, maxPalavras, motivoRejeicao }),
+      messages: construirMensagens({ contextoBloco, familia, profissao, rotulo, ajuda, orientacao, maxPalavras, motivoRejeicao }),
     }),
   });
 
@@ -459,6 +462,7 @@ module.exports = async (req, res) => {
   const campo = cortar(body.campo, LIMITES.campo); // id do campo a gerar (ex.: "f-tom")
   const rotulo = cortar(body.rotulo, LIMITES.rotulo); // rótulo humano opcional
   const orientacao = cortar(body.orientacao, LIMITES.orientacao);
+  const ajuda = cortar(body.ajuda, LIMITES.orientacao);
   const profissao = cortar(body.profissao, LIMITES.profissao);
   const sessao = cortar(body.sessao, 200);
   const maxPalavras = Math.min(MAX_PALAVRAS_TECTO, Math.max(1, parseInt(body.maxPalavras, 10) || 0));
@@ -521,13 +525,13 @@ module.exports = async (req, res) => {
   const opts = { maxPalavras, profissao };
   let resultado;
   try {
-    const bruto1 = await chamarAnthropic({ apiKey, contextoBloco, familia, rotulo: rotuloLabel, orientacao, maxPalavras });
+    const bruto1 = await chamarAnthropic({ apiKey, contextoBloco, familia, profissao, rotulo: rotuloLabel, ajuda, orientacao, maxPalavras });
     let r = validador.processar(bruto1, opts);
 
     if (!r.valido) {
       const motivo = motivoDosErros(r.erros);
       const bruto2 = await chamarAnthropic({
-        apiKey, contextoBloco, familia, rotulo: rotuloLabel, orientacao, maxPalavras, motivoRejeicao: motivo,
+        apiKey, contextoBloco, familia, profissao, rotulo: rotuloLabel, ajuda, orientacao, maxPalavras, motivoRejeicao: motivo,
       });
       r = validador.processar(bruto2, opts);
       if (!r.valido) {
