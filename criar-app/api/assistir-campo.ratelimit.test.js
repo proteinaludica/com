@@ -92,7 +92,7 @@ teste('DEC-22 · 3 geracoes seguidas em f-nome na mesma sessao -> todas 200', as
     const r = await gerar('f-nome', SESS, IP);
     assert(r.status === 429, `4a devia ser 429, foi ${r.status}`);
     // A sessao e verificada antes do IP: identifica o limite do proprio campo.
-    assert(r.motivo === 'Limite gratuito de 3 gerações neste campo por sessão atingido.',
+    assert(r.motivo === 'Limite gratuito de 3 gerações neste campo por sessão. Alcançado.',
       'motivo devia identificar o limite do proprio campo: ' + r.motivo);
 });
 

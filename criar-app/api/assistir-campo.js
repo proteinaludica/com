@@ -435,7 +435,7 @@ async function verificarLimites(cfg, { ehPago, subPago, sessao, ip, campoId }) {
     return {
       permitido: false,
       motivo: ehCampoProprio
-        ? 'Limite gratuito de 3 gerações neste campo por sessão atingido.'
+        ? 'Limite gratuito de 3 gerações neste campo por sessão. Alcançado.'
         : 'Limite gratuito de 1 geração por sessão atingido.',
     };
   }
