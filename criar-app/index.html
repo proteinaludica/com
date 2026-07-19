@@ -2573,7 +2573,10 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     if (podeGerarIA()) {
       assistirCampo(btn, fieldId);
     } else {
-      goToProPricing();
+      // Limite grátis já usado: mostrar apenas o estado discreto "limite
+      // atingido". NÃO navegar automaticamente para checkout — a navegação
+      // só pode acontecer por clique explícito no link "ver Pro →" (spec 3B).
+      setBtnProState(btn, 'limite');
     }
   }
 
