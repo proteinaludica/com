@@ -2551,11 +2551,6 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     return id;
   }
 
-  function getProfissao() {
-    const d = PROF[frozenProf || curProf];
-    return d ? d.nome : '';
-  }
-
   // Monta campos[] a partir do state actual: todos os campos já preenchidos,
   // excluindo o próprio campo a gerar. Envia {rotulo, valor} tal como estão.
   function collectCampos(excludeFieldId) {
@@ -2677,7 +2672,10 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       rotulo: meta.rotulo,
       orientacao: meta.orientacao,
       maxPalavras: meta.maxPalavras,
-      profissao: getProfissao(),
+      // O wizard genérico não tem, por desenho, campo de profissão do próprio
+      // profissional; curProf/frozenProf são só a profissão de exemplo da UI.
+      // Enviar uma string genérica fixa em vez da profissão de demonstração.
+      profissao: 'profissional',
       campos: collectCampos(fieldId),
       sessao: getSessao(),
       token: state.token || undefined
