@@ -357,7 +357,7 @@
   .section-pbar-fill {
     height: 100%;
     background: var(--accent);
-    width: 18.75%;
+    width: 6.25%;
     transition: width 0.3s;
   }
   .section-counter {
@@ -1421,7 +1421,7 @@
     <div class="pro-session-chip" id="proSessionChip" hidden>Sessão Pro activa · 3 gerações por campo, por dia</div>
 
     <div class="section-progress">
-      <div class="section-counter">Secção <strong>3</strong> de 16</div>
+      <div class="section-counter">Secção <strong id="currentSec">1</strong> de 16</div>
       <div class="section-pbar"><div class="section-pbar-fill"></div></div>
     </div>
 
@@ -2921,6 +2921,58 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       btn.setAttribute('aria-expanded', 'true');
     }
   }
+
+  // ─── Contador de secções dinâmico: reflecte a secção actualmente visível ───
+  const TOTAL_SECOES = 16;
+  function setSecaoAtual(num) {
+    const label = document.getElementById('currentSec');
+    if (label) label.textContent = num;
+    const fill = document.querySelector('.section-pbar-fill');
+    if (fill) fill.style.width = (num / TOTAL_SECOES * 100) + '%';
+  }
+  let _contadorInit = false;
+  // Enquanto um clique no índice faz scroll suave até à secção, o observer
+  // veria secções intermédias a passar. Este "lock" mantém o número escolhido
+  // até o scroll assentar; depois o observer retoma o controlo no scroll livre.
+  let _lockAte = 0;
+  function initContadorSecoes() {
+    if (_contadorInit) return; // idempotente: pode ser chamado por vários eventos
+    const secoes = Array.from(document.querySelectorAll('[id^="sec-"]'));
+    if (!secoes.length) return; // ainda sem DOM: deixa uma chamada posterior tentar
+    _contadorInit = true;
+    // clique no índice lateral: fixa a secção escolhida (o scroll trata do resto)
+    document.querySelectorAll('.s3-index-item[href^="#sec-"]').forEach(a => {
+      a.addEventListener('click', () => {
+        const n = parseInt(a.getAttribute('href').replace('#sec-', ''), 10);
+        if (!isNaN(n)) { _lockAte = Date.now() + 800; setSecaoAtual(n); }
+      });
+    });
+    if (!('IntersectionObserver' in window)) return;
+    const visiveis = new Map();
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) visiveis.set(e.target.id, e.intersectionRatio);
+        else visiveis.delete(e.target.id);
+      });
+      if (Date.now() < _lockAte) return; // respeita a escolha do clique enquanto assenta
+      if (!visiveis.size) return;
+      // escolhe a secção mais visível no momento
+      let melhorId = null, melhorRatio = -1;
+      visiveis.forEach((ratio, id) => {
+        if (ratio > melhorRatio) { melhorRatio = ratio; melhorId = id; }
+      });
+      const n = melhorId && parseInt(melhorId.replace('sec-', ''), 10);
+      if (n && !isNaN(n)) setSecaoAtual(n);
+    }, { rootMargin: '-45% 0px -45% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] });
+    secoes.forEach(s => obs.observe(s));
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initContadorSecoes);
+  } else {
+    initContadorSecoes();
+  }
+  // Rede de segurança: garante o arranque mesmo que o DOMContentLoaded escape.
+  window.addEventListener('load', initContadorSecoes);
 
   // ─── Fase 3: rever e terminar ───
   const OBRIGATORIAS = ['f-nome', 'f-missao', 'f-redline', 'f-emerg', 'f-fecho'];
