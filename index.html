@@ -115,6 +115,35 @@
     .btn{padding:13px 26px}
   }
 
+  /* ---------- Micro-exemplo (3 passos) ---------- */
+  .exemplo{
+    margin:36px auto 0;max-width:640px;
+    display:flex;flex-direction:column;gap:10px;align-items:stretch;
+  }
+  .passo{
+    background:linear-gradient(180deg,var(--cartao-a),var(--cartao-b));
+    border:1px solid rgba(143,170,107,.16);
+    border-radius:12px;padding:14px 16px;text-align:left;
+  }
+  .passo-final{border-color:var(--linha-2)}
+  .passo-etiqueta{
+    display:block;font-size:.72rem;font-weight:600;letter-spacing:.02em;
+    text-transform:uppercase;color:var(--musgo);margin-bottom:4px;
+  }
+  .passo-final .passo-etiqueta{color:var(--ocre)}
+  .passo-texto{color:var(--texto-2);font-size:.9rem;line-height:1.45}
+  .passo-seta{
+    align-self:center;color:var(--texto-3);font-size:1.1rem;
+    transform:rotate(90deg);line-height:1;
+  }
+  @media (min-width:761px){
+    .exemplo{
+      flex-direction:row;align-items:stretch;gap:8px;max-width:760px;
+    }
+    .exemplo .passo{flex:1;display:flex;flex-direction:column;justify-content:center}
+    .passo-seta{transform:none;flex:none}
+  }
+
   /* ---------- Faixa de confiança ---------- */
   .faixa{
     border-top:1px solid var(--linha);
@@ -275,8 +304,26 @@
     <p class="canonica">O profissional determina. A IA organiza e dá forma. O profissional revê e decide. Nada nasce da máquina sozinha.</p>
     <p class="ponte">Criados de raiz, ao gosto de cada um — ou assistentes já prontos a usar, no catálogo.</p>
     <div class="accoes">
-      <a class="btn btn-primario" href="https://criar.proteinaludica.com">Criar o meu assistente</a>
-      <a class="btn btn-secundario" href="/catalogo">Ver os assistentes</a>
+      <a class="btn btn-primario" href="/catalogo">Ver os assistentes</a>
+      <a class="btn btn-secundario" href="https://criar.proteinaludica.com">Criar o meu assistente</a>
+    </div>
+
+    <!-- Micro-exemplo: 3 passos -->
+    <div class="exemplo" role="group" aria-label="Como funciona, em três passos">
+      <div class="passo">
+        <span class="passo-etiqueta">O profissional dá</span>
+        <p class="passo-texto">Um ditado ou um rascunho, como lhe sair.</p>
+      </div>
+      <span class="passo-seta" aria-hidden="true">→</span>
+      <div class="passo">
+        <span class="passo-etiqueta">O assistente devolve</span>
+        <p class="passo-texto">O mesmo conteúdo, escrito e organizado.</p>
+      </div>
+      <span class="passo-seta" aria-hidden="true">→</span>
+      <div class="passo passo-final">
+        <span class="passo-etiqueta">Confirmação</span>
+        <p class="passo-texto">O profissional revê e decide.</p>
+      </div>
     </div>
   </div>
 </section>
