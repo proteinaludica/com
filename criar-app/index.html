@@ -357,7 +357,7 @@
   .section-pbar-fill {
     height: 100%;
     background: var(--accent);
-    width: 17.6%;
+    width: 18.75%;
     transition: width 0.3s;
   }
   .section-counter {
@@ -369,11 +369,6 @@
   }
   .section-counter strong { color: var(--ink); font-weight: 500; }
 
-  .fill-grid {
-    display: grid;
-    grid-template-columns: 1.4fr 1fr;
-    gap: 2rem;
-  }
   .fill-main {
     background: var(--surface);
     border: 0.5px solid var(--border);
@@ -459,46 +454,6 @@
     border-top: 0.5px solid var(--border);
   }
   .fill-nav-left { display: flex; gap: 10px; }
-
-  .fill-aside {
-    background: var(--bg2);
-    border: 0.5px solid var(--border);
-    border-radius: 10px;
-    padding: 1.5rem;
-    height: fit-content;
-    position: sticky;
-    top: 100px;
-  }
-  .aside-label {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 0.75rem;
-  }
-  .aside-title {
-    font-size: 14px;
-    font-weight: 500;
-    margin-bottom: 0.75rem;
-  }
-  .aside-example {
-    background: var(--surface);
-    border: 0.5px solid var(--border);
-    border-radius: 6px;
-    padding: 1rem;
-    font-family: var(--font-mono);
-    font-size: 12px;
-    line-height: 1.55;
-    color: var(--ink2);
-    margin-bottom: 1rem;
-  }
-  .aside-hint {
-    font-size: 13px;
-    color: var(--ink2);
-    line-height: 1.5;
-  }
-  .aside-hint strong { color: var(--ink); font-weight: 500; }
 
   .demo-skip {
     margin-top: 2rem;
@@ -1165,8 +1120,6 @@
     .platform-grid { grid-template-columns: repeat(2, 1fr); }
     .platform-card-solo { grid-column: span 2; }
     .template-grid { grid-template-columns: 1fr; }
-    .fill-grid { grid-template-columns: 1fr; }
-    .fill-aside { position: static; }
     .paywall-grid { grid-template-columns: 1fr; }
     .paywall-preview { max-width: 380px; margin: 0 auto; }
     .topbar-inner { padding: 1rem; gap: 1rem; flex-wrap: wrap; }
@@ -1178,7 +1131,7 @@
     .progress-dot { width: 16px; }
     .logo-sub { display: none; }
     h1.screen-title { font-size: 1.7rem; }
-    .fill-main, .fill-aside { padding: 1.25rem; }
+    .fill-main { padding: 1.25rem; }
     .upgrade-block, .pdf-mockup { padding: 1.25rem; }
   }
 
@@ -1196,18 +1149,6 @@
   .pro-reveal-panel { margin-top: 8px; padding: 10px 12px; background: #F8F4FC; border: 0.5px solid #D9C7EC; border-radius: 6px; }
   .pro-reveal-panel[hidden] { display: none; }
   .pro-reveal-text { font-family: var(--font-body); font-size: 12.5px; line-height: 1.5; color: var(--ink); margin-bottom: 8px; }
-  .example-bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; background: var(--surface); border: 0.5px solid var(--border-strong); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
-  .example-bar-text { font-size: 13px; color: var(--ink2); }
-  .example-bar-text strong { color: var(--ink); font-weight: 500; }
-  .ex-prof-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
-  .ex-prof-tab { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.03em; padding: 5px 12px; border-radius: 20px; border: 0.5px solid var(--border-strong); background: var(--surface); cursor: pointer; transition: all 0.2s; color: var(--ink2); }
-  .ex-prof-tab:hover { border-color: var(--accent); }
-  .ex-prof-tab.active { background: var(--accent); color: white; border-color: var(--accent); }
-  .aside-pro { margin-top: 1rem; padding: 1rem; background: #F0E9F8; border: 0.5px solid #6B3FA0; border-radius: 8px; }
-  .aside-pro-title { font-size: 12px; font-weight: 500; color: #6B3FA0; margin-bottom: 5px; }
-  .aside-pro-text { font-size: 12px; color: var(--ink2); line-height: 1.5; }
-  .aside-pro-text strong { color: #6B3FA0; }
-
   /* ─── PASSO 3: índice lateral + obrigatórias (Fase 1) ─── */
   .s3-body { display: grid; grid-template-columns: 210px 1fr; gap: 1.75rem; align-items: start; }
   .s3-content { min-width: 0; }
@@ -1227,7 +1168,7 @@
   .oblig-list { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 1.5rem; }
   .oblig-block { scroll-margin-top: 90px; }
   .oblig-tag { display: inline-block; font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); background: var(--accent-light); padding: 2px 8px; border-radius: 3px; margin-bottom: 0.6rem; }
-  #sec-03, #sec-04, #sec-05, #sec-06, #sec-07, #sec-08, #sec-09, #sec-10, #sec-11, #sec-12, #sec-15, #sec-17 { scroll-margin-top: 90px; }
+  #sec-03, #sec-04, #sec-05, #sec-06, #sec-07, #sec-08, #sec-09, #sec-10, #sec-11, #sec-14, #sec-16 { scroll-margin-top: 90px; }
   /* Fase 2: recolher opcionais */
   .afinar-bar { margin: 0.5rem 0 1.5rem; }
   .btn-afinar { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; background: var(--bg2); border: 0.5px dashed var(--border-strong); border-radius: 8px; padding: 0.9rem 1.25rem; cursor: pointer; font-family: var(--font-body); font-size: 14px; color: var(--ink); transition: all 0.2s; }
@@ -1248,14 +1189,6 @@
   .btn-rever[disabled]:hover { background: var(--accent); transform: none; }
   .rever-hint { font-size: 12px; color: var(--ink2); line-height: 1.45; }
   .rever-hint strong { color: var(--accent); font-weight: 500; }
-  /* Fase 4: congelamento da profissão */
-  .prof-frozen { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 1.25rem; font-size: 12px; color: var(--ink2); background: var(--accent-light); border: 0.5px solid var(--accent); border-radius: 6px; padding: 8px 12px; }
-  .prof-frozen[hidden] { display: none; }
-  .prof-frozen strong { color: var(--accent); font-weight: 500; }
-  .prof-unfreeze { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.04em; color: var(--accent); background: transparent; border: 0.5px solid var(--accent); border-radius: 3px; padding: 3px 9px; cursor: pointer; margin-left: auto; transition: all 0.2s; }
-  .prof-unfreeze:hover { background: var(--accent); color: white; }
-  .ex-prof-tab.frozen { border-color: var(--accent); }
-  .ex-prof-tab.frozen::after { content: ' 🔒'; font-size: 10px; }
   /* Chips de sugestão (ponto de partida editável) */
   .chips { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 9px; }
   .chips-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted2); margin-right: 2px; }
@@ -1444,7 +1377,7 @@
       <button class="template-card" onclick="selectTemplate('catalogo')">
         <div class="template-tag">ASSISTENTES PRONTOS · SAÚDE</div>
         <div class="template-title">Partir de um<br>assistente digital IA pronto</div>
-        <div class="template-desc">Assistentes já construídos para profissionais de saúde. As 17 secções chegam pré-preenchidas. Edição apenas do que é específico de cada caso. Para outras áreas, começar do template em branco.</div>
+        <div class="template-desc">Assistentes já construídos para profissionais de saúde. As 16 secções chegam pré-preenchidas. Edição apenas do que é específico de cada caso. Para outras áreas, começar do template em branco.</div>
         <ul class="template-list">
           <li>Dr. Escriba IA · MGF + Urgência</li>
           <li>Dr. Escriba IA · Internato</li>
@@ -1454,12 +1387,11 @@
       </button>
 
       <button class="template-card featured" onclick="selectTemplate('branco')">
-        <div class="template-tag">Branco · 17 secções</div>
+        <div class="template-tag">Branco · 16 secções</div>
         <div class="template-title">Template em<br>branco</div>
-        <div class="template-desc">Para profissionais que querem construir algo próprio do zero. A estrutura das 17 secções está definida, os campos estão vazios — o preenchimento fica a cargo do utilizador.</div>
+        <div class="template-desc">Para profissionais que querem construir algo próprio do zero. A estrutura das 16 secções está definida, os campos estão vazios — o preenchimento fica a cargo do utilizador.</div>
         <ul class="template-list">
           <li>Identidade e persona</li>
-          <li>Protocolo de reconhecimento</li>
           <li>Onboarding em etapas</li>
           <li>Regras de segurança e red lines</li>
           <li>Fecho dinâmico</li>
@@ -1483,19 +1415,19 @@
 <section class="screen" id="screen-3">
   <div class="screen-inner">
     <div class="step-label">Passo 3 de 4</div>
-    <h1 class="screen-title">Preencher as <em>17 secções</em></h1>
+    <h1 class="screen-title">Preencher as <em>16 secções</em></h1>
     <p class="screen-sub">Uma secção por ecrã. O que for preenchido fica guardado — pode sair e voltar quando quiser.</p>
 
     <div class="pro-session-chip" id="proSessionChip" hidden>Sessão Pro activa · 3 gerações por campo, por dia</div>
 
     <div class="section-progress">
-      <div class="section-counter">Secção <strong>3</strong> de 17 · <span style="color:var(--ink)">Protocolo de reconhecimento</span></div>
+      <div class="section-counter">Secção <strong>3</strong> de 16</div>
       <div class="section-pbar"><div class="section-pbar-fill"></div></div>
     </div>
 
     <div class="s3-body">
-      <nav class="s3-index" aria-label="Índice das 17 secções">
-        <div class="s3-index-title">As 17 secções</div>
+      <nav class="s3-index" aria-label="Índice das 16 secções">
+        <div class="s3-index-title">As 16 secções</div>
         <div class="s3-index-list">
           <a class="s3-index-item is-oblig" href="#sec-01"><span class="s3-index-num">01</span><span class="s3-index-name">Nome e propósito</span><span class="s3-index-badge oblig">obrig.</span></a>
           <a class="s3-index-item is-oblig" href="#sec-02"><span class="s3-index-num">02</span><span class="s3-index-name">Missão</span><span class="s3-index-badge oblig">obrig.</span></a>
@@ -1505,15 +1437,14 @@
           <a class="s3-index-item" href="#sec-06" onclick="openOpcionais()"><span class="s3-index-num">06</span><span class="s3-index-name">Linguagem</span></a>
           <a class="s3-index-item" href="#sec-07" onclick="openOpcionais()"><span class="s3-index-num">07</span><span class="s3-index-name">Estilo de resposta</span></a>
           <a class="s3-index-item" href="#sec-08" onclick="openOpcionais()"><span class="s3-index-num">08</span><span class="s3-index-name">Onboarding</span></a>
-          <a class="s3-index-item" href="#sec-09" onclick="openOpcionais()"><span class="s3-index-num">09</span><span class="s3-index-name">Protocolo de reconhecimento</span></a>
-          <a class="s3-index-item" href="#sec-10" onclick="openOpcionais()"><span class="s3-index-num">10</span><span class="s3-index-name">Tarefas específicas</span></a>
-          <a class="s3-index-item" href="#sec-11" onclick="openOpcionais()"><span class="s3-index-num">11</span><span class="s3-index-name">Fontes oficiais</span></a>
-          <a class="s3-index-item" href="#sec-12" onclick="openOpcionais()"><span class="s3-index-num">12</span><span class="s3-index-name">Conhecimento técnico</span></a>
-          <a class="s3-index-item is-oblig" href="#sec-13"><span class="s3-index-num">13</span><span class="s3-index-name">Red lines</span><span class="s3-index-badge oblig">obrig.</span></a>
-          <a class="s3-index-item is-oblig" href="#sec-14"><span class="s3-index-num">14</span><span class="s3-index-name">Alertas de emergência</span><span class="s3-index-badge oblig">obrig.</span></a>
-          <a class="s3-index-item" href="#sec-15" onclick="openOpcionais()"><span class="s3-index-num">15</span><span class="s3-index-name">Tratamento de dados</span></a>
-          <a class="s3-index-item is-oblig" href="#sec-16"><span class="s3-index-num">16</span><span class="s3-index-name">Fecho dinâmico</span><span class="s3-index-badge oblig">obrig.</span></a>
-          <a class="s3-index-item" href="#sec-17" onclick="openOpcionais()"><span class="s3-index-num">17</span><span class="s3-index-name">Continuidade</span></a>
+          <a class="s3-index-item" href="#sec-09" onclick="openOpcionais()"><span class="s3-index-num">09</span><span class="s3-index-name">Tarefas específicas</span></a>
+          <a class="s3-index-item" href="#sec-10" onclick="openOpcionais()"><span class="s3-index-num">10</span><span class="s3-index-name">Fontes oficiais</span></a>
+          <a class="s3-index-item" href="#sec-11" onclick="openOpcionais()"><span class="s3-index-num">11</span><span class="s3-index-name">Conhecimento técnico</span></a>
+          <a class="s3-index-item is-oblig" href="#sec-12"><span class="s3-index-num">12</span><span class="s3-index-name">Red lines</span><span class="s3-index-badge oblig">obrig.</span></a>
+          <a class="s3-index-item is-oblig" href="#sec-13"><span class="s3-index-num">13</span><span class="s3-index-name">Alertas de emergência</span><span class="s3-index-badge oblig">obrig.</span></a>
+          <a class="s3-index-item" href="#sec-14" onclick="openOpcionais()"><span class="s3-index-num">14</span><span class="s3-index-name">Tratamento de dados</span></a>
+          <a class="s3-index-item is-oblig" href="#sec-15"><span class="s3-index-num">15</span><span class="s3-index-name">Fecho dinâmico</span><span class="s3-index-badge oblig">obrig.</span></a>
+          <a class="s3-index-item" href="#sec-16" onclick="openOpcionais()"><span class="s3-index-num">16</span><span class="s3-index-name">Continuidade</span></a>
         </div>
       </nav>
 
@@ -1560,8 +1491,8 @@
             </div>
           </div>
 
-          <div class="fill-main oblig-block" id="sec-13">
-            <div class="oblig-tag">Obrigatória · 13</div>
+          <div class="fill-main oblig-block" id="sec-12">
+            <div class="oblig-tag">Obrigatória · 12</div>
             <div class="fill-title">Red lines</div>
             <div class="fill-guide">Os limites absolutos — o que o assistente nunca faz, em nenhuma circunstância.</div>
             <div class="fill-field">
@@ -1580,8 +1511,8 @@
             </div>
           </div>
 
-          <div class="fill-main oblig-block" id="sec-14">
-            <div class="oblig-tag">Obrigatória · 14</div>
+          <div class="fill-main oblig-block" id="sec-13">
+            <div class="oblig-tag">Obrigatória · 13</div>
             <div class="fill-title">Alertas de emergência</div>
             <div class="fill-guide">Sinais que exigem encaminhamento imediato, e a resposta a dar.</div>
             <div class="fill-field">
@@ -1600,8 +1531,8 @@
             </div>
           </div>
 
-          <div class="fill-main oblig-block" id="sec-16">
-            <div class="oblig-tag">Obrigatória · 16</div>
+          <div class="fill-main oblig-block" id="sec-15">
+            <div class="oblig-tag">Obrigatória · 15</div>
             <div class="fill-title">Fecho dinâmico</div>
             <div class="fill-guide">Como o assistente se despede — variando, para não soar repetitivo.</div>
             <div class="fill-field">
@@ -1630,13 +1561,13 @@
     <div class="afinar-bar">
       <button class="btn-afinar" id="btnAfinar" onclick="toggleOpcionais()" aria-expanded="false" aria-controls="opcionais">
         <span class="afinar-left"><strong>Afinar mais</strong> <span class="opc-opt">(opcional)</span></span>
-        <span class="opc-count">12 secções opcionais</span>
+        <span class="opc-count">11 secções opcionais</span>
         <span class="opc-chevron">+</span>
       </button>
     </div>
 
     <div class="opcionais" id="opcionais" hidden>
-      <div class="opc-note">As 12 secções opcionais estão todas disponíveis.</div>
+      <div class="opc-note">As 11 secções opcionais estão todas disponíveis.</div>
 
     <div class="fill-main" id="sec-03">
       <div class="fill-title">Público-alvo</div>
@@ -1758,87 +1689,7 @@
       </div>
     </div>
 
-    <div class="example-bar" id="sec-09">
-      <div class="example-bar-text"><strong>Sem ideia do que pôr?</strong> Veja como ficaria para a sua área — escolha uma profissão e carregue em "ver exemplo".</div>
-      <div class="ex-prof-tabs" id="exProfTabs">
-        <button class="ex-prof-tab active" data-prof="nutri" onclick="setProf('nutri')">Nutricionista</button>
-        <button class="ex-prof-tab" data-prof="adv" onclick="setProf('adv')">Advogado</button>
-        <button class="ex-prof-tab" data-prof="eng" onclick="setProf('eng')">Engenheiro</button>
-      </div>
-    </div>
-
-    <div class="prof-frozen" id="profFrozen" hidden>
-      🔒 Profissão congelada: <strong id="frozenProfName">Nutricionista</strong> · o exemplo foi aplicado a esta profissão.
-      <button class="prof-unfreeze" onclick="unfreezeProf()">trocar profissão</button>
-    </div>
-
-    <div class="fill-grid">
-      <div class="fill-main">
-        <div class="fill-title">Protocolo de reconhecimento</div>
-        <div class="fill-guide">Um código ou palavra secreta que distingue o profissional do cliente comum. Muda a conversa para modo técnico.</div>
-
-        <div class="fill-field">
-          <label for="f-code">Código ou gesto de reconhecimento</label>
-          <input type="text" id="f-code" placeholder="ex: o seu nº profissional, ou uma palavra só sua" oninput="checkRGPD(this)">
-          <div class="field-actions">
-            <button class="btn-example" onclick="fillEx('f-code')">↳ ver exemplo</button>
-            <button type="button" class="btn-pro" onclick="goToProPricing()">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></button>
-          </div>
-        </div>
-
-        <div class="fill-field">
-          <label for="f-behaviour">O que acontece quando o código é detectado?</label>
-          <textarea id="f-behaviour" placeholder="Descreva em 2-3 frases o comportamento do assistente no modo técnico." oninput="checkRGPD(this)"></textarea>
-          <div class="chips" aria-label="Sugestões para começar">
-            <span class="chips-label">começar com</span>
-            <button type="button" class="chip" data-insert="Passa a modo técnico e " onclick="insertChip('f-behaviour', this)">Passa a modo técnico e…</button>
-            <button type="button" class="chip" data-insert="Mostra " onclick="insertChip('f-behaviour', this)">Mostra…</button>
-            <button type="button" class="chip" data-insert="Resume " onclick="insertChip('f-behaviour', this)">Resume…</button>
-            <button type="button" class="chip" data-insert="Apresenta " onclick="insertChip('f-behaviour', this)">Apresenta…</button>
-          </div>
-          <div class="field-actions">
-            <button class="btn-example" onclick="fillEx('f-behaviour')">↳ ver exemplo</button>
-            <button type="button" class="btn-pro" onclick="goToProPricing()">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></button>
-          </div>
-        </div>
-
-        <div class="fill-field">
-          <label for="f-exit">Palavra para regressar ao modo normal</label>
-          <input type="text" id="f-exit" placeholder="ex: fim" oninput="checkRGPD(this)">
-          <div class="field-actions">
-            <button class="btn-example" onclick="fillEx('f-exit')">↳ ver exemplo</button>
-            <button type="button" class="btn-pro" onclick="goToProPricing()">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></button>
-          </div>
-        </div>
-
-        <div class="rgpd-warn" id="rgpdWarn">
-          <strong>Atenção RGPD:</strong> detectámos o que parece ser um dado pessoal identificável (nome completo, número de cliente, data de nascimento ou similar). Para respeitar a privacidade dos seus clientes, use apenas iniciais + idade — ex: <em>"M.A., 62a"</em>. Este aviso aparece só para si, não bloqueia.
-        </div>
-
-        <div class="fill-nav">
-          <div class="fill-nav-left">
-            <button class="btn-ghost" onclick="alert('Demo: voltaria à secção 2.')">← Voltar</button>
-            <button class="btn-ghost" onclick="alert('Demo: pediria email para enviar link de retoma.')">Guardar e continuar depois</button>
-          </div>
-          <button class="btn-accent" onclick="goTo(4)">Próximo →</button>
-        </div>
-      </div>
-
-      <aside class="fill-aside">
-        <div class="aside-label">Exemplo · <span id="asideProfName">Nutricionista</span></div>
-        <div class="aside-title" id="asideTitle">Nutricionista Digital · acompanhamento</div>
-        <div class="aside-example" id="asideExample">Ao detectar o código <strong>nutri-c12</strong>, o assistente passa a modo técnico: mostra histórico de peso, registo alimentar e metas calóricas em tabela. Ao digitar <strong>fim</strong>, regressa ao modo cliente e omite o código.</div>
-        <div class="aside-hint">
-          <strong>Dica.</strong> Use um código que só o profissional conheça — não algo óbvio. Serve para o assistente saber quando é o profissional a falar, e não um cliente.
-        </div>
-        <div class="aside-pro">
-          <div class="aside-pro-title">✨ Versão Pro · 49€</div>
-          <div class="aside-pro-text">No grátis há <strong>exemplos fixos</strong>. Na Pro, o <strong>IA ajuda a responder</strong>: parte do que o profissional determina e devolve a secção escrita no estilo dele. O profissional revê e decide.</div>
-        </div>
-      </aside>
-    </div>
-
-    <div class="fill-main" id="sec-10">
+    <div class="fill-main" id="sec-09">
       <div class="fill-title">Tarefas específicas</div>
       <div class="fill-guide">A lista concreta do que o assistente sabe organizar a partir do material que o profissional determina, incluindo como lida com correcções parciais e histórico de versões.</div>
       <div class="fill-field">
@@ -1858,7 +1709,7 @@
       </div>
     </div>
 
-    <div class="fill-main" id="sec-11">
+    <div class="fill-main" id="sec-10">
       <div class="fill-title">Fontes oficiais</div>
       <div class="fill-guide">As fontes de referência que o profissional autoriza — e as que exclui.</div>
       <div class="fill-field">
@@ -1871,7 +1722,7 @@
       </div>
     </div>
 
-    <div class="fill-main" id="sec-12">
+    <div class="fill-main" id="sec-11">
       <div class="fill-title">Conhecimento técnico</div>
       <div class="fill-guide">A informação fixa que o assistente deve manter presente em todas as interações, e as regras sobre como tratar dados variáveis.</div>
       <div class="fill-field">
@@ -1891,7 +1742,7 @@
       </div>
     </div>
 
-    <div class="fill-main" id="sec-15">
+    <div class="fill-main" id="sec-14">
       <div class="fill-title">Tratamento de dados</div>
       <div class="fill-guide">As regras de privacidade que o assistente segue ao receber informação de terceiros.</div>
       <div class="fill-field">
@@ -1911,7 +1762,7 @@
       </div>
     </div>
 
-    <div class="fill-main" id="sec-17">
+    <div class="fill-main" id="sec-16">
       <div class="fill-title">Continuidade</div>
       <div class="fill-guide">A forma como o assistente mantém coerência entre sessões, sem guardar nada sem autorização explícita.</div>
       <div class="fill-field">
@@ -1936,7 +1787,7 @@
     </div>
 
     <div class="demo-skip">
-      <div>As 12 secções opcionais estão todas disponíveis.</div>
+      <div>As 11 secções opcionais estão todas disponíveis.</div>
       <button onclick="goTo(4)">Saltar para output ⏭</button>
     </div>
   </div>
@@ -1980,29 +1831,22 @@ Gerado por Proteína Lúdica · proteinaludica.com/criar
 ## 2. Contexto e público-alvo
 [Quem usa o assistente digital IA, em que situação, com que frequência]
 
-## 3. Protocolo de reconhecimento
-Código: nutri-c12
-Comportamento técnico: ao detectar o código, passa a modo técnico e
-apresenta painel estruturado com os dados relevantes do histórico,
-pontos a validar e checklist de preparação para o atendimento.
-Palavra de saída: fim
-
-## 4. Primeiro contacto
+## 3. Primeiro contacto
 [Sequência de 8 etapas de primeiro contacto]
 
-## 5. Regras de segurança
+## 4. Regras de segurança
 - Não decide em nome do profissional — apenas organiza e sugere
 - Não avança sem confirmação nos pontos assinalados como incertos
 - Informação em falta → assinala em vez de assumir
 - Situação fora do âmbito habitual → encaminha para o profissional
 
-## 6. Fontes oficiais
+## 5. Fontes oficiais
 Documentos e modelos fornecidos pelo profissional
 
-## 7. Red lines
+## 6. Red lines
 [Limites éticos e legais — o que o assistente digital IA nunca faz]
 
-## 8. Fecho dinâmico
+## 7. Fecho dinâmico
 [4 variações de despedida para não ser robotizado]
 
 [... mais 9 secções ...]
@@ -2532,9 +2376,6 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     'f-linguagem': { familia: 'B', rotulo: 'Linguagem', orientacao: 'Definir se os textos usam linguagem técnica ou linguagem simples para quem os recebe, e se há necessidade de outra língua além do português.', maxPalavras: 60 },
     'f-estilo': { familia: 'B', rotulo: 'Estilo de resposta', orientacao: 'O formato-tipo dos textos que o assistente devolve, incluindo necessidades de acessibilidade e alertas de tamanho invulgar.', maxPalavras: 60 },
     'f-onboarding': { familia: 'B', rotulo: 'Onboarding', orientacao: 'A sequência de arranque, uma pergunta de cada vez, antes de o assistente organizar o que recebeu.', maxPalavras: 60 },
-    'f-code': { familia: 'D', rotulo: 'Código ou gesto de reconhecimento', orientacao: 'Um código ou palavra secreta que distingue o profissional do cliente comum. Muda a conversa para modo técnico.', maxPalavras: 8 },
-    'f-behaviour': { familia: 'D', rotulo: 'O que acontece quando o código é detectado', orientacao: 'Um código ou palavra secreta que distingue o profissional do cliente comum. Muda a conversa para modo técnico.', maxPalavras: 60 },
-    'f-exit': { familia: 'D', rotulo: 'Palavra para regressar ao modo normal', orientacao: 'Um código ou palavra secreta que distingue o profissional do cliente comum. Muda a conversa para modo técnico.', maxPalavras: 6 },
     'f-tarefas': { familia: 'B', rotulo: 'Tarefas específicas', orientacao: 'A lista concreta do que o assistente sabe organizar a partir do material que o profissional determina, incluindo como lida com correcções parciais e histórico de versões.', maxPalavras: 70 },
     'f-fontes': { familia: 'D', rotulo: 'Fontes oficiais', orientacao: 'As fontes de referência que o profissional autoriza — e as que exclui.', maxPalavras: 50 },
     'f-conhecimento': { familia: 'D', rotulo: 'Conhecimento técnico', orientacao: 'A informação fixa que o assistente deve manter presente em todas as interações, e as regras sobre como tratar dados variáveis.', maxPalavras: 80 },
@@ -2931,8 +2772,6 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     if (_btn) { _btn.classList.remove('open'); _btn.setAttribute('aria-expanded', 'false'); }
     document.querySelectorAll('.chip').forEach(c => c.classList.remove('used'));
     checkObrigatorias();
-    unfreezeProf();
-    setProf('nutri');
     goTo(1);
     closeQuizModal();
   }
@@ -2976,73 +2815,6 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     if (e.key === 'Escape') closeQuizModal();
   });
 
-  // ─── NÍVEL A: exemplos por profissão (sem IA, texto fixo) ───
-  const PROF = {
-    nutri: {
-      nome: 'Nutricionista',
-      title: 'Nutricionista Digital · acompanhamento',
-      'f-code': 'nutri-c12',
-      'f-behaviour': 'Ao detectar o código, passa a modo técnico: mostra o histórico do processo, os registos anteriores e os prazos em tabela. Linguagem objectiva, para o profissional rever antes do contacto.',
-      'f-exit': 'fim',
-      example: 'Ao detectar o código <strong>nutri-c12</strong>, o assistente passa a modo técnico: mostra histórico de peso, registo alimentar e metas calóricas em tabela. Ao digitar <strong>fim</strong>, regressa ao modo cliente e omite o código.'
-    },
-    adv: {
-      nome: 'Advogado',
-      title: 'Assistente Jurídico Digital · escritório',
-      'f-code': 'adv-47x',
-      'f-behaviour': 'Ao detectar o código, passa a modo técnico: resume o processo, lista prazos processuais e peças em falta. Linguagem jurídica precisa, para o advogado rever antes de avançar.',
-      'f-exit': 'fechar',
-      example: 'Ao detectar o código <strong>adv-47x</strong>, o assistente resume o processo, lista prazos e peças em falta em formato técnico. Ao digitar <strong>fechar</strong>, regressa ao modo cliente e omite o código.'
-    },
-    eng: {
-      nome: 'Engenheiro',
-      title: 'Assistente Técnico Digital · gabinete',
-      'f-code': 'eng-31k',
-      'f-behaviour': 'Ao detectar o código, passa a modo técnico: resume o estado do projeto, lista prazos de entrega e pontos por validar. Linguagem técnica precisa, para o engenheiro rever antes de avançar.',
-      'f-exit': 'fim',
-      example: 'Ao detectar o código <strong>eng-31k</strong>, o assistente resume o estado do projeto, lista prazos e pontos por validar em formato técnico. Ao digitar <strong>fim</strong>, regressa ao modo cliente e omite o código.'
-    }
-  };
-  let curProf = 'nutri';
-  let frozenProf = null; // profissão congelada ao aplicar um exemplo
-
-  function setProf(p) {
-    // tabs continuam a funcionar: trocar de tab descongela a escolha
-    if (frozenProf && p !== frozenProf) unfreezeProf();
-    curProf = p;
-    document.querySelectorAll('.ex-prof-tab').forEach(t => t.classList.toggle('active', t.dataset.prof === p));
-    const d = PROF[p];
-    document.getElementById('asideProfName').textContent = d.nome;
-    document.getElementById('asideTitle').textContent = d.title;
-    document.getElementById('asideExample').innerHTML = d.example;
-  }
-
-  // ─── Fase 4: congelar a profissão ativa ───
-  function freezeProf(p) {
-    frozenProf = p;
-    const banner = document.getElementById('profFrozen');
-    if (banner) {
-      document.getElementById('frozenProfName').textContent = PROF[p].nome;
-      banner.removeAttribute('hidden');
-    }
-    document.querySelectorAll('.ex-prof-tab').forEach(t => t.classList.toggle('frozen', t.dataset.prof === p));
-  }
-  function unfreezeProf() {
-    frozenProf = null;
-    const banner = document.getElementById('profFrozen');
-    if (banner) banner.setAttribute('hidden', '');
-    document.querySelectorAll('.ex-prof-tab').forEach(t => t.classList.remove('frozen'));
-  }
-
-  function fillEx(id) {
-    // ao aplicar um exemplo, a profissão ativa congela; se já está congelada, usa essa
-    if (!frozenProf) freezeProf(curProf);
-    else if (curProf !== frozenProf) setProf(frozenProf);
-    const el = document.getElementById(id);
-    const d = PROF[frozenProf];
-    if (el && d[id] !== undefined) el.value = d[id];
-  }
-
   // ─── Secções de campo único: exemplo estático (sem abas de profissão) ───
   function fillFieldExample(fieldId, btn) {
     const el = document.getElementById(fieldId);
@@ -3067,7 +2839,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     }
   }
 
-  // ─── Ecrã 4: gerar output a partir dos valores reais das 17 secções ───
+  // ─── Ecrã 4: gerar output a partir dos valores reais das 16 secções ───
   const OUTPUT_SECOES = [
     { num: '01', title: 'Nome e propósito', field: 'f-nome' },
     { num: '02', title: 'Missão', field: 'f-missao' },
@@ -3077,15 +2849,14 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     { num: '06', title: 'Linguagem', field: 'f-linguagem' },
     { num: '07', title: 'Estilo de resposta', field: 'f-estilo' },
     { num: '08', title: 'Onboarding', field: 'f-onboarding' },
-    { num: '09', title: 'Protocolo de reconhecimento', special: 'reconhecimento' },
-    { num: '10', title: 'Tarefas específicas', field: 'f-tarefas' },
-    { num: '11', title: 'Fontes oficiais', field: 'f-fontes' },
-    { num: '12', title: 'Conhecimento técnico', field: 'f-conhecimento' },
-    { num: '13', title: 'Red lines', field: 'f-redline' },
-    { num: '14', title: 'Alertas de emergência', field: 'f-emerg' },
-    { num: '15', title: 'Tratamento de dados', field: 'f-dados' },
-    { num: '16', title: 'Fecho dinâmico', field: 'f-fecho' },
-    { num: '17', title: 'Continuidade', field: 'f-continuidade' },
+    { num: '09', title: 'Tarefas específicas', field: 'f-tarefas' },
+    { num: '10', title: 'Fontes oficiais', field: 'f-fontes' },
+    { num: '11', title: 'Conhecimento técnico', field: 'f-conhecimento' },
+    { num: '12', title: 'Red lines', field: 'f-redline' },
+    { num: '13', title: 'Alertas de emergência', field: 'f-emerg' },
+    { num: '14', title: 'Tratamento de dados', field: 'f-dados' },
+    { num: '15', title: 'Fecho dinâmico', field: 'f-fecho' },
+    { num: '16', title: 'Continuidade', field: 'f-continuidade' },
   ];
 
   function campoOuPlaceholder(fieldId) {
@@ -3094,22 +2865,9 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     return val ? val : '[Não preenchido]';
   }
 
-  function gerarSecaoReconhecimento() {
-    const linhas = [
-      'Código: ' + campoOuPlaceholder('f-code'),
-      'Comportamento técnico: ' + campoOuPlaceholder('f-behaviour'),
-      'Palavra de saída: ' + campoOuPlaceholder('f-exit'),
-    ];
-    if (frozenProf && PROF[frozenProf]) {
-      linhas.push('Exemplo de referência aplicado: ' + PROF[frozenProf].nome + ' (congelado)');
-    }
-    return linhas.join('\n');
-  }
-
   function gerarOutput() {
     const corpo = OUTPUT_SECOES.map(s => {
-      const conteudo = s.special === 'reconhecimento' ? gerarSecaoReconhecimento() : campoOuPlaceholder(s.field);
-      return '## ' + s.num + '. ' + s.title + '\n' + conteudo;
+      return '## ' + s.num + '. ' + s.title + '\n' + campoOuPlaceholder(s.field);
     }).join('\n\n');
 
     const md = '# SYSTEM PROMPT · Assistente digital IA\n'
