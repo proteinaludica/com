@@ -2246,9 +2246,50 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     document.getElementById('checkoutTitle').innerHTML = t.title;
     document.getElementById('checkoutPreviewTitle').textContent = t.previewTitle;
     document.getElementById('checkoutIncludes').innerHTML = t.includes.map(i => '<li>' + i + '</li>').join('');
-    document.getElementById('btnPayMbway').innerHTML = '<span class="pay-icon">MB</span>Pagar com MB WAY · ' + t.price;
-    document.getElementById('btnPayCard').innerHTML = '<span class="pay-icon">VISA</span>Pagar com cartão · ' + t.price;
+    const btnMbway = document.getElementById('btnPayMbway');
+    const btnCard = document.getElementById('btnPayCard');
+    btnMbway.innerHTML = '<span class="pay-icon">MB</span>Pagar com MB WAY · ' + t.price;
+    btnCard.innerHTML = '<span class="pay-icon">VISA</span>Pagar com cartão · ' + t.price;
+    // No Pro (49€) os botões iniciam o pagamento real e redirecionam para o
+    // provedor. Nos outros patamares mantêm o fluxo actual (Ecrã 6).
+    if (tier === 'pro') {
+      btnMbway.onclick = function () { iniciarPagamentoPro('mbway', btnMbway); };
+      btnCard.onclick = function () { iniciarPagamentoPro('card', btnCard); };
+    } else {
+      btnMbway.onclick = function () { goTo(6); };
+      btnCard.onclick = function () { goTo(6); };
+    }
     showPaywallStep('paywallCheckout');
+  }
+
+  // ─────────── PAGAMENTO PRO (checkout → provedor) ───────────
+  // Cria a sessão de pagamento no backend e redireciona o browser para a URL
+  // devolvida (Stripe para cartão; IfthenPay para MB WAY). O acesso Pro só é
+  // concedido depois de o provedor confirmar — nunca aqui.
+  async function iniciarPagamentoPro(metodo, btn) {
+    const emailEl = document.getElementById('f-email');
+    const email = emailEl && emailEl.value ? emailEl.value.trim() : '';
+    const original = btn ? btn.innerHTML : '';
+    if (btn) { btn.disabled = true; btn.dataset.busy = '1'; }
+    try {
+      const resp = await fetch('/api/criar-sessao-pagamento', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ metodo: metodo, email: email, sessao: getSessao() })
+      });
+      const dados = await resp.json().catch(function () { return null; });
+      if (resp.ok && dados && dados.ok && dados.url) {
+        window.location.href = dados.url;
+        return;
+      }
+      const msg = (dados && dados.error) || 'Não foi possível iniciar o pagamento. Tentar de novo.';
+      if (btn) { btn.disabled = false; delete btn.dataset.busy; btn.innerHTML = original; }
+      alert(msg);
+    } catch (err) {
+      console.error('Erro ao iniciar pagamento Pro:', err);
+      if (btn) { btn.disabled = false; delete btn.dataset.busy; btn.innerHTML = original; }
+      alert('Erro de rede. Tentar de novo dentro de momentos.');
+    }
   }
 
   function goToProPricing() {
@@ -2646,7 +2687,37 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     });
   }
 
-  function bootAssistirCampo() {
+  // Ao regressar do pagamento (URL com ?pro=1), pede o token Pro ao backend e
+  // guarda-o em sessionStorage. O webhook pode chegar com ligeiro atraso, por
+  // isso tenta algumas vezes antes de desistir. Limpa sempre o parâmetro da URL.
+  async function recuperarTokenPro() {
+    let params;
+    try { params = new URLSearchParams(window.location.search); } catch (e) { return; }
+    if (params.get('pro') !== '1') return;
+
+    const limparUrl = function () {
+      try { window.history.replaceState({}, document.title, window.location.pathname); } catch (e) {}
+    };
+
+    const sessao = getSessao();
+    const tentativas = [0, 1500, 3000, 5000]; // espera progressiva (ms)
+    for (let i = 0; i < tentativas.length; i++) {
+      if (tentativas[i]) await new Promise(function (r) { setTimeout(r, tentativas[i]); });
+      let dados = null;
+      try {
+        const resp = await fetch('/api/obter-token?sessao=' + encodeURIComponent(sessao));
+        dados = await resp.json().catch(function () { return null; });
+        if (resp.ok && dados && dados.ok && dados.token) {
+          try { sessionStorage.setItem('pl_proToken', dados.token); } catch (e) {}
+          break;
+        }
+      } catch (e) { /* rede: tenta de novo */ }
+    }
+    limparUrl();
+  }
+
+  async function bootAssistirCampo() {
+    await recuperarTokenPro();
     inicializarPro();
     initAssistirCampo();
   }

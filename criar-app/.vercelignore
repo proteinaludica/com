@@ -1,0 +1,3 @@
+# Ficheiros de teste (node --test) não são funções serverless.
+# Contam para o limite de 12 funções por deployment (plano Hobby).
+*.test.js
