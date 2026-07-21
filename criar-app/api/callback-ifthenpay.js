@@ -21,7 +21,7 @@
 
 'use strict';
 
-const pro = require('./pro-comum');
+const pro = require('../lib/pro-comum');
 
 module.exports = async (req, res) => {
   // A IfthenPay usa GET no callback.
