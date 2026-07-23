@@ -71,7 +71,10 @@
     letter-spacing: -0.01em;
     color: var(--ink);
     text-decoration: none;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
   }
+  .logo:hover { opacity: 0.7; }
   .logo em { color: var(--accent); font-style: italic; }
   .logo-sub {
     font-family: var(--font-mono);
@@ -1276,7 +1279,7 @@
 
 <header class="topbar">
   <div class="topbar-inner">
-    <a class="logo" href="#" onclick="return false">
+    <a class="logo" href="#" onclick="resetDemo(); return false;">
       Proteína <em>Lúdica</em>
       <span class="logo-sub">Criar assistente digital IA · /criar</span>
     </a>
@@ -1289,7 +1292,7 @@
         <div class="progress-dot"></div>
       </div>
     </div>
-    <button class="demo-reset">↻ Reiniciar</button>
+    <button class="demo-reset" onclick="resetDemo()">↻ Reiniciar</button>
   </div>
 </header>
 
