@@ -1279,7 +1279,7 @@
 
 <header class="topbar">
   <div class="topbar-inner">
-    <a class="logo" href="#" onclick="resetDemo(); return false;">
+    <a class="logo" href="https://proteinaludica.com/" onclick="return sairParaSite();">
       Proteína <em>Lúdica</em>
       <span class="logo-sub">Criar assistente digital IA · /criar</span>
     </a>
@@ -2830,6 +2830,20 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   document.querySelectorAll('.btn-mbway, .btn-card').forEach(btn => {
     btn.addEventListener('click', goToSuccess);
   });
+
+  // ─────────── SAIR PARA O SITE ───────────
+  // Logo navega para o site principal. O progresso do wizard não é guardado,
+  // por isso, se houver campos preenchidos, confirma antes de sair.
+  function sairParaSite() {
+    let preenchido = false;
+    document.querySelectorAll('input, textarea').forEach(el => {
+      if (el.value && el.value.trim() !== '') preenchido = true;
+    });
+    if (preenchido) {
+      return confirm('Sair? O progresso não fica guardado.');
+    }
+    return true;
+  }
 
   // ─────────── RESET ───────────
   function resetDemo() {
