@@ -71,7 +71,10 @@
     letter-spacing: -0.01em;
     color: var(--ink);
     text-decoration: none;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
   }
+  .logo:hover { opacity: 0.7; }
   .logo em { color: var(--accent); font-style: italic; }
   .logo-sub {
     font-family: var(--font-mono);
@@ -1276,7 +1279,7 @@
 
 <header class="topbar">
   <div class="topbar-inner">
-    <a class="logo" href="#" onclick="return false">
+    <a class="logo" href="https://proteinaludica.com/" onclick="return sairParaSite();">
       Proteína <em>Lúdica</em>
       <span class="logo-sub">Criar assistente digital IA · /criar</span>
     </a>
@@ -1289,7 +1292,7 @@
         <div class="progress-dot"></div>
       </div>
     </div>
-    <button class="demo-reset">↻ Reiniciar</button>
+    <button class="demo-reset" onclick="resetDemo()">↻ Reiniciar</button>
   </div>
 </header>
 
@@ -2827,6 +2830,20 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   document.querySelectorAll('.btn-mbway, .btn-card').forEach(btn => {
     btn.addEventListener('click', goToSuccess);
   });
+
+  // ─────────── SAIR PARA O SITE ───────────
+  // Logo navega para o site principal. O progresso do wizard não é guardado,
+  // por isso, se houver campos preenchidos, confirma antes de sair.
+  function sairParaSite() {
+    let preenchido = false;
+    document.querySelectorAll('input, textarea').forEach(el => {
+      if (el.value && el.value.trim() !== '') preenchido = true;
+    });
+    if (preenchido) {
+      return confirm('Sair? As instruções não ficam guardadas.');
+    }
+    return true;
+  }
 
   // ─────────── RESET ───────────
   function resetDemo() {
