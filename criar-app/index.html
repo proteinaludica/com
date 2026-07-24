@@ -1306,8 +1306,7 @@
     <p class="screen-sub">Cada plataforma tem vantagens diferentes. Escolher a que se usa — ou pedir à Proteína Lúdica que escolha.</p>
 
     <div class="platform-grid">
-      <button class="platform-card" style="border-color:var(--accent); position:relative;" onclick="selectPlatform('claude','Claude Projects')">
-        <div style="position:absolute; top:10px; right:10px; font-family:var(--font-mono); font-size:9px; letter-spacing:0.06em; text-transform:uppercase; color:var(--accent); background:var(--accent-light); padding:2px 8px; border-radius:3px;">Recomendado</div>
+      <button class="platform-card" onclick="selectPlatform('claude','Claude Projects')">
         <div class="platform-badge b-claude">C</div>
         <div class="platform-name">Claude Projects</div>
         <div class="platform-desc">Melhor para texto longo e raciocínio detalhado.</div>
@@ -1319,10 +1318,11 @@
         <div class="platform-desc">Mais integrações, plugins e acções disponíveis.</div>
       </button>
 
-      <button class="platform-card" onclick="selectPlatform('gemini','Google Gemini Gems')">
+      <button class="platform-card" style="border-color:var(--accent); position:relative;" onclick="selectPlatform('gemini','Google Gemini Gems')">
+        <div style="position:absolute; top:10px; right:10px; font-family:var(--font-mono); font-size:9px; letter-spacing:0.06em; text-transform:uppercase; color:var(--accent); background:var(--accent-light); padding:2px 8px; border-radius:3px;">Recomendado</div>
         <div class="platform-badge b-gemini">◆</div>
         <div class="platform-name">Google Gemini Gems</div>
-        <div class="platform-desc">Indicado para quem já utiliza Gmail, Drive e Google Documentos.</div>
+        <div class="platform-desc">Plano gratuito generoso e tudo no mesmo sítio para quem já utiliza Gmail, Drive e Google Documentos.</div>
       </button>
 
       <button class="platform-card" onclick="selectPlatform('copilot','Microsoft Copilot Agents')">
