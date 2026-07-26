@@ -248,7 +248,7 @@
   }
   .btn-secondary-wide:hover { border-color: var(--accent); color: var(--accent); }
 
-  /* ─── ECRÃ 2: TEMPLATE ─── */
+  /* ─── ECRÃ 2: TEMPLATE (secção removida; estilos mantidos p/ compat.) ─── */
   .template-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -342,7 +342,7 @@
     cursor: pointer;
   }
 
-  /* ─── ECRÃ 3: PREENCHER ─── */
+  /* ─── ECRÃ 3→2: PREENCHER ─── */
   .section-progress {
     display: flex; align-items: center; gap: 1rem;
     margin-bottom: 2rem;
@@ -484,7 +484,7 @@
   }
   .demo-skip button:hover { background: var(--accent); color: white; }
 
-  /* ─── ECRÃ 4: OUTPUT ─── */
+  /* ─── ECRÃ 4→3: OUTPUT ─── */
   .output-inner { max-width: 720px; margin: 0 auto; }
   .output-title {
     font-family: var(--font-head);
@@ -688,7 +688,7 @@
   }
   .guarantee strong { color: var(--accent); font-weight: 500; }
 
-  /* ─── ECRÃ 5: PAYWALL ─── */
+  /* ─── ECRÃ 5→4: PAYWALL ─── */
   .tier-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -972,7 +972,7 @@
   }
   .trust-row span { display: flex; align-items: center; gap: 5px; }
 
-  /* ─── ECRÃ 6: SUCESSO ─── */
+  /* ─── ECRÃ 6→5: SUCESSO ─── */
   .success-inner {
     max-width: 560px;
     margin: 0 auto;
@@ -1202,7 +1202,7 @@
     .s3-body { grid-template-columns: 1fr; }
     .s3-index { position: static; }
   }
-  /* ─── Sticky de preço (Ecrã 3) — paleta Laurissilva sobre fundo claro ─── */
+  /* ─── Sticky de preço (Ecrã 2) — paleta Laurissilva sobre fundo claro ─── */
   .sticky-preco {
     position: fixed;
     left: 0; right: 0; bottom: 0;
@@ -1269,8 +1269,8 @@
     transition: background 0.15s ease;
   }
   .sticky-preco-btn:hover { background: #C8A86B; }
-  /* espaço no fundo do Ecrã 3 para o conteúdo não ficar tapado pela barra */
-  #screen-3 .screen-inner { padding-bottom: 130px; }
+  /* espaço no fundo do Ecrã 2 para o conteúdo não ficar tapado pela barra */
+  #screen-2 .screen-inner { padding-bottom: 130px; }
   .pro-session-chip { display: inline-block; margin: 10px 0 0; padding: 5px 12px; border-radius: 14px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.04em; color: var(--accent); background: var(--accent-light); border: 0.5px solid var(--accent); }
   .pro-session-chip[hidden] { display: none; }
 </style>
@@ -1284,10 +1284,9 @@
       <span class="logo-sub">Criar assistente digital IA · /criar</span>
     </a>
     <div class="progress">
-      <span id="stepLabel">1 / 4</span>
+      <span id="stepLabel">1 / 3</span>
       <div class="progress-bar" id="progressBar">
         <div class="progress-dot active"></div>
-        <div class="progress-dot"></div>
         <div class="progress-dot"></div>
         <div class="progress-dot"></div>
       </div>
@@ -1301,7 +1300,7 @@
 <!-- ════════════════════════════════════════════ -->
 <section class="screen active" id="screen-1">
   <div class="screen-inner">
-    <div class="step-label">Passo 1 de 4</div>
+    <div class="step-label">Passo 1 de 3</div>
     <h1 class="screen-title">Onde vai instalar o assistente digital IA?</h1>
     <p class="screen-sub">Cada plataforma tem vantagens diferentes. Escolher a que se usa — ou pedir à Proteína Lúdica que escolha.</p>
 
@@ -1368,56 +1367,11 @@
 </section>
 
 <!-- ════════════════════════════════════════════ -->
-<!-- ECRÃ 2: TEMPLATE                             -->
+<!-- ECRÃ 2: PREENCHER                            -->
 <!-- ════════════════════════════════════════════ -->
 <section class="screen" id="screen-2">
   <div class="screen-inner">
-    <div class="step-label">Passo 2 de 4</div>
-    <h1 class="screen-title">Partir do <em>quê?</em></h1>
-    <p class="screen-sub">É possível clonar um assistente digital IA pronto e mudar apenas o que importa. Ou começar do zero, caso tenha uma ideia própria.</p>
-
-    <div class="template-grid">
-      <button class="template-card" onclick="selectTemplate('catalogo')">
-        <div class="template-tag">ASSISTENTES PRONTOS · SAÚDE</div>
-        <div class="template-title">Partir de um<br>assistente digital IA pronto</div>
-        <div class="template-desc">Assistentes já construídos para profissionais de saúde. As 16 secções chegam pré-preenchidas. Edição apenas do que é específico de cada caso. Para outras áreas, começar do template em branco.</div>
-        <ul class="template-list">
-          <li>Dr. Escriba IA · MGF + Urgência</li>
-          <li>Dr. Escriba IA · Internato</li>
-          <li>Assistente de Saúde · 12 semanas</li>
-          <li>Assistente Clínico · gestão</li>
-        </ul>
-      </button>
-
-      <button class="template-card featured" onclick="selectTemplate('branco')">
-        <div class="template-tag">Branco · 16 secções</div>
-        <div class="template-title">Template em<br>branco</div>
-        <div class="template-desc">Para profissionais que querem construir algo próprio do zero. A estrutura das 16 secções está definida, os campos estão vazios — o preenchimento fica a cargo do utilizador.</div>
-        <ul class="template-list">
-          <li>Identidade e persona</li>
-          <li>Onboarding em etapas</li>
-          <li>Regras de segurança e red lines</li>
-          <li>Fecho dinâmico</li>
-          <li>+ 12 outras secções</li>
-        </ul>
-      </button>
-    </div>
-
-    <div class="template-skip">
-      <div class="template-skip-text">
-        Já existe um assistente digital IA a funcionar e faltam apenas os materiais de RGPD e o guia de configuração?
-      </div>
-      <span class="template-skip-link" onclick="goTo(4); updatePaymentState();">Ir direto ao upgrade →</span>
-    </div>
-  </div>
-</section>
-
-<!-- ════════════════════════════════════════════ -->
-<!-- ECRÃ 3: PREENCHER                            -->
-<!-- ════════════════════════════════════════════ -->
-<section class="screen" id="screen-3">
-  <div class="screen-inner">
-    <div class="step-label">Passo 3 de 4</div>
+    <div class="step-label">Passo 2 de 3</div>
     <h1 class="screen-title">Preencher as <em>16 secções</em></h1>
     <p class="screen-sub">Uma secção por ecrã. O que for preenchido fica guardado — pode sair e voltar quando quiser.</p>
 
@@ -1796,12 +1750,12 @@
 
     <div class="demo-skip">
       <div>As 11 secções opcionais estão todas disponíveis.</div>
-      <button onclick="goTo(4)">Saltar para output ⏭</button>
+      <button onclick="goTo(3)">Saltar para output ⏭</button>
     </div>
   </div>
 </section>
 
-<!-- Sticky de preço — barra fixa no fundo, visível apenas no Ecrã 3 -->
+<!-- Sticky de preço — barra fixa no fundo, visível apenas no Ecrã 2 -->
 <div class="sticky-preco" id="stickyPreco" aria-live="polite">
   <div class="sticky-preco-inner">
     <div class="sticky-preco-atual">
@@ -1817,11 +1771,11 @@
 </div>
 
 <!-- ════════════════════════════════════════════ -->
-<!-- ECRÃ 4: OUTPUT (grátis)                      -->
+<!-- ECRÃ 3: OUTPUT (grátis)                      -->
 <!-- ════════════════════════════════════════════ -->
-<section class="screen" id="screen-4">
+<section class="screen" id="screen-3">
   <div class="screen-inner output-inner">
-    <div class="step-label" style="text-align:center">Passo 4 de 4 · Grátis</div>
+    <div class="step-label" style="text-align:center">Passo 3 de 3 · Grátis</div>
     <h1 class="output-title">O assistente digital IA está <em>pronto.</em></h1>
     <p class="output-sub">Copie o bloco abaixo e cole no campo de <em>instructions</em> da sua plataforma.</p>
 
@@ -1878,7 +1832,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
           19€ <span class="upgrade-price-old">29€</span>
           <span class="upgrade-price-note">Preço de lançamento · primeiras 100 vendas</span>
         </div>
-        <button class="btn-primary" onclick="goTo(5)">Obter kit completo →</button>
+        <button class="btn-primary" onclick="goTo(4)">Obter kit completo →</button>
       </div>
     </div>
 
@@ -1891,9 +1845,9 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
 </section>
 
 <!-- ════════════════════════════════════════════ -->
-<!-- ECRÃ 5: PAYWALL                              -->
+<!-- ECRÃ 4: PAYWALL                              -->
 <!-- ════════════════════════════════════════════ -->
-<section class="screen" id="screen-5">
+<section class="screen" id="screen-4">
   <div class="screen-inner">
 
     <div id="paywallTiers">
@@ -1988,11 +1942,11 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
           </div>
 
           <div class="pay-buttons">
-            <button class="btn-pay btn-mbway" id="btnPayMbway" onclick="goTo(6)">
+            <button class="btn-pay btn-mbway" id="btnPayMbway" onclick="goTo(5)">
               <span class="pay-icon">MB</span>
               Pagar com MB WAY · 19€
             </button>
-            <button class="btn-pay btn-card" id="btnPayCard" onclick="goTo(6)">
+            <button class="btn-pay btn-card" id="btnPayCard" onclick="goTo(5)">
               <span class="pay-icon">VISA</span>
               Pagar com cartão · 19€
             </button>
@@ -2047,9 +2001,9 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
 </section>
 
 <!-- ════════════════════════════════════════════ -->
-<!-- ECRÃ 6: SUCESSO                              -->
+<!-- ECRÃ 5: SUCESSO                              -->
 <!-- ════════════════════════════════════════════ -->
-<section class="screen" id="screen-6">
+<section class="screen" id="screen-5">
   <div class="screen-inner success-inner">
     <div class="success-check"></div>
     <h1 class="success-title">Pagamento <em>confirmado.</em></h1>
@@ -2135,8 +2089,8 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
 
   // ─────────── NAVIGATION ───────────
   function goTo(n) {
-    if (n === 4) gerarOutput();
-    if (n === 6) {
+    if (n === 3) gerarOutput();
+    if (n === 5) {
       const urlExistente = sessionStorage.getItem('pl_downloadUrl');
       if (urlExistente) activarBotaoDescarrega();
     }
@@ -2154,10 +2108,10 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     const label = document.getElementById('stepLabel');
     const dots = document.querySelectorAll('.progress-dot');
 
-    // progress behaves 1..4 (screens 1-4), screen 5 = "pagamento", screen 6 = "concluído"
-    if (n <= 4) {
-      label.textContent = n + ' / 4';
-    } else if (n === 5) {
+    // progress behaves 1..3 (screens 1-3), screen 4 = "pagamento", screen 5 = "concluído"
+    if (n <= 3) {
+      label.textContent = n + ' / 3';
+    } else if (n === 4) {
       label.textContent = 'pagamento';
     } else {
       label.textContent = 'concluído ✓';
@@ -2168,7 +2122,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       if (i + 1 < n) d.classList.add('done');
       else if (i + 1 === n) d.classList.add('active');
     });
-    if (n >= 5) dots.forEach(d => d.classList.add('done'));
+    if (n >= 4) dots.forEach(d => d.classList.add('done'));
   }
 
   // ─────────── PLATAFORMA ───────────
@@ -2177,13 +2131,8 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     state.platformLabel = label;
     document.getElementById('platformName').textContent = label;
     document.getElementById('platformNameUp').textContent = label;
+    state.template = 'branco';
     goTo(2);
-  }
-
-  // ─────────── TEMPLATE ───────────
-  function selectTemplate(id) {
-    state.template = id;
-    goTo(3);
   }
 
   // ─────────── PAYWALL: PATAMARES ───────────
@@ -2237,7 +2186,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     atualizarStickyPreco();
 
     if (tier === 'free') {
-      goTo(4);
+      goTo(3);
       return;
     }
     if (tier === 'medida') {
@@ -2259,8 +2208,8 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       btnMbway.onclick = function () { iniciarPagamentoPro('mbway', btnMbway); };
       btnCard.onclick = function () { iniciarPagamentoPro('card', btnCard); };
     } else {
-      btnMbway.onclick = function () { goTo(6); };
-      btnCard.onclick = function () { goTo(6); };
+      btnMbway.onclick = function () { goTo(5); };
+      btnCard.onclick = function () { goTo(5); };
     }
     showPaywallStep('paywallCheckout');
   }
@@ -2296,13 +2245,13 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   }
 
   function goToProPricing() {
-    goTo(5);
+    goTo(4);
     const proCard = document.querySelector('[data-tier="pro"]');
     if (proCard) selectTier('pro', proCard);
     else showPaywallStep('paywallTiers');
   }
 
-  // ─────────── STICKY DE PREÇO (Ecrã 3) ───────────
+  // ─────────── STICKY DE PREÇO (Ecrã 2) ───────────
   // Barra fixa no fundo que mostra o patamar ativo (state.tier) e o upgrade
   // seguinte. Só tem 3 estados (free/kit/pro); sem escolha ainda — ou com
   // "à medida" — mostra o default (kit).
@@ -2310,7 +2259,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     free: {
       upsell: '✨ Com o Kit, recebe também o guia de instalação · 19€',
       botao: 'Ver Kit →',
-      acao: () => goTo(5)
+      acao: () => goTo(4)
     },
     kit: {
       upsell: '✨ Com Pro, a IA preenche por si · 49€',
@@ -2325,7 +2274,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   };
 
   function goToMedida() {
-    goTo(5);
+    goTo(4);
     setTimeout(() => {
       const card = document.querySelector('[data-tier="medida"]');
       if (card) selectTier('medida', card);
@@ -2335,7 +2284,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   function atualizarStickyPreco() {
     const barra = document.getElementById('stickyPreco');
     if (!barra) return;
-    barra.classList.toggle('visible', state.current === 3);
+    barra.classList.toggle('visible', state.current === 2);
 
     const estado = STICKY_ESTADOS[state.plan] ? state.plan : 'kit';
     const tier = TIERS[estado];
@@ -2400,7 +2349,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       warn.classList.add('show');
     } else {
       // limpa só se nenhuma das 3 inputs tem alerta
-      const allInputs = document.querySelectorAll('#screen-3 input, #screen-3 textarea');
+      const allInputs = document.querySelectorAll('#screen-2 input, #screen-2 textarea');
       let any = false;
       allInputs.forEach(i => {
         const v = i.value;
@@ -2762,7 +2711,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     const email = document.getElementById('f-email').value || 'o email indicado';
     document.getElementById('successEmail').textContent = email;
     enviarGuiaInstalacao(email);
-    goTo(6);
+    goTo(5);
   }
 
   // Pede a geração e o envio por email do guia de instalação (PDF) com o
@@ -3087,7 +3036,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   }
   function reverTerminar() {
     if (document.getElementById('btnRever').disabled) return;
-    goTo(4);
+    goTo(3);
   }
 
   // ─── Chips de sugestão (ponto de partida editável) ───
