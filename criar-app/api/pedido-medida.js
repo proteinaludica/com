@@ -33,10 +33,11 @@ module.exports = async (req, res) => {
   try {
     const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
 
-    const LIMITES = { nome: 120, email: 200, plataforma: 60 };
+    const LIMITES = { nome: 120, email: 200, plataforma: 60, telemovel: 30 };
     const nome = cortar(body.nome, LIMITES.nome);
     const email = cortar(body.email, LIMITES.email);
     const plataforma = cortar(body.plataforma, LIMITES.plataforma);
+    const telemovel = cortar(body.telemovel, LIMITES.telemovel);
 
     // Validação
     if (!nome || !email) {
@@ -67,6 +68,7 @@ module.exports = async (req, res) => {
             nome: nome,
             email: email,
             plataforma: plataforma || null,
+            telemovel: telemovel || null,
           }),
         });
 
@@ -97,6 +99,7 @@ module.exports = async (req, res) => {
       '',
       'Nome: ' + nome,
       'Email: ' + email,
+      'Telemóvel: ' + (telemovel || '(não fornecido)'),
       'Plataforma escolhida: ' + (plataforma || '(não indicada)'),
       'Recebido em: ' + dataPT,
       '',
