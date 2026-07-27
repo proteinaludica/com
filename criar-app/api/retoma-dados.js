@@ -8,37 +8,7 @@
 //   SUPABASE_URL               — URL da API Supabase, ex: https://xxxxx.supabase.co
 //   SUPABASE_SERVICE_ROLE_KEY  — chave service_role (secreta · obrigatória)
 
-const crypto = require('crypto');
-
-// Verifica a assinatura HS256 e a validade (exp) de um JWT em base64url.
-// Devolve o payload descodificado, ou null se inválido/expirado.
-function verificarJWT(token) {
-  if (!token || typeof token !== 'string') return null;
-  const partes = token.split('.');
-  if (partes.length !== 3) return null;
-  const [header, body, signature] = partes;
-
-  const secret = process.env.JWT_SECRET || 'fallback-secret-dev-only-32chars!!';
-  const esperada = crypto
-    .createHmac('sha256', secret)
-    .update(`${header}.${body}`)
-    .digest('base64url');
-
-  const a = Buffer.from(signature);
-  const b = Buffer.from(esperada);
-  if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) return null;
-
-  let payload;
-  try {
-    payload = JSON.parse(Buffer.from(body, 'base64url').toString('utf8'));
-  } catch (_) {
-    return null;
-  }
-  if (!payload || typeof payload.exp !== 'number' || payload.exp < Math.floor(Date.now() / 1000)) {
-    return null;
-  }
-  return payload;
-}
+const { verificarJWT } = require('../lib/pro-comum');
 
 module.exports = async (req, res) => {
   if (req.method !== 'GET') {

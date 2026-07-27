@@ -33,8 +33,8 @@
 
 'use strict';
 
-const crypto = require('crypto');
 const validador = require('./validador-campo');
+const pro = require('../lib/pro-comum');
 
 // ---------------------------------------------------------------------------
 // Limites de entrada (defensivos)
@@ -105,38 +105,6 @@ function construirContexto(campos, alvos) {
   }
 
   return ls.join('\n');
-}
-
-// ---------------------------------------------------------------------------
-// JWT Pro — mesmo esquema HS256/base64url de download-pdf.js / retoma-dados.js
-// ---------------------------------------------------------------------------
-
-function verificarJWT(token) {
-  if (!token || typeof token !== 'string') return null;
-  const partes = token.split('.');
-  if (partes.length !== 3) return null;
-  const [header, body, signature] = partes;
-
-  const secret = process.env.JWT_SECRET || 'fallback-secret-dev-only-32chars!!';
-  const esperada = crypto
-    .createHmac('sha256', secret)
-    .update(`${header}.${body}`)
-    .digest('base64url');
-
-  const a = Buffer.from(signature);
-  const b = Buffer.from(esperada);
-  if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) return null;
-
-  let payload;
-  try {
-    payload = JSON.parse(Buffer.from(body, 'base64url').toString('utf8'));
-  } catch (_) {
-    return null;
-  }
-  if (!payload || typeof payload.exp !== 'number' || payload.exp < Math.floor(Date.now() / 1000)) {
-    return null;
-  }
-  return payload;
 }
 
 // ---------------------------------------------------------------------------
@@ -533,7 +501,7 @@ module.exports = async (req, res) => {
   let subPago = null;
   if (temHeader) {
     const token = authHeader.replace(/^Bearer\s+/i, '').trim();
-    const payloadPro = verificarJWT(token);
+    const payloadPro = pro.verificarJWT(token);
     if (!payloadPro || payloadPro.tier !== 'pro') {
       return res.status(401).json({ erro: 'sessao_expirada' });
     }
