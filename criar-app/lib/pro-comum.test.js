@@ -46,6 +46,21 @@ test('verificarJWT rejeita entradas malformadas', () => {
   assert.strictEqual(pro.verificarJWT('a.b.c.d'), null);
 });
 
+test('fail-closed: sem JWT_SECRET, emitir lança e verificar devolve null', () => {
+  const antes = process.env.JWT_SECRET;
+  const { token } = (function () {
+    process.env.JWT_SECRET = antes; // garantir segredo para emitir um token válido
+    return pro.emitirJWTpro('pro-x');
+  })();
+
+  delete process.env.JWT_SECRET;
+  assert.throws(() => pro.emitirJWTpro('pro-y'), /JWT_SECRET/);
+  // Um token antes válido deixa de ser aceite quando não há segredo configurado.
+  assert.strictEqual(pro.verificarJWT(token), null);
+
+  process.env.JWT_SECRET = antes;
+});
+
 test('configSupabase devolve null sem variáveis e config com variáveis', () => {
   const urlAntes = process.env.SUPABASE_URL;
   const keyAntes = process.env.SUPABASE_SERVICE_ROLE_KEY;

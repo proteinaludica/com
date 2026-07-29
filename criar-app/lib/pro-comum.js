@@ -22,10 +22,20 @@ const crypto = require('crypto');
 // Validade do acesso Pro. Pagamento único; o token dura 1 ano.
 const VALIDADE_SEGUNDOS = 365 * 24 * 60 * 60;
 
+// Segredo HS256. Falha FECHADO: sem JWT_SECRET definido não há segredo de
+// fallback — usar um valor conhecido (e público, no repo) permitiria a
+// qualquer pessoa forjar tokens `tier:'pro'` e aceder a dados guardados.
+// Lança quando é preciso assinar; a verificação trata a ausência como inválido.
+function segredoJWT() {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) throw new Error('JWT_SECRET em falta.');
+  return secret;
+}
+
 // Emite um JWT Pro HS256/base64url. `sub` identifica o acesso (usado como
 // chave `pro:<sub>` no rate-limit de assistir-campo). Devolve { token, exp }.
 function emitirJWTpro(sub) {
-  const secret = process.env.JWT_SECRET || 'fallback-secret-dev-only-32chars!!';
+  const secret = segredoJWT();
   const header = Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString('base64url');
   const iat = Math.floor(Date.now() / 1000);
   const exp = iat + VALIDADE_SEGUNDOS;
@@ -51,7 +61,12 @@ function verificarJWT(token) {
   if (partes.length !== 3) return null;
   const [header, body, signature] = partes;
 
-  const secret = process.env.JWT_SECRET || 'fallback-secret-dev-only-32chars!!';
+  let secret;
+  try {
+    secret = segredoJWT();
+  } catch (_) {
+    return null; // Sem segredo configurado, nenhum token é válido (fail-closed).
+  }
   const esperada = crypto
     .createHmac('sha256', secret)
     .update(`${header}.${body}`)
@@ -167,6 +182,7 @@ async function obterTokenPorSessao(cfg, sessao) {
 
 module.exports = {
   VALIDADE_SEGUNDOS,
+  segredoJWT,
   emitirJWTpro,
   verificarJWT,
   configSupabase,

@@ -13,9 +13,19 @@
 
 const crypto = require('crypto');
 
+// Compara dois segredos em tempo constante (evita distinção por timing).
+function segredosIguais(a, b) {
+  if (typeof a !== 'string' || typeof b !== 'string') return false;
+  const ba = Buffer.from(a);
+  const bb = Buffer.from(b);
+  return ba.length === bb.length && crypto.timingSafeEqual(ba, bb);
+}
+
 // Emite um JWT HS256/base64url com o mesmo esquema dos restantes endpoints.
+// Falha FECHADO: sem JWT_SECRET não há fallback conhecido (ver pro-comum).
 function gerarTokenPro() {
-  const secret = process.env.JWT_SECRET || 'fallback-secret-dev-only-32chars!!';
+  const secret = process.env.JWT_SECRET;
+  if (!secret) throw new Error('JWT_SECRET em falta.');
   const header = Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString('base64url');
   const iat = Math.floor(Date.now() / 1000);
   const payload = {
@@ -40,9 +50,16 @@ module.exports = function handler(req, res) {
 
   const segredo = req.headers && (req.headers['x-pl-test-secret'] || req.headers['X-Pl-Test-Secret']);
   const esperado = process.env.PRO_TEST_SECRET;
-  if (!esperado || !segredo || segredo !== esperado) {
+  if (!esperado || !segredosIguais(String(segredo || ''), esperado)) {
     return res.status(404).end();
   }
 
-  return res.status(200).json({ token: gerarTokenPro() });
+  let token;
+  try {
+    token = gerarTokenPro();
+  } catch (_) {
+    // JWT_SECRET em falta: não revelar o endpoint.
+    return res.status(404).end();
+  }
+  return res.status(200).json({ token });
 };
