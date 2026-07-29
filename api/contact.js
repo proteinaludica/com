@@ -8,10 +8,51 @@
 //
 // Sem dependências externas: usa o fetch nativo do Node 18+ na Vercel.
 
+// Rate-limit por IP, best-effort e em memória do processo. Numa plataforma
+// serverless o estado não é partilhado entre instâncias, por isso NÃO é uma
+// defesa distribuída — trava rajadas repetidas servidas pela mesma instância
+// quente (o caso comum de um script a martelar o endpoint) e submissões
+// duplicadas acidentais, sem infra nem dependências novas. Combina com o
+// honeypot já existente.
+const RL_JANELA_MS = 60 * 1000; // 1 minuto
+const RL_MAX = 3;               // no máx. 3 submissões por IP por janela
+const rlPorIp = new Map();      // ip -> number[] (timestamps recentes)
+
+// IP fidedigno: só headers que a Vercel define e o cliente não falsifica.
+function obterIp(req) {
+  const h = req.headers || {};
+  const real = h['x-real-ip'] || h['x-vercel-forwarded-for'];
+  if (real) return String(Array.isArray(real) ? real[0] : real).split(',')[0].trim();
+  return (req.socket && req.socket.remoteAddress) || '';
+}
+
+function excedeuLimite(ip) {
+  if (!ip) return false; // sem IP identificável, não bloquear (evita falso positivo global)
+  const agora = Date.now();
+  const recentes = (rlPorIp.get(ip) || []).filter((t) => agora - t < RL_JANELA_MS);
+  if (recentes.length >= RL_MAX) {
+    rlPorIp.set(ip, recentes);
+    return true;
+  }
+  recentes.push(agora);
+  rlPorIp.set(ip, recentes);
+  // Limpeza oportunista para o Map não crescer sem limite na instância.
+  if (rlPorIp.size > 5000) {
+    for (const [k, v] of rlPorIp) {
+      if (!v.some((t) => agora - t < RL_JANELA_MS)) rlPorIp.delete(k);
+    }
+  }
+  return false;
+}
+
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
     return res.status(405).json({ ok: false, error: 'Método não permitido.' });
+  }
+
+  if (excedeuLimite(obterIp(req))) {
+    return res.status(429).json({ ok: false, error: 'Demasiados envios. Aguarde um momento e tente de novo.' });
   }
 
   try {
