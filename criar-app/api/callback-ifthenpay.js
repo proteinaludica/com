@@ -23,6 +23,11 @@
 
 const pro = require('../lib/pro-comum');
 
+// Preço do Pro em cêntimos (mesma fonte única de criar-sessao-pagamento). O
+// callback só confirma um pagamento cujo montante bata certo — um callback com
+// valor diferente (ou em falta) não concede acesso Pro.
+const PRO_VALOR_CENTS = 4900;
+
 module.exports = async (req, res) => {
   // A IfthenPay usa GET no callback.
   if (req.method !== 'GET') {
@@ -50,6 +55,14 @@ module.exports = async (req, res) => {
     return res.status(400).json({ ok: false, error: 'Parâmetros em falta.' });
   }
 
+  // O montante tem de bater certo com o preço do Pro. Sem isto, um callback
+  // (mesmo com a chave correcta) poderia conceder Pro por um valor qualquer.
+  const valorCents = Number.isFinite(valorEur) ? Math.round(valorEur * 100) : null;
+  if (valorCents !== PRO_VALOR_CENTS) {
+    console.error('Callback IfthenPay com montante inesperado:', valorCents);
+    return res.status(400).json({ ok: false, error: 'Montante inesperado.' });
+  }
+
   const cfg = pro.configSupabase();
   if (!cfg) {
     console.error('SUPABASE_URL ou SUPABASE_SERVICE_ROLE_KEY em falta (callback-ifthenpay).');
@@ -62,7 +75,7 @@ module.exports = async (req, res) => {
       referencia,
       email: String(q.email || '').trim().slice(0, 200) || null,
       sessao,
-      valorCents: Number.isFinite(valorEur) ? Math.round(valorEur * 100) : null,
+      valorCents,
       moeda: 'EUR',
     });
   } catch (err) {
