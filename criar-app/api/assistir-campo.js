@@ -342,25 +342,20 @@ async function lerContagem(cfg, chave, campo, janela) {
   return linhas.length ? Number(linhas[0].contagem) || 0 : 0;
 }
 
-// Incrementa (upsert +1) a contagem de uma chave/campo na janela de hoje.
-// Usa merge-duplicates para não falhar em concorrência sobre o índice único;
-// lê o valor actual e escreve valor+1. Lança ErroSupabase em qualquer falha.
+// Incrementa (+1) a contagem de uma chave/campo na janela de hoje, de forma
+// ATÓMICA, via a função Postgres `incrementar_limite` (migração 003). O
+// upsert+incremento acontece numa única instrução no servidor, sem a corrida
+// ler-e-escrever anterior (dois pedidos concorrentes já não perdem escritas e
+// não ultrapassam o limite). Devolve a nova contagem. Lança ErroSupabase em
+// qualquer falha (fail-closed).
 async function incrementarContagem(cfg, chave, campo, janela) {
-  const actual = await lerContagem(cfg, chave, campo, janela);
-  const url = cfg.url + '/rest/v1/' + TABELA_LIMITES + '?on_conflict=chave,campo,janela';
+  const url = cfg.url + '/rest/v1/rpc/incrementar_limite';
   let resp;
   try {
     resp = await fetch(url, {
       method: 'POST',
-      headers: cabecalhosSupabase(cfg.key, {
-        Prefer: 'resolution=merge-duplicates,return=minimal',
-      }),
-      body: JSON.stringify({
-        chave: chave,
-        campo: campo,
-        janela: janela,
-        contagem: actual + 1,
-      }),
+      headers: cabecalhosSupabase(cfg.key),
+      body: JSON.stringify({ p_chave: chave, p_campo: campo, p_janela: janela }),
     });
   } catch (err) {
     throw new ErroSupabase('rede: ' + err.message);
@@ -369,6 +364,8 @@ async function incrementarContagem(cfg, chave, campo, janela) {
     const detalhe = await resp.text().catch(() => '');
     throw new ErroSupabase('status ' + resp.status + ': ' + detalhe);
   }
+  const nova = await resp.json().catch(() => null);
+  return typeof nova === 'number' ? nova : null;
 }
 
 // Verifica se o pedido está dentro dos limites, ANTES de gerar. Devolve a lista

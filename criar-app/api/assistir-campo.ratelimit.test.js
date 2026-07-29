@@ -36,6 +36,13 @@ function montarStore() {
 
     if (metodo === 'POST') {
       const corpo = JSON.parse(options.body);
+      // Incremento atomico via RPC: emula o upsert+1 e devolve a nova contagem.
+      if (String(url).includes('/rpc/incrementar_limite')) {
+        const k = corpo.p_chave + '|' + corpo.p_campo + '|' + corpo.p_janela;
+        const novo = (store.get(k) || 0) + 1;
+        store.set(k, novo);
+        return { ok: true, status: 200, text: async () => String(novo), json: async () => novo };
+      }
       const k = corpo.chave + '|' + corpo.campo + '|' + corpo.janela;
       store.set(k, Number(corpo.contagem) || 0);
       return { ok: true, status: 200, text: async () => '', json: async () => [] };
@@ -153,6 +160,16 @@ teste('DEC-22 · 3 geracoes seguidas em f-nome na mesma sessao -> todas 200', as
     assert(contagem('sess:sess-2', 'f-nome') === 1, 'sess-2 devia ter 1');
 });
 
+
+  teste('atómico · 5 incrementos concorrentes na mesma chave -> contagem 5', async () => {
+    const { cfg, contagem } = montarStore();
+    const janela = mod.janelaHoje();
+    await Promise.all(
+      Array.from({ length: 5 }, () => mod.incrementarContagem(cfg, 'ip:1.1.1.1', '__all__', janela))
+    );
+    assert(contagem('ip:1.1.1.1', '__all__') === 5,
+      'incrementos concorrentes não podem perder escritas: ' + contagem('ip:1.1.1.1', '__all__'));
+  });
 
 // ---------------------------------------------------------------------------
 
