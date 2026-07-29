@@ -22,6 +22,9 @@
 //      passar sem contar.
 //   F) Falha de API: erro claro e geração NÃO contada.
 //
+// O IP do rate-limit vem apenas de headers fidedignos da Vercel (x-real-ip /
+// x-vercel-forwarded-for), nunca de x-forwarded-for (falsificável). Ver obterIp.
+//
 // Variáveis de ambiente (painel da Vercel):
 //   ANTHROPIC_API_KEY          — chave da API Anthropic (secreta · obrigatória)
 //   SUPABASE_URL               — URL da API Supabase, ex: https://xxxxx.supabase.co
@@ -421,9 +424,22 @@ async function verificarLimites(cfg, { ehPago, subPago, sessao, ip, campoId }) {
 // Utilitários de pedido
 // ---------------------------------------------------------------------------
 
+// IP do cliente para o rate-limit. IMPORTANTE: só se usam fontes que a Vercel
+// define e o cliente NÃO consegue falsificar. `x-real-ip` e
+// `x-vercel-forwarded-for` são preenchidos pela plataforma. `x-forwarded-for`
+// é falsificável (o cliente pode antepor valores) — não é usado, senão bastaria
+// rodar o header para escapar ao limite de IP e obter gerações grátis ilimitadas.
+function primeiroValor(v) {
+  if (!v) return '';
+  return String(Array.isArray(v) ? v[0] : v).split(',')[0].trim();
+}
+
 function obterIp(req) {
-  const xff = req.headers && (req.headers['x-forwarded-for'] || req.headers['X-Forwarded-For']);
-  if (xff) return String(xff).split(',')[0].trim();
+  const h = req.headers || {};
+  const realIp = primeiroValor(h['x-real-ip'] || h['X-Real-IP']);
+  if (realIp) return realIp;
+  const vercelXff = primeiroValor(h['x-vercel-forwarded-for'] || h['X-Vercel-Forwarded-For']);
+  if (vercelXff) return vercelXff;
   return (req.socket && req.socket.remoteAddress) || '';
 }
 
@@ -590,3 +606,4 @@ module.exports.verificarLimites = verificarLimites;
 module.exports.incrementarContagem = incrementarContagem;
 module.exports.lerContagem = lerContagem;
 module.exports.janelaHoje = janelaHoje;
+module.exports.obterIp = obterIp;
