@@ -21,224 +21,307 @@
 <meta name="twitter:image" content="https://proteinaludica.com/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --fundo:#141A10;          /* verde-escuro Laurissilva — nunca preto puro */
-    --fundo-2:#1A2214;
-    --cartao-a:#1B2315;       /* topo do gradiente dos cartões */
-    --cartao-b:#161C11;       /* base do gradiente dos cartões */
-    --faq:#171E12;
-    --musgo:#8FAA6B;
-    --musgo-claro:#A9C287;
-    --ocre:#C8A86B;
-    --texto:#E9EDE3;
-    --texto-2:#B9C2AD;
-    --texto-3:#8A9478;
-    --linha:rgba(143,170,107,.14);
-    --linha-2:rgba(143,170,107,.35);
-    --largura:1040px;
+    /* ---- fundo e tinta ---- */
+    --fundo:#12261c;            /* verde-escuro Laurissilva — nunca preto puro */
+    --fundo-cartao:#0d1d15;     /* fundo das perguntas frequentes */
+    --texto:#f2f4ec;
+    --texto-forte:#f6f8f0;
+    --texto-2:rgba(242,244,236,.78);
+    --texto-3:rgba(242,244,236,.7);
+    --texto-4:rgba(242,244,236,.6);
+    --texto-5:rgba(242,244,236,.45);
+    --texto-nav:rgba(242,244,236,.75);
+
+    /* ---- verde de destaque ---- */
+    --musgo-claro:#c9e4a8;
+    --musgo-hover:#e2f2ca;
+    --musgo-botao-hover:#dcf0bf;
+
+    /* ---- linhas e contornos ---- */
+    --linha:rgba(201,228,168,.16);
+    --linha-suave:rgba(201,228,168,.14);
+    --linha-cartao:rgba(201,228,168,.18);
+    --contorno-cta:rgba(201,228,168,.5);
+    --contorno-btn:rgba(242,244,236,.35);
+
+    /* ---- maquete do formulário (papel claro) ---- */
+    --maq-moldura:#f5ead8;
+    --maq-fundo:#fffaf1;
+    --maq-campo:#fdfbf5;
+    --maq-tinta:#1e2b20;
+    --maq-tinta-2:#5f5a4e;
+    --maq-tinta-3:#6b6558;
+    --maq-tinta-4:#8a8272;
+    --maq-ponto:#d9c9ad;
+    --maq-barra:#e2d8c4;
+    --maq-contorno:#b9ac90;
+    --verde-medio:#7f9c5f;
+    --verde-escuro:#3f5c2f;
+    --verde-tinta:#f4f8ec;
+
+    --largura:1360px;
+    --margem:72px;
   }
+
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
+  body{
+    background:var(--fundo);
+    color:var(--texto);
+    font-family:'Figtree',system-ui,-apple-system,sans-serif;
+    font-size:16px;line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2{font-family:'Newsreader',Georgia,serif;font-weight:400;letter-spacing:-.02em}
+  a{color:var(--musgo-claro);text-decoration:none}
+  a:hover{color:var(--musgo-hover)}
+  :focus-visible{outline:2px solid var(--musgo-claro);outline-offset:2px;border-radius:4px}
+
   @media (prefers-reduced-motion: reduce){
     html{scroll-behavior:auto}
     *,*::before,*::after{animation:none!important;transition:none!important}
   }
-  body{
-    background:var(--fundo);
-    color:var(--texto);
-    font-family:'Geist',system-ui,-apple-system,sans-serif;
-    font-size:16px;line-height:1.6;
-    -webkit-font-smoothing:antialiased;
-  }
-  h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;line-height:1.15;letter-spacing:-.015em}
-  a{color:var(--musgo-claro)}
-  a:focus-visible,button:focus-visible,summary:focus-visible{
-    outline:2px solid var(--ocre);outline-offset:3px;border-radius:4px;
-  }
-  .contentor{max-width:var(--largura);margin:0 auto;padding:0 20px}
-  .titulo-seccao{font-size:clamp(1.55rem,4.5vw,1.875rem);text-align:center}
 
-  /* ---------- Header ---------- */
-  header{
-    position:sticky;top:0;z-index:20;
-    background:rgba(20,26,16,.92);
-    backdrop-filter:blur(8px);
-    -webkit-backdrop-filter:blur(8px);
-    border-bottom:1px solid var(--linha);
+  /* ---------- Cabeçalho ---------- */
+  header{border-bottom:1px solid var(--linha-suave)}
+  .barra{
+    display:flex;align-items:center;gap:30px;
+    padding:26px var(--margem);
+    max-width:var(--largura);margin:0 auto;
   }
-  .barra{display:flex;align-items:center;justify-content:space-between;height:56px}
-  .marca{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:1rem;color:var(--texto);text-decoration:none}
-  .marca span{color:var(--musgo)}
-  nav ul{display:flex;gap:24px;list-style:none;align-items:center}
-  nav a{color:var(--texto-2);text-decoration:none;font-size:.845rem;transition:color .15s ease}
-  nav a:hover,nav a[aria-current="page"]{color:var(--texto)}
+  .marca{
+    font-family:'Newsreader',Georgia,serif;font-size:21px;
+    letter-spacing:-.01em;margin-right:auto;color:var(--texto);
+  }
+  .marca:hover{color:var(--texto)}
+  .nav-desktop{display:flex;gap:30px;font-size:15.5px}
+  .nav-desktop a{color:var(--texto-nav)}
+  .nav-desktop a:hover{color:var(--texto)}
   .nav-cta{
-    background:var(--musgo);color:var(--fundo)!important;
-    padding:8px 16px;border-radius:999px;font-weight:600;
-    transition:background .15s ease;
+    border:1.5px solid var(--contorno-cta);color:var(--musgo-claro);
+    border-radius:999px;padding:10px 22px;font-size:15.5px;font-weight:600;
+    transition:background .15s ease;white-space:nowrap;
   }
-  .nav-cta:hover{background:var(--musgo-claro)}
-  .so-desktop{display:none}
+  .nav-cta:hover{background:rgba(201,228,168,.12);color:var(--musgo-claro)}
+
   .menu-btn{
-    display:flex;flex-direction:column;gap:4px;justify-content:center;
-    background:none;border:0;padding:12px 8px;cursor:pointer;min-height:44px;
+    display:none;flex-direction:column;gap:4px;
+    background:none;border:0;padding:6px 4px;cursor:pointer;
   }
-  .menu-btn span{width:17px;height:1.5px;background:var(--texto);display:block;border-radius:2px;transition:transform .2s ease,opacity .2s ease}
-  .menu-btn[aria-expanded="true"] span:first-child{transform:translateY(5.5px) rotate(45deg)}
-  .menu-btn[aria-expanded="true"] span:last-child{transform:translateY(-5.5px) rotate(-45deg)}
-  #menu-movel{border-top:1px solid var(--linha);padding:10px 20px 18px}
+  .menu-btn span{width:20px;height:2px;background:var(--musgo-claro);border-radius:999px;display:block}
+  #menu-movel{border-top:1px solid var(--linha-suave);padding:8px var(--margem) 20px}
   #menu-movel a{
-    display:block;padding:13px 4px;color:var(--texto-2);text-decoration:none;
-    font-size:.97rem;border-bottom:1px solid var(--linha);
+    display:block;padding:14px 2px;color:var(--texto-nav);
+    font-size:16.5px;border-bottom:1px solid var(--linha-suave);
   }
   #menu-movel a:hover{color:var(--texto)}
   #menu-movel .nav-cta{
-    margin-top:14px;text-align:center;border-bottom:0;
-    padding:13px 16px;font-size:.95rem;
-  }
-  @media (min-width:761px){
-    .barra{height:60px}
-    .marca{font-size:1.06rem}
-    .so-desktop{display:flex}
-    .menu-btn,#menu-movel{display:none}
+    display:block;margin-top:16px;text-align:center;border-bottom:0;
+    padding:14px 22px;color:var(--musgo-claro);
   }
 
   /* ---------- Hero ---------- */
   .hero{
-    padding:72px 0 60px;text-align:center;
-    background:radial-gradient(680px 340px at 50% -12%, rgba(143,170,107,.13), transparent 65%);
+    display:grid;grid-template-columns:1fr 1fr;gap:60px;
+    padding:76px var(--margem) 68px;align-items:center;
+    max-width:var(--largura);margin:0 auto;
   }
-  .hero h1{font-size:clamp(1.95rem,7.5vw,3rem);line-height:1.1;max-width:19ch;margin:0 auto 18px}
-  .hero .canonica{font-size:clamp(1rem,2.5vw,1.125rem);color:var(--texto-2);max-width:50ch;margin:0 auto 16px}
-  .ponte{color:var(--ocre);font-size:clamp(.845rem,2vw,.905rem);max-width:60ch;margin:0 auto 32px}
-  .accoes{display:flex;flex-direction:column;gap:11px;align-items:stretch}
+  .hero h1{font-size:58px;line-height:1.1;color:var(--texto-forte);text-wrap:pretty}
+  .hero h1 span{color:var(--musgo-claro)}
+  .hero .subtitulo{
+    font-size:20.5px;line-height:1.55;color:var(--texto-2);
+    margin:28px 0 0;max-width:540px;text-wrap:pretty;
+  }
+  .hero .apoio{font-size:16px;color:var(--musgo-claro);margin:22px 0 0}
+  .accoes{display:flex;gap:14px;margin-top:36px;align-items:center;flex-wrap:wrap}
   .btn{
-    display:inline-block;text-decoration:none;font-weight:600;font-size:.94rem;
-    padding:14px 24px;border-radius:999px;text-align:center;
-    transition:background .15s ease,border-color .15s ease,transform .15s ease;
+    border-radius:999px;font-weight:600;text-align:center;
+    transition:background .15s ease,border-color .15s ease;
   }
-  .btn-primario{background:var(--musgo);color:var(--fundo)}
-  .btn-primario:hover{background:var(--musgo-claro);transform:translateY(-1px)}
-  .btn-secundario{color:var(--texto);border:1px solid var(--linha-2);background:transparent}
-  .btn-secundario:hover{border-color:var(--musgo);background:rgba(143,170,107,.06)}
-  @media (min-width:761px){
-    .hero{padding:112px 0 96px}
-    .accoes{flex-direction:row;gap:12px;justify-content:center;align-items:center}
-    .btn{padding:13px 26px}
+  .btn-primario{
+    background:var(--musgo-claro);color:var(--fundo);
+    padding:17px 32px;font-size:17px;font-weight:700;
   }
+  .btn-primario:hover{background:var(--musgo-botao-hover);color:var(--fundo)}
+  .btn-secundario{
+    border:1.5px solid var(--contorno-btn);color:var(--texto);
+    padding:16px 30px;font-size:17px;
+  }
+  .btn-secundario:hover{background:rgba(242,244,236,.08);color:var(--texto)}
 
-  /* ---------- Faixa de confiança ---------- */
+  /* ---------- Maquete do formulário ---------- */
+  .maquete{
+    background:var(--maq-moldura);border-radius:26px;padding:12px;
+    box-shadow:0 24px 60px rgba(0,0,0,.35);
+  }
+  .maq-chrome{display:flex;align-items:center;gap:7px;padding:8px 12px 12px}
+  .maq-ponto{width:10px;height:10px;border-radius:999px;background:var(--maq-ponto)}
+  .maq-url{margin-left:10px;font-size:12px;color:var(--maq-tinta-3)}
+  .maq-ecra{background:var(--maq-fundo);border-radius:18px;padding:26px 28px 30px}
+  .maq-passo{font-size:12.5px;color:var(--maq-tinta-3);letter-spacing:.04em;text-transform:uppercase}
+  .maq-seccao{font-size:13.5px;color:var(--maq-tinta-4);margin-top:4px}
+  .maq-barras{display:flex;gap:6px;margin:14px 0 22px}
+  .maq-barras span{height:6px;flex:1;border-radius:999px;background:var(--maq-barra)}
+  .maq-barras span.feita{background:var(--verde-medio)}
+  .maq-titulo{font-family:'Newsreader',Georgia,serif;font-size:27px;line-height:1.25;color:var(--maq-tinta)}
+  .maq-guia{font-size:15.5px;color:var(--maq-tinta-2);margin:10px 0 20px}
+  .maq-campo{
+    border:2px solid var(--verde-medio);background:var(--maq-campo);
+    border-radius:20px;padding:18px 18px 16px;
+  }
+  .maq-texto{font-size:16.5px;line-height:1.55;color:var(--maq-tinta)}
+  .maq-cursor{
+    display:inline-block;width:2px;height:18px;background:var(--verde-escuro);
+    vertical-align:-3px;margin-left:2px;animation:cursor .9s step-end infinite;
+  }
+  .maq-linha{display:flex;align-items:center;gap:14px;margin-top:18px;flex-wrap:wrap}
+  .maq-exemplo{
+    border:1.5px solid var(--maq-contorno);color:var(--verde-escuro);
+    border-radius:999px;padding:10px 20px;font-size:15px;font-weight:600;
+  }
+  .maq-nota{margin-left:auto;font-size:13.5px;color:var(--maq-tinta-3)}
+  .maq-continuar{
+    background:var(--verde-escuro);color:var(--verde-tinta);border-radius:999px;
+    padding:14px 28px;font-size:16px;font-weight:700;display:inline-block;margin-top:22px;
+  }
+  @keyframes cursor{0%,49%{opacity:1}50%,100%{opacity:0}}
+
+  /* ---------- Faixa de garantias ---------- */
   .faixa{
     border-top:1px solid var(--linha);
-    border-bottom:1px solid var(--linha);
-    background:rgba(26,34,20,.5);
-    padding:32px 0;
+    display:grid;grid-template-columns:repeat(3,1fr);
+    max-width:var(--largura);margin:0 auto;
   }
-  .selos{display:flex;flex-direction:column;gap:20px}
-  .selo{display:flex;gap:11px;align-items:flex-start}
-  .selo .ponto{width:6px;height:6px;border-radius:999px;background:var(--musgo);flex:none;margin-top:8px}
-  .selo strong{display:block;font-size:.875rem;font-weight:600;margin-bottom:2px}
-  .selo p{color:var(--texto-2);font-size:.815rem;line-height:1.55}
-  @media (min-width:761px){
-    .faixa{padding:34px 0}
-    .selos{display:grid;grid-template-columns:1fr 1fr 1fr;gap:40px}
-    .selo{gap:12px}
-    .selo .ponto{width:7px;height:7px;margin-top:7px}
-    .selo strong{font-size:.905rem;margin-bottom:3px}
-    .selo p{font-size:.845rem}
-  }
+  .selo{padding:34px 40px 36px;border-right:1px solid var(--linha)}
+  .selo:first-child{padding-left:var(--margem)}
+  .selo:last-child{padding-right:var(--margem);border-right:0}
+  .selo strong{display:block;font-size:17px;font-weight:700;color:var(--texto-forte)}
+  .selo p{margin:8px 0 0;font-size:15.5px;line-height:1.55;color:var(--texto-3)}
 
-  /* ---------- Secções ---------- */
-  section{padding:60px 0}
-  @media (min-width:761px){ section{padding:88px 0} }
-  .hero + .faixa{margin-top:0}
+  /* ---------- Secções com título à esquerda ---------- */
+  .seccao{padding:96px var(--margem) 88px;max-width:var(--largura);margin:0 auto}
+  .seccao-linha{border-top:1px solid var(--linha)}
+  .duas-colunas{display:grid;grid-template-columns:340px 1fr;gap:56px}
+  .titulo-lado{font-size:42px;line-height:1.12;color:var(--musgo-claro)}
 
-  /* ---------- Quem somos ---------- */
-  .quem{border-top:1px solid var(--linha)}
-  /* a faixa já fecha com uma linha — evitar hairline duplicada */
-  .faixa + .quem{border-top:0}
-  .quem .miolo{max-width:640px;margin:0 auto;text-align:center}
-  .quem .titulo-seccao{margin-bottom:20px}
-  .quem p{margin-bottom:14px;color:var(--texto-2);font-size:.905rem}
-  .quem p:first-of-type{color:var(--texto);font-size:1rem}
-  .quem p:last-of-type{margin-bottom:0}
-  @media (min-width:761px){
-    .quem .titulo-seccao{margin-bottom:24px}
-    .quem p{font-size:.97rem;margin-bottom:16px}
-    .quem p:first-of-type{font-size:1.065rem}
-  }
+  .quem p{color:var(--texto);font-size:21px;line-height:1.6;text-wrap:pretty;max-width:720px}
+  .quem p + p{font-size:18px;line-height:1.65;margin-top:22px;color:var(--texto-2)}
 
-  /* ---------- FAQ ---------- */
-  .faq{border-top:1px solid var(--linha)}
-  .faq .miolo{max-width:760px;margin:0 auto}
-  .faq .titulo-seccao{margin-bottom:22px}
-  .faq details{
-    background:var(--faq);
-    border:1px solid var(--linha);
-    border-radius:12px;
-    padding:16px 18px;
-    margin-bottom:9px;
+  /* ---------- Perguntas frequentes ---------- */
+  #faq{padding-top:0}
+  .faq-lista{max-width:820px;display:flex;flex-direction:column;gap:14px}
+  .faq-lista details{
+    background:var(--fundo-cartao);border:1px solid var(--linha-cartao);
+    border-radius:22px;padding:4px 26px;
   }
-  .faq details:last-child{margin-bottom:0}
-  .faq summary{
-    cursor:pointer;font-weight:600;font-size:.905rem;list-style:none;
-    display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  .faq-lista summary{
+    display:flex;align-items:center;gap:18px;padding:20px 0;
+    font-size:18.5px;font-weight:600;color:var(--texto);
+    list-style:none;cursor:pointer;
   }
-  .faq summary::-webkit-details-marker{display:none}
-  .faq summary .texto-p{flex:1}
-  .faq .ind{color:var(--musgo);font-size:1.125rem;line-height:1;display:inline-flex;transition:transform .2s ease}
-  .faq details[open] .ind{transform:rotate(45deg)}
-  .faq details p{color:var(--texto-2);margin-top:9px;font-size:.875rem}
-  @media (min-width:761px){
-    .faq .titulo-seccao{margin-bottom:28px}
-    .faq details{padding:18px 22px;margin-bottom:10px}
-    .faq summary{font-size:.97rem;gap:16px}
-    .faq .ind{font-size:1.185rem}
-    .faq details p{margin-top:10px;font-size:.905rem}
+  .faq-lista summary::-webkit-details-marker{display:none}
+  .faq-lista summary span:first-child{flex:1}
+  .faq-mais{font-size:24px;color:var(--musgo-claro);line-height:1;transition:transform .18s ease}
+  .faq-lista details[open] .faq-mais{transform:rotate(45deg)}
+  .faq-lista p{
+    margin:0 0 22px;font-size:16.5px;line-height:1.65;
+    color:var(--texto-3);max-width:640px;
   }
-
-  /* ---------- Contacto ---------- */
-  .contacto{border-top:1px solid var(--linha);text-align:center}
-  .contacto .titulo-seccao{margin-bottom:16px}
-  .contacto a{
-    font-family:'Fraunces',Georgia,serif;font-size:clamp(1.185rem,3.5vw,1.5rem);
-    text-decoration:none;border-bottom:1px solid rgba(169,194,135,.4);padding-bottom:2px;
-    transition:color .15s ease,border-color .15s ease;
-  }
-  .contacto a:hover{color:var(--ocre);border-color:var(--ocre)}
-  @media (min-width:761px){ .contacto .titulo-seccao{margin-bottom:18px} }
 
   /* ---------- Rodapé ---------- */
-  footer{
-    border-top:1px solid var(--linha);
-    padding:32px 0 40px;
-    color:var(--texto-2);font-size:.78rem;text-align:center;
+  footer{border-top:1px solid var(--linha);padding:72px var(--margem) 56px;max-width:var(--largura);margin:0 auto}
+  .contacto-email{
+    font-family:'Newsreader',Georgia,serif;font-size:34px;
+    color:var(--texto-forte);letter-spacing:-.01em;
   }
-  footer .legal{color:var(--texto-3)}
-  footer .legal a{color:var(--texto-2);text-decoration:none}
-  footer .legal a:hover{color:var(--texto)}
-  @media (min-width:761px){
-    footer{padding:36px 0 44px;font-size:.845rem}
+  .contacto-email:hover{color:var(--musgo-claro)}
+  .legal{margin:40px 0 0;font-size:15px;line-height:1.6;color:var(--texto-4);max-width:780px}
+  .legal + .legal{margin-top:14px;font-size:14px;color:var(--texto-5);max-width:900px}
+  .legal + .legal a{color:var(--texto-4)}
+
+  /* ---------- Ecrãs estreitos ---------- */
+  @media (max-width:1080px){
+    :root{--margem:40px}
+    .hero h1{font-size:48px}
+    .duas-colunas{grid-template-columns:260px 1fr;gap:36px}
+    .titulo-lado{font-size:36px}
+  }
+  @media (max-width:860px){
+    :root{--margem:22px}
+    .nav-desktop{display:none}
+    .barra > .nav-cta{display:none}
+    .menu-btn{display:flex}
+    .barra{padding:18px var(--margem);gap:0}
+    .marca{font-size:17px}
+
+    .hero{grid-template-columns:1fr;gap:28px;padding:34px var(--margem) 30px}
+    .hero h1{font-size:33px;line-height:1.14}
+    .hero .subtitulo{font-size:17px;margin-top:18px}
+    .hero .apoio{font-size:14.5px;margin-top:16px}
+    .accoes{flex-direction:column;align-items:stretch;gap:12px;margin-top:26px}
+    .btn-primario{padding:16px 24px;font-size:16.5px}
+    .btn-secundario{padding:15px 24px;font-size:16.5px}
+
+    .maquete{border-radius:22px;padding:10px}
+    .maq-chrome{display:none}
+    .maq-ecra{border-radius:16px;padding:18px 18px 20px}
+    .maq-passo{font-size:11.5px}
+    .maq-seccao{font-size:12.5px;margin-top:3px}
+    .maq-barras{gap:5px;margin:12px 0 16px}
+    .maq-barras span{height:5px}
+    .maq-titulo{font-size:22px}
+    .maq-guia{font-size:14px;margin:8px 0 14px}
+    .maq-campo{border-radius:16px;padding:14px}
+    .maq-texto{font-size:15px;line-height:1.5}
+    .maq-cursor{height:15px;vertical-align:-2px}
+    .maq-linha{gap:10px;margin-top:14px}
+    .maq-exemplo{padding:9px 18px;font-size:14px}
+    .maq-nota{margin-left:0;font-size:12.5px;width:100%}
+    .maq-continuar{padding:13px 24px;font-size:15px;margin-top:18px}
+
+    .faixa{grid-template-columns:1fr;border-top:0}
+    .selo{
+      padding:20px var(--margem) 0;border-right:0;
+      border-top:1px solid var(--linha);margin-top:20px;
+    }
+    .selo strong{font-size:15.5px}
+    .selo p{font-size:14.5px;line-height:1.5;margin-top:6px}
+
+    .seccao{padding:44px var(--margem) 40px}
+    .duas-colunas{grid-template-columns:1fr;gap:18px}
+    .titulo-lado{font-size:29px}
+    .quem p{font-size:17px}
+    .quem p + p{font-size:16px;margin-top:16px}
+
+    .faq-lista{gap:10px}
+    .faq-lista details{border-radius:18px;padding:2px 18px}
+    .faq-lista summary{font-size:16.5px;padding:16px 0;gap:12px}
+    .faq-mais{font-size:21px}
+    .faq-lista p{font-size:15.5px;margin-bottom:16px}
+
+    footer{padding:36px var(--margem) 44px}
+    .contacto-email{font-size:22px;word-break:break-word}
+    .legal{margin-top:26px;font-size:14px}
+    .legal + .legal{font-size:13px}
   }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="contentor barra">
-    <a class="marca" href="/">Proteína <span>Lúdica</span></a>
-    <nav class="so-desktop" aria-label="Navegação principal">
-      <ul>
-        <li><a href="/catalogo">Assistentes</a></li>
-        <li><a href="#quem-somos">Quem somos</a></li>
-        <li><a href="#faq">FAQ</a></li>
-        <li><a class="nav-cta" href="https://criar.proteinaludica.com">Criar o meu assistente</a></li>
-      </ul>
+  <div class="barra">
+    <a class="marca" href="/">Proteína Lúdica</a>
+    <nav class="nav-desktop" aria-label="Navegação principal">
+      <a href="/catalogo">Assistentes</a>
+      <a href="#quem-somos">Quem somos</a>
+      <a href="#faq">FAQ</a>
     </nav>
+    <a class="nav-cta" href="https://criar.proteinaludica.com">Criar o meu assistente</a>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu-movel" aria-label="Menu">
-      <span></span><span></span>
+      <span></span><span></span><span></span>
     </button>
   </div>
   <nav id="menu-movel" hidden aria-label="Navegação principal">
@@ -251,106 +334,134 @@
 
 <main>
 
-<!-- BLOCO 1 — Hero -->
+<!-- ─── Hero ─── -->
 <section class="hero">
-  <div class="contentor">
-    <h1>Assistentes digitais IA, à medida de cada profissional</h1>
-    <p class="canonica">Um formulário guiado transforma a sua maneira de trabalhar num assistente digital IA pronto a instalar. Em 15 minutos.</p>
-    <p class="ponte">Prompt final grátis · Kit completo desde 19€</p>
+  <div>
+    <h1>Assistentes digitais IA, <span>à medida de cada profissional</span></h1>
+    <p class="subtitulo">Um formulário guiado transforma a sua maneira de trabalhar num assistente digital IA pronto a instalar. Em 15 minutos.</p>
+    <p class="apoio">Prompt final grátis · Kit completo desde 19€</p>
     <div class="accoes">
       <a class="btn btn-primario" href="https://criar.proteinaludica.com">Criar o meu assistente — grátis</a>
       <a class="btn btn-secundario" href="/catalogo">Ver assistentes já prontos</a>
     </div>
   </div>
-</section>
 
-<!-- BLOCO 2 — Faixa de confiança -->
-<div class="faixa" role="region" aria-label="Compromissos de confiança">
-  <div class="contentor selos">
-    <div class="selo">
-      <span class="ponto" aria-hidden="true"></span>
-      <div><strong>A voz fica no computador.</strong>
-      <p>O ditado é reconhecido no próprio browser — a voz não é enviada nem guardada.</p></div>
+  <!-- Ilustração do formulário. Decorativa: tudo o que aqui se lê está
+       escrito em texto na faixa de garantias e nas perguntas frequentes. -->
+  <div class="maquete" aria-hidden="true">
+    <div class="maq-chrome">
+      <span class="maq-ponto"></span>
+      <span class="maq-ponto"></span>
+      <span class="maq-ponto"></span>
+      <span class="maq-url">criar.proteinaludica.com</span>
     </div>
-    <div class="selo">
-      <span class="ponto" aria-hidden="true"></span>
-      <div><strong>Dados na União Europeia, ao abrigo do RGPD.</strong>
-      <p>Os modelos de IA não guardam nem aprendem com o que é escrito.</p></div>
-    </div>
-    <div class="selo">
-      <span class="ponto" aria-hidden="true"></span>
-      <div><strong>A decisão é sempre do profissional.</strong>
-      <p>Os assistentes recebem, organizam e escrevem — nunca decidem por ninguém.</p></div>
+    <div class="maq-ecra">
+      <div class="maq-passo">Passo 2 de 3</div>
+      <div class="maq-seccao">Secção 4 de 16</div>
+      <div class="maq-barras">
+        <span class="feita"></span><span class="feita"></span><span></span>
+      </div>
+      <div class="maq-titulo">Voz e tom</div>
+      <p class="maq-guia">Como quer que o assistente fale com quem o procura.</p>
+
+      <div class="maq-campo">
+        <p class="maq-texto">cordial e calmo, próximo sem ser familiar, nunca alarmista<span class="maq-cursor"></span></p>
+        <div class="maq-linha">
+          <div class="maq-exemplo">Ver exemplo</div>
+          <span class="maq-nota">Guardado neste computador</span>
+        </div>
+      </div>
+
+      <div class="maq-continuar">Continuar</div>
     </div>
   </div>
-</div>
+</section>
 
-<!-- BLOCO 3 — Quem somos -->
-<section id="quem-somos" class="quem">
-  <div class="contentor">
-    <div class="miolo">
-      <h2 class="titulo-seccao">Quem somos</h2>
+<!-- ─── Faixa de garantias ─── -->
+<section class="faixa" aria-label="Compromissos de confiança">
+  <div class="selo">
+    <strong>O rascunho fica neste computador.</strong>
+    <p>O que escreve no formulário guarda-se no próprio browser — pode sair, voltar, e apagar tudo quando quiser.</p>
+  </div>
+  <div class="selo">
+    <strong>Dados na União Europeia, ao abrigo do RGPD.</strong>
+    <p>Os modelos de IA não guardam nem aprendem com o que é escrito.</p>
+  </div>
+  <div class="selo">
+    <strong>A decisão é do profissional.</strong>
+    <p>Os assistentes recebem, organizam e escrevem — nunca decidem por ninguém.</p>
+  </div>
+</section>
+
+<!-- ─── Quem somos ─── -->
+<section id="quem-somos" class="seccao seccao-linha">
+  <div class="duas-colunas">
+    <h2 class="titulo-lado">Quem somos</h2>
+    <div class="quem">
       <p>A Proteína Lúdica é uma empresa portuguesa, sediada na ilha da Madeira, fundada por um médico de família no activo.</p>
       <p>Os assistentes digitais IA nascem da prática real: da documentação de quem trabalha na saúde todos os dias. Foi aí que a Proteína Lúdica começou — na área com mais papelada. O mesmo método serve outras profissões.</p>
     </div>
   </div>
 </section>
 
-<!-- BLOCO 4 — FAQ -->
-<section id="faq" class="faq">
-  <div class="contentor">
-    <div class="miolo">
-      <h2 class="titulo-seccao">Perguntas frequentes</h2>
+<!-- ─── Perguntas frequentes ─── -->
+<section id="faq" class="seccao">
+  <div class="duas-colunas">
+    <h2 class="titulo-lado">Perguntas frequentes</h2>
+    <div class="faq-lista">
+
       <details>
-        <summary><span class="texto-p">O que é um assistente digital IA?</span><span class="ind" aria-hidden="true">+</span></summary>
+        <summary><span>O que é um assistente digital IA?</span><span class="faq-mais" aria-hidden="true">+</span></summary>
         <p>Uma ferramenta que recebe o que o profissional determina — notas, tarefas, informação — e devolve organizado, no estilo dele. Não cria nada sozinho: parte sempre do que o profissional produziu.</p>
       </details>
-      <details>
-        <summary><span class="texto-p">Os assistentes decidem alguma coisa sozinhos?</span><span class="ind" aria-hidden="true">+</span></summary>
-        <p>Não. Recebem, organizam e escrevem. A decisão é sempre do profissional.</p>
-      </details>
-      <details>
-        <summary><span class="texto-p">E a confidencialidade dos dados?</span><span class="ind" aria-hidden="true">+</span></summary>
-        <p>Os dados são tratados na União Europeia, ao abrigo do RGPD. Os modelos de IA não guardam nem aprendem com o que é escrito. No ditado, a voz é reconhecida no próprio browser — não é enviada nem guardada.</p>
-      </details>
-      <details>
-        <summary><span class="texto-p">Quanto custa?</span><span class="ind" aria-hidden="true">+</span></summary>
-        <p>Cada assistente disponível tem um período de experiência gratuito. Os valores são apresentados antes de qualquer compromisso, na adesão.</p>
-      </details>
-      <details>
-        <summary><span class="texto-p">É preciso perceber de informática?</span><span class="ind" aria-hidden="true">+</span></summary>
-        <p>Não. Quem sabe usar o browser e ditar uma mensagem, sabe usar um assistente digital IA.</p>
-      </details>
-      <details>
-        <summary><span class="texto-p">Para que profissionais é?</span><span class="ind" aria-hidden="true">+</span></summary>
-        <p>Qualquer profissional que produza muita documentação. O catálogo actual começou na área da saúde; o caminho de criação serve todas as áreas.</p>
-      </details>
-    </div>
-  </div>
-</section>
 
-<!-- Contacto -->
-<section id="contacto" class="contacto">
-  <div class="contentor">
-    <h2 class="titulo-seccao">Contacto</h2>
-    <a href="mailto:info@proteinaludica.com">info@proteinaludica.com</a>
+      <details>
+        <summary><span>Os assistentes decidem alguma coisa sozinhos?</span><span class="faq-mais" aria-hidden="true">+</span></summary>
+        <p>Não. Recebem, organizam e escrevem. Quem decide é sempre quem assina.</p>
+      </details>
+
+      <!-- Texto sujeito a revisão pela frente da política de privacidade,
+           que corre em paralelo. -->
+      <details>
+        <summary><span>E a confidencialidade dos dados?</span><span class="faq-mais" aria-hidden="true">+</span></summary>
+        <p>Os dados são tratados na União Europeia, ao abrigo do RGPD. Os modelos de IA não guardam nem aprendem com o que é escrito. Enquanto preenche, o rascunho fica guardado apenas no seu computador e pode apagá-lo quando quiser. Se pedir o preenchimento assistido ou o kit completo, o que escreveu é enviado para produzir esses ficheiros.</p>
+      </details>
+
+      <details>
+        <summary><span>Quanto custa?</span><span class="faq-mais" aria-hidden="true">+</span></summary>
+        <p>O prompt final do formulário é gratuito. O kit completo começa em 19€ e cada assistente do catálogo tem período de experiência gratuito. Os valores são apresentados antes de qualquer compromisso.</p>
+      </details>
+
+      <details>
+        <summary><span>É preciso perceber de informática?</span><span class="faq-mais" aria-hidden="true">+</span></summary>
+        <p>Não. Quem sabe usar o browser e escrever uma mensagem, sabe usar um assistente digital IA.</p>
+      </details>
+
+      <details>
+        <summary><span>Para que profissionais é?</span><span class="faq-mais" aria-hidden="true">+</span></summary>
+        <p>Qualquer profissional que produza muita documentação — medicina, advocacia, contabilidade. O catálogo actual começou na área da saúde; o caminho de criação serve todas as áreas.</p>
+      </details>
+
+    </div>
   </div>
 </section>
 
 </main>
 
 <!-- ============================================================
-     RODAPÉ — LEGAL
-     Dados legais repostos do rodapé do site actual: denominação,
-     sede e links de política de privacidade/termos.
-     NOTA: o disclaimer CLÍNICO canónico saiu desta página de
-     propósito (homepage agnóstica) — vive em /catalogo e nas
-     páginas dos agentes. NÃO o repor aqui.
+     RODAPÉ — CONTACTO E LEGAL
+     NOTA: o disclaimer CLÍNICO canónico não vive aqui de propósito
+     (homepage agnóstica) — vive em /catalogo e nas páginas dos
+     assistentes. NÃO o repor aqui.
      ============================================================ -->
 <footer>
-  <div class="contentor">
-    <p class="legal">Fora da classificação de risco elevado do AI Act. Dados tratados segundo o RGPD. Saber mais em <a href="/conformidade">Conformidade</a>.</p>
-    <p class="legal">© 2026 Proteína Lúdica, Lda. · NIF 514411520 · Região Autónoma da Madeira, Portugal · <a href="/privacidade">Política de privacidade</a> · <a href="/termos">Termos</a></p>
+  <div class="duas-colunas">
+    <h2 class="titulo-lado">Contacto</h2>
+    <div>
+      <a class="contacto-email" href="mailto:info@proteinaludica.com">info@proteinaludica.com</a>
+      <p class="legal">Fora da classificação de risco elevado do AI Act. Dados tratados segundo o RGPD. Saber mais em <a href="/conformidade">Conformidade</a>.</p>
+      <p class="legal">© 2026 Proteína Lúdica, Lda. · NIF 514411520 · Região Autónoma da Madeira, Portugal · <a href="/privacidade">Política de privacidade</a> · <a href="/termos">Termos</a></p>
+    </div>
   </div>
 </footer>
 
@@ -367,7 +478,7 @@
   });
   menu.addEventListener('click', function(e){ if(e.target.closest('a')) fechar(); });
   document.addEventListener('keydown', function(e){ if(e.key === 'Escape') fechar(); });
-  window.addEventListener('resize', function(){ if(window.innerWidth > 760) fechar(); });
+  window.addEventListener('resize', function(){ if(window.innerWidth > 860) fechar(); });
 })();
 </script>
 
