@@ -3,6 +3,14 @@
 -- APLICAR MANUALMENTE no painel Supabase (SQL Editor). Esta migração NÃO é
 -- corrida automaticamente por nenhum processo do repo.
 --
+-- ✅ JÁ APLICADA em 2026-08-09, no projecto "Cliente - criar assistente
+--    digital IA" (eu-west-1). A extensão ficou instalada e os quatro jobs
+--    activos, com jobid 1 a 4. NÃO voltar a correr sem necessidade: o
+--    cron.schedule é idempotente pelo nome do job, mas repetir isto sem
+--    motivo só cria oportunidade de enganos.
+--    Para ver o que está lá agora:
+--      select jobid, jobname, schedule, active from cron.job order by jobid;
+--
 -- Este ficheiro existe para que o que foi ligado no painel fique registado no
 -- repositório. O pg_cron vive dentro da base de dados e é invisível a quem lê
 -- o código: sem este ficheiro, ninguém saberia que estes apagamentos existem.

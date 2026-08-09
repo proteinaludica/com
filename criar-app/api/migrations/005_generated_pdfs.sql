@@ -3,6 +3,9 @@
 -- APLICAR MANUALMENTE no painel Supabase (SQL Editor). Esta migração NÃO é
 -- corrida automaticamente por nenhum processo do repo.
 --
+-- ✅ JÁ APLICADA em 2026-08-09. Como esperado, não alterou nada: a tabela já
+--    existia e as 6 linhas ficaram intactas.
+--
 -- ESTA MIGRAÇÃO É DOCUMENTAÇÃO, NÃO É UMA ALTERAÇÃO.
 -- A tabela já existe em produção. Tudo o que está aqui é `if not exists`, por
 -- isso correr este ficheiro numa base que já a tenha não faz absolutamente
