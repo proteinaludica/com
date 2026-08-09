@@ -5,6 +5,11 @@
 
 'use strict';
 
+// O resumo do IP falha fechado sem segredo. Definir ANTES do require, para o
+// caso de alguma inicializacao o ler ao carregar o modulo.
+process.env.RATE_LIMIT_IP_SEGREDO = 'segredo-de-teste';
+
+const crypto = require('crypto');
 const mod = require('./assistir-campo');
 
 let passou = 0;
@@ -160,6 +165,69 @@ teste('DEC-22 · 3 geracoes seguidas em f-nome na mesma sessao -> todas 200', as
     assert(contagem('sess:sess-2', 'f-nome') === 1, 'sess-2 devia ter 1');
 });
 
+
+// ===========================================================================
+// Resumo irreversivel do IP: a tabela nunca ve o endereco em claro, e o
+// contador continua a contar exactamente na mesma.
+// ===========================================================================
+
+  teste('resumo · o IP em claro NAO aparece em nenhuma chave guardada', async () => {
+    const { gerar, store } = montarStore();
+    await gerar('f-nome', SESS, '203.0.113.77');
+    const chaves = [...store.keys()].join(' ');
+    assert(chaves.length > 0, 'o teste so vale se alguma coisa tiver sido guardada');
+    assert(!chaves.includes('203.0.113.77'),
+      'o endereco nao pode aparecer guardado: ' + chaves);
+});
+
+  teste('resumo · o mesmo IP no mesmo dia da a mesma chave (o limite continua a contar)', async () => {
+    const { gerar, store } = montarStore();
+    await gerar('f-nome', 'sess-a', '203.0.113.77');
+    await gerar('f-nome', 'sess-b', '203.0.113.77');
+    const chaveIp = 'ip:' + mod.resumirIp('203.0.113.77', mod.janelaHoje());
+    const k = chaveIp + '|__all__|' + mod.janelaHoje();
+    assert(store.get(k) === 2,
+      'duas geracoes do mesmo IP deviam somar 2 na mesma chave, deu ' + store.get(k));
+});
+
+  teste('resumo · IPs diferentes dao chaves diferentes', async () => {
+    const janela = mod.janelaHoje();
+    assert(mod.resumirIp('203.0.113.77', janela) !== mod.resumirIp('203.0.113.78', janela),
+      'dois enderecos diferentes nao podem colidir');
+});
+
+  teste('resumo · o mesmo IP em dias diferentes da chaves diferentes (nao se segue ninguem)', async () => {
+    assert(mod.resumirIp('203.0.113.77', '2026-08-09') !== mod.resumirIp('203.0.113.77', '2026-08-10'),
+      'a data tem de entrar no resumo, senao o mesmo IP e seguivel ao longo do tempo');
+});
+
+  teste('resumo · sem o segredo do servidor nao ha resumo simples de forcar', async () => {
+    // Um resumo SEM segredo seria reversivel por forca bruta (ha so ~4 mil
+    // milhoes de IPv4). Confirmar que o valor guardado nao e o SHA256 do IP.
+    const janela = mod.janelaHoje();
+    const ingenuo = crypto.createHash('sha256').update('203.0.113.77').digest('hex').slice(0, 32);
+    assert(mod.resumirIp('203.0.113.77', janela) !== ingenuo,
+      'o resumo nao pode ser um SHA256 simples do endereco');
+});
+
+  teste('resumo · segredo em falta -> lanca (fail-closed), sem recair no IP em claro', async () => {
+    const guardado = process.env.RATE_LIMIT_IP_SEGREDO;
+    delete process.env.RATE_LIMIT_IP_SEGREDO;
+    try {
+      const { gerar } = montarStore();
+      let lancou = false;
+      try {
+        await gerar('f-nome', SESS, '203.0.113.77');
+      } catch (e) {
+        lancou = true;
+        assert(/RATE_LIMIT_IP_SEGREDO/.test(e && e.message),
+          'a mensagem deve nomear a variavel em falta: ' + (e && e.message));
+      }
+      assert(lancou, 'sem segredo, verificarLimites tem de lancar — nunca deixar passar');
+    } finally {
+      process.env.RATE_LIMIT_IP_SEGREDO = guardado;
+    }
+});
 
   teste('atómico · 5 incrementos concorrentes na mesma chave -> contagem 5', async () => {
     const { cfg, contagem } = montarStore();

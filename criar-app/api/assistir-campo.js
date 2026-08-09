@@ -24,18 +24,25 @@
 //
 // O IP do rate-limit vem apenas de headers fidedignos da Vercel (x-real-ip /
 // x-vercel-forwarded-for), nunca de x-forwarded-for (falsificável). Ver obterIp.
+// O endereço NÃO é guardado: a tabela recebe um resumo irreversível, com
+// segredo do servidor e a data do dia misturada. Ver resumirIp.
 //
 // Variáveis de ambiente (painel da Vercel):
 //   ANTHROPIC_API_KEY          — chave da API Anthropic (secreta · obrigatória)
 //   SUPABASE_URL               — URL da API Supabase, ex: https://xxxxx.supabase.co
 //   SUPABASE_SERVICE_ROLE_KEY  — chave service_role (secreta · obrigatória)
 //   JWT_SECRET                 — segredo HS256 (o MESMO usado em gerar-pdf-instalacao)
+//   RATE_LIMIT_IP_SEGREDO      — segredo do resumo do IP (secreta · obrigatória)
+//                                Sem ela, o caminho gratuito recusa (503).
+//                                Perdê-la não perde dados: reinicia os
+//                                contadores do dia e nada mais.
 //
 // Sem dependências externas: usa o fetch nativo do Node 18+ na Vercel e o
 // mesmo padrão REST de Supabase já usado em gerar-pdf-instalacao/download-pdf.
 
 'use strict';
 
+const crypto = require('crypto');
 const validador = require('./validador-campo');
 const pro = require('../lib/pro-comum');
 
@@ -285,7 +292,8 @@ async function chamarAnthropic({ apiKey, contextoBloco, familia, profissao, rotu
 // Chaves:
 //   Grátis  — `sess:<id>`  campo `__all__`  limite 1  (1 geração por sessão/dia)
 //           — `sess:<id>`  campo `f-nome`   limite 3  (contador próprio [DEC-22])
-//           — `ip:<ip>`    campo `__all__`  limite 3  (3 gerações por IP/dia)
+//           — `ip:<resumo>` campo `__all__` limite 3  (3 gerações por IP/dia)
+//             <resumo> = HMAC-SHA256(segredo, dia|ip) — nunca o IP em claro.
 //   Pago    — `pro:<sub>`  campo `<id>`     limite 3  (3 gerações por campo/dia)
 // A janela é o dia UTC corrente. Índice único em (chave, campo, janela).
 // ---------------------------------------------------------------------------
@@ -305,6 +313,48 @@ class ErroSupabase extends Error {}
 
 function janelaHoje() {
   return new Date().toISOString().slice(0, 10); // YYYY-MM-DD (UTC)
+}
+
+// ---------------------------------------------------------------------------
+// Resumo irreversível do IP
+//
+// A tabela deixa de guardar o endereço em claro. Guarda um HMAC-SHA256 do
+// endereço, com um segredo que só o servidor conhece e com a data do dia
+// misturada na entrada.
+//
+// Porque é que isto não parte o limite gratuito: o contador nunca lê o IP nem
+// o compara com outro — só pergunta "esta linha é a mesma?", por igualdade,
+// dentro do dia UTC corrente. Um valor determinístico serve exactamente
+// igual. Ver verificarLimites: a procura é chave=eq.<x> e janela=eq.<hoje>.
+//
+// Porquê HMAC com segredo, e não um resumo simples: só existem ~4 mil milhões
+// de endereços IPv4. Um resumo simples percorre-se todo por força bruta em
+// minutos, e o endereço volta a ser legível — daria aparência de protecção
+// sem protecção nenhuma. Sem o segredo, o caminho de volta fecha-se.
+//
+// Porquê misturar a data: o mesmo endereço produz um valor diferente todos os
+// dias, portanto nem por dentro é possível seguir a mesma pessoa ao longo do
+// tempo. Como a janela do contador já é diária, não se perde nada com isso.
+//
+// ATENÇÃO — isto é pseudonimização, não anonimização. Continua a ser dado
+// pessoal para efeitos do RGPD. Reduz muito o risco; não dispensa a declaração
+// na política de privacidade.
+//
+// Falha FECHADO: sem segredo configurado não há resumo possível, e lança —
+// o handler converte em 503. NUNCA recai no IP em claro, senão uma variável
+// de ambiente esquecida desfazia a medida em silêncio.
+const VAR_SEGREDO_IP = 'RATE_LIMIT_IP_SEGREDO';
+
+function resumirIp(ip, janela) {
+  const segredo = process.env[VAR_SEGREDO_IP];
+  if (!segredo) {
+    throw new ErroSupabase(VAR_SEGREDO_IP + ' em falta: sem ela não há resumo do IP.');
+  }
+  return crypto
+    .createHmac('sha256', segredo)
+    .update(janela + '|' + String(ip || ''))
+    .digest('hex')
+    .slice(0, 32); // 128 bits — de sobra para não haver colisões num dia
 }
 
 function cabecalhosSupabase(supabaseKey, extra) {
@@ -387,8 +437,9 @@ async function verificarLimites(cfg, { ehPago, subPago, sessao, ip, campoId }) {
   }
 
   // Grátis: exige sessão e IP; ambos os limites têm de passar.
+  // O IP entra como resumo irreversível (ver resumirIp), nunca em claro.
   const chaveSessao = 'sess:' + (sessao || '');
-  const chaveIp = 'ip:' + (ip || '');
+  const chaveIp = 'ip:' + resumirIp(ip, janela);
 
   // [DEC-22] f-nome usa um contador de sessão próprio (campo = o seu id,
   // limite 3/dia); os restantes campos partilham o contador de sessão geral
@@ -607,3 +658,4 @@ module.exports.incrementarContagem = incrementarContagem;
 module.exports.lerContagem = lerContagem;
 module.exports.janelaHoje = janelaHoje;
 module.exports.obterIp = obterIp;
+module.exports.resumirIp = resumirIp;
