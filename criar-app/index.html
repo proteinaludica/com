@@ -2842,6 +2842,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       if (el) el.classList.remove('is-exemplo');
     });
     try { localStorage.removeItem(CHAVE_GUARDA); } catch (e) {}
+    atualizarNomesPlataforma();
     atualizarBotoesExemplo();
     atualizarIndiceProgresso();
     mostrarLinhaGuardado();
@@ -3280,10 +3281,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       state.platform = dados.plataforma;
       state.platformLabel = dados.plataformaRotulo || dados.plataforma;
       state.template = 'branco';
-      const pn = document.getElementById('platformName');
-      const pnu = document.getElementById('platformNameUp');
-      if (pn) pn.textContent = state.platformLabel;
-      if (pnu) pnu.textContent = state.platformLabel;
+      atualizarNomesPlataforma();
       marcarCartaoPlataforma(dados.plataforma);
     }
 
