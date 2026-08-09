@@ -552,6 +552,34 @@
     text-align: center;
     margin-bottom: 2.5rem;
   }
+  /* Quantas secções entraram no output, logo por baixo do bloco. */
+  .output-conta {
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    margin-bottom: 1.75rem;
+  }
+  .output-conta a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 0.5px solid var(--accent);
+    cursor: pointer;
+  }
+  .output-continuar { text-align: center; }
+  .output-continuar-link {
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--accent);
+    background: none;
+    border: 0;
+    border-bottom: 0.5px solid var(--accent);
+    padding: 0 0 2px;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .output-continuar-link:hover { color: var(--accent2); border-color: var(--accent2); }
 
   .code-box {
     background: #1A1D18;
@@ -599,144 +627,6 @@
   .code-content::-webkit-scrollbar-track { background: transparent; }
   .code-content::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
 
-  /* ─── UPGRADE CTA ─── */
-  .upgrade-block {
-    background: var(--amber-light);
-    border: 0.5px solid var(--amber);
-    border-radius: 10px;
-    padding: 2rem;
-    margin-bottom: 1.5rem;
-  }
-  .upgrade-tag {
-    display: inline-block;
-    font-family: var(--font-mono);
-    font-size: 10px;
-    color: var(--amber-dark);
-    background: white;
-    border: 0.5px solid var(--amber);
-    padding: 3px 10px;
-    border-radius: 3px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-bottom: 1rem;
-  }
-  .upgrade-title {
-    font-family: var(--font-head);
-    font-size: 1.5rem;
-    font-weight: 400;
-    letter-spacing: -0.01em;
-    margin-bottom: 0.8rem;
-    color: var(--ink);
-  }
-  .upgrade-list {
-    list-style: none;
-    margin-bottom: 1.5rem;
-  }
-  .upgrade-list li {
-    font-size: 14px;
-    color: var(--ink2);
-    padding: 6px 0;
-    padding-left: 22px;
-    position: relative;
-  }
-  .upgrade-list li::before {
-    content: '✓';
-    position: absolute;
-    left: 0; top: 6px;
-    color: var(--accent);
-    font-weight: 500;
-  }
-  .upgrade-buy {
-    display: flex; align-items: center; justify-content: space-between;
-    gap: 1rem;
-    padding-top: 1.25rem;
-    border-top: 0.5px solid var(--amber);
-    flex-wrap: wrap;
-  }
-  .upgrade-price {
-    font-family: var(--font-head);
-    font-size: 1.5rem;
-    color: var(--amber-dark);
-  }
-  .upgrade-price-old {
-    font-size: 14px;
-    color: var(--muted);
-    text-decoration: line-through;
-    margin-left: 8px;
-    font-family: var(--font-body);
-  }
-  .upgrade-price-note {
-    display: block;
-    font-family: var(--font-mono);
-    font-size: 10px;
-    color: var(--amber-dark);
-    letter-spacing: 0.05em;
-    margin-top: 2px;
-    font-weight: normal;
-  }
-  .btn-primary {
-    background: var(--amber);
-    color: white;
-    border: none;
-    padding: 14px 28px;
-    border-radius: 6px;
-    font-family: var(--font-body);
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-    letter-spacing: 0.01em;
-  }
-  .btn-primary:hover { background: var(--amber2); transform: translateY(-1px); }
-
-  .btn-accent {
-    background: var(--accent);
-    color: white;
-    border: none;
-    padding: 11px 22px;
-    border-radius: 6px;
-    font-family: var(--font-body);
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .btn-accent:hover { background: var(--accent2); }
-
-  .btn-ghost {
-    background: transparent;
-    color: var(--ink2);
-    border: 0.5px solid var(--border-strong);
-    padding: 10px 20px;
-    border-radius: 6px;
-    font-family: var(--font-body);
-    font-size: 13px;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
-
-  .upsell-link {
-    text-align: center;
-    font-size: 13px;
-    color: var(--muted);
-    margin-bottom: 1rem;
-  }
-  .upsell-link a {
-    color: var(--accent);
-    text-decoration: none;
-    border-bottom: 0.5px solid var(--accent);
-    padding-bottom: 1px;
-  }
-
-  .guarantee {
-    text-align: center;
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 0.05em;
-  }
-  .guarantee strong { color: var(--accent); font-weight: 500; }
 
   /* ─── ECRÃ 5→4: PAYWALL ─── */
   .tier-grid {
@@ -1185,7 +1075,7 @@
     .logo-sub { display: none; }
     h1.screen-title { font-size: 1.7rem; }
     .fill-main { padding: 1.25rem; }
-    .upgrade-block, .pdf-mockup { padding: 1.25rem; }
+    .pdf-mockup { padding: 1.25rem; }
   }
 
   /* ─── NÍVEL A: exemplos + Pro ─── */
@@ -1425,13 +1315,6 @@
         <div class="platform-badge b-mistral">M</div>
         <div class="platform-name">Mistral Le Chat</div>
         <div class="platform-desc">LLM europeu. Privacidade máxima, dados na UE.</div>
-      </button>
-
-      <button class="platform-card" style="border-style:dashed; border-color:#6B3FA0; cursor:not-allowed; opacity:0.85; position:relative;" onclick="alert('Em desenvolvimento. Em breve, será possível alojar o assistente digital IA diretamente na Proteína Lúdica, sem o copiar para outra plataforma.')">
-        <div style="position:absolute; top:10px; right:10px; font-family:var(--font-mono); font-size:9px; letter-spacing:0.06em; text-transform:uppercase; color:#6B3FA0; background:#F0E9F8; padding:2px 8px; border-radius:3px;">Em breve</div>
-        <div class="platform-badge" style="background:#6B3FA0;">PL</div>
-        <div class="platform-name">Proteína Lúdica</div>
-        <div class="platform-desc">Aloja o assistente connosco — sem copiar para fora. Quem o procura acede por link. <strong>Em desenvolvimento.</strong></div>
       </button>
 
       <button class="platform-card platform-card-solo" onclick="selectPlatform('outro','Outro / não sei')">
@@ -1943,30 +1826,13 @@ Documentos e modelos fornecidos pelo profissional
 Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     </div>
 
-    <div class="upgrade-block">
-      <span class="upgrade-tag">Kit completo · RGPD incluído</span>
-      <div class="upgrade-title">Configurar e pôr a correr sem voltas</div>
-      <ul class="upgrade-list">
-        <li>Guia visual passo-a-passo para <span id="platformNameUp">a sua plataforma</span> (com printscreens)</li>
-        <li>Checklist RGPD · dados minimizados · sem retenção · tratamento na União Europeia</li>
-        <li>Template de consentimento + aviso de que o assistente não decide</li>
-        <li>PDF A4 formatado · capa · índice · pronto a imprimir</li>
-        <li>Link de retoma 30 dias · editar e re-gerar sem pagar outra vez</li>
-      </ul>
-      <div class="upgrade-buy">
-        <div class="upgrade-price">
-          19€ <span class="upgrade-price-old">29€</span>
-          <span class="upgrade-price-note">Preço de lançamento · primeiras 100 vendas</span>
-        </div>
-        <button class="btn-primary" onclick="goTo(4)">Obter kit completo →</button>
-      </div>
-    </div>
+    <!-- Quantas das 16 secções entraram no bloco acima. -->
+    <p class="output-conta" id="outputConta"></p>
 
-    <div class="upsell-link">
-      Prefere que alguém faça isto por si? <a onclick="alert('Demo: redirecionaria para /#medida — serviço à medida.')">Assistente digital IA à medida desde 290€ →</a>
+    <!-- A venda vive toda no ecrã "Como continuar?". Aqui fica só a porta. -->
+    <div class="output-continuar">
+      <button type="button" class="output-continuar-link" onclick="goTo(4)">Falta instalar? Ver as opções →</button>
     </div>
-
-    <div class="guarantee">● <strong>Reembolso 7 dias sem perguntas</strong> · pagamento seguro</div>
   </div>
 </section>
 
@@ -1985,7 +1851,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
         <button class="tier-card" data-tier="free" onclick="selectTier('free', this)">
           <div class="tier-title">Grátis</div>
           <div class="tier-price">0€</div>
-          <div class="tier-desc">O prompt final, pronto a copiar.<br>Sem instalação. Sem apoio.</div>
+          <div class="tier-desc">O prompt final completo, pronto a copiar e colar. Sem custo.</div>
           <ul class="tier-includes">
             <li>Prompt final</li>
           </ul>
@@ -1998,7 +1864,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
           <div class="tier-desc">O prompt + o guia de instalação em PDF, feito para a plataforma escolhida.</div>
           <ul class="tier-includes">
             <li>Prompt final</li>
-            <li>Guia de instalação em PDF (Claude Projects, ChatGPT ou Gemini)</li>
+            <li>Guia de instalação em PDF para <span id="tierPlatformName">a plataforma escolhida</span></li>
           </ul>
           <div class="tier-cta">Comprar Kit — 19€</div>
         </button>
@@ -2259,8 +2125,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   function selectPlatform(id, label) {
     state.platform = id;
     state.platformLabel = label;
-    document.getElementById('platformName').textContent = label;
-    document.getElementById('platformNameUp').textContent = label;
+    atualizarNomesPlataforma();
     state.template = 'branco';
     marcarCartaoPlataforma(id);
     guardar();
@@ -2292,6 +2157,22 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     goTo(2);
   }
 
+  // Nome da plataforma escolhida no Passo 1, para injectar nos textos de venda.
+  // Sem escolha feita, devolve uma formulação neutra que encaixa nas frases.
+  function nomePlataforma() {
+    return state.platformLabel || 'a plataforma escolhida';
+  }
+
+  // Todos os sítios que mencionam a plataforma passam pela mesma fonte,
+  // para não voltarem a divergir.
+  function atualizarNomesPlataforma() {
+    const nome = nomePlataforma();
+    ['platformName', 'tierPlatformName'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = nome;
+    });
+  }
+
   // ─────────── PAYWALL: PATAMARES ───────────
   const TIERS = {
     free: {
@@ -2308,7 +2189,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       price: '19€',
       includes: [
         'Prompt final',
-        'Guia de instalação em PDF'
+        'Guia de instalação em PDF para {plataforma}'
       ]
     },
     pro: {
@@ -2354,7 +2235,8 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     const t = TIERS[tier];
     document.getElementById('checkoutTitle').innerHTML = t.title;
     document.getElementById('checkoutPreviewTitle').textContent = t.previewTitle;
-    document.getElementById('checkoutIncludes').innerHTML = t.includes.map(i => '<li>' + i + '</li>').join('');
+    document.getElementById('checkoutIncludes').innerHTML =
+      t.includes.map(i => '<li>' + i.replace('{plataforma}', nomePlataforma()) + '</li>').join('');
     const btnMbway = document.getElementById('btnPayMbway');
     const btnCard = document.getElementById('btnPayCard');
     btnMbway.innerHTML = '<span class="pay-icon">MB</span>Pagar com MB WAY · ' + t.price;
@@ -2857,10 +2739,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
 
   // ─────────── PAYMENT ───────────
   function updatePaymentState() {
-    // usa state.platformLabel se definido
-    if (state.platformLabel) {
-      document.getElementById('platformName').textContent = state.platformLabel;
-    }
+    atualizarNomesPlataforma();
   }
 
   // ─────────── SUCCESS ───────────
@@ -2963,6 +2842,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       if (el) el.classList.remove('is-exemplo');
     });
     try { localStorage.removeItem(CHAVE_GUARDA); } catch (e) {}
+    atualizarNomesPlataforma();
     atualizarBotoesExemplo();
     atualizarIndiceProgresso();
     mostrarLinhaGuardado();
@@ -3068,15 +2948,17 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     { num: '16', title: 'Continuidade', field: 'f-continuidade' },
   ];
 
-  function campoOuPlaceholder(fieldId) {
-    const el = document.getElementById(fieldId);
-    const val = el && el.value.trim();
-    return val ? val : '[Não preenchido]';
-  }
-
   function gerarOutput() {
-    const corpo = OUTPUT_SECOES.map(s => {
-      return '## ' + s.num + '. ' + s.title + '\n' + campoOuPlaceholder(s.field);
+    // Secções por preencher ficam de fora do output — nada de "[Não
+    // preenchido]". As que entram são renumeradas de 01 em diante.
+    const incluidas = OUTPUT_SECOES.filter(s => {
+      const el = document.getElementById(s.field);
+      return el && el.value.trim() !== '';
+    });
+
+    const corpo = incluidas.map((s, i) => {
+      const num = String(i + 1).padStart(2, '0');
+      return '## ' + num + '. ' + s.title + '\n' + document.getElementById(s.field).value.trim();
     }).join('\n\n');
 
     const md = '# SYSTEM PROMPT · Assistente digital IA\n'
@@ -3087,6 +2969,12 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
 
     const el = document.getElementById('codeContent');
     if (el) el.textContent = md;
+
+    const conta = document.getElementById('outputConta');
+    if (conta) {
+      conta.innerHTML = 'Foram incluídas ' + incluidas.length + ' das ' + OUTPUT_SECOES.length
+        + ' secções. <a onclick="goTo(2)">Voltar atrás para acrescentar mais.</a>';
+    }
   }
 
   // ─── Inicializar event listeners do toggle Pro ───
@@ -3393,10 +3281,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       state.platform = dados.plataforma;
       state.platformLabel = dados.plataformaRotulo || dados.plataforma;
       state.template = 'branco';
-      const pn = document.getElementById('platformName');
-      const pnu = document.getElementById('platformNameUp');
-      if (pn) pn.textContent = state.platformLabel;
-      if (pnu) pnu.textContent = state.platformLabel;
+      atualizarNomesPlataforma();
       marcarCartaoPlataforma(dados.plataforma);
     }
 
