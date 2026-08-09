@@ -3,107 +3,104 @@
 -- APLICAR MANUALMENTE no painel Supabase (SQL Editor). Esta migração NÃO é
 -- corrida automaticamente por nenhum processo do repo.
 --
--- ┌──────────────────────────────────────────────────────────────────────────┐
--- │ ESTE FICHEIRO AINDA NÃO FOI VERIFICADO CONTRA A BASE DE DADOS.           │
--- │                                                                          │
--- │ A generated_pdfs foi criada à mão no painel, em data que o repositório   │
--- │ não regista, e era a única tabela em uso sem migração. O que está abaixo │
--- │ foi reconstruído a partir do código que a lê e escreve — NÃO de uma      │
--- │ leitura da tabela real, porque o projecto Supabase estava suspenso       │
--- │ quando isto foi escrito.                                                 │
--- │                                                                          │
--- │ Fontes usadas:                                                           │
--- │   gerar-pdf-instalacao.js — o INSERT, que envia seis colunas             │
--- │   download-pdf.js         — o comentário de cabeçalho, que menciona      │
--- │                             ainda created_at e expires_at                │
--- │   retoma-dados.js         — o SELECT usado na retoma                     │
--- │                                                                          │
--- │ ANTES de confiar neste ficheiro, correr a verificação do fim e corrigir  │
--- │ o que não bater certo. Depois, apagar esta caixa.                        │
--- └──────────────────────────────────────────────────────────────────────────┘
+-- ESTA MIGRAÇÃO É DOCUMENTAÇÃO, NÃO É UMA ALTERAÇÃO.
+-- A tabela já existe em produção. Tudo o que está aqui é `if not exists`, por
+-- isso correr este ficheiro numa base que já a tenha não faz absolutamente
+-- nada. Serve para a estrutura passar a existir no repositório e para a tabela
+-- poder ser recriada de raiz noutro projecto.
 --
--- Para que serve a tabela: guarda o que é preciso para voltar a produzir o
--- guia de instalação e para retomar a criação onde ia, nos 30 dias de validade
--- do JWT emitido na compra. É a tabela mais sensível do projecto — o
--- prompt_completo pode conter informação clínica.
+-- Porquê: a generated_pdfs foi criada à mão no painel, em data que o
+-- repositório não regista, e era a única tabela em uso sem migração. Quem
+-- lesse o código não tinha como saber que colunas existiam.
 --
--- Acedida apenas pelo backend com a chave service_role, que ignora RLS.
--- Apagamento automático aos 30 dias: ver migração 004.
+-- Estrutura VERIFICADA contra a base de dados de produção em 2026-08-09
+-- (projecto "Cliente - criar assistente digital IA", região eu-west-1), por
+-- information_schema.columns, pg_indexes e pg_constraint. Não é inferida do
+-- código: é o que lá está.
+--
+-- Quem a usa:
+--   gerar-pdf-instalacao.js — escreve (INSERT de 6 colunas)
+--   download-pdf.js         — lê por token_jti, para regerar o PDF
+--   retoma-dados.js         — lê por token_jti, para retomar a criação
+--
+-- É a tabela mais sensível do projecto: prompt_completo pode conter informação
+-- clínica. Acedida apenas pelo backend com a chave service_role, que ignora
+-- RLS. Apagamento automático: ver migração 004.
 
 create table if not exists public.generated_pdfs (
-  -- Identificador único do JWT emitido na compra (claim `jti`). É por aqui que
-  -- download-pdf e retoma-dados encontram a linha.
-  token_jti        text        not null,
+  -- Chave primária própria. NÃO é usada por nenhum caminho do código — todas
+  -- as leituras são por token_jti. Existe por ser o hábito ao criar tabelas
+  -- no painel.
+  id               bigserial   primary key,
 
   -- Email para onde o guia foi enviado.
-  email            text,
+  email            text        not null,
 
-  -- Plataforma escolhida no passo 1 (ChatGPT, Claude, …).
-  plataforma       text,
-
-  -- Nome dado ao assistente. O INSERT recusa o pedido se vier vazio.
+  -- Nome dado ao assistente.
   nome_assistente  text        not null,
 
-  -- Missão. O código envia explicitamente null quando o campo fica por
-  -- preencher — por isso não pode ser not null.
-  missao           text,
-
-  -- O prompt completo, cortado a 20 000 caracteres no envio
-  -- (LIMITES.prompt_completo em gerar-pdf-instalacao.js).
+  -- O prompt completo. O código corta a 20 000 caracteres antes de enviar
+  -- (LIMITES.prompt_completo em gerar-pdf-instalacao.js); a coluna em si não
+  -- tem limite.
   prompt_completo  text        not null,
 
-  -- Nenhuma das duas é escrita pelo código: têm de vir da base de dados.
-  -- Se created_at não tiver default, fica vazia e o apagamento da 004 nunca
-  -- encontra nada para apagar.
-  created_at       timestamptz not null default now(),
-  expires_at       timestamptz
+  -- Plataforma escolhida no passo 1 (claude, gemini, …). NOT NULL, mas o
+  -- código envia '' quando não há escolha — nunca nulo.
+  plataforma       text        not null,
+
+  -- Identificador único do JWT emitido na compra (claim `jti`). É por aqui
+  -- que download-pdf e retoma-dados encontram a linha.
+  token_jti        text        not null unique,
+
+  -- ATENÇÃO — as três datas são `timestamp WITHOUT time zone`, não timestamptz.
+  -- Guardam UTC porque o fuso da base de dados é UTC (verificado:
+  -- current_setting('TimeZone') = 'UTC'), mas o tipo não o diz. Comparar estas
+  -- colunas com now() obriga a uma conversão implícita pelo fuso da sessão.
+  -- Por isso a migração 004 compara com (now() at time zone 'utc'), que é
+  -- timestamp contra timestamp e não depende do fuso de quem corre.
+  --
+  -- Nenhuma das três é escrita pelo código: vêm todas dos valores por omissão.
+  created_at       timestamp   default now(),
+  expires_at       timestamp   default (now() + interval '30 days'),
+
+  -- Escrita uma vez, no INSERT, e nunca mais: não há UPDATE nenhum a esta
+  -- tabela em todo o repositório. Na prática é igual a created_at.
+  updated_at       timestamp   default now(),
+
+  -- Missão. O código envia explicitamente null quando fica por preencher.
+  missao           text
 );
 
--- A leitura é sempre por token_jti, uma linha. O índice único suporta-a e
--- garante que um mesmo JWT não indexa duas linhas.
-create unique index if not exists generated_pdfs_token_jti_idx
+-- Índices existentes em produção. Nota: o token_jti fica com DOIS índices —
+-- o único da restrição UNIQUE e mais um btree criado à parte. É redundante e
+-- pode ser largado sem consequência; fica registado por ser o que lá está.
+create index if not exists idx_generated_pdfs_email
+  on public.generated_pdfs (email);
+create index if not exists idx_generated_pdfs_token
   on public.generated_pdfs (token_jti);
 
--- Suporta o apagamento por idade da migração 004 sem varrer a tabela toda.
-create index if not exists generated_pdfs_created_at_idx
-  on public.generated_pdfs (created_at);
-
 -- Acedida apenas pelo backend com a chave service_role. Manter RLS activo sem
--- políticas fecha o acesso a chaves anon/public.
+-- políticas fecha o acesso a chaves anon/public. Já está activo em produção.
 alter table public.generated_pdfs enable row level security;
 
--- ───────────────────────────── Verificação ─────────────────────────────
+-- ─────────────────────── O que a verificação encontrou ───────────────────────
 --
--- 1) Estrutura real da tabela, para comparar com o que está aqui escrito:
+-- Em 2026-08-09, com 6 linhas na tabela:
 --
---   select column_name, data_type, is_nullable, column_default
---     from information_schema.columns
---    where table_schema = 'public'
---      and table_name  = 'generated_pdfs'
---    order by ordinal_position;
+--   · created_at preenchida nas 6           (default now() a funcionar)
+--   · expires_at preenchida nas 6           (default now() + 30 dias)
+--   · a diferença é exactamente 30 dias em todas
 --
--- 2) A created_at existe e está preenchida? E a expires_at? (é disto que a
---    004 depende — a condição de apagamento usa as duas)
+-- Ou seja, o ramo do CASE da migração 004 que manda é o do expires_at, e o
+-- efeito real é apagar 37 dias depois da criação (30 de validade + 7 de
+-- margem). O ramo do created_at fica como rede de segurança, para linhas que
+-- venham a existir sem expires_at.
 --
---   select count(*)              as total,
---          count(created_at)     as com_created_at,
---          count(expires_at)     as com_expires_at,
---          min(created_at)       as mais_antigo,
---          max(created_at)       as mais_recente
+-- Para repetir a verificação:
+--
+--   select count(*)          as total,
+--          count(created_at) as com_created_at,
+--          count(expires_at) as com_expires_at,
+--          min(created_at)   as mais_antigo,
+--          max(created_at)   as mais_recente
 --     from public.generated_pdfs;
---
--- 3) Índices já existentes:
---
---   select indexname, indexdef
---     from pg_indexes
---    where schemaname = 'public'
---      and tablename  = 'generated_pdfs';
---
--- Se a coluna created_at não existir, acrescentá-la antes de agendar a 004:
---
---   alter table public.generated_pdfs
---     add column created_at timestamptz not null default now();
---
--- Nota: as linhas que já existam ficam todas com a data do momento em que a
--- coluna for acrescentada, não com a data em que foram criadas. Passam a ser
--- apagadas 30 dias depois DESSE momento — uma vez só, e nunca mais.

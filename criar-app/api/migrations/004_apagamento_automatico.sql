@@ -13,30 +13,20 @@
 -- gasta nenhuma das 12 vagas de função do plano Hobby (a pasta api/ já tem 11).
 --
 -- ┌──────────────────────────────────────────────────────────────────────────┐
--- │ BLOQUEIO POR CONFIRMAR — generated_pdfs.created_at                       │
+-- │ VERIFICADO em 2026-08-09 — o bloqueio está levantado.                   │
 -- │                                                                          │
--- │ A tabela generated_pdfs foi criada à mão e nunca teve migração (a 005    │
--- │ passa a documentá-la). O código NÃO escreve created_at: se a coluna      │
--- │ existir com `default now()`, é a base de dados que a preenche; se não    │
--- │ existir, ou existir vazia, o job abaixo não apaga nada — em silêncio.    │
+-- │ A generated_pdfs tem created_at e expires_at, ambas com valor por        │
+-- │ omissão (now() e now() + 30 dias) e ambas preenchidas em todas as        │
+-- │ linhas. A estrutura real está registada na migração 005.                 │
 -- │                                                                          │
--- │ ANTES de agendar, correr esta verificação:                              │
--- │                                                                          │
--- │   select count(*)              as total,                                 │
--- │          count(created_at)     as com_created_at,                        │
--- │          count(expires_at)     as com_expires_at,                        │
--- │          min(created_at)       as mais_antigo,                           │
--- │          max(created_at)       as mais_recente                           │
--- │     from public.generated_pdfs;                                          │
--- │                                                                          │
--- │ · com_created_at igual a total  → seguir, está tudo bem.                │
--- │ · erro "column ... does not exist" para created_at, ou com_created_at    │
--- │   a 0 com total > 0  → PARAR. Aplicar primeiro a 005 e acrescentar a    │
--- │   coluna, senão fica com um apagamento que nunca apaga, em silêncio.     │
--- │ · erro só para expires_at  → a coluna não existe; retirar o ramo do     │
--- │   CASE no job da generated_pdfs e deixar só a condição do created_at.    │
--- │ · total = 0  → a tabela está vazia; pode agendar à mesma, mas repetir a │
--- │   verificação depois da primeira compra.                                 │
+-- │ Uma consequência dessa verificação está aplicada aqui: as datas da       │
+-- │ generated_pdfs são `timestamp WITHOUT time zone`, ao contrário das das   │
+-- │ outras duas tabelas, que são timestamptz. Comparar uma com now()         │
+-- │ obrigaria a uma conversão implícita pelo fuso de quem corre a consulta.  │
+-- │ Hoje daria certo — o fuso da base é UTC — mas passa a depender de uma    │
+-- │ definição que ninguém está a vigiar. Por isso o job da generated_pdfs    │
+-- │ compara com (now() at time zone 'utc'): timestamp contra timestamp, sem  │
+-- │ conversão nenhuma pelo meio.                                             │
 -- └──────────────────────────────────────────────────────────────────────────┘
 
 -- ───────────────────────────── 1. Ligar o pg_cron ─────────────────────────────
@@ -54,17 +44,20 @@ grant all privileges on all tables in schema cron to postgres;
 -- deixa de ser alcançável por qualquer caminho: apagá-lo não retira nada ao
 -- cliente, só deixa de guardar texto sensível sem finalidade.
 --
--- A condição decide linha a linha, e não é preciso escolher de antemão:
+-- A condição decide linha a linha:
 --
 --   · com expires_at preenchido → apaga 7 dias DEPOIS da data de expiração.
 --     A regra passa a funcionar seja qual for o prazo, hoje ou se um dia
 --     mudar, e a margem dá espaço para investigar uma reclamação recente.
 --   · sem expires_at (nulo)     → recai no created_at aos 30 dias.
 --
--- Uma tabela com umas linhas de cada tipo é tratada correctamente sem
--- intervenção. Se a coluna expires_at NÃO existir de todo, o SQL dá erro de
--- coluna inexistente: nesse caso, retirar o ramo do CASE e deixar só a
--- condição do created_at.
+-- Na base actual o expires_at está preenchido em todas as linhas, com 30 dias
+-- de validade, por isso o ramo que manda é o primeiro: o efeito real é apagar
+-- 37 dias depois da criação. O ramo do created_at fica como rede de segurança.
+--
+-- Sobre o (now() at time zone 'utc'): ver a caixa no topo. Estas duas colunas
+-- são `timestamp without time zone`; assim a comparação é timestamp contra
+-- timestamp e não depende do fuso da sessão.
 --
 -- 03:17 UTC, todos os dias.
 
@@ -74,8 +67,9 @@ select cron.schedule(
   $$
     delete from public.generated_pdfs
      where case
-             when expires_at is not null then expires_at < now() - interval '7 days'
-             else created_at < now() - interval '30 days'
+             when expires_at is not null
+               then expires_at < (now() at time zone 'utc') - interval '7 days'
+             else created_at < (now() at time zone 'utc') - interval '30 days'
            end;
   $$
 );
@@ -148,6 +142,37 @@ select cron.schedule(
 -- pagamentos_pro — registos contabilísticos de cada pagamento confirmado.
 -- Conservados por obrigação fiscal, não por conveniência. NÃO agendar
 -- apagamento. O fundamento é declarado na política de privacidade.
+
+-- ─────────────────────── Ensaio a seco (antes de aplicar) ───────────────────
+--
+-- Conta o que cada job apagaria HOJE, sem apagar nada. Correr isto primeiro:
+-- se algum número parecer alto de mais, é melhor descobri-lo agora.
+--
+--   select 'generated_pdfs' as tabela,
+--          (select count(*) from public.generated_pdfs) as total,
+--          (select count(*) from public.generated_pdfs
+--            where case when expires_at is not null
+--                       then expires_at < (now() at time zone 'utc') - interval '7 days'
+--                       else created_at < (now() at time zone 'utc') - interval '30 days' end) as apagaria
+--   union all
+--   select 'pro_tokens',
+--          (select count(*) from public.pro_tokens),
+--          (select count(*) from public.pro_tokens where expira_em < now() - interval '7 days')
+--   union all
+--   select 'assistir_campo_limites',
+--          (select count(*) from public.assistir_campo_limites),
+--          (select count(*) from public.assistir_campo_limites where criado_em < now() - interval '7 days')
+--   order by tabela;
+--
+-- Resultado em 2026-08-09, corrido contra produção:
+--
+--   assistir_campo_limites   total 25   apagaria 25
+--   generated_pdfs           total  6   apagaria  0
+--   pro_tokens               total  0   apagaria  0
+--
+-- Os 25 são contadores diários parados desde 1 de Agosto — incluem as 8 linhas
+-- que ainda guardam endereços IP em claro, e é bom que desapareçam. Os 6 PDF
+-- ficam: o mais antigo expira a 15 de Agosto, e só sai a 22.
 
 -- ───────────────────────────── Verificação ─────────────────────────────
 --
