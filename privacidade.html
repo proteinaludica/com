@@ -4,126 +4,381 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Política de Privacidade · Proteína Lúdica</title>
-<meta name="description" content="Como a Proteína Lúdica trata os dados pessoais. Informação clara, em português, conforme o RGPD.">
+<meta name="description" content="Que dados a Proteína Lúdica recolhe, para onde vão, quanto tempo ficam e como se apagam. Escrito em linguagem simples, ao abrigo do RGPD.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://proteinaludica.com/privacidade">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://proteinaludica.com/privacidade">
+<meta property="og:title" content="Política de Privacidade · Proteína Lúdica">
+<meta property="og:description" content="Que dados a Proteína Lúdica recolhe, para onde vão, quanto tempo ficam e como se apagam.">
+<meta property="og:locale" content="pt_PT">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Geist:wght@300..600&family=Geist+Mono:wght@400..600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --bg: #F5F2EC; --surface: #FDFBF6;
-    --ink: #0D0F0B; --ink2: #3A3D35; --muted: #7A7D72;
-    --accent: #2D5A1B; --accent2: #3D7A26; --accent-light: #EAF3DE;
-    --border: rgba(13,15,11,0.10);
-    --font-head: 'Fraunces', Georgia, serif;
-    --font-body: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
-    --font-mono: 'Geist Mono', 'JetBrains Mono', monospace;
+  :root{
+    /* ---- fundo e tinta (mesma paleta da homepage) ---- */
+    --fundo:#12261c;            /* verde-escuro Laurissilva — nunca preto puro */
+    --fundo-cartao:#0d1d15;
+    --texto:#f2f4ec;
+    --texto-forte:#f6f8f0;
+    --texto-2:rgba(242,244,236,.78);
+    --texto-3:rgba(242,244,236,.7);
+    --texto-4:rgba(242,244,236,.6);
+    --texto-5:rgba(242,244,236,.45);
+    --texto-nav:rgba(242,244,236,.75);
+
+    --musgo-claro:#c9e4a8;
+    --musgo-hover:#e2f2ca;
+
+    --linha:rgba(201,228,168,.16);
+    --linha-suave:rgba(201,228,168,.14);
+    --linha-cartao:rgba(201,228,168,.18);
+    --contorno-cta:rgba(201,228,168,.5);
+
+    --largura:1360px;
+    --margem:72px;
   }
-  html { scroll-behavior: smooth; }
-  body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 17px; line-height: 1.65; }
-  nav {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 1.1rem 2.5rem; background: rgba(245,242,236,0.92);
-    backdrop-filter: blur(12px); border-bottom: 0.5px solid var(--border);
-    position: sticky; top: 0; z-index: 10;
+
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--fundo);
+    color:var(--texto);
+    font-family:'Figtree',system-ui,-apple-system,sans-serif;
+    font-size:16px;line-height:1.5;
+    -webkit-font-smoothing:antialiased;
   }
-  .logo { display: flex; flex-direction: column; text-decoration: none; }
-  .logo-name { font-family: var(--font-head); font-size: 19px; font-weight: 400; color: var(--ink); line-height: 1; }
-  .logo-name em { font-style: italic; color: var(--accent); }
-  .logo-sub { font-family: var(--font-mono); font-size: 9px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 3px; }
-  .nav-back { font-size: 14px; color: var(--ink2); text-decoration: none; font-family: var(--font-mono); letter-spacing: 0.03em; }
-  .nav-back:hover { color: var(--accent); }
-  .wrap { max-width: 760px; margin: 0 auto; padding: 4rem 1.5rem 6rem; }
-  .eyebrow { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
-  h1 { font-family: var(--font-head); font-size: clamp(2.2rem, 5vw, 3.2rem); font-weight: 400; letter-spacing: -0.02em; line-height: 1.05; margin: 0.6rem 0 0.5rem; }
-  h1 em { font-style: italic; color: var(--accent); }
-  .updated { font-family: var(--font-mono); font-size: 12px; color: var(--muted); margin-bottom: 3rem; }
-  h2 { font-family: var(--font-head); font-size: 1.5rem; font-weight: 400; letter-spacing: -0.01em; margin: 2.5rem 0 0.75rem; }
-  p { color: var(--ink2); margin-bottom: 1rem; }
-  ul { margin: 0 0 1rem 1.25rem; color: var(--ink2); }
-  li { margin-bottom: 0.4rem; }
-  a { color: var(--accent); }
-  strong { color: var(--ink); font-weight: 500; }
-  .card { background: var(--surface); border: 0.5px solid var(--border); border-radius: 10px; padding: 1.5rem 1.75rem; margin-top: 1rem; }
-  .meta-row { display: flex; gap: 1rem; padding: 0.6rem 0; border-bottom: 0.5px solid var(--border); font-size: 15px; }
-  .meta-row:last-child { border-bottom: none; }
-  .meta-label { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; min-width: 130px; flex-shrink: 0; }
-  footer { border-top: 0.5px solid var(--border); padding: 2rem 1.5rem; text-align: center; font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
-  footer a { color: var(--muted); text-decoration: none; }
-  footer a:hover { color: var(--accent); }
-  @media (max-width: 560px) { nav { padding: 1rem 1.25rem; } .meta-row { flex-direction: column; gap: 0.2rem; } }
+  h1,h2,h3{font-family:'Newsreader',Georgia,serif;font-weight:400;letter-spacing:-.02em}
+  a{color:var(--musgo-claro);text-decoration:none}
+  a:hover{color:var(--musgo-hover)}
+  :focus-visible{outline:2px solid var(--musgo-claro);outline-offset:2px;border-radius:4px}
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation:none!important;transition:none!important}
+  }
+
+  /* ---------- Cabeçalho (igual ao da homepage) ---------- */
+  header{border-bottom:1px solid var(--linha-suave)}
+  .barra{
+    display:flex;align-items:center;gap:30px;
+    padding:26px var(--margem);
+    max-width:var(--largura);margin:0 auto;
+  }
+  .marca{
+    font-family:'Newsreader',Georgia,serif;font-size:21px;
+    letter-spacing:-.01em;margin-right:auto;color:var(--texto);
+  }
+  .marca:hover{color:var(--texto)}
+  .nav-desktop{display:flex;gap:30px;font-size:15.5px}
+  .nav-desktop a{color:var(--texto-nav)}
+  .nav-desktop a:hover{color:var(--texto)}
+  .nav-cta{
+    border:1.5px solid var(--contorno-cta);color:var(--musgo-claro);
+    border-radius:999px;padding:10px 22px;font-size:15.5px;font-weight:600;
+    transition:background .15s ease;white-space:nowrap;
+  }
+  .nav-cta:hover{background:rgba(201,228,168,.12);color:var(--musgo-claro)}
+
+  .menu-btn{
+    display:none;flex-direction:column;gap:4px;
+    background:none;border:0;padding:6px 4px;cursor:pointer;
+  }
+  .menu-btn span{width:20px;height:2px;background:var(--musgo-claro);border-radius:999px;display:block}
+  #menu-movel{border-top:1px solid var(--linha-suave);padding:8px var(--margem) 20px}
+  #menu-movel a{
+    display:block;padding:14px 2px;color:var(--texto-nav);
+    font-size:16.5px;border-bottom:1px solid var(--linha-suave);
+  }
+  #menu-movel a:hover{color:var(--texto)}
+  #menu-movel .nav-cta{
+    display:block;margin-top:16px;text-align:center;border-bottom:0;
+    padding:14px 22px;color:var(--musgo-claro);
+  }
+
+  /* ---------- Corpo do documento ---------- */
+  .wrap{max-width:780px;margin:0 auto;padding:72px var(--margem) 40px}
+  .etiqueta{
+    font-size:13px;color:var(--texto-5);
+    letter-spacing:.14em;text-transform:uppercase;
+  }
+  h1{font-size:52px;line-height:1.08;color:var(--texto-forte);margin:14px 0 0;text-wrap:pretty}
+  .data-topo{margin:20px 0 0;font-size:15px;color:var(--texto-4)}
+  .abertura{font-size:19px;line-height:1.6;color:var(--texto-2);margin:32px 0 0;text-wrap:pretty}
+
+  .seccao{border-top:1px solid var(--linha-suave);margin-top:52px;padding-top:32px}
+  .numero{
+    display:block;font-size:14px;font-weight:600;color:var(--musgo-claro);
+    letter-spacing:.16em;margin-bottom:10px;
+  }
+  h2{font-size:31px;line-height:1.15;color:var(--texto-forte);text-wrap:pretty}
+  h3{
+    font-family:'Figtree',system-ui,sans-serif;font-weight:600;letter-spacing:0;
+    font-size:17px;color:var(--texto-forte);margin:30px 0 8px;
+  }
+  h3 .sub{color:var(--musgo-claro);font-weight:600;margin-right:8px}
+  p{margin:16px 0 0;font-size:16.5px;line-height:1.65;color:var(--texto-3)}
+  .seccao > p:first-of-type{margin-top:18px}
+  strong{color:var(--texto-forte);font-weight:600}
+
+  ul{margin:16px 0 0;padding-left:22px;color:var(--texto-3)}
+  li{margin-bottom:9px;font-size:16.5px;line-height:1.6}
+  li::marker{color:var(--musgo-claro)}
+
+  .cartao{
+    background:var(--fundo-cartao);border:1px solid var(--linha-cartao);
+    border-radius:16px;padding:24px 26px;margin-top:22px;
+  }
+  .cartao p:first-child{margin-top:0}
+
+  .ficha{list-style:none;padding:0;margin:22px 0 0}
+  .ficha li{
+    display:flex;gap:20px;padding:12px 0;margin:0;
+    border-bottom:1px solid var(--linha-suave);
+  }
+  .ficha li:last-child{border-bottom:0}
+  .ficha .rotulo{
+    flex:0 0 190px;color:var(--texto-5);font-size:14px;
+    letter-spacing:.08em;text-transform:uppercase;line-height:1.5;
+  }
+  .ficha .valor{color:var(--texto-2);min-width:0;overflow-wrap:anywhere}
+
+  .quebra{overflow-wrap:anywhere}
+
+  /* ---------- Rodapé ---------- */
+  footer{
+    border-top:1px solid var(--linha);
+    max-width:780px;margin:56px auto 0;padding:32px var(--margem) 64px;
+  }
+  .versao{font-size:15px;color:var(--texto-4)}
+  .legal{margin:14px 0 0;font-size:14px;line-height:1.6;color:var(--texto-5)}
+  .legal a{color:var(--texto-4)}
+  .legal a:hover{color:var(--texto-2)}
+
+  /* ---------- Ecrãs estreitos ---------- */
+  @media (max-width:1080px){
+    :root{--margem:40px}
+    h1{font-size:44px}
+  }
+  @media (max-width:860px){
+    :root{--margem:22px}
+    .nav-desktop{display:none}
+    .barra > .nav-cta{display:none}
+    .menu-btn{display:flex}
+    .barra{padding:18px var(--margem);gap:0}
+    .marca{font-size:17px}
+
+    .wrap{padding:38px var(--margem) 26px}
+    h1{font-size:32px;line-height:1.14}
+    .abertura{font-size:17px;margin-top:24px}
+    .data-topo{font-size:14px}
+    .seccao{margin-top:38px;padding-top:26px}
+    h2{font-size:24px}
+    h3{font-size:16.5px;margin-top:26px}
+    p,li{font-size:16px}
+    .cartao{padding:20px 18px;border-radius:14px}
+    .ficha li{flex-direction:column;gap:4px;padding:11px 0}
+    .ficha .rotulo{flex:none;font-size:12.5px;letter-spacing:.1em}
+    footer{margin-top:38px;padding:26px var(--margem) 48px}
+  }
 </style>
 </head>
 <body>
 
-<nav>
-  <a href="/" class="logo">
-    <div class="logo-name">Proteína <em>Lúdica</em></div>
-    <div class="logo-sub">Assistentes digitais IA · Madeira</div>
-  </a>
-  <a href="/" class="nav-back">← Voltar ao início</a>
-</nav>
+<header>
+  <div class="barra">
+    <a class="marca" href="/">Proteína Lúdica</a>
+    <nav class="nav-desktop" aria-label="Navegação principal">
+      <a href="/catalogo">Assistentes</a>
+      <a href="/#quem-somos">Quem somos</a>
+      <a href="/#faq">FAQ</a>
+    </nav>
+    <a class="nav-cta" href="https://criar.proteinaludica.com">Criar o meu assistente</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu-movel" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <nav id="menu-movel" hidden aria-label="Navegação principal">
+    <a href="/catalogo">Assistentes</a>
+    <a href="/#quem-somos">Quem somos</a>
+    <a href="/#faq">FAQ</a>
+    <a class="nav-cta" href="https://criar.proteinaludica.com">Criar o meu assistente</a>
+  </nav>
+</header>
 
 <main class="wrap">
-  <span class="eyebrow">Documento legal</span>
-  <h1>Política de <em>Privacidade.</em></h1>
-  <p class="updated">Última actualização: Junho de 2026</p>
+  <span class="etiqueta">Documento legal</span>
+  <h1>Política de Privacidade</h1>
+  <p class="data-topo">Em vigor desde 9 de Agosto de 2026</p>
 
-  <p>Esta página explica, em linguagem simples, que dados pessoais a Proteína Lúdica recolhe, para que servem e que direitos qualquer pessoa tem sobre eles. Aplica-se ao sítio <strong>proteinaludica.com</strong> e ao contacto connosco. Cumpre o Regulamento Geral sobre a Proteção de Dados (RGPD) e a lei portuguesa.</p>
+  <p class="abertura">Esta página descreve o que acontece aos dados de quem usa o sítio <strong>proteinaludica.com</strong> e o formulário de criação em <strong>criar.proteinaludica.com</strong>: o que é recolhido, para onde vai, quanto tempo fica e como se apaga. Descreve o que existe hoje, não intenções.</p>
 
-  <h2>Quem trata os dados</h2>
-  <div class="card">
-    <div class="meta-row"><span class="meta-label">Responsável</span><span>Proteína Lúdica, Lda.</span></div>
-    <div class="meta-row"><span class="meta-label">Sede</span><span>Seixal · Madeira · Portugal</span></div>
-    <div class="meta-row"><span class="meta-label">Contacto</span><span><a href="mailto:info@proteinaludica.com">info@proteinaludica.com</a></span></div>
-  </div>
+  <!-- ─── 01 ─── -->
+  <section class="seccao">
+    <span class="numero">01</span>
+    <h2>Quem trata os dados</h2>
+    <p>O responsável pelo tratamento é a entidade indicada abaixo. Qualquer questão sobre privacidade, incluindo o exercício dos direitos descritos na secção 08, é tratada pelo mesmo endereço.</p>
+    <ul class="ficha">
+      <li><span class="rotulo">Responsável</span><span class="valor">Proteína Lúdica, Lda.</span></li>
+      <li><span class="rotulo">NIF</span><span class="valor">514411520</span></li>
+      <li><span class="rotulo">Sede</span><span class="valor">Seixal · Região Autónoma da Madeira · Portugal</span></li>
+      <li><span class="rotulo">Contacto</span><span class="valor"><a href="mailto:info@proteinaludica.com">info@proteinaludica.com</a></span></li>
+    </ul>
+  </section>
 
-  <h2>Que dados recolhemos</h2>
-  <p>Apenas os que nos forem dados de livre vontade através do formulário de contacto:</p>
-  <ul>
-    <li><strong>Nome</strong> — para saber a quem responder.</li>
-    <li><strong>Email</strong> — para responder ao pedido.</li>
-    <li><strong>O que procura</strong> e a mensagem (opcional) — para perceber o que precisa.</li>
-  </ul>
-  <p>Não recolhemos dados de forma automática nem usamos perfis de publicidade. Não pedimos dados sensíveis no formulário.</p>
+  <!-- ─── 02 ─── -->
+  <section class="seccao">
+    <span class="numero">02</span>
+    <h2>O que sai do computador, e para onde vai</h2>
+    <p>Há três momentos em que sai informação do computador de quem usa o sítio: o envio do formulário de contacto, o pedido de ajuda a preencher um campo do formulário de criação, e a compra. Fora destes momentos, o que se escreve no formulário de criação fica no próprio browser — ver a secção 03.</p>
+    <p>Cada fornecedor abaixo trata dados apenas por conta da Proteína Lúdica, ao abrigo do contrato de tratamento de dados de cada um.</p>
 
-  <h2>Para que servem</h2>
-  <p>Os dados do formulário servem <strong>apenas para responder ao contacto</strong> e dar seguimento ao que for pedido. Não são usados para mais nada e não são vendidos nem partilhados com terceiros para fins comerciais.</p>
+    <h3><span class="sub">2.1</span> Vercel — alojamento</h3>
+    <p>As páginas e as funções que respondem aos formulários correm na Vercel. As funções do formulário de criação estão fixadas na região de Dublin, na Irlanda. Como qualquer alojamento, a Vercel gera registos técnicos dos pedidos — data, endereço IP e página pedida — usados para manter o serviço a funcionar e detectar abusos.</p>
 
-  <h2>Com que fundamento</h2>
-  <p>Tratamos estes dados com base no <strong>consentimento</strong> dado ao enviar o formulário (artigo 6.º, n.º 1, alínea a, do RGPD). Esse consentimento pode ser retirado a qualquer momento, bastando escrever para o email acima.</p>
+    <h3><span class="sub">2.2</span> Anthropic — o texto sugerido</h3>
+    <p>Quando se pede ajuda a preencher um campo do formulário de criação, o texto já escrito nos campos anteriores é enviado para a API da Anthropic, que devolve a sugestão. É a única situação em que esse conteúdo sai para um modelo de IA, e só acontece a pedido.</p>
+    <div class="cartao">
+      <p>O conteúdo não é retido pela Anthropic, excepto dados que os sistemas de segurança identifiquem como problemáticos, que podem ficar até 2 anos.</p>
+    </div>
+    <p>O bloco de instruções enviado com cada pedido proíbe expressamente que o texto devolvido reproduza dados pessoais presentes no contexto — nomes completos, NIF, moradas, números de telefone, endereços de correio electrónico ou números de utente.</p>
 
-  <h2>Quanto tempo guardamos</h2>
-  <p>Guardamos a mensagem e o contacto enquanto durar a conversa e, depois, pelo tempo necessário para dar seguimento ao pedido. Quando deixar de ser preciso, os dados são apagados. Pode pedir o apagamento antes disso.</p>
+    <h3><span class="sub">2.3</span> Supabase — a base de dados</h3>
+    <p>A base de dados está alojada na Irlanda, dentro da União Europeia, e só é acedida pelo servidor — nunca directamente pelo browser. Guarda três coisas:</p>
+    <ul>
+      <li>O <strong>assistente gerado</strong>, quando se compra o kit: email, plataforma escolhida, nome do assistente, missão e o texto completo da configuração. Fica ligado ao identificador da ligação de descarga, que é o que permite voltar a descarregar o guia e retomar a criação.</li>
+      <li>Os <strong>pagamentos confirmados</strong>: provedor, referência, email, valor e data.</li>
+      <li>Os <strong>contadores de utilização</strong> descritos em 2.4.</li>
+    </ul>
 
-  <h2>Quem nos ajuda a tratar os dados</h2>
-  <p>Para fazer funcionar o email e o sítio recorremos a fornecedores de serviços (alojamento, email, fontes tipográficas). Esses fornecedores tratam dados apenas em nosso nome, sob contrato, e dentro das regras europeias. O sítio carrega tipos de letra a partir do Google Fonts, o que implica um pedido aos servidores da Google ao abrir a página.</p>
+    <h3><span class="sub">2.4</span> Registo de utilizações</h3>
+    <div class="cartao">
+      <p>Para controlar o limite de utilizações grátis, registamos cada uso do formulário.</p>
+    </div>
+    <p>Esse registo é um contador por dia, não um histórico: guarda quantas vezes foi pedida ajuda, nunca o que foi escrito nem o texto devolvido. O endereço IP <strong>não é guardado</strong>: entra num resumo irreversível, calculado com um segredo que só o servidor conhece e com a data do dia misturada, do qual não é possível voltar ao endereço de origem. Os contadores são apagados automaticamente ao fim de 7 dias.</p>
 
-  <h2>Os dados dos doentes — o assistente digital IA</h2>
-  <p>Esta é uma parte importante. Os assistentes digitais IA que fazemos <strong>não guardam dados clínicos nos nossos servidores</strong>. O assistente funciona dentro da ferramenta escolhida pelo cliente (por exemplo Claude, ChatGPT ou Gemini), e é essa ferramenta que processa o texto, sem retenção.</p>
-  <p>Ensinamos sempre uma regra de ouro: <strong>nunca escrever o nome completo, o número de utente, a data de nascimento ou a morada de um doente</strong> — bastam as iniciais e a idade. Os assistentes são desenhados para trabalhar assim, com pseudonimização desde a origem.</p>
+    <h3><span class="sub">2.5</span> Resend — envio de emails</h3>
+    <p>Os emails que a Proteína Lúdica envia — a mensagem do formulário de contacto e o guia de instalação — saem através da Resend.</p>
+    <div class="cartao">
+      <p>Resend: guarda os emails enviados por período padrão. A política de privacidade da Resend está em <a class="quebra" href="https://resend.com/privacy" target="_blank" rel="noopener">https://resend.com/privacy</a></p>
+    </div>
 
-  <h2>Os seus direitos</h2>
-  <p>Sobre os seus dados pessoais, tem direito a:</p>
-  <ul>
-    <li><strong>Aceder</strong> aos dados que temos sobre si.</li>
-    <li><strong>Corrigir</strong> dados errados ou incompletos.</li>
-    <li><strong>Apagar</strong> os dados ("direito a ser esquecido").</li>
-    <li><strong>Limitar</strong> ou <strong>opor-se</strong> ao tratamento.</li>
-    <li><strong>Receber</strong> os dados num formato portável.</li>
-    <li><strong>Retirar o consentimento</strong> a qualquer momento.</li>
-  </ul>
-  <p>Para exercer qualquer destes direitos, escreva para <a href="mailto:info@proteinaludica.com">info@proteinaludica.com</a>. Se entender que os seus dados não estão a ser bem tratados, pode também apresentar reclamação à <strong>CNPD</strong> (Comissão Nacional de Proteção de Dados), em <a href="https://www.cnpd.pt" target="_blank" rel="noopener">www.cnpd.pt</a>.</p>
+    <h3><span class="sub">2.6</span> Stripe e IfthenPay — pagamentos</h3>
+    <p>O pagamento é feito por cartão (Stripe) ou por MB WAY (IfthenPay), sempre nas páginas do próprio provedor. Os dados do cartão nunca passam pelos servidores da Proteína Lúdica nem são visíveis para a Proteína Lúdica. De volta chega apenas a confirmação: provedor, referência da operação, valor e o email indicado ao pagar.</p>
 
-  <h2>Alterações</h2>
-  <p>Se esta política mudar, actualizamos esta página e a data no topo. As versões importantes ficam registadas.</p>
+    <h3><span class="sub">2.7</span> Google Fonts — tipos de letra</h3>
+    <p>As páginas carregam os tipos de letra a partir dos servidores da Google, o que implica um pedido do browser a esses servidores ao abrir a página.</p>
+
+    <h3><span class="sub">2.8</span> Transferências fora da União Europeia</h3>
+    <p>Alguns destes fornecedores têm sede fora da União Europeia. Nesses casos, a transferência assenta nas cláusulas contratuais-tipo aprovadas pela Comissão Europeia, previstas no contrato de tratamento de dados de cada fornecedor.</p>
+  </section>
+
+  <!-- ─── 03 ─── -->
+  <section class="seccao">
+    <span class="numero">03</span>
+    <h2>O que fica só neste computador</h2>
+    <p>Enquanto se preenche o formulário de criação, o rascunho é guardado no armazenamento do próprio browser, não num servidor. Fecha-se a página, volta-se mais tarde e o rascunho continua lá. O botão de recomeçar apaga-o, tal como a limpeza dos dados do browser.</p>
+    <p>Guarda-se ainda, enquanto durar a sessão do browser, um identificador aleatório da sessão. Serve para contar as utilizações grátis e para associar um pagamento à sessão que o iniciou; desaparece ao fechar o separador.</p>
+    <p>O sítio <strong>não usa cookies</strong>, não tem ferramentas de estatística ou de analítica, não faz publicidade e não constrói perfis de quem o visita.</p>
+  </section>
+
+  <!-- ─── 04 ─── -->
+  <section class="seccao">
+    <span class="numero">04</span>
+    <h2>Formulário de contacto</h2>
+    <p>O formulário de contacto do sítio recolhe o nome, o email, o assunto de interesse e a mensagem, mais a autorização expressa para responder. Estes dados servem <strong>apenas para responder ao contacto</strong> e dar seguimento ao que for pedido. Não são vendidos, não são cedidos a terceiros para fins comerciais e não alimentam nenhuma lista de divulgação.</p>
+    <p>O pedido de assistente à medida recolhe o nome, o email e a plataforma pretendida, e fica registado na base de dados descrita em 2.3 para acompanhamento do pedido.</p>
+  </section>
+
+  <!-- ─── 05 ─── -->
+  <section class="seccao">
+    <span class="numero">05</span>
+    <h2>Quanto tempo fica cada coisa</h2>
+    <p>Os apagamentos abaixo estão automatizados na própria base de dados e correm todos os dias, sem depender de ninguém se lembrar.</p>
+    <ul class="ficha">
+      <li><span class="rotulo">Rascunho no browser</span><span class="valor">Até quem o escreveu o apagar, ou limpar os dados do browser.</span></li>
+      <li><span class="rotulo">Assistente gerado</span><span class="valor">A ligação de descarga é válida 30 dias. O registo é apagado 7 dias depois de a ligação expirar — na prática, 37 dias depois da compra.</span></li>
+      <li><span class="rotulo">Acesso pago</span><span class="valor">Apagado 7 dias depois de expirar.</span></li>
+      <li><span class="rotulo">Contadores de utilização</span><span class="valor">Apagados ao fim de 7 dias.</span></li>
+      <li><span class="rotulo">Registo de pagamentos</span><span class="valor">Conservado pelo prazo exigido pelas obrigações fiscais e contabilísticas. É a única coisa que não se apaga por rotina, e é por obrigação legal, não por conveniência.</span></li>
+      <li><span class="rotulo">Mensagens de contacto</span><span class="valor">Enquanto durar o assunto e o seguimento que dele resultar. Depois disso, apagadas.</span></li>
+    </ul>
+  </section>
+
+  <!-- ─── 06 ─── -->
+  <section class="seccao">
+    <span class="numero">06</span>
+    <h2>Os dados de doentes e clientes</h2>
+    <p>Esta é a parte que mais importa a quem trabalha com informação sensível. A Proteína Lúdica entrega uma configuração — um conjunto de instruções — que funciona dentro da ferramenta de IA escolhida pelo cliente. O trabalho do dia-a-dia com essa ferramenta decorre na conta do próprio cliente e não passa pelos servidores da Proteína Lúdica, que por isso não guardam registos clínicos.</p>
+    <p>A regra ensinada em todos os assistentes é sempre a mesma: <strong>nunca escrever o nome completo, o número de utente, a data de nascimento ou a morada de um terceiro</strong> — bastam as iniciais e a idade. Os assistentes são desenhados para trabalhar assim.</p>
+    <p>Quem usa a ferramenta continua a ser o responsável pelo tratamento dos dados dos seus doentes ou clientes, como consta dos <a href="/termos">Termos</a>. O enquadramento do serviço face ao AI Act e ao RGPD está explicado em <a href="/conformidade">Conformidade &amp; Regulação</a>.</p>
+  </section>
+
+  <!-- ─── 07 ─── -->
+  <section class="seccao">
+    <span class="numero">07</span>
+    <h2>Com que fundamento</h2>
+    <ul>
+      <li><strong>Execução do contrato</strong> (artigo 6.º, n.º 1, alínea b, do RGPD) — criar e entregar o assistente, processar o pagamento e dar acesso ao guia.</li>
+      <li><strong>Consentimento</strong> (alínea a) — o formulário de contacto, que só é enviado com autorização expressa. O consentimento pode ser retirado a qualquer momento, sem que isso afecte o que já foi tratado antes.</li>
+      <li><strong>Interesse legítimo</strong> (alínea f) — manter o serviço de pé e proteger o limite de utilizações grátis contra abuso, com o mínimo de informação possível, como descrito em 2.4.</li>
+      <li><strong>Obrigação legal</strong> (alínea c) — conservar os registos dos pagamentos pelo prazo fiscal.</li>
+    </ul>
+  </section>
+
+  <!-- ─── 08 ─── -->
+  <section class="seccao">
+    <span class="numero">08</span>
+    <h2>Os direitos de quem confia dados</h2>
+    <p>Sobre os dados pessoais que lhe digam respeito, qualquer pessoa tem direito a:</p>
+    <ul>
+      <li><strong>Aceder</strong> aos dados guardados.</li>
+      <li><strong>Corrigir</strong> o que estiver errado ou incompleto.</li>
+      <li><strong>Apagar</strong> os dados, salvo os que a lei obrigue a conservar.</li>
+      <li><strong>Limitar</strong> ou <strong>opor-se</strong> ao tratamento.</li>
+      <li><strong>Receber</strong> os dados num formato portável.</li>
+      <li><strong>Retirar o consentimento</strong> a qualquer momento.</li>
+    </ul>
+    <p>Basta escrever para <a href="mailto:info@proteinaludica.com">info@proteinaludica.com</a>. A resposta é dada no prazo máximo de um mês.</p>
+  </section>
+
+  <!-- ─── 09 ─── -->
+  <section class="seccao">
+    <span class="numero">09</span>
+    <h2>Reclamação</h2>
+    <p>Se alguém entender que os seus dados não estão a ser bem tratados, pode apresentar reclamação à autoridade de controlo portuguesa, a <strong>CNPD</strong> — Comissão Nacional de Proteção de Dados, em <a href="https://www.cnpd.pt" target="_blank" rel="noopener">www.cnpd.pt</a>. O contacto directo em <a href="mailto:info@proteinaludica.com">info@proteinaludica.com</a> continua disponível, e costuma ser o caminho mais rápido.</p>
+  </section>
+
+  <!-- ─── 10 ─── -->
+  <section class="seccao">
+    <span class="numero">10</span>
+    <h2>Alterações a esta política</h2>
+    <p>Quando esta política mudar, muda também a data e a versão no fim da página. As alterações com impacto real no tratamento dos dados são comunicadas por email a quem tenha uma conta activa ou um pedido em curso.</p>
+  </section>
 </main>
 
 <footer>
-  © 2026 Proteína Lúdica, Lda. &nbsp;·&nbsp; <a href="/">Início</a> &nbsp;·&nbsp; <a href="mailto:info@proteinaludica.com">info@proteinaludica.com</a>
+  <p class="versao">Última actualização: 9 de Agosto de 2026 · v1.0</p>
+  <p class="legal">© 2026 Proteína Lúdica, Lda. · NIF 514411520 · Região Autónoma da Madeira, Portugal · <a href="/">Início</a> · <a href="/conformidade">Conformidade</a> · <a href="/termos">Termos</a> · <a href="mailto:info@proteinaludica.com">info@proteinaludica.com</a></p>
 </footer>
+
+<script>
+(function(){
+  var btn = document.querySelector('.menu-btn');
+  var menu = document.getElementById('menu-movel');
+  if(!btn || !menu) return;
+  function fechar(){ btn.setAttribute('aria-expanded','false'); menu.hidden = true; }
+  btn.addEventListener('click', function(){
+    var aberto = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!aberto));
+    menu.hidden = aberto;
+  });
+  menu.addEventListener('click', function(e){ if(e.target.closest('a')) fechar(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') fechar(); });
+  window.addEventListener('resize', function(){ if(window.innerWidth > 860) fechar(); });
+})();
+</script>
 
 </body>
 </html>
