@@ -7,8 +7,30 @@ Esta pasta é o **ponto de entrada dedicado** para o projeto Vercel `criar`
 - `index.html` — o wizard `/criar`, versão limpa e canónica (cópia de
   `criar.html` na raiz deste repo). Sem vocabulário de "rascunho": parte
   sempre do que o profissional determina.
-- `vercel.json` — `cleanUrls`, `trailingSlash:false` e `X-Robots-Tag:
-  noindex, nofollow` (protótipo de validação, fora dos índices de pesquisa).
+- `vercel.json` — `cleanUrls`, `trailingSlash:false`, `X-Robots-Tag:
+  noindex, nofollow` (protótipo de validação, fora dos índices de pesquisa)
+  e `regions: ["dub1"]` (ver abaixo).
+
+## Região de execução — `dub1` (Dublin, Irlanda)
+
+As funções de `api/` correm em Dublin, fixado por `regions` no
+`vercel.json`. Não é uma preferência de desempenho — é uma exigência de
+protecção de dados.
+
+Estas funções recebem o texto que o profissional escreve no formulário,
+que pode conter informação clínica. Sem esta linha, a plataforma escolhe
+a região por si, e a escolha observada era `iad1` — Virgínia, Estados
+Unidos. O conteúdo saía da União Europeia sem que nada no repositório o
+declarasse.
+
+Dublin, e não Paris, porque a base de dados Supabase está em `eu-west-1`,
+que é a mesma zona (Irlanda). Cada pedido faz várias chamadas à base de
+dados; mantê-las dentro da mesma região poupa uma ida e volta atlântica
+a cada uma.
+
+Isto cobre onde o **nosso** código corre. Não cobre o processamento feito
+pela Anthropic no preenchimento assistido, que é matéria de contrato e
+não de configuração.
 
 ## Como ligar (dashboard Vercel — 3 passos)
 
