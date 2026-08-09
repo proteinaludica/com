@@ -22,14 +22,21 @@
 -- │                                                                          │
 -- │ ANTES de agendar, correr esta verificação:                              │
 -- │                                                                          │
--- │   select count(*)                       as total,                        │
--- │          count(created_at)              as com_data,                     │
--- │          min(created_at)                as mais_antigo                   │
+-- │   select count(*)              as total,                                 │
+-- │          count(created_at)     as com_created_at,                        │
+-- │          count(expires_at)     as com_expires_at,                        │
+-- │          min(created_at)       as mais_antigo,                           │
+-- │          max(created_at)       as mais_recente                           │
 -- │     from public.generated_pdfs;                                          │
 -- │                                                                          │
--- │ Se `com_data` for igual a `total`, está tudo bem. Se der erro de coluna  │
--- │ inexistente, ou se `com_data` for 0, PARAR: aplicar primeiro a 005 e     │
--- │ acrescentar a coluna, senão fica com um apagamento que nunca apaga.      │
+-- │ · com_created_at igual a total  → seguir, está tudo bem.                │
+-- │ · erro "column ... does not exist" para created_at, ou com_created_at    │
+-- │   a 0 com total > 0  → PARAR. Aplicar primeiro a 005 e acrescentar a    │
+-- │   coluna, senão fica com um apagamento que nunca apaga, em silêncio.     │
+-- │ · erro só para expires_at  → a coluna não existe; retirar o ramo do     │
+-- │   CASE no job da generated_pdfs e deixar só a condição do created_at.    │
+-- │ · total = 0  → a tabela está vazia; pode agendar à mesma, mas repetir a │
+-- │   verificação depois da primeira compra.                                 │
 -- └──────────────────────────────────────────────────────────────────────────┘
 
 -- ───────────────────────────── 1. Ligar o pg_cron ─────────────────────────────
@@ -40,12 +47,24 @@ create extension if not exists pg_cron with schema pg_catalog;
 grant usage on schema cron to postgres;
 grant all privileges on all tables in schema cron to postgres;
 
--- ─────────────────────── 2. generated_pdfs — 30 dias ────────────────────────
+-- ─────────────────────── 2. generated_pdfs ────────────────────────
 -- Guarda o texto completo do assistente, que pode ser clínico. Serve o
 -- download do PDF e a retoma da criação, ambos presos a um JWT de 30 dias
--- (gerar-pdf-instalacao.js, linha do `exp`). Passados os 30 dias o registo
+-- (gerar-pdf-instalacao.js, linha do `exp`). Passado esse prazo o registo
 -- deixa de ser alcançável por qualquer caminho: apagá-lo não retira nada ao
 -- cliente, só deixa de guardar texto sensível sem finalidade.
+--
+-- A condição decide linha a linha, e não é preciso escolher de antemão:
+--
+--   · com expires_at preenchido → apaga 7 dias DEPOIS da data de expiração.
+--     A regra passa a funcionar seja qual for o prazo, hoje ou se um dia
+--     mudar, e a margem dá espaço para investigar uma reclamação recente.
+--   · sem expires_at (nulo)     → recai no created_at aos 30 dias.
+--
+-- Uma tabela com umas linhas de cada tipo é tratada correctamente sem
+-- intervenção. Se a coluna expires_at NÃO existir de todo, o SQL dá erro de
+-- coluna inexistente: nesse caso, retirar o ramo do CASE e deixar só a
+-- condição do created_at.
 --
 -- 03:17 UTC, todos os dias.
 
@@ -54,27 +73,27 @@ select cron.schedule(
   '17 3 * * *',
   $$
     delete from public.generated_pdfs
-     where created_at < now() - interval '30 days';
+     where case
+             when expires_at is not null then expires_at < now() - interval '7 days'
+             else created_at < now() - interval '30 days'
+           end;
   $$
 );
 
--- ───────────────── 3. pro_tokens — só os que já expiraram ──────────────────
--- ATENÇÃO — DESVIO DELIBERADO À INSTRUÇÃO RECEBIDA, POR CONFIRMAR.
+-- ───────────────── 3. pro_tokens — expirados há mais de 7 dias ──────────────
+-- O critério é a data de expiração de cada registo, não um prazo fixo.
 --
--- O pedido dizia "apagar aos 30 dias", no pressuposto de que expira_em fosse
--- de 30 dias. Não é: lib/pro-comum.js define VALIDADE_SEGUNDOS = 365 dias.
--- O token Pro que o cliente compra por 49€ vale UM ANO.
+-- Porque não "30 dias": lib/pro-comum.js define VALIDADE_SEGUNDOS = 365 dias.
+-- O token Pro que o cliente compra por 49€ vale UM ANO. Apagar a linha aos 30
+-- dias cortaria uma compra anual ao fim de um mês — quem voltasse ao
+-- formulário passados 40 dias já não conseguiria reaver o seu token por
+-- GET /api/obter-token, e perderia o acesso pago.
 --
--- Apagar a linha aos 30 dias cortaria uma compra anual ao fim de um mês: o
--- cliente que voltasse ao formulário passados 40 dias já não conseguiria
--- reaver o seu token por GET /api/obter-token, e perderia o acesso pago.
+-- Assim a regra não depende do prazo em vigor: nunca apaga um token vivo,
+-- continua correcta se VALIDADE_SEGUNDOS mudar, e os 7 dias de margem dão
+-- espaço para investigar uma reclamação recente.
 --
--- Por isso apaga-se apenas o que JÁ está expirado — que é o mesmo princípio
--- (não guardar o que já não serve) sem encurtar nada que o cliente comprou.
--- Se preferir mesmo os 30 dias, é trocar a condição por
---   criado_em < now() - interval '30 days'
--- e reduzir também VALIDADE_SEGUNDOS, senão o produto e a base de dados
--- passam a discordar um do outro.
+-- VALIDADE_SEGUNDOS fica como está. Esta migração não a toca.
 --
 -- 03:27 UTC, todos os dias.
 
@@ -83,7 +102,7 @@ select cron.schedule(
   '27 3 * * *',
   $$
     delete from public.pro_tokens
-     where expira_em < now();
+     where expira_em < now() - interval '7 days';
   $$
 );
 

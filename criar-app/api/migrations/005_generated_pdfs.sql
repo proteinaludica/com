@@ -82,10 +82,12 @@ alter table public.generated_pdfs enable row level security;
 --      and table_name  = 'generated_pdfs'
 --    order by ordinal_position;
 --
--- 2) A created_at existe e está preenchida? (é disto que a 004 depende)
+-- 2) A created_at existe e está preenchida? E a expires_at? (é disto que a
+--    004 depende — a condição de apagamento usa as duas)
 --
 --   select count(*)              as total,
---          count(created_at)     as com_data,
+--          count(created_at)     as com_created_at,
+--          count(expires_at)     as com_expires_at,
 --          min(created_at)       as mais_antigo,
 --          max(created_at)       as mais_recente
 --     from public.generated_pdfs;
