@@ -8,7 +8,10 @@
 --
 -- Chaves usadas pelo endpoint:
 --   Grátis  — 'sess:<id>'  campo '__all__'  limite 1  (1 geração por sessão/dia)
---           — 'ip:<ip>'    campo '__all__'  limite 3  (3 gerações por IP/dia)
+--           — 'ip:<resumo>' campo '__all__' limite 3  (3 gerações por IP/dia)
+--             O endereço NÃO é guardado. <resumo> é um HMAC-SHA256 do IP com
+--             um segredo do servidor e a data do dia. Ver resumirIp em
+--             assistir-campo.js. As linhas são apagadas aos 7 dias (migração 004).
 --   Pago    — 'pro:<sub>'  campo '<id>'     limite 3  (3 gerações por campo/dia)
 --
 -- O endpoint falha FECHADO: se esta tabela não existir ou o Supabase falhar,

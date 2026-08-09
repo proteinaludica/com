@@ -15,6 +15,8 @@ process.env.JWT_SECRET = 'segredo-de-teste-32-caracteres!!';
 process.env.ANTHROPIC_API_KEY = 'sk-teste';
 process.env.SUPABASE_URL = 'https://stub.supabase.co';
 process.env.SUPABASE_SERVICE_ROLE_KEY = 'service-role-stub';
+// O caminho gratuito resume o IP com este segredo. Sem ele falha fechado (503).
+process.env.RATE_LIMIT_IP_SEGREDO = 'segredo-de-teste';
 
 const handler = require('./assistir-campo');
 
@@ -82,6 +84,17 @@ function montarStub(opts) {
     const metodo = (options && options.method) || 'GET';
     if (metodo === 'POST') {
       const corpo = JSON.parse(options.body);
+      // Incremento atomico via RPC (migracao 003). Este ramo faltava: o stub
+      // ficou a ler corpo.chave/campo/janela de um corpo que traz p_chave/
+      // p_campo/p_janela, e guardava "undefined|undefined|undefined". As
+      // asercoes sobre nomes de chave passaram a ser vazias sem ninguem dar
+      // por isso. Emular a RPC devolve-lhes o significado.
+      if (u.indexOf('/rpc/incrementar_limite') !== -1) {
+        const k = corpo.p_chave + '|' + corpo.p_campo + '|' + corpo.p_janela;
+        const novo = (store.get(k) || 0) + 1;
+        store.set(k, novo);
+        return { ok: true, status: 200, text: async () => String(novo), json: async () => novo };
+      }
       store.set(corpo.chave + '|' + corpo.campo + '|' + corpo.janela, Number(corpo.contagem) || 0);
       return { ok: true, status: 200, text: async () => '', json: async () => [] };
     }
@@ -150,6 +163,22 @@ teste('1 · sem header Authorization -> limites gratis aplicados (sess + ip)', a
   assert(chaves.some((k) => k.indexOf('sess:sess-tier|') === 0), 'devia contar na sessao: ' + chaves);
   assert(chaves.some((k) => k.indexOf('ip:') === 0), 'devia contar no ip: ' + chaves);
   assert(!chaves.some((k) => k.indexOf('pro:') === 0), 'NAO devia haver chave pro: ' + chaves);
+});
+
+teste('1b · o IP em claro nao chega a ser guardado (percurso completo)', async () => {
+  const { store } = montarStub();
+  const res = await correr(mockReq({
+    headers: { 'x-real-ip': '198.51.100.42' },
+    body: corpoBase(),
+  }));
+  assert(res.statusCode === 200, `devia ser 200, foi ${res.statusCode} (${JSON.stringify(res.corpo)})`);
+  const chaves = Array.from(store.keys()).join(' ');
+  assert(chaves.indexOf('ip:') !== -1, 'devia ter contado no ip: ' + chaves);
+  assert(chaves.indexOf('198.51.100.42') === -1,
+    'o endereco nao pode aparecer guardado: ' + chaves);
+  // E o que ficou guardado e mesmo o resumo do dia, nao outra coisa qualquer.
+  assert(chaves.indexOf('ip:' + handler.resumirIp('198.51.100.42', handler.janelaHoje())) !== -1,
+    'a chave devia ser o resumo do dia: ' + chaves);
 });
 
 teste('2 · token valido pro -> key pro:<sub>, campo proprio, 200', async () => {
