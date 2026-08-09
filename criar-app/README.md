@@ -4,9 +4,10 @@ Esta pasta é o **ponto de entrada dedicado** para o projeto Vercel `criar`
 (que serve `criar.proteinaludica.com`), permitindo que o wizard viva na
 **mesma fonte** que o resto do site (`proteinaludica/com`), sem duplicação.
 
-- `index.html` — o wizard `/criar`, versão limpa e canónica (cópia de
-  `criar.html` na raiz deste repo). Sem vocabulário de "rascunho": parte
-  sempre do que o profissional determina.
+- `index.html` — o wizard `/criar`, versão limpa e **canónica**. É a única
+  que existe: a cópia antiga `criar.html`, na raiz do repo, foi apagada por
+  ser divergente e não ser servida em lado nenhum. Sem vocabulário de
+  "rascunho": parte sempre do que o profissional determina.
 - `vercel.json` — `cleanUrls`, `trailingSlash:false` e `X-Robots-Tag:
   noindex, nofollow` (protótipo de validação, fora dos índices de pesquisa).
 
