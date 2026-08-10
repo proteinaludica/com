@@ -1,0 +1,43 @@
+-- Migração — coluna `telemovel` na tabela contact_requests.
+--
+-- APLICAR MANUALMENTE no painel Supabase (SQL Editor). Esta migração NÃO é
+-- corrida automaticamente por nenhum processo do repo.
+--
+-- ✅ JÁ APLICADA em 2026-08-10, no projecto "Cliente - criar assistente
+--    digital IA" (eu-west-1).
+--
+-- APLICAR ANTES do código que a usa chegar a produção. Sem a coluna, o
+-- INSERT de pedido-medida.js é recusado inteiro pelo PostgREST — não perde
+-- só o telemóvel, perde o registo todo. O pedido não se perderia (o email
+-- continua a seguir, porque a gravação não bloqueia o envio), mas ficaria
+-- sem rasto na base de dados. É a mesma falha silenciosa que já custou caro
+-- na generated_pdfs.
+--
+-- Porquê: o formulário do pedido de assistente à medida (290€) passa a ter
+-- um campo de telemóvel facultativo. Para um pedido comercial de 290€, um
+-- número de telefone encurta a resposta de dias para minutos.
+--
+-- Facultativo em todo o caminho: sem NOT NULL, sem valor por omissão, e o
+-- cliente envia null quando o campo fica em branco.
+
+alter table public.contact_requests
+  add column if not exists telemovel text;
+
+-- ───────────────────────────── Verificação ─────────────────────────────
+--
+--   select column_name, data_type, is_nullable
+--     from information_schema.columns
+--    where table_schema = 'public'
+--      and table_name  = 'contact_requests'
+--    order by ordinal_position;
+--
+-- Esperado: id, nome, email, plataforma, criado_em, telemovel — com
+-- telemovel a text e is_nullable = YES.
+--
+-- ─────────────────────────── Nota de privacidade ───────────────────────────
+--
+-- Passa a existir mais um dado de contacto guardado. A tabela
+-- contact_requests não tem apagamento automático agendado (a migração 004
+-- cobre generated_pdfs, pro_tokens e assistir_campo_limites, não esta).
+-- Fica assinalado para quem tratar da política de privacidade e do prazo de
+-- conservação dos contactos comerciais.
