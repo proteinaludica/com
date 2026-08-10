@@ -863,6 +863,13 @@
     border: 0.5px solid var(--border-strong);
     border-radius: 6px;
   }
+  /* Marca um campo como facultativo sem lhe roubar peso ao rótulo. */
+  .form-row label .campo-opcional {
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--muted);
+  }
 
   .pay-buttons { display: flex; flex-direction: column; gap: 10px; margin-bottom: 1rem; }
   .btn-pay {
@@ -1987,6 +1994,10 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
           <label for="f-contact-email">Email</label>
           <input type="email" id="f-contact-email" placeholder="email@exemplo.pt">
         </div>
+        <div class="form-row">
+          <label for="f-contact-telemovel">Telemóvel <span class="campo-opcional">(opcional)</span></label>
+          <input type="tel" id="f-contact-telemovel" placeholder="+351 912 345 678" autocomplete="tel">
+        </div>
 
         <button class="btn-accent" onclick="submitContact()">Enviar pedido</button>
       </div>
@@ -2354,10 +2365,48 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     showPaywallStep('paywallTiers');
   }
 
+  // Aceita +351 912345678, 00351 912 345 678, 912345678 — com ou sem espaços.
+  // Basta 9 algarismos; o + e o indicativo são facultativos. Não valida país:
+  // o objectivo é apanhar enganos, não recusar números legítimos.
+  function telemovelPlausivel(valor) {
+    const limpo = valor.replace(/[\s.()-]/g, '');
+    return /^(\+|00)?\d{9,15}$/.test(limpo);
+  }
+
   function submitContact() {
-    const nome = document.getElementById('f-contact-name').value;
-    const email = document.getElementById('f-contact-email').value;
+    const campoNome = document.getElementById('f-contact-name');
+    const campoEmail = document.getElementById('f-contact-email');
+    const campoTelemovel = document.getElementById('f-contact-telemovel');
+
+    const nome = (campoNome.value || '').trim();
+    const email = (campoEmail.value || '').trim();
+    const telemovel = (campoTelemovel.value || '').trim();
     const plataforma = state.platform || '';
+
+    // ─── Validação antes de enviar ───
+    // O servidor volta a validar; isto é só para não gastar uma ida ao
+    // servidor num engano óbvio, e para o cursor ficar no campo em falta.
+    if (!nome) {
+      alert('Indicar o nome.');
+      campoNome.focus();
+      return;
+    }
+    if (!email) {
+      alert('Indicar o email.');
+      campoEmail.focus();
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      alert('O email não parece válido.');
+      campoEmail.focus();
+      return;
+    }
+    // O telemóvel é facultativo: só se valida quando vem preenchido.
+    if (telemovel && !telemovelPlausivel(telemovel)) {
+      alert('O telemóvel não parece válido. Deixar em branco, se preferir.');
+      campoTelemovel.focus();
+      return;
+    }
 
     fetch('/api/pedido-medida', {
       method: 'POST',
@@ -2365,6 +2414,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       body: JSON.stringify({
         nome: nome,
         email: email,
+        telemovel: telemovel || null,
         plataforma: plataforma,
       }),
     }).then(resp => {
@@ -2373,15 +2423,15 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       } else {
         resp.json().then(data => {
           console.error('Erro ao enviar pedido:', data.error);
-          alert('Ocorreu um erro. Tenta novamente mais tarde.');
+          alert(data.error || 'Ocorreu um erro. Tentar de novo dentro de momentos.');
         }).catch(() => {
           console.error('Erro desconhecido ao enviar pedido.');
-          alert('Ocorreu um erro. Tenta novamente mais tarde.');
+          alert('Ocorreu um erro. Tentar de novo dentro de momentos.');
         });
       }
     }).catch(err => {
       console.error('Erro de rede ao enviar pedido:', err);
-      alert('Erro de rede. Tenta novamente mais tarde.');
+      alert('Erro de rede. Tentar de novo dentro de momentos.');
     });
   }
 

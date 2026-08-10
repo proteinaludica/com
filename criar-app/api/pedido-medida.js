@@ -33,17 +33,25 @@ module.exports = async (req, res) => {
   try {
     const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
 
-    const LIMITES = { nome: 120, email: 200, plataforma: 60 };
+    const LIMITES = { nome: 120, email: 200, plataforma: 60, telemovel: 30 };
     const nome = cortar(body.nome, LIMITES.nome);
     const email = cortar(body.email, LIMITES.email);
     const plataforma = cortar(body.plataforma, LIMITES.plataforma);
+    const telemovel = cortar(body.telemovel, LIMITES.telemovel);
 
-    // Validação
+    // Validação. O cliente já valida antes de enviar; isto repete-se aqui
+    // porque o endpoint é público e ninguém garante que o pedido veio do
+    // formulário.
     if (!nome || !email) {
-      return res.status(400).json({ ok: false, error: 'Indique pelo menos o nome e o email.' });
+      return res.status(400).json({ ok: false, error: 'Indicar pelo menos o nome e o email.' });
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return res.status(400).json({ ok: false, error: 'O email não parece válido.' });
+    }
+    // O telemóvel é facultativo: só se valida quando vem preenchido. Mesma
+    // regra do cliente — 9 a 15 algarismos, indicativo opcional.
+    if (telemovel && !/^(\+|00)?\d{9,15}$/.test(telemovel.replace(/[\s.()-]/g, ''))) {
+      return res.status(400).json({ ok: false, error: 'O telemóvel não parece válido.' });
     }
 
     // ─── INSERT EM SUPABASE ───
@@ -66,6 +74,7 @@ module.exports = async (req, res) => {
           body: JSON.stringify({
             nome: nome,
             email: email,
+            telemovel: telemovel || null,
             plataforma: plataforma || null,
           }),
         });
@@ -97,6 +106,7 @@ module.exports = async (req, res) => {
       '',
       'Nome: ' + nome,
       'Email: ' + email,
+      'Telemóvel: ' + (telemovel || '(não indicado)'),
       'Plataforma escolhida: ' + (plataforma || '(não indicada)'),
       'Recebido em: ' + dataPT,
       '',
