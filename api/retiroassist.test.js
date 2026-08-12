@@ -135,12 +135,32 @@ test('limpar mantém o português e o euro', () => {
   assert.ok(s.includes('·'));
 });
 
-test('limpar troca aspas curvas e travessões por equivalentes simples', () => {
-  assert.strictEqual(ra.limpar('“a” — ‘b’ …'), '"a" - \'b\' ...');
+test('limpar preserva a pontuação tipográfica', () => {
+  // A WinAnsi escreve tudo isto. O texto do kit é aprovado — não se degrada.
+  const s = '“a” — ‘b’ … 500€ · «c» – d';
+  assert.strictEqual(ra.limpar(s), s);
+});
+
+test('limpar preserva as quebras de linha', () => {
+  // Sem isto, as dez secções do prompt colapsavam num parágrafo só.
+  assert.strictEqual(ra.limpar('a\nb\n\nc'), 'a\nb\n\nc');
 });
 
 test('limpar remove o que a fonte WinAnsi não escreve', () => {
   assert.strictEqual(ra.limpar('ok 😀 fim'), 'ok  fim');
+});
+
+test('o prompt aprovado atravessa a limpeza sem perder um único carácter', () => {
+  assert.strictEqual(ra.limpar(kit.PROMPT), kit.PROMPT);
+});
+
+test('quebrar respeita as linhas que já existem no texto', () => {
+  const { PDFDocument, StandardFonts } = require('pdf-lib');
+  return PDFDocument.create().then(async (doc) => {
+    const fonte = await doc.embedFont(StandardFonts.Courier);
+    const linhas = ra.quebrar('um\ndois\ntrês', fonte, 9, 400);
+    assert.deepStrictEqual(linhas, ['um', 'dois', 'três']);
+  });
 });
 
 test('quebrar parte o texto sem exceder a largura', async () => {
@@ -176,15 +196,15 @@ function respostaFalsa() {
   return r;
 }
 
-test('sem kit aprovado, a compra devolve 503 e não contacta a Stripe', async () => {
-  assert.strictEqual(kit.estaAprovado(), false, 'o kit não devia estar aprovado ainda');
-
+test('com o kit por aprovar, a compra devolve 503 e não contacta a Stripe', async () => {
   const anterior = process.env.STRIPE_SECRET_KEY;
   process.env.STRIPE_SECRET_KEY = 'sk_test_nao_deve_ser_usada';
 
   const fetchOriginal = globalThis.fetch;
+  const aprovadoOriginal = kit.estaAprovado;
   let contactou = false;
   globalThis.fetch = async () => { contactou = true; throw new Error('não devia ter chamado a Stripe'); };
+  kit.estaAprovado = () => false;
 
   try {
     const comprar = require('./retiroassist-comprar');
@@ -195,9 +215,34 @@ test('sem kit aprovado, a compra devolve 503 e não contacta a Stripe', async ()
     assert.strictEqual(contactou, false, 'a Stripe não devia ter sido contactada');
   } finally {
     globalThis.fetch = fetchOriginal;
+    kit.estaAprovado = aprovadoOriginal;
     if (anterior === undefined) delete process.env.STRIPE_SECRET_KEY;
     else process.env.STRIPE_SECRET_KEY = anterior;
   }
+});
+
+// Guardas contra entregar um kit vazio ou de exemplo a quem pagou.
+test('o kit está aprovado e tem prompt a sério', () => {
+  assert.strictEqual(kit.estaAprovado(), true);
+  assert.ok(kit.PROMPT.length > 1000, 'o prompt parece curto demais');
+  assert.ok(!/Por preencher/i.test(kit.PROMPT), 'ficou texto de exemplo no prompt');
+  assert.ok(!/Por preencher/i.test(kit.MISSAO), 'ficou texto de exemplo na missão');
+  assert.match(kit.PROMPT, /RETIROASSIST/);
+  assert.match(kit.PROMPT, /Lista pronta a rever\. A decisão é de quem viaja\./);
+});
+
+test('o PDF leva uma página por guia, mais a capa', async () => {
+  const { PDFDocument } = require('pdf-lib');
+  const guias = require('../lib/guias-instalacao');
+  const pdf = await ra.construirPDF();
+  // Contado pelo pdf-lib: os object streams vão comprimidos, por isso
+  // procurar "/Type /Page" no texto cru não encontra nada.
+  const doc = await PDFDocument.load(pdf);
+  const minimo = guias.GUIAS.length + 2; // guias + fallback + capa
+  assert.ok(
+    doc.getPageCount() >= minimo,
+    'esperava pelo menos ' + minimo + ' páginas; tem ' + doc.getPageCount()
+  );
 });
 
 test('a compra recusa métodos que não sejam POST', async () => {
