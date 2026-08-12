@@ -3,8 +3,23 @@
 -- APLICAR MANUALMENTE no painel Supabase (SQL Editor). Esta migração NÃO é
 -- corrida automaticamente por nenhum processo do repo.
 --
--- ⚠️ AINDA NÃO APLICADA. A venda só pode abrir depois de esta tabela existir
---    (e depois de o kit estar aprovado — ver lib/retiroassist-kit.js).
+-- ✅ JÁ APLICADA em 2026-08-12, no projecto "Cliente - criar assistente digital
+--    IA" (xmbzdttssdqfdoyprijd, eu-west-1). A tabela não existia; foi criada
+--    vazia. Estrutura VERIFICADA depois de aplicar, contra a própria base de
+--    dados (information_schema.columns e pg_constraint), não inferida daqui:
+--
+--      · 9 colunas, com os tipos que estão escritos abaixo
+--      · created_at e expira_em em timestamptz (ao contrário da generated_pdfs)
+--      · UNIQUE em referencia   — é o que torna o webhook idempotente
+--      · UNIQUE em token_jti    — é por onde a descarga encontra a compra
+--      · RLS activo, sem políticas (fechada a chaves anon/public)
+--
+--    O advisor de segurança assinala "RLS enabled, no policy" nesta tabela.
+--    É intencional e igual ao das outras: o backend entra com service_role,
+--    que ignora RLS, e não há caminho de acesso pelo cliente.
+--
+--    Falta ainda, para a venda abrir: kit aprovado (lib/retiroassist-kit.js)
+--    e as variáveis de ambiente no projecto `web` da Vercel.
 --
 -- Numeração: continua a série de criar-app/api/migrations, que vai até à 006.
 -- A tabela vive no MESMO projecto Supabase; o que muda é o projecto Vercel que
