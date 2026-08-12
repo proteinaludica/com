@@ -157,14 +157,59 @@
 
   <section style="display: flex; flex-direction: column; gap: 24px; max-width: 720px">
     <div class="ra-compra" style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap">
-      <a class="btn btn-primary" href="#comprar" style="white-space: nowrap">Comprar o RetiroAssist · 19&nbsp;€</a>
+      <a id="comprar" class="btn btn-primary" href="/api/retiroassist-comprar" style="white-space: nowrap">Comprar o RetiroAssist · 19&nbsp;€</a>
       <span class="ra-acesso" style="font-size: 17px; color: var(--color-neutral-700)">Pagamento único. Sem subscrição.</span>
     </div>
+    <p id="comprar-estado" style="font-size: 17px; line-height: 1.55; margin: 0; color: var(--color-accent-700)" role="status" hidden></p>
     <p style="font-size: 17px; line-height: 1.55; margin: 0; padding: 18px 22px; border-radius: var(--radius-md); background: var(--color-accent-200); color: var(--color-accent-900)">Não substituem aconselhamento profissional de nenhuma área.</p>
   </section>
 
 </div>
 </div>
+
+<script>
+(function () {
+  var botao = document.getElementById('comprar');
+  var estado = document.getElementById('comprar-estado');
+  if (!botao) return;
+
+  // O preço vive no servidor. Este pedido só abre a sessão de pagamento —
+  // não decide nada sobre valores nem sobre a compra.
+  botao.addEventListener('click', function (ev) {
+    ev.preventDefault();
+    if (botao.dataset.ocupado) return;
+    botao.dataset.ocupado = '1';
+    botao.setAttribute('aria-busy', 'true');
+    estado.hidden = true;
+
+    fetch('/api/retiroassist-comprar', {
+      method: 'POST',
+      headers: { Accept: 'application/json' },
+    })
+      .then(function (r) {
+        return r.json().then(function (d) { return { status: r.status, dados: d }; });
+      })
+      .then(function (r) {
+        if (r.status === 200 && r.dados && r.dados.url) {
+          location.href = r.dados.url;
+          return;
+        }
+        // A mensagem vem do servidor — a página não a inventa.
+        mostrar(r.dados && r.dados.error);
+      })
+      .catch(function () {
+        mostrar(null);
+      });
+  });
+
+  function mostrar(mensagem) {
+    delete botao.dataset.ocupado;
+    botao.removeAttribute('aria-busy');
+    estado.textContent = mensagem || 'Não foi possível iniciar o pagamento. Tentar de novo.';
+    estado.hidden = false;
+  }
+})();
+</script>
 
 </body>
 </html>

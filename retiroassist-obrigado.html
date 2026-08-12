@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compra concluída · RetiroAssist</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caprasimo&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles/organic.css">
+<style>
+  body { margin: 0; background: var(--color-bg); color: var(--color-text); font-family: var(--font-body); }
+  a { color: var(--color-accent-700); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  a:hover { color: var(--color-accent-800); }
+  .ra-pagina { min-height: 100vh; padding: 72px 40px 96px; display: flex; justify-content: center; }
+  .ra-coluna { width: 100%; max-width: 720px; display: flex; flex-direction: column; gap: 28px; }
+  .ra-titulo {
+    font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+    font-size: 48px; line-height: 1.08; margin: 0; letter-spacing: -0.4px;
+  }
+  .ra-entrada { font-size: 19px; line-height: 1.6; margin: 0; color: var(--color-neutral-800); text-wrap: pretty; }
+  .ra-estado { font-size: 17px; line-height: 1.55; margin: 0; color: var(--color-neutral-700); }
+  .ra-aviso {
+    font-size: 17px; line-height: 1.55; margin: 0; padding: 18px 22px;
+    border-radius: var(--radius-md); background: var(--color-accent-200); color: var(--color-accent-900);
+  }
+  .ra-voltar { font-size: 17px; margin: 0; }
+  @media (max-width: 860px) {
+    .ra-pagina { padding: 40px 20px 64px; }
+    .ra-titulo { font-size: 32px; }
+    .ra-entrada { font-size: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ra-pagina">
+<div class="ra-coluna">
+
+  <span class="tag tag-accent-2" style="align-self: flex-start">RetiroAssist</span>
+  <h1 class="ra-titulo">Compra concluída</h1>
+  <p class="ra-entrada">O kit do RetiroAssist segue por email, em PDF. Também pode ser descarregado aqui.</p>
+
+  <div>
+    <a id="descarregar" class="btn btn-primary" href="#" hidden>Descarregar o kit</a>
+    <p id="estado" class="ra-estado">A confirmar o pagamento…</p>
+  </div>
+
+  <p class="ra-aviso">Não substituem aconselhamento profissional de nenhuma área.</p>
+  <p class="ra-voltar"><a href="/assistentes-pessoais">Voltar aos assistentes digitais pessoais</a></p>
+
+</div>
+</div>
+
+<script>
+(function () {
+  var estado = document.getElementById('estado');
+  var botao = document.getElementById('descarregar');
+  var sessao = new URLSearchParams(location.search).get('s');
+
+  if (!sessao) {
+    estado.textContent = 'A ligação de descarga chega por email.';
+    return;
+  }
+
+  // A Stripe pode demorar alguns segundos a chamar o webhook, e é ele que
+  // regista a compra. Enquanto o endpoint responder 202, volta a perguntar.
+  var tentativas = 0;
+  var MAX = 10;
+
+  function perguntar() {
+    tentativas++;
+    fetch('/api/retiroassist-token?s=' + encodeURIComponent(sessao), {
+      headers: { Accept: 'application/json' },
+    })
+      .then(function (r) {
+        return r.json().then(function (d) { return { status: r.status, dados: d }; });
+      })
+      .then(function (r) {
+        if (r.status === 200 && r.dados && r.dados.url) {
+          botao.href = r.dados.url;
+          botao.hidden = false;
+          estado.textContent = '';
+          return;
+        }
+        if (r.status === 202 && tentativas < MAX) {
+          setTimeout(perguntar, 2000);
+          return;
+        }
+        estado.textContent = 'A ligação de descarga chega por email.';
+      })
+      .catch(function () {
+        if (tentativas < MAX) {
+          setTimeout(perguntar, 2000);
+          return;
+        }
+        estado.textContent = 'A ligação de descarga chega por email.';
+      });
+  }
+
+  perguntar();
+})();
+</script>
+
+</body>
+</html>
