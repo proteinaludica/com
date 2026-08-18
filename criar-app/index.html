@@ -1171,9 +1171,10 @@
   }
   .guardado-limpar:hover { color: var(--red); }
   .oblig-list { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 1.5rem; }
-  .oblig-block { scroll-margin-top: 90px; }
+  /* Todas as 16 secções param abaixo da barra fixa. Antes, a regra abaixo
+     enumerava só os IDs das opcionais, e as obrigatórias aterravam tapadas. */
+  .fill-main { scroll-margin-top: 90px; }
   .oblig-tag { display: inline-block; font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); background: var(--accent-light); padding: 2px 8px; border-radius: 3px; margin-bottom: 0.6rem; }
-  #sec-03, #sec-04, #sec-05, #sec-06, #sec-07, #sec-08, #sec-09, #sec-10, #sec-11, #sec-14, #sec-16 { scroll-margin-top: 90px; }
   /* Fase 2: recolher opcionais */
   .afinar-bar { margin: 0.5rem 0 1.5rem; }
   .btn-afinar { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; background: var(--bg2); border: 0.5px dashed var(--border-strong); border-radius: 8px; padding: 0.9rem 1.25rem; cursor: pointer; font-family: var(--font-body); font-size: 14px; color: var(--ink); transition: all 0.2s; }
@@ -1416,24 +1417,7 @@
     <div class="s3-body">
       <nav class="s3-index" aria-label="Índice das 16 secções">
         <div class="s3-index-title">As 16 secções</div>
-        <div class="s3-index-list">
-          <a class="s3-index-item is-oblig" href="#sec-01"><span class="s3-index-num">01</span><span class="s3-index-name">Nome e propósito</span><span class="s3-index-badge oblig">obrig.</span></a>
-          <a class="s3-index-item is-oblig" href="#sec-02"><span class="s3-index-num">02</span><span class="s3-index-name">Missão</span><span class="s3-index-badge oblig">obrig.</span></a>
-          <a class="s3-index-item" href="#sec-03" onclick="openOpcionais()"><span class="s3-index-num">03</span><span class="s3-index-name">Público-alvo</span></a>
-          <a class="s3-index-item" href="#sec-04" onclick="openOpcionais()"><span class="s3-index-num">04</span><span class="s3-index-name">Contexto local</span></a>
-          <a class="s3-index-item" href="#sec-05" onclick="openOpcionais()"><span class="s3-index-num">05</span><span class="s3-index-name">Voz e tom</span></a>
-          <a class="s3-index-item" href="#sec-06" onclick="openOpcionais()"><span class="s3-index-num">06</span><span class="s3-index-name">Linguagem</span></a>
-          <a class="s3-index-item" href="#sec-07" onclick="openOpcionais()"><span class="s3-index-num">07</span><span class="s3-index-name">Estilo de resposta</span></a>
-          <a class="s3-index-item" href="#sec-08" onclick="openOpcionais()"><span class="s3-index-num">08</span><span class="s3-index-name">Onboarding</span></a>
-          <a class="s3-index-item" href="#sec-09" onclick="openOpcionais()"><span class="s3-index-num">09</span><span class="s3-index-name">Tarefas específicas</span></a>
-          <a class="s3-index-item" href="#sec-10" onclick="openOpcionais()"><span class="s3-index-num">10</span><span class="s3-index-name">Fontes oficiais</span></a>
-          <a class="s3-index-item" href="#sec-11" onclick="openOpcionais()"><span class="s3-index-num">11</span><span class="s3-index-name">Conhecimento técnico</span></a>
-          <a class="s3-index-item is-oblig" href="#sec-12"><span class="s3-index-num">12</span><span class="s3-index-name">Red lines</span><span class="s3-index-badge oblig">obrig.</span></a>
-          <a class="s3-index-item is-oblig" href="#sec-13"><span class="s3-index-num">13</span><span class="s3-index-name">Alertas de emergência</span><span class="s3-index-badge oblig">obrig.</span></a>
-          <a class="s3-index-item" href="#sec-14" onclick="openOpcionais()"><span class="s3-index-num">14</span><span class="s3-index-name">Tratamento de dados</span></a>
-          <a class="s3-index-item is-oblig" href="#sec-15"><span class="s3-index-num">15</span><span class="s3-index-name">Fecho dinâmico</span><span class="s3-index-badge oblig">obrig.</span></a>
-          <a class="s3-index-item" href="#sec-16" onclick="openOpcionais()"><span class="s3-index-num">16</span><span class="s3-index-name">Continuidade</span></a>
-        </div>
+        <div class="s3-index-list" id="s3IndexList"><!-- gerado por construirIndice(), a partir de SECCOES --></div>
       </nav>
 
       <div class="s3-content">
@@ -1559,13 +1543,13 @@
     <div class="afinar-bar">
       <button class="btn-afinar" id="btnAfinar" onclick="toggleOpcionais()" aria-expanded="false" aria-controls="opcionais">
         <span class="afinar-left"><strong>Afinar mais</strong> <span class="opc-opt">(opcional)</span></span>
-        <span class="opc-count">11 secções opcionais</span>
+        <span class="opc-count" id="opcCount"></span>
         <span class="opc-chevron">+</span>
       </button>
     </div>
 
     <div class="opcionais" id="opcionais" hidden>
-      <div class="opc-note">As 11 secções opcionais estão todas disponíveis.</div>
+      <div class="opc-note" id="opcNote"></div>
 
     <div class="fill-main" id="sec-03">
       <div class="fill-title">Público-alvo</div>
@@ -1785,7 +1769,7 @@
     </div>
 
     <div class="demo-skip">
-      <div>As 11 secções opcionais estão todas disponíveis.</div>
+      <div id="opcNoteDemo"></div>
       <button onclick="goTo(3)">Saltar para output ⏭</button>
     </div>
   </div>
@@ -2116,6 +2100,79 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     token: null,
     quiz: { 1: null, 2: null, 3: null }
   };
+
+  // ═══════════════════════════════════════════════════════════════════
+  //  AS 16 SECÇÕES — FONTE ÚNICA
+  // ═══════════════════════════════════════════════════════════════════
+  // Antes, a mesma informação vivia em cinco sítios que tinham de ser
+  // editados em conjunto: OUTPUT_SECOES, FIELD_META, OBRIGATORIAS, a lista
+  // de IDs do scroll-margin no CSS, e os 16 <a> escritos à mão no índice.
+  // Já tinham divergido — o mesmo campo com dois títulos diferentes.
+  //
+  //   num          número da secção, tal como o profissional a vê (1..16)
+  //   campo        id do <textarea> correspondente
+  //   titulo       nome curto: índice lateral e cabeçalho do output
+  //   obrigatoria  entra na conta das que faltam para terminar
+  //   familia      A/B/C/D — regra de escrita usada por /api/assistir-campo
+  //   maxPalavras  tecto pedido à IA nesse campo
+  //   rotulo       como o campo é nomeado à IA, quando difere do titulo
+  //
+  // A orientação (o texto de apoio) NÃO se repete aqui: é lida do
+  // .fill-guide da própria secção, que é onde o profissional a lê.
+  const SECCOES = [
+    { num: 1,  campo: 'f-nome',         titulo: 'Nome e propósito',      obrigatoria: true,  familia: 'A', maxPalavras: 40 },
+    { num: 2,  campo: 'f-missao',       titulo: 'Missão',                obrigatoria: true,  familia: 'A', maxPalavras: 40 },
+    { num: 3,  campo: 'f-publico',      titulo: 'Público-alvo',          obrigatoria: false, familia: 'A', maxPalavras: 60 },
+    { num: 4,  campo: 'f-contexto',     titulo: 'Contexto local',        obrigatoria: false, familia: 'A', maxPalavras: 60 },
+    { num: 5,  campo: 'f-tom',          titulo: 'Voz e tom',             obrigatoria: false, familia: 'B', maxPalavras: 50 },
+    { num: 6,  campo: 'f-linguagem',    titulo: 'Linguagem',             obrigatoria: false, familia: 'B', maxPalavras: 60 },
+    { num: 7,  campo: 'f-estilo',       titulo: 'Estilo de resposta',    obrigatoria: false, familia: 'B', maxPalavras: 60 },
+    { num: 8,  campo: 'f-onboarding',   titulo: 'Onboarding',            obrigatoria: false, familia: 'B', maxPalavras: 60 },
+    { num: 9,  campo: 'f-tarefas',      titulo: 'Tarefas específicas',   obrigatoria: false, familia: 'B', maxPalavras: 70 },
+    { num: 10, campo: 'f-fontes',       titulo: 'Fontes oficiais',       obrigatoria: false, familia: 'D', maxPalavras: 50 },
+    { num: 11, campo: 'f-conhecimento', titulo: 'Conhecimento técnico',  obrigatoria: false, familia: 'D', maxPalavras: 80 },
+    { num: 12, campo: 'f-redline',      titulo: 'Red lines',             obrigatoria: true,  familia: 'C', maxPalavras: 50, rotulo: 'O que o assistente nunca faz' },
+    { num: 13, campo: 'f-emerg',        titulo: 'Alertas de emergência', obrigatoria: true,  familia: 'C', maxPalavras: 50, rotulo: 'Alertas e encaminhamento de emergência' },
+    { num: 14, campo: 'f-dados',        titulo: 'Tratamento de dados',   obrigatoria: false, familia: 'C', maxPalavras: 60 },
+    { num: 15, campo: 'f-fecho',        titulo: 'Fecho dinâmico',        obrigatoria: true,  familia: 'B', maxPalavras: 40, rotulo: 'Forma de fecho' },
+    { num: 16, campo: 'f-continuidade', titulo: 'Continuidade',          obrigatoria: false, familia: 'B', maxPalavras: 60 },
+  ];
+
+  const TOTAL_SECOES = SECCOES.length;
+  const SECCAO_POR_CAMPO = {};
+  SECCOES.forEach(sec => { SECCAO_POR_CAMPO[sec.campo] = sec; });
+  const OBRIGATORIAS = SECCOES.filter(sec => sec.obrigatoria).map(sec => sec.campo);
+  const OPCIONAIS = SECCOES.filter(sec => !sec.obrigatoria);
+
+  // "01".."16" — o número como aparece no índice e nos ids dos blocos.
+  function numeroFormatado(num) {
+    return String(num).padStart(2, '0');
+  }
+
+  // Orientação de escrita, lida da secção respectiva. É o mesmo texto que o
+  // profissional tem à frente, e não uma segunda cópia que possa divergir.
+  function orientacaoDaSeccao(sec) {
+    const bloco = document.getElementById('sec-' + numeroFormatado(sec.num));
+    const guia = bloco && bloco.querySelector('.fill-guide');
+    return guia ? guia.textContent.trim() : '';
+  }
+
+  // Como o campo é nomeado à IA.
+  function rotuloDaSeccao(sec) {
+    return sec.rotulo || sec.titulo;
+  }
+
+  // Metadados por campo, derivados da tabela. `orientacao` vem do DOM.
+  function metaDoCampo(fieldId) {
+    const sec = SECCAO_POR_CAMPO[fieldId];
+    if (!sec) return null;
+    return {
+      familia: sec.familia,
+      rotulo: rotuloDaSeccao(sec),
+      orientacao: orientacaoDaSeccao(sec),
+      maxPalavras: sec.maxPalavras,
+    };
+  }
 
   // ─────────── NAVIGATION ───────────
   function goTo(n) {
@@ -2519,26 +2576,6 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   }
 
   // ─────────── ASSISTIR-CAMPO: ligação da UI ao endpoint /api/assistir-campo ───────────
-  // familia/orientacao/maxPalavras por campo. rotulo = label do campo; orientacao =
-  // texto de apoio (.fill-guide) já existente na secção respectiva.
-  const FIELD_META = {
-    'f-nome': { familia: 'A', rotulo: 'Nome e propósito', orientacao: 'Como se chama o assistente e para que serve — numa frase.', maxPalavras: 40 },
-    'f-missao': { familia: 'A', rotulo: 'Missão', orientacao: 'O objetivo central do assistente: o que entrega, e a quem.', maxPalavras: 40 },
-    'f-publico': { familia: 'A', rotulo: 'Público-alvo', orientacao: 'Descrever quem vai ler ou usar aquilo que o assistente ajuda a organizar.', maxPalavras: 60 },
-    'f-contexto': { familia: 'A', rotulo: 'Contexto local', orientacao: 'Detalhes do contexto ajudam o assistente a organizar os textos de forma adequada ao meio onde o profissional actua.', maxPalavras: 60 },
-    'f-tom': { familia: 'B', rotulo: 'Voz e tom', orientacao: 'O tom deve ser o do próprio profissional — o assistente imita o estilo dele, não inventa um.', maxPalavras: 50 },
-    'f-linguagem': { familia: 'B', rotulo: 'Linguagem', orientacao: 'Definir se os textos usam linguagem técnica ou linguagem simples para quem os recebe, e se há necessidade de outra língua além do português.', maxPalavras: 60 },
-    'f-estilo': { familia: 'B', rotulo: 'Estilo de resposta', orientacao: 'O formato-tipo dos textos que o assistente devolve, incluindo necessidades de acessibilidade e alertas de tamanho invulgar.', maxPalavras: 60 },
-    'f-onboarding': { familia: 'B', rotulo: 'Onboarding', orientacao: 'A sequência de arranque, uma pergunta de cada vez, antes de o assistente organizar o que recebeu.', maxPalavras: 60 },
-    'f-tarefas': { familia: 'B', rotulo: 'Tarefas específicas', orientacao: 'A lista concreta do que o assistente sabe organizar a partir do material que o profissional determina, incluindo como lida com correcções parciais e histórico de versões.', maxPalavras: 70 },
-    'f-fontes': { familia: 'D', rotulo: 'Fontes oficiais', orientacao: 'As fontes de referência que o profissional autoriza — e as que exclui.', maxPalavras: 50 },
-    'f-conhecimento': { familia: 'D', rotulo: 'Conhecimento técnico', orientacao: 'A informação fixa que o assistente deve manter presente em todas as interações, e as regras sobre como tratar dados variáveis.', maxPalavras: 80 },
-    'f-redline': { familia: 'C', rotulo: 'O que o assistente nunca faz', orientacao: 'Os limites absolutos — o que o assistente nunca faz, em nenhuma circunstância.', maxPalavras: 50 },
-    'f-emerg': { familia: 'C', rotulo: 'Alertas e encaminhamento de emergência', orientacao: 'Sinais que exigem encaminhamento imediato, e a resposta a dar.', maxPalavras: 50 },
-    'f-dados': { familia: 'C', rotulo: 'Tratamento de dados', orientacao: 'As regras de privacidade que o assistente segue ao receber informação de terceiros.', maxPalavras: 60 },
-    'f-fecho': { familia: 'B', rotulo: 'Forma de fecho', orientacao: 'Como o assistente se despede — variando, para não soar repetitivo.', maxPalavras: 40 },
-    'f-continuidade': { familia: 'B', rotulo: 'Continuidade', orientacao: 'A forma como o assistente mantém coerência entre sessões, sem guardar nada sem autorização explícita.', maxPalavras: 60 }
-  };
 
   // Identificador de sessão do wizard — gerado uma vez, mantido em sessionStorage
   // enquanto durar a sessão (mesmo padrão de prefixo 'pl_' já usado no ficheiro).
@@ -2555,12 +2592,12 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   // excluindo o próprio campo a gerar. Envia {rotulo, valor} tal como estão.
   function collectCampos(excludeFieldId) {
     const campos = [];
-    Object.keys(FIELD_META).forEach(function (id) {
-      if (id === excludeFieldId) return;
-      const el = document.getElementById(id);
+    SECCOES.forEach(function (sec) {
+      if (sec.campo === excludeFieldId) return;
+      const el = document.getElementById(sec.campo);
       const valor = el && el.value ? el.value.trim() : '';
       if (!valor) return;
-      campos.push({ rotulo: FIELD_META[id].rotulo, valor: valor });
+      campos.push({ rotulo: rotuloDaSeccao(sec), valor: valor });
     });
     return campos;
   }
@@ -2730,7 +2767,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   }
 
   async function assistirCampo(btn, fieldId) {
-    const meta = FIELD_META[fieldId];
+    const meta = metaDoCampo(fieldId);
     const el = document.getElementById(fieldId);
     if (!meta || !el || btn.disabled) return;
 
@@ -2783,7 +2820,8 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   }
 
   function initAssistirCampo() {
-    Object.keys(FIELD_META).forEach(function (fieldId) {
+    SECCOES.forEach(function (sec) {
+      const fieldId = sec.campo;
       const el = document.getElementById(fieldId);
       const field = el && el.closest('.fill-field');
       const btn = field && field.querySelector('.btn-pro');
@@ -2988,9 +3026,9 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     document.querySelectorAll('.platform-card, .area-card').forEach(c => c.classList.remove('selected'));
     const _area = document.getElementById('blocoArea');
     if (_area) _area.setAttribute('hidden', '');
-    OUTPUT_SECOES.forEach(s => {
-      delete exemploAtivo[s.field];
-      const el = document.getElementById(s.field);
+    SECCOES.forEach(sec => {
+      delete exemploAtivo[sec.campo];
+      const el = document.getElementById(sec.campo);
       if (el) el.classList.remove('is-exemplo');
     });
     try { localStorage.removeItem(CHAVE_GUARDA); } catch (e) {}
@@ -3080,37 +3118,19 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     }
   }
 
-  // ─── Ecrã 4: gerar output a partir dos valores reais das 16 secções ───
-  const OUTPUT_SECOES = [
-    { num: '01', title: 'Nome e propósito', field: 'f-nome' },
-    { num: '02', title: 'Missão', field: 'f-missao' },
-    { num: '03', title: 'Público-alvo', field: 'f-publico' },
-    { num: '04', title: 'Contexto local', field: 'f-contexto' },
-    { num: '05', title: 'Voz e tom', field: 'f-tom' },
-    { num: '06', title: 'Linguagem', field: 'f-linguagem' },
-    { num: '07', title: 'Estilo de resposta', field: 'f-estilo' },
-    { num: '08', title: 'Onboarding', field: 'f-onboarding' },
-    { num: '09', title: 'Tarefas específicas', field: 'f-tarefas' },
-    { num: '10', title: 'Fontes oficiais', field: 'f-fontes' },
-    { num: '11', title: 'Conhecimento técnico', field: 'f-conhecimento' },
-    { num: '12', title: 'Red lines', field: 'f-redline' },
-    { num: '13', title: 'Alertas de emergência', field: 'f-emerg' },
-    { num: '14', title: 'Tratamento de dados', field: 'f-dados' },
-    { num: '15', title: 'Fecho dinâmico', field: 'f-fecho' },
-    { num: '16', title: 'Continuidade', field: 'f-continuidade' },
-  ];
+  // ─── Ecrã 3: gerar output a partir dos valores reais das 16 secções ───
 
   function gerarOutput() {
     // Secções por preencher ficam de fora do output — nada de "[Não
     // preenchido]". As que entram são renumeradas de 01 em diante.
-    const incluidas = OUTPUT_SECOES.filter(s => {
-      const el = document.getElementById(s.field);
+    const incluidas = SECCOES.filter(sec => {
+      const el = document.getElementById(sec.campo);
       return el && el.value.trim() !== '';
     });
 
-    const corpo = incluidas.map((s, i) => {
-      const num = String(i + 1).padStart(2, '0');
-      return '## ' + num + '. ' + s.title + '\n' + document.getElementById(s.field).value.trim();
+    const corpo = incluidas.map((sec, i) => {
+      return '## ' + numeroFormatado(i + 1) + '. ' + sec.titulo + '\n'
+        + document.getElementById(sec.campo).value.trim();
     }).join('\n\n');
 
     const md = '# SYSTEM PROMPT · Assistente digital IA\n'
@@ -3124,7 +3144,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
 
     const conta = document.getElementById('outputConta');
     if (conta) {
-      conta.innerHTML = 'Foram incluídas ' + incluidas.length + ' das ' + OUTPUT_SECOES.length
+      conta.innerHTML = 'Foram incluídas ' + incluidas.length + ' das ' + TOTAL_SECOES
         + ' secções. <a onclick="goTo(2)">Voltar atrás para acrescentar mais.</a>';
     }
   }
@@ -3171,13 +3191,70 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     }
   }
 
+  // ─── Índice lateral e contagens, gerados a partir de SECCOES ───
+  // Os 16 <a> estavam escritos à mão, com o número, o nome e a marca de
+  // obrigatória repetidos do que já estava na tabela — e o onclick a abrir os
+  // opcionais colado a cada uma das 11 linhas opcionais.
+  function construirIndice() {
+    const lista = document.getElementById('s3IndexList');
+    if (!lista || lista.dataset.pronto === '1') return;
+    lista.textContent = '';
+    SECCOES.forEach(sec => {
+      const a = document.createElement('a');
+      a.className = 's3-index-item' + (sec.obrigatoria ? ' is-oblig' : '');
+      a.href = '#sec-' + numeroFormatado(sec.num);
+
+      const num = document.createElement('span');
+      num.className = 's3-index-num';
+      num.textContent = numeroFormatado(sec.num);
+
+      const nome = document.createElement('span');
+      nome.className = 's3-index-name';
+      nome.textContent = sec.titulo;
+
+      a.appendChild(num);
+      a.appendChild(nome);
+
+      if (sec.obrigatoria) {
+        const badge = document.createElement('span');
+        badge.className = 's3-index-badge oblig';
+        badge.textContent = 'obrig.';
+        a.appendChild(badge);
+      } else {
+        // Uma secção opcional só está visível com o painel aberto.
+        a.addEventListener('click', openOpcionais);
+      }
+      lista.appendChild(a);
+    });
+    lista.dataset.pronto = '1';
+  }
+
+  function escreverContagens() {
+    const n = OPCIONAIS.length;
+    const contagem = document.getElementById('opcCount');
+    if (contagem) contagem.textContent = n + ' secções opcionais';
+    const frase = 'As ' + n + ' secções opcionais estão todas disponíveis.';
+    ['opcNote', 'opcNoteDemo'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = frase;
+    });
+  }
+
   // ─── Contador de secções dinâmico: reflecte a secção actualmente visível ───
-  const TOTAL_SECOES = 16;
+  // O número da secção que está à vista. NÃO alimenta a barra: os blocos
+  // aparecem no DOM por 01, 02, 12, 13, 15 e só depois 03..11, 14, 16, pelo
+  // que a posição de leitura salta. A barra mostra progresso real
+  // (atualizarBarraProgresso), que só cresce com o que fica escrito.
   function setSecaoAtual(num) {
     const label = document.getElementById('currentSec');
     if (label) label.textContent = num;
+  }
+
+  function atualizarBarraProgresso() {
     const fill = document.querySelector('.section-pbar-fill');
-    if (fill) fill.style.width = (num / TOTAL_SECOES * 100) + '%';
+    if (!fill) return;
+    const escritas = SECCOES.filter(sec => valorUtilizador(sec.campo).trim() !== '').length;
+    fill.style.width = (escritas / TOTAL_SECOES * 100) + '%';
   }
   let _contadorInit = false;
   // Enquanto um clique no índice faz scroll suave até à secção, o observer
@@ -3186,6 +3263,8 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   let _lockAte = 0;
   function initContadorSecoes() {
     if (_contadorInit) return; // idempotente: pode ser chamado por vários eventos
+    construirIndice();
+    escreverContagens();
     const secoes = Array.from(document.querySelectorAll('[id^="sec-"]'));
     if (!secoes.length) return; // ainda sem DOM: deixa uma chamada posterior tentar
     _contadorInit = true;
@@ -3224,7 +3303,6 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   window.addEventListener('load', initContadorSecoes);
 
   // ─── Fase 3: rever e terminar ───
-  const OBRIGATORIAS = ['f-nome', 'f-missao', 'f-redline', 'f-emerg', 'f-fecho'];
   function checkObrigatorias() {
     const preenchidas = OBRIGATORIAS.filter(id => {
       const el = document.getElementById(id);
@@ -3236,9 +3314,10 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     const todas = preenchidas === OBRIGATORIAS.length;
     btn.disabled = !todas;
     if (todas) {
-      hint.innerHTML = 'As <strong>5 obrigatórias</strong> estão preenchidas. As opcionais ficam de fora.';
+      hint.innerHTML = 'As <strong>' + OBRIGATORIAS.length + ' obrigatórias</strong> estão preenchidas. As opcionais ficam de fora.';
     } else {
-      hint.innerHTML = 'Faltam <strong>' + (OBRIGATORIAS.length - preenchidas) + ' de 5</strong> secções obrigatórias. As opcionais ficam de fora.';
+      hint.innerHTML = 'Faltam <strong>' + (OBRIGATORIAS.length - preenchidas) + ' de ' + OBRIGATORIAS.length
+        + '</strong> secções obrigatórias. As opcionais ficam de fora.';
     }
   }
   function reverTerminar() {
@@ -3263,10 +3342,6 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   // ═══════════════════════════════════════════════════════════════════
   //  EXEMPLOS POR ÁREA  ·  PROGRESSO  ·  GUARDAR NESTE COMPUTADOR
   // ═══════════════════════════════════════════════════════════════════
-
-  // Nº da secção → id do campo (derivado da lista única já existente).
-  const CAMPO_POR_SECCAO = {};
-  OUTPUT_SECOES.forEach(s => { CAMPO_POR_SECCAO[parseInt(s.num, 10)] = s.field; });
 
   // Exemplos inseridos e ainda NÃO editados: id do campo → texto inserido.
   // Enquanto aqui estiverem, não contam como conteúdo do utilizador e não
@@ -3338,14 +3413,17 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     el.dispatchEvent(new Event('input', { bubbles: true }));
   }
 
-  // Marca no índice lateral as secções já escritas pelo utilizador.
+  // Marca no índice lateral as secções já escritas pelo utilizador, e move a
+  // barra de progresso — as duas leituras do mesmo facto, no mesmo sítio.
   function atualizarIndiceProgresso() {
     document.querySelectorAll('.s3-index-item[href^="#sec-"]').forEach(a => {
       const n = parseInt(a.getAttribute('href').replace('#sec-', ''), 10);
-      const campo = CAMPO_POR_SECCAO[n];
+      const sec = SECCOES.find(x => x.num === n);
+      const campo = sec && sec.campo;
       const escrita = campo && valorUtilizador(campo).trim() !== '';
       a.classList.toggle('is-preenchida', !!escrita);
     });
+    atualizarBarraProgresso();
   }
 
   // ─── Guardar neste computador (localStorage) ───
@@ -3354,7 +3432,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   let _timerGuardar = null;
 
   function haConteudoUtilizador() {
-    return OUTPUT_SECOES.some(s => valorUtilizador(s.field).trim() !== '');
+    return SECCOES.some(sec => valorUtilizador(sec.campo).trim() !== '');
   }
 
   function guardar() {
@@ -3362,9 +3440,9 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     // e sai sem escrever não deixa rasto.
     if (!haConteudoUtilizador()) return;
     const campos = {};
-    OUTPUT_SECOES.forEach(s => {
-      const v = valorUtilizador(s.field);
-      if (v.trim() !== '') campos[s.field] = v;
+    SECCOES.forEach(sec => {
+      const v = valorUtilizador(sec.campo);
+      if (v.trim() !== '') campos[sec.campo] = v;
     });
     try {
       localStorage.setItem(CHAVE_GUARDA, JSON.stringify({
@@ -3405,10 +3483,10 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   function limparTudoGuardado() {
     if (!confirm('Apagar tudo o que está guardado neste computador? As 16 secções ficam vazias e não é possível recuperar.')) return;
     try { localStorage.removeItem(CHAVE_GUARDA); } catch (e) {}
-    OUTPUT_SECOES.forEach(s => {
-      const el = document.getElementById(s.field);
+    SECCOES.forEach(sec => {
+      const el = document.getElementById(sec.campo);
       if (el) { el.value = ''; el.classList.remove('is-exemplo'); }
-      delete exemploAtivo[s.field];
+      delete exemploAtivo[sec.campo];
     });
     checkObrigatorias();
     atualizarBotoesExemplo();
@@ -3469,10 +3547,12 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     const el = document.getElementById(id);
     if (el) el.addEventListener('input', checkObrigatorias);
   });
-  OUTPUT_SECOES.forEach(s => {
-    const el = document.getElementById(s.field);
+  SECCOES.forEach(sec => {
+    const el = document.getElementById(sec.campo);
     if (el) el.addEventListener('input', aoEscreverCampo);
   });
+  construirIndice();
+  escreverContagens();
   restaurarGuardado();
   atualizarBotoesExemplo();
   atualizarIndiceProgresso();
