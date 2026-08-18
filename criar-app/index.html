@@ -895,6 +895,17 @@
     color: white;
   }
   .btn-card:hover { background: var(--ink2); }
+  .btn-pay[disabled] { opacity: 0.45; cursor: not-allowed; }
+  .btn-pay[disabled]:hover { background: inherit; }
+  .pay-indisponivel {
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--ink2);
+    background: var(--bg2);
+    border-radius: 6px;
+    padding: 0.7rem 0.9rem;
+    margin-top: 0.75rem;
+  }
   .pay-icon {
     width: 26px; height: 16px;
     display: inline-flex; align-items: center; justify-content: center;
@@ -1936,18 +1947,19 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
           </div>
 
           <div class="pay-buttons">
-            <button class="btn-pay btn-mbway" id="btnPayMbway" onclick="goTo(5)">
+            <button type="button" class="btn-pay btn-mbway" id="btnPayMbway" disabled>
               <span class="pay-icon">MB</span>
-              Pagar com MB WAY · 19€
+              Pagar com MB WAY
             </button>
-            <button class="btn-pay btn-card" id="btnPayCard" onclick="goTo(5)">
+            <button type="button" class="btn-pay btn-card" id="btnPayCard" disabled>
               <span class="pay-icon">VISA</span>
-              Pagar com cartão · 19€
+              Pagar com cartão
             </button>
+            <p class="pay-indisponivel" id="payIndisponivel" hidden></p>
           </div>
 
           <div class="form-check">
-            <input type="checkbox" id="f-terms" checked>
+            <input type="checkbox" id="f-terms">
             <label for="f-terms" style="font-family:var(--font-body); font-size:12px; letter-spacing:0; text-transform:none; font-weight:400;">
               Aceito os <a href="#" onclick="return false">termos</a> e a <a href="#" onclick="return false">política de privacidade</a>.
             </label>
@@ -2316,20 +2328,57 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     document.getElementById('checkoutPreviewTitle').textContent = t.previewTitle;
     document.getElementById('checkoutIncludes').innerHTML =
       t.includes.map(i => '<li>' + i.replace('{plataforma}', nomePlataforma()) + '</li>').join('');
+    configurarBotoesPagamento(tier, t);
+    showPaywallStep('paywallCheckout');
+  }
+
+  // Único sítio que atribui comportamento aos botões de pagamento. Antes havia
+  // três em simultâneo — o onclick do HTML, esta atribuição, e um
+  // addEventListener global — e os três disparavam no mesmo clique, entregando
+  // o kit sem pagamento nenhum. Agora cada patamar tem um estado só.
+  function configurarBotoesPagamento(tier, t) {
     const btnMbway = document.getElementById('btnPayMbway');
     const btnCard = document.getElementById('btnPayCard');
+    const aviso = document.getElementById('payIndisponivel');
     btnMbway.innerHTML = '<span class="pay-icon">MB</span>Pagar com MB WAY · ' + t.price;
     btnCard.innerHTML = '<span class="pay-icon">VISA</span>Pagar com cartão · ' + t.price;
-    // No Pro (49€) os botões iniciam o pagamento real e redirecionam para o
-    // provedor. Nos outros patamares mantêm o fluxo actual (Ecrã 6).
+    btnMbway.onclick = null;
+    btnCard.onclick = null;
+
+    // Acesso já pago e confirmado pelo servidor: não se cobra outra vez, entrega-se.
+    if (state.tier === 'pro') {
+      btnCard.disabled = false;
+      btnCard.innerHTML = '<span class="pay-icon">✓</span>Receber o guia de instalação';
+      btnMbway.disabled = true;
+      btnMbway.hidden = true;
+      btnCard.onclick = function () { entregarGuia(btnCard); };
+      mostrarAvisoPagamento(aviso, 'O acesso já está confirmado. O guia segue para o email indicado.');
+      return;
+    }
+    btnMbway.hidden = false;
+
     if (tier === 'pro') {
+      btnMbway.disabled = false;
+      btnCard.disabled = false;
       btnMbway.onclick = function () { iniciarPagamentoPro('mbway', btnMbway); };
       btnCard.onclick = function () { iniciarPagamentoPro('card', btnCard); };
-    } else {
-      btnMbway.onclick = function () { goTo(5); };
-      btnCard.onclick = function () { goTo(5); };
+      mostrarAvisoPagamento(aviso, '');
+      return;
     }
-    showPaywallStep('paywallCheckout');
+
+    // Kit completo (19€): ainda não há checkout ligado para este patamar. Os
+    // botões ficam inertes com uma mensagem clara, em vez de simularem um
+    // pagamento que nunca acontece.
+    btnMbway.disabled = true;
+    btnCard.disabled = true;
+    mostrarAvisoPagamento(aviso,
+      'O pagamento do Kit completo ainda não está disponível. Para já, o prompt final continua grátis, e o patamar Pro inclui o guia de instalação.');
+  }
+
+  function mostrarAvisoPagamento(el, texto) {
+    if (!el) return;
+    el.textContent = texto;
+    el.hidden = !texto;
   }
 
   // ─────────── PAGAMENTO PRO (checkout → provedor) ───────────
@@ -2337,8 +2386,9 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   // devolvida (Stripe para cartão; IfthenPay para MB WAY). O acesso Pro só é
   // concedido depois de o provedor confirmar — nunca aqui.
   async function iniciarPagamentoPro(metodo, btn) {
-    const emailEl = document.getElementById('f-email');
-    const email = emailEl && emailEl.value ? emailEl.value.trim() : '';
+    const email = validarEmailEntrega();
+    if (!email) return;
+    if (!aceitouTermos()) return;
     const original = btn ? btn.innerHTML : '';
     if (btn) { btn.disabled = true; btn.dataset.busy = '1'; }
     try {
@@ -2422,6 +2472,12 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     showPaywallStep('paywallTiers');
   }
 
+  // Regra única de email no cliente. O servidor volta sempre a validar; isto
+  // serve para não gastar uma ida ao servidor num engano óbvio.
+  function emailPlausivel(valor) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor);
+  }
+
   // Aceita +351 912345678, 00351 912 345 678, 912345678 — com ou sem espaços.
   // Basta 9 algarismos; o + e o indicativo são facultativos. Não valida país:
   // o objectivo é apanhar enganos, não recusar números legítimos.
@@ -2453,7 +2509,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       campoEmail.focus();
       return;
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    if (!emailPlausivel(email)) {
       alert('O email não parece válido.');
       campoEmail.focus();
       return;
@@ -2842,11 +2898,49 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   }
 
   // ─────────── SUCCESS ───────────
-  function goToSuccess() {
-    const email = document.getElementById('f-email').value || 'o email indicado';
+  // Entrega do kit. Só é alcançável com acesso confirmado pelo servidor
+  // (state.tier === 'pro', vindo de um token que o webhook emitiu); o clique
+  // num botão de pagamento, por si só, já não entrega nada.
+  function entregarGuia(btn) {
+    if (state.tier !== 'pro' || !state.token) {
+      alert('O acesso ainda não está confirmado. Concluir o pagamento primeiro.');
+      return;
+    }
+    const email = validarEmailEntrega();
+    if (!email) return;
+    if (!aceitouTermos()) return;
+    if (btn) btn.disabled = true;
     document.getElementById('successEmail').textContent = email;
     enviarGuiaInstalacao(email);
     goTo(5);
+  }
+
+  // Validação partilhada pelo checkout e pela entrega. Devolve o email limpo,
+  // ou '' depois de assinalar o campo em falta.
+  function validarEmailEntrega() {
+    const campo = document.getElementById('f-email');
+    const email = campo && campo.value ? campo.value.trim() : '';
+    if (!email) {
+      alert('Indicar o email para entrega.');
+      if (campo) campo.focus();
+      return '';
+    }
+    if (!emailPlausivel(email)) {
+      alert('O email não parece válido.');
+      campo.focus();
+      return '';
+    }
+    return email;
+  }
+
+  function aceitouTermos() {
+    const check = document.getElementById('f-terms');
+    if (check && !check.checked) {
+      alert('É necessário aceitar os termos e a política de privacidade.');
+      check.focus();
+      return false;
+    }
+    return true;
   }
 
   // Pede a geração e o envio por email do guia de instalação (PDF) com o
@@ -2856,9 +2950,11 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     const timeoutErro = setTimeout(() => {
       if (!sessionStorage.getItem('pl_downloadUrl')) estadoErroDescarrega();
     }, 30000);
+    const headers = { 'Content-Type': 'application/json' };
+    if (state.token) headers['Authorization'] = 'Bearer ' + state.token;
     fetch('/api/gerar-pdf-instalacao', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: headers,
       body: JSON.stringify({
         plataforma: state.platform,
         nome_assistente: (document.getElementById('f-nome') || {}).value || '',
@@ -2910,11 +3006,6 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     btn.disabled = true;
     btn.textContent = 'Não foi possível preparar o download. O PDF segue no email.';
   }
-  // hook nos botões de pagamento
-  document.querySelectorAll('.btn-mbway, .btn-card').forEach(btn => {
-    btn.addEventListener('click', goToSuccess);
-  });
-
   // ─────────── SAIR PARA O SITE ───────────
   // Logo navega para o site principal. Já não há aviso de saída: o que está
   // escrito fica guardado neste computador e é reposto ao voltar.

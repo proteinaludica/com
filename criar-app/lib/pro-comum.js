@@ -22,6 +22,10 @@ const crypto = require('crypto');
 // Validade do acesso Pro. Pagamento único; o token dura 1 ano.
 const VALIDADE_SEGUNDOS = 365 * 24 * 60 * 60;
 
+// Validade da ligação de descarga/retoma do guia de instalação. Pagamento
+// único, mas a ligação não é eterna: 30 dias, como em lib/retiroassist.js.
+const VALIDADE_DOCUMENTO_SEGUNDOS = 30 * 24 * 60 * 60;
+
 // Segredo HS256. Falha FECHADO: sem JWT_SECRET definido não há segredo de
 // fallback — usar um valor conhecido (e público, no repo) permitiria a
 // qualquer pessoa forjar tokens `tier:'pro'` e aceder a dados guardados.
@@ -32,25 +36,41 @@ function segredoJWT() {
   return secret;
 }
 
-// Emite um JWT Pro HS256/base64url. `sub` identifica o acesso (usado como
-// chave `pro:<sub>` no rate-limit de assistir-campo). Devolve { token, exp }.
-function emitirJWTpro(sub) {
+// Assina um payload como JWT HS256/base64url, acrescentando `iat` e `exp`.
+// É a única implementação de assinatura do wizard: tanto o acesso Pro como as
+// ligações de download/retoma saem daqui, com a mesma política de segredo.
+// Devolve { token, exp }.
+function assinarJWT(payload, validadeSegundos) {
   const secret = segredoJWT();
   const header = Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString('base64url');
   const iat = Math.floor(Date.now() / 1000);
-  const exp = iat + VALIDADE_SEGUNDOS;
-  const payload = {
-    sub: sub || crypto.randomUUID(),
-    tier: 'pro',
-    iat,
-    exp,
-  };
-  const body = Buffer.from(JSON.stringify(payload)).toString('base64url');
+  const exp = iat + validadeSegundos;
+  const body = Buffer.from(
+    JSON.stringify(Object.assign({}, payload, { iat, exp }))
+  ).toString('base64url');
   const signature = crypto
     .createHmac('sha256', secret)
     .update(`${header}.${body}`)
     .digest('base64url');
   return { token: `${header}.${body}.${signature}`, exp };
+}
+
+// Emite um JWT Pro HS256/base64url. `sub` identifica o acesso (usado como
+// chave `pro:<sub>` no rate-limit de assistir-campo). Devolve { token, exp }.
+function emitirJWTpro(sub) {
+  return assinarJWT({ sub: sub || crypto.randomUUID(), tier: 'pro' }, VALIDADE_SEGUNDOS);
+}
+
+// Emite o token da ligação de download/retoma do guia de instalação. O `jti`
+// é a chave por onde a linha é reencontrada em generated_pdfs.
+// Devolve { token, exp, jti }.
+function emitirJWTdocumento(dados) {
+  const jti = crypto.randomBytes(16).toString('hex');
+  const { token, exp } = assinarJWT(
+    Object.assign({}, dados, { jti }),
+    VALIDADE_DOCUMENTO_SEGUNDOS
+  );
+  return { token, exp, jti };
 }
 
 // Verifica assinatura HS256 e validade (exp) de um JWT base64url. Devolve o
@@ -182,8 +202,11 @@ async function obterTokenPorSessao(cfg, sessao) {
 
 module.exports = {
   VALIDADE_SEGUNDOS,
+  VALIDADE_DOCUMENTO_SEGUNDOS,
   segredoJWT,
+  assinarJWT,
   emitirJWTpro,
+  emitirJWTdocumento,
   verificarJWT,
   configSupabase,
   cabecalhosSupabase,
