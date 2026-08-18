@@ -2099,8 +2099,10 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     platformLabel: null,
     area: null,        // área profissional escolhida no Passo 1 — escolhe os exemplos
     template: null,
-    plan: null,        // patamar de preço escolhido (free/kit/pro/medida) — só UI
-    tier: 'gratis',    // nível de acesso, DERIVADO do token: "gratis" | "pro"
+    // Duas coisas distintas, que antes se chamavam plan/tier e partilhavam a
+    // palavra "pro" com sentidos diferentes:
+    patamar: null,     // cartão escolhido no paywall: free/kit/pro/medida (só UI)
+    acesso: 'gratis',  // acesso realmente pago, DERIVADO do token: gratis | pro
     token: null,
     quiz: { 1: null, 2: null, 3: null }
   };
@@ -2242,7 +2244,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   function selectTier(tier, btn) {
     document.querySelectorAll('.tier-card').forEach(c => c.classList.remove('selected'));
     if (btn) btn.classList.add('selected');
-    state.plan = tier;
+    state.patamar = tier;
     atualizarStickyPreco();
 
     if (tier === 'free') {
@@ -2313,9 +2315,9 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   }
 
   // ─────────── STICKY DE PREÇO (Ecrã 2) ───────────
-  // Barra fixa no fundo que mostra o patamar ativo (state.tier) e o upgrade
-  // seguinte. Só tem 3 estados (free/kit/pro); sem escolha ainda — ou com
-  // "à medida" — mostra o default (kit).
+  // Barra fixa no fundo. Mostra o acesso já pago, se existir; caso contrário o
+  // cartão que estiver escolhido no paywall. Só tem 3 estados (free/kit/pro);
+  // sem escolha ainda — ou com "à medida" — mostra o default (kit).
   const STICKY_ESTADOS = {
     free: {
       upsell: '✨ Com o Kit, recebe também o guia de instalação · 19€',
@@ -2347,13 +2349,17 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     if (!barra) return;
     barra.classList.toggle('visible', state.current === 2);
 
-    const estado = STICKY_ESTADOS[state.plan] ? state.plan : 'kit';
+    // Quem já pagou o Pro vê o Pro, tenha ou não clicado num cartão. Antes
+    // lia-se só o cartão escolhido, e um Pro pago aparecia como "kit".
+    const escolhido = state.acesso === 'pro' ? 'pro' : state.patamar;
+    const estado = STICKY_ESTADOS[escolhido] ? escolhido : 'kit';
     const tier = TIERS[estado];
     const extra = STICKY_ESTADOS[estado];
     document.getElementById('stickyPrecoTitulo').textContent = tier.titulo;
     document.getElementById('stickyPrecoValor').textContent = tier.preco;
     document.getElementById('stickyPrecoInclui').textContent = tier.inclui;
-    document.getElementById('stickyPrecoUpsell').textContent = extra.upsell;
+    const upsell = document.getElementById('stickyPrecoUpsell');
+    if (upsell.dataset.aviso !== '1') upsell.textContent = extra.upsell;
     const btn = document.getElementById('stickyPrecoBtn');
     btn.textContent = extra.botao;
     btn.onclick = extra.acao;
@@ -2361,7 +2367,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
 
   function backToTiers() {
     document.querySelectorAll('.tier-card').forEach(c => c.classList.remove('selected'));
-    state.plan = null;
+    state.patamar = null;
     showPaywallStep('paywallTiers');
   }
 
@@ -2531,34 +2537,43 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       const agora = Math.floor(Date.now() / 1000);
       if (payload && typeof payload.exp === 'number' && payload.exp >= agora && payload.tier === 'pro') {
         state.token = token;
-        state.tier = 'pro';
+        state.acesso = 'pro';
       } else {
         try { sessionStorage.removeItem('pl_proToken'); } catch (e) {}
         state.token = null;
-        state.tier = 'gratis';
+        state.acesso = 'gratis';
       }
     } else {
       state.token = null;
-      state.tier = 'gratis';
+      state.acesso = 'gratis';
     }
+    aplicarAcesso();
+  }
+
+  // O acesso só é conhecido depois de bootAssistirCampo(), que é assíncrono e
+  // corre a seguir ao arranque síncrono. Tudo o que depende dele tem de ser
+  // repintado aqui — antes, só o chip era, e a barra de preço ficava a mostrar
+  // "Kit completo" a quem já tinha pago o Pro.
+  function aplicarAcesso() {
     atualizarProChip();
+    atualizarStickyPreco();
   }
 
   // Descartar a sessão Pro no cliente (após 401 sessao_expirada ou exp local).
   function limparPro() {
     try { sessionStorage.removeItem('pl_proToken'); } catch (e) {}
     state.token = null;
-    state.tier = 'gratis';
-    atualizarProChip();
+    state.acesso = 'gratis';
+    aplicarAcesso();
   }
 
   function atualizarProChip() {
     const chip = document.getElementById('proSessionChip');
-    if (chip) chip.hidden = state.tier !== 'pro';
+    if (chip) chip.hidden = state.acesso !== 'pro';
   }
 
   function podeGerarIA() {
-    return state.tier === 'pro' || sessionStorage.getItem('pl_freeUsed') !== '1';
+    return state.acesso === 'pro' || sessionStorage.getItem('pl_freeUsed') !== '1';
   }
 
   function handleProClick(btn, fieldId) {
@@ -2703,7 +2718,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       } else {
         esconderContradicao(fieldId);
       }
-      if (state.tier !== 'pro') {
+      if (state.acesso !== 'pro') {
         try { sessionStorage.setItem('pl_freeUsed', '1'); } catch (e) {}
       }
       setBtnProState(btn, 'normal');
@@ -2716,7 +2731,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
         setBtnProState(btn, 'sessao');
       } else if (err && err.status === 429) {
         setBtnProState(btn, 'limite');
-      } else if (err && state.tier === 'pro') {
+      } else if (err && state.acesso === 'pro') {
         // Erro de rede/500 com sessão Pro activa: não foi possível confirmar.
         setBtnProState(btn, 'sessao-erro');
       } else {
@@ -2745,11 +2760,20 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   async function recuperarTokenPro() {
     let params;
     try { params = new URLSearchParams(window.location.search); } catch (e) { return; }
-    if (params.get('pro') !== '1') return;
+    const pro = params.get('pro');
+    if (!pro) return;
 
     const limparUrl = function () {
       try { window.history.replaceState({}, document.title, window.location.pathname); } catch (e) {}
     };
+
+    // Pagamento cancelado no provedor: limpar a marca e dizê-lo, em vez de
+    // deixar ?pro=cancelado colado à barra de endereço sem explicação.
+    if (pro !== '1') {
+      limparUrl();
+      if (pro === 'cancelado') mostrarAvisoPagamentoCancelado();
+      return;
+    }
 
     const sessao = getSessao();
     const tentativas = [0, 1500, 3000, 5000]; // espera progressiva (ms)
@@ -2766,6 +2790,21 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       } catch (e) { /* rede: tenta de novo */ }
     }
     limparUrl();
+  }
+
+  // Nota discreta de pagamento cancelado. Não bloqueia nada: o wizard segue
+  // exactamente onde estava, com tudo o que já estava escrito.
+  function mostrarAvisoPagamentoCancelado() {
+    const barra = document.getElementById('stickyPreco');
+    if (!barra) return;
+    const upsell = document.getElementById('stickyPrecoUpsell');
+    if (!upsell) return;
+    upsell.textContent = 'Pagamento cancelado. O que já está escrito continua guardado.';
+    upsell.dataset.aviso = '1';
+    setTimeout(function () {
+      delete upsell.dataset.aviso;
+      atualizarStickyPreco();
+    }, 8000);
   }
 
   async function bootAssistirCampo() {
@@ -2885,23 +2924,64 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   }
 
   // ─────────── RESET ───────────
+  // Esvazia as 16 secções e tudo o que as acompanha no ecrã: exemplos por
+  // editar, chips já usados e caixas de contradição. Partilhada por
+  // resetDemo() e limparTudoGuardado(), que antes limpavam coisas diferentes
+  // — os chips ficavam marcados como usados depois de "Limpar tudo".
+  function limparCamposEMarcas() {
+    OUTPUT_SECOES.forEach(s => {
+      const el = document.getElementById(s.field);
+      if (el) { el.value = ''; el.classList.remove('is-exemplo'); }
+      delete exemploAtivo[s.field];
+      esconderContradicao(s.field);
+    });
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('used'));
+    const warn = document.getElementById('rgpdWarn');
+    if (warn) warn.classList.remove('show');
+  }
+
+  // Descarta o que a sessão guardou sobre um assistente concreto: a ligação de
+  // descarga, a geração grátis já gasta e os dados de retoma por aplicar.
+  // NÃO apaga pl_sessao nem pl_proToken — a sessão e o acesso pago são da
+  // pessoa, não do assistente que está a ser criado.
+  function limparSessaoDoAssistente() {
+    ['pl_downloadUrl', 'pl_freeUsed', 'pl_retomaDados'].forEach(chave => {
+      try { sessionStorage.removeItem(chave); } catch (e) {}
+    });
+  }
+
   function resetDemo() {
     state.current = 1;
     state.platform = null;
     state.platformLabel = null;
     state.template = null;
-    state.plan = null;
+    state.patamar = null;
     state.area = null;
     state.quiz = { 1: null, 2: null, 3: null };
-    document.querySelectorAll('input, textarea').forEach(el => el.value = '');
+
+    limparCamposEMarcas();
+    limparSessaoDoAssistente();
+
+    // Campos fora das 16 secções (email de entrega, pedido de contacto).
+    ['f-email', 'f-contact-name', 'f-contact-email', 'f-contact-telemovel']
+      .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+    // A checkbox dos termos desmarca-se por `checked`; escrever-lhe `value`
+    // não a desmarcava e corrompia o atributo.
+    const termos = document.getElementById('f-terms');
+    if (termos) termos.checked = false;
+
+    // O ecrã de sucesso não pode ficar com o PDF e a ligação do assistente
+    // anterior à espera: era o que acontecia ao "Criar outro assistente".
+    const btnPdf = document.getElementById('btnDescarregaPdf');
+    if (btnPdf) { btnPdf.disabled = true; btnPdf.onclick = null; btnPdf.textContent = 'A preparar o PDF…'; }
+    const retoma = document.getElementById('successRetoma');
+    if (retoma) retoma.style.display = 'none';
+    const retomaLink = document.getElementById('retomaLink');
+    if (retomaLink) retomaLink.textContent = '';
+
     document.querySelectorAll('.platform-card, .area-card').forEach(c => c.classList.remove('selected'));
     const _area = document.getElementById('blocoArea');
     if (_area) _area.setAttribute('hidden', '');
-    OUTPUT_SECOES.forEach(s => {
-      delete exemploAtivo[s.field];
-      const el = document.getElementById(s.field);
-      if (el) el.classList.remove('is-exemplo');
-    });
     try { localStorage.removeItem(CHAVE_GUARDA); } catch (e) {}
     atualizarNomesPlataforma();
     atualizarBotoesExemplo();
@@ -2911,13 +2991,12 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     showPaywallStep('paywallTiers');
     document.querySelectorAll('.modal-q-opt').forEach(el => el.classList.remove('active'));
     document.getElementById('modalResult').classList.remove('show');
-    document.getElementById('rgpdWarn').classList.remove('show');
     const _opc = document.getElementById('opcionais');
     if (_opc) _opc.setAttribute('hidden', '');
     const _btn = document.getElementById('btnAfinar');
     if (_btn) { _btn.classList.remove('open'); _btn.setAttribute('aria-expanded', 'false'); }
-    document.querySelectorAll('.chip').forEach(c => c.classList.remove('used'));
     checkObrigatorias();
+    atualizarStickyPreco();
     goTo(1);
     closeQuizModal();
   }
@@ -3266,10 +3345,17 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     return OUTPUT_SECOES.some(s => valorUtilizador(s.field).trim() !== '');
   }
 
+  // Escolher plataforma ou área é um acto deliberado e tem de sobreviver a um
+  // recarregamento. Antes, guardar() saía aqui enquanto não houvesse texto, e
+  // quem escolhesse as duas e recarregasse antes da primeira letra perdia-as.
+  function haEscolhaUtilizador() {
+    return !!(state.platform || state.area);
+  }
+
   function guardar() {
-    // Nada é escrito antes do primeiro caractere do utilizador: quem visita
-    // e sai sem escrever não deixa rasto.
-    if (!haConteudoUtilizador()) return;
+    // Nada é escrito antes de o utilizador fazer alguma coisa: quem visita e
+    // sai sem escolher nem escrever não deixa rasto.
+    if (!haConteudoUtilizador() && !haEscolhaUtilizador()) return;
     const campos = {};
     OUTPUT_SECOES.forEach(s => {
       const v = valorUtilizador(s.field);
@@ -3314,16 +3400,81 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   function limparTudoGuardado() {
     if (!confirm('Apagar tudo o que está guardado neste computador? As 16 secções ficam vazias e não é possível recuperar.')) return;
     try { localStorage.removeItem(CHAVE_GUARDA); } catch (e) {}
-    OUTPUT_SECOES.forEach(s => {
-      const el = document.getElementById(s.field);
-      if (el) { el.value = ''; el.classList.remove('is-exemplo'); }
-      delete exemploAtivo[s.field];
-    });
+    limparCamposEMarcas();
+    state.patamar = null;
     checkObrigatorias();
     atualizarBotoesExemplo();
     atualizarIndiceProgresso();
     mostrarLinhaGuardado();
-    checkRGPD(document.getElementById('f-nome') || { value: '' });
+    atualizarStickyPreco();
+  }
+
+  // ─── Retoma: rascunho recuperado por /retomar?token=<token> ───
+  // Essa página guarda os campos em sessionStorage ('pl_retomaDados') e
+  // reencaminha para aqui. Uso único: lê-se e apaga-se.
+  function lerRetoma() {
+    let dados;
+    try {
+      const bruto = sessionStorage.getItem('pl_retomaDados');
+      if (!bruto) return null;
+      dados = JSON.parse(bruto);
+    } catch (e) {
+      return null; // JSON inválido ou sessionStorage indisponível
+    } finally {
+      try { sessionStorage.removeItem('pl_retomaDados'); } catch (e) {}
+    }
+    if (!dados || typeof dados !== 'object') return null;
+    const campos = {};
+    Object.keys(dados).forEach(id => {
+      if (!/^f-[a-z0-9-]+$/.test(id)) return;
+      if (typeof dados[id] !== 'string' || dados[id].trim() === '') return;
+      if (!document.getElementById(id)) return;
+      campos[id] = dados[id];
+    });
+    return Object.keys(campos).length ? campos : null;
+  }
+
+  function aplicarCampos(campos) {
+    Object.keys(campos).forEach(id => {
+      const el = document.getElementById(id);
+      if (el && 'value' in el) reporValor(el, campos[id]);
+    });
+  }
+
+  // Decide, uma vez e explicitamente, o que se repõe no arranque.
+  //
+  // Antes havia duas reposições independentes: restaurarGuardado() punha o
+  // rascunho local, e logo a seguir uma IIFE punha a retoma por cima dos
+  // mesmos campos. O `input` que isso disparava mandava gravar, e o rascunho
+  // local era substituído pelo da retoma sem aviso nenhum.
+  //
+  // A retoma só traz duas das 16 secções (nome e missão), pelo que aceitá-la
+  // às cegas por cima de um rascunho cheio é a pior das trocas. Havendo as
+  // duas coisas, pergunta-se.
+  function restaurarEstado() {
+    const retoma = lerRetoma();
+    const guardado = lerGuardado();
+    const guardadoTemTexto = !!(guardado && guardado.campos && Object.keys(guardado.campos).length);
+
+    if (retoma && guardadoTemTexto) {
+      const usarRetoma = confirm(
+        'Há um rascunho guardado neste computador e uma ligação de retoma.\n\n' +
+        'OK — usar a ligação de retoma (substitui o que está guardado).\n' +
+        'Cancelar — manter o rascunho deste computador.'
+      );
+      if (usarRetoma) {
+        aplicarCampos(retoma);
+        return;
+      }
+      restaurarGuardado();
+      return;
+    }
+
+    if (retoma) {
+      aplicarCampos(retoma);
+      return;
+    }
+    restaurarGuardado();
   }
 
   function restaurarGuardado() {
@@ -3352,12 +3503,22 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
         if (!/^f-[a-z0-9-]+$/.test(id)) return;
         const el = document.getElementById(id);
         if (!el || typeof dados.campos[id] !== 'string') return;
-        el.value = dados.campos[id];
+        reporValor(el, dados.campos[id]);
         if (OBRIGATORIAS.indexOf(id) === -1) algumaOpcional = true;
       });
     }
     // Se havia texto em secções opcionais, abre o painel para ficar à vista.
     if (algumaOpcional) openOpcionais();
+  }
+
+  // Repor um valor por código tem de passar pelo mesmo caminho que escrever à
+  // mão. Antes, restaurarGuardado() atribuía el.value directamente e compensava
+  // com chamadas soltas — o aviso RGPD ficava de fora, e um rascunho reposto
+  // com um NIF lá dentro não acendia aviso nenhum até se tocar no campo.
+  function reporValor(el, valor) {
+    if (!el) return;
+    el.value = valor;
+    el.dispatchEvent(new Event('input', { bubbles: true }));
   }
 
   // Um único ouvinte por campo trata de tudo: marca o exemplo como editado,
@@ -3382,46 +3543,13 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     const el = document.getElementById(s.field);
     if (el) el.addEventListener('input', aoEscreverCampo);
   });
-  restaurarGuardado();
+  restaurarEstado();
   atualizarBotoesExemplo();
   atualizarIndiceProgresso();
   mostrarLinhaGuardado();
   checkObrigatorias();
   updateProgress();
   atualizarStickyPreco();
-
-  // ─── Retoma: preencher o formulário a partir de um rascunho recuperado ───
-  // A página /retomar?token=<token> guarda os campos em sessionStorage
-  // ('pl_retomaDados') e reencaminha para aqui. No arranque, se existirem,
-  // preenchemos os campos correspondentes e limpamos a chave (uso único).
-  (function retomarRascunho() {
-    let dados;
-    try {
-      const bruto = sessionStorage.getItem('pl_retomaDados');
-      if (!bruto) return;
-      dados = JSON.parse(bruto);
-    } catch (e) {
-      return; // JSON inválido ou sessionStorage indisponível
-    } finally {
-      try { sessionStorage.removeItem('pl_retomaDados'); } catch (e) {}
-    }
-    if (!dados || typeof dados !== 'object') return;
-
-    Object.keys(dados).forEach(id => {
-      // só campos do formulário (id "f-...") que existam na página
-      if (!/^f-[a-z0-9-]+$/.test(id)) return;
-      const el = document.getElementById(id);
-      if (!el || !('value' in el)) return;
-      const valor = dados[id];
-      if (typeof valor !== 'string') return;
-      el.value = valor;
-      // atualiza obrigatórias / RGPD / progresso
-      el.dispatchEvent(new Event('input', { bubbles: true }));
-    });
-
-    checkObrigatorias();
-    updateProgress();
-  })();
 </script>
 
 </body>
