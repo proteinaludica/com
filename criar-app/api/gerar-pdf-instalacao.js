@@ -7,13 +7,14 @@
 //   RESEND_API_KEY — chave da API Resend (secreta · obrigatória)
 //   PDF_FROM       — remetente verificado no Resend, ex: "Proteína Lúdica <ola@proteinaludica.com>"
 //                     (enquanto o domínio não estiver verificado, usar "onboarding@resend.dev")
+//   JWT_SECRET     — segredo HS256 partilhado com download-pdf/retoma-dados
+//                     (obrigatória · sem ela a emissão falha, por desenho)
 //
 // Sem dependências externas de rede: usa pdf-lib (geração de PDF em Node,
 // sem browser headless) e o fetch nativo do Node 18+ na Vercel.
 
 const { PDFDocument, StandardFonts, rgb } = require('pdf-lib');
-const crypto = require('crypto');
-const { verificarJWT } = require('../lib/pro-comum');
+const { emitirJWTdocumento, verificarJWT } = require('../lib/pro-comum');
 
 const LIMITES = {
   plataforma: 60,
@@ -25,23 +26,6 @@ const LIMITES = {
 
 function cortar(v, max) {
   return (v == null ? '' : String(v)).trim().slice(0, max);
-}
-
-// ─── GERADOR DE JWT (30 dias) ───
-function gerarJWT(payload) {
-  const secret = process.env.JWT_SECRET || 'fallback-secret-dev-only-32chars!!';
-  const header = Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString('base64url');
-  const exp = Math.floor(Date.now() / 1000) + (30 * 24 * 60 * 60); // 30 dias
-  const jti = crypto.randomBytes(16).toString('hex'); // JWT ID único
-  const body = Buffer.from(JSON.stringify({ ...payload, exp, jti })).toString('base64url');
-  const signature = crypto
-    .createHmac('sha256', secret)
-    .update(`${header}.${body}`)
-    .digest('base64url');
-  return {
-    token: `${header}.${body}.${signature}`,
-    jti: jti,
-  };
 }
 
 // ─────────── MAPEAMENTO PLATAFORMA (Ecrã 1) → GUIA ───────────
@@ -548,8 +532,8 @@ module.exports = async (req, res) => {
     const pdfBytes = await gerarPdf({ plataforma, nome_assistente, missao, prompt_completo });
     const pdfBase64 = Buffer.from(pdfBytes).toString('base64');
 
-    // ─── GERAR JWT PARA DOWNLOAD (30 dias) ───
-    const jwtData = gerarJWT({
+    // ─── GERAR JWT PARA DOWNLOAD (30 dias, assinado por lib/pro-comum) ───
+    const jwtData = emitirJWTdocumento({
       email: email,
       plataforma: plataforma,
       nome_assistente: nome_assistente,
