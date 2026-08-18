@@ -181,16 +181,13 @@
       document.getElementById('erro').classList.remove('hidden');
     }
 
-    // Extrai o token do path /criar/retomar/<token> (fallback: ?token=)
+    // Extrai o token de ?token=. Havia antes um ramo que aceitava o último
+    // segmento do path (/criar/retomar/<token>), mas nenhuma rota o serve:
+    // o vercel.json não tem rewrite desse feitio e gerar-pdf-instalacao emite
+    // sempre .../retomar?token=... . Além de morto, apanhava como token
+    // qualquer último segmento de URL.
     function extrairToken() {
-      var partes = window.location.pathname.split('/').filter(Boolean);
-      var ultimo = partes.length ? partes[partes.length - 1] : '';
-      // aceita o último segmento como token desde que não seja a própria
-      // página; o token é um JWT (contém pontos), por isso não se pode
-      // filtrar por '.' — só se excluem os nomes da página em si
-      if (ultimo && ultimo !== 'retomar' && ultimo !== 'retomar.html') return ultimo;
-      var q = new URLSearchParams(window.location.search).get('token');
-      return q || '';
+      return new URLSearchParams(window.location.search).get('token') || '';
     }
 
     var token = extrairToken();

@@ -120,19 +120,6 @@
   }
   .demo-reset:hover { color: var(--ink); border-color: var(--border-strong); }
 
-  /* ─── DEMO BANNER ─── */
-  .demo-banner {
-    background: var(--amber-light);
-    border-bottom: 0.5px solid var(--amber);
-    color: var(--amber-dark);
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.05em;
-    text-align: center;
-    padding: 6px 2rem;
-  }
-  .demo-banner strong { color: var(--amber-dark); font-weight: 500; }
-
   /* ─── SCREENS ─── */
   .screen { display: none; min-height: calc(100vh - 120px); padding: 3rem 2rem 5rem; }
   .screen.active { display: block; animation: fadeIn 0.4s ease both; }
@@ -298,101 +285,7 @@
   }
   .btn-secondary-wide:hover { border-color: var(--accent); color: var(--accent); }
 
-  /* ─── ECRÃ 2: TEMPLATE (secção removida; estilos mantidos p/ compat.) ─── */
-  .template-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.25rem;
-    margin-bottom: 1.5rem;
-  }
-  .template-card {
-    background: var(--surface);
-    border: 0.5px solid var(--border);
-    border-radius: 10px;
-    padding: 1.75rem;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-align: left;
-    font-family: inherit;
-    color: inherit;
-    width: 100%;
-    min-height: 280px;
-    display: flex;
-    flex-direction: column;
-  }
-  .template-card.featured {
-    background: var(--amber-light);
-    border-color: var(--amber);
-  }
-  .template-card:hover {
-    border-color: var(--accent);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow);
-  }
-  .template-card.featured:hover { border-color: var(--amber-dark); }
-  .template-tag {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 0.8rem;
-  }
-  .template-card.featured .template-tag { color: var(--amber-dark); }
-  .template-title {
-    font-family: var(--font-head);
-    font-size: 1.6rem;
-    font-weight: 400;
-    line-height: 1.1;
-    margin-bottom: 0.8rem;
-    letter-spacing: -0.01em;
-  }
-  .template-desc {
-    font-size: 14px;
-    color: var(--ink2);
-    line-height: 1.5;
-    margin-bottom: 1.25rem;
-  }
-  .template-list {
-    list-style: none;
-    font-size: 13px;
-    color: var(--ink2);
-    margin-top: auto;
-  }
-  .template-list li {
-    padding: 4px 0;
-    padding-left: 18px;
-    position: relative;
-  }
-  .template-list li::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 12px;
-    width: 8px; height: 1px;
-    background: var(--muted);
-  }
-  .template-card.featured .template-list li::before { background: var(--amber-dark); }
-
-  .template-skip {
-    background: var(--bg2);
-    border-radius: 8px;
-    padding: 1rem 1.5rem;
-    display: flex; align-items: center; justify-content: space-between;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-  .template-skip-text { font-size: 13px; color: var(--ink2); }
-  .template-skip-link {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--accent);
-    text-decoration: none;
-    border-bottom: 0.5px solid var(--accent);
-    padding-bottom: 2px;
-    cursor: pointer;
-  }
-
-  /* ─── ECRÃ 3→2: PREENCHER ─── */
+  /* ─── ECRÃ 2: PREENCHER ─── */
   .section-progress-wrap { margin-bottom: 2rem; }
   .section-progress {
     display: flex; align-items: center; gap: 1rem;
@@ -499,42 +392,7 @@
   .btn-pro.is-limite { border-style: solid; }
   .btn-pro.is-limite a { color: inherit; text-decoration: underline; }
 
-  .fill-nav {
-    display: flex; align-items: center; justify-content: space-between;
-    gap: 1rem;
-    margin-top: 2rem;
-    padding-top: 1.5rem;
-    border-top: 0.5px solid var(--border);
-  }
-  .fill-nav-left { display: flex; gap: 10px; }
-
-  .demo-skip {
-    margin-top: 2rem;
-    padding: 1rem 1.25rem;
-    background: var(--bg2);
-    border: 0.5px dashed var(--border-strong);
-    border-radius: 6px;
-    font-size: 12px;
-    color: var(--muted);
-    display: flex; align-items: center; justify-content: space-between;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-  .demo-skip button {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--accent);
-    background: transparent;
-    border: 0.5px solid var(--accent);
-    padding: 6px 12px;
-    border-radius: 3px;
-    cursor: pointer;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-  }
-  .demo-skip button:hover { background: var(--accent); color: white; }
-
-  /* ─── ECRÃ 4→3: OUTPUT ─── */
+  /* ─── ECRÃ 3: OUTPUT ─── */
   .output-inner { max-width: 720px; margin: 0 auto; }
   .output-title {
     font-family: var(--font-head);
@@ -627,8 +485,7 @@
   .code-content::-webkit-scrollbar-track { background: transparent; }
   .code-content::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
 
-
-  /* ─── ECRÃ 5→4: PAYWALL ─── */
+  /* ─── ECRÃ 4: PAYWALL ─── */
   .tier-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -939,7 +796,7 @@
   }
   .trust-row span { display: flex; align-items: center; gap: 5px; }
 
-  /* ─── ECRÃ 6→5: SUCESSO ─── */
+  /* ─── ECRÃ 5: SUCESSO ─── */
   .success-inner {
     max-width: 560px;
     margin: 0 auto;
@@ -1089,7 +946,6 @@
   @media (max-width: 860px) {
     .platform-grid { grid-template-columns: repeat(2, 1fr); }
     .platform-card-solo { grid-column: span 2; }
-    .template-grid { grid-template-columns: 1fr; }
     .paywall-grid { grid-template-columns: 1fr; }
     .paywall-preview { max-width: 380px; margin: 0 auto; }
     .topbar-inner { padding: 1rem; gap: 1rem; flex-wrap: wrap; }
@@ -1139,10 +995,8 @@
   .s3-index-name { flex: 1; }
   .s3-index-item.is-oblig .s3-index-num { color: var(--accent); }
   .s3-index-item.is-oblig .s3-index-name { color: var(--ink); font-weight: 500; }
-  .s3-index-item.is-todo { color: var(--muted2); cursor: default; }
   .s3-index-badge { font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.04em; text-transform: uppercase; padding: 1px 5px; border-radius: 3px; flex-shrink: 0; align-self: center; }
   .s3-index-badge.oblig { color: var(--accent); background: var(--accent-light); }
-  .s3-index-badge.todo { color: var(--muted); background: var(--bg3); }
   /* Secção já escrita pelo utilizador (texto de exemplo por editar não conta). */
   .s3-index-item.is-preenchida::after {
     content: '✓';
@@ -1282,13 +1136,13 @@
 
 <header class="topbar">
   <div class="topbar-inner">
-    <a class="logo" href="https://proteinaludica.com/" onclick="return sairParaSite();">
+    <a class="logo" href="https://proteinaludica.com/">
       Proteína <em>Lúdica</em>
       <span class="logo-sub">Criar assistente digital IA · /criar</span>
     </a>
     <div class="progress">
       <span id="stepLabel">1 / 3</span>
-      <div class="progress-bar" id="progressBar">
+      <div class="progress-bar">
         <div class="progress-dot active"></div>
         <div class="progress-dot"></div>
         <div class="progress-dot"></div>
@@ -1445,7 +1299,7 @@
               </div>
               <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="1" data-campo="f-nome" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro" onclick="goToProPricing()">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></button>
+          <button type="button" class="btn-pro">✨ Pro<span class="pro-tip"></span></button>
         </div>
             </div>
           </div>
@@ -1465,7 +1319,7 @@
               </div>
               <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="2" data-campo="f-missao" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro" onclick="goToProPricing()">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></button>
+          <button type="button" class="btn-pro">✨ Pro<span class="pro-tip"></span></button>
         </div>
             </div>
           </div>
@@ -1486,7 +1340,7 @@
               </div>
               <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="12" data-campo="f-redline" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro" onclick="goToProPricing()">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></button>
+          <button type="button" class="btn-pro">✨ Pro<span class="pro-tip"></span></button>
         </div>
             </div>
           </div>
@@ -1507,7 +1361,7 @@
               </div>
               <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="13" data-campo="f-emerg" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro" onclick="goToProPricing()">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></button>
+          <button type="button" class="btn-pro">✨ Pro<span class="pro-tip"></span></button>
         </div>
             </div>
           </div>
@@ -1528,7 +1382,7 @@
               </div>
               <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="15" data-campo="f-fecho" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro" onclick="goToProPricing()">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></button>
+          <button type="button" class="btn-pro">✨ Pro<span class="pro-tip"></span></button>
         </div>
             </div>
           </div>
@@ -1559,7 +1413,7 @@
         <textarea id="f-publico" placeholder="Descreva em 1-2 frases quem recebe estes textos." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="3" data-campo="f-publico" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro" onclick="goToProPricing()">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></button>
+          <button type="button" class="btn-pro">✨ Pro<span class="pro-tip"></span></button>
         </div>
         <div class="pro-reveal">
           <button type="button" class="btn-pro-toggle">✨ ver versão Pro →</button>
@@ -1579,7 +1433,7 @@
         <textarea id="f-contexto" placeholder="Descreva em 1-2 frases o ambiente onde o profissional actua." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="4" data-campo="f-contexto" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro" onclick="goToProPricing()">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></button>
+          <button type="button" class="btn-pro">✨ Pro<span class="pro-tip"></span></button>
         </div>
         <div class="pro-reveal">
           <button type="button" class="btn-pro-toggle">✨ ver versão Pro →</button>
@@ -1599,7 +1453,7 @@
         <textarea id="f-tom" placeholder="Descreva em 1-2 frases o tom pretendido." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="5" data-campo="f-tom" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro" onclick="goToProPricing()">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></button>
+          <button type="button" class="btn-pro">✨ Pro<span class="pro-tip"></span></button>
         </div>
         <div class="pro-reveal">
           <button type="button" class="btn-pro-toggle">✨ ver versão Pro →</button>
@@ -1619,7 +1473,7 @@
         <textarea id="f-linguagem" placeholder="Descreva em 1-2 frases o registo de linguagem." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="6" data-campo="f-linguagem" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro" onclick="goToProPricing()">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></button>
+          <button type="button" class="btn-pro">✨ Pro<span class="pro-tip"></span></button>
         </div>
         <div class="pro-reveal">
           <button type="button" class="btn-pro-toggle">✨ ver versão Pro →</button>
@@ -1639,7 +1493,7 @@
         <textarea id="f-estilo" placeholder="Descreva o formato-tipo dos textos e eventuais necessidades de acessibilidade." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="7" data-campo="f-estilo" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro" onclick="goToProPricing()">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></button>
+          <button type="button" class="btn-pro">✨ Pro<span class="pro-tip"></span></button>
         </div>
         <div class="pro-reveal">
           <button type="button" class="btn-pro-toggle">✨ ver versão Pro →</button>
@@ -1659,7 +1513,7 @@
         <textarea id="f-onboarding" placeholder="Descreva a sequência de perguntas do primeiro contacto." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="8" data-campo="f-onboarding" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro" onclick="goToProPricing()">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></button>
+          <button type="button" class="btn-pro">✨ Pro<span class="pro-tip"></span></button>
         </div>
         <div class="pro-reveal">
           <button type="button" class="btn-pro-toggle">✨ ver versão Pro →</button>
@@ -1679,7 +1533,7 @@
         <textarea id="f-tarefas" placeholder="Descreva os fluxos de trabalho e as regras para correcções e versões." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="9" data-campo="f-tarefas" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro" onclick="goToProPricing()">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></button>
+          <button type="button" class="btn-pro">✨ Pro<span class="pro-tip"></span></button>
         </div>
         <div class="pro-reveal">
           <button type="button" class="btn-pro-toggle">✨ ver versão Pro →</button>
@@ -1699,7 +1553,7 @@
         <textarea id="f-fontes" placeholder="Descreva as fontes autorizadas e as que estão excluídas." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="10" data-campo="f-fontes" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro" onclick="goToProPricing()">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></button>
+          <button type="button" class="btn-pro">✨ Pro<span class="pro-tip"></span></button>
         </div>
       </div>
     </div>
@@ -1712,7 +1566,7 @@
         <textarea id="f-conhecimento" placeholder="Descreva os dados fixos e as regras para dados variáveis." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="11" data-campo="f-conhecimento" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro" onclick="goToProPricing()">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></button>
+          <button type="button" class="btn-pro">✨ Pro<span class="pro-tip"></span></button>
         </div>
         <div class="pro-reveal">
           <button type="button" class="btn-pro-toggle">✨ ver versão Pro →</button>
@@ -1732,7 +1586,7 @@
         <textarea id="f-dados" placeholder="Descreva as regras de privacidade e tratamento de dados." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="14" data-campo="f-dados" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro" onclick="goToProPricing()">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></button>
+          <button type="button" class="btn-pro">✨ Pro<span class="pro-tip"></span></button>
         </div>
         <div class="pro-reveal">
           <button type="button" class="btn-pro-toggle">✨ ver versão Pro →</button>
@@ -1752,7 +1606,7 @@
         <textarea id="f-continuidade" placeholder="Descreva como o assistente mantém continuidade entre sessões." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="16" data-campo="f-continuidade" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro" onclick="goToProPricing()">✨ Pro<span class="pro-tip">a IA ajuda a preencher este campo · 49€</span></button>
+          <button type="button" class="btn-pro">✨ Pro<span class="pro-tip"></span></button>
         </div>
         <div class="pro-reveal">
           <button type="button" class="btn-pro-toggle">✨ ver versão Pro →</button>
@@ -1768,10 +1622,6 @@
       </div>
     </div>
 
-    <div class="demo-skip">
-      <div id="opcNoteDemo"></div>
-      <button onclick="goTo(3)">Saltar para output ⏭</button>
-    </div>
   </div>
 </section>
 
@@ -2094,7 +1944,6 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     platform: null,
     platformLabel: null,
     area: null,        // área profissional escolhida no Passo 1 — escolhe os exemplos
-    template: null,
     // Duas coisas distintas, que antes se chamavam plan/tier e partilhavam a
     // palavra "pro" com sentidos diferentes:
     patamar: null,     // cartão escolhido no paywall: free/kit/pro/medida (só UI)
@@ -2219,7 +2068,6 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     state.platform = id;
     state.platformLabel = label;
     atualizarNomesPlataforma();
-    state.template = 'branco';
     marcarCartaoPlataforma(id);
     guardar();
     // Segunda pergunta do mesmo ecrã: a área só aparece depois da plataforma.
@@ -2414,11 +2262,17 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     }
   }
 
-  function goToProPricing() {
+  // Abre o paywall já no patamar indicado. goToMedida fazia o mesmo com um
+  // setTimeout de 100ms sem razão aparente; é o mesmo salto, uma função só.
+  function irParaPatamar(patamar) {
     goTo(4);
-    const proCard = document.querySelector('[data-tier="pro"]');
-    if (proCard) selectTier('pro', proCard);
+    const cartao = document.querySelector('[data-tier="' + patamar + '"]');
+    if (cartao) selectTier(patamar, cartao);
     else showPaywallStep('paywallTiers');
+  }
+
+  function goToProPricing() {
+    irParaPatamar('pro');
   }
 
   // ─────────── STICKY DE PREÇO (Ecrã 2) ───────────
@@ -2444,11 +2298,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   };
 
   function goToMedida() {
-    goTo(4);
-    setTimeout(() => {
-      const card = document.querySelector('[data-tier="medida"]');
-      if (card) selectTier('medida', card);
-    }, 100);
+    irParaPatamar('medida');
   }
 
   function atualizarStickyPreco() {
@@ -2834,7 +2684,17 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     }
   }
 
+  // O texto da dica dos 16 botões Pro vinha escrito à mão no HTML, com o preço
+  // repetido em cada um — e o onclick inline "goToProPricing()" era morto:
+  // initAssistirCampo() substitui-o sempre. Passa a sair de TIERS, num sítio só.
+  function escreverDicasPro() {
+    const texto = 'a IA ajuda a preencher este campo · ' + TIERS.pro.preco;
+    document.querySelectorAll('.btn-pro .pro-tip').forEach(el => { el.textContent = texto; });
+  }
+
   function initAssistirCampo() {
+    // Antes de setBtnProState guardar o innerHTML original de cada botão.
+    escreverDicasPro();
     SECCOES.forEach(function (sec) {
       const fieldId = sec.campo;
       const el = document.getElementById(fieldId);
@@ -2931,11 +2791,6 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     }
   }
 
-  // ─────────── PAYMENT ───────────
-  function updatePaymentState() {
-    atualizarNomesPlataforma();
-  }
-
   // ─────────── SUCCESS ───────────
   // Entrega do kit. Só é alcançável com acesso confirmado pelo servidor
   // (state.acesso === 'pro', vindo de um token que o webhook emitiu); o clique
@@ -3030,7 +2885,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     };
   }
 
-  // Mostra o bloco de retoma no Ecrã 6 com o link real devolvido pelo backend.
+  // Mostra o bloco de retoma no Ecrã 5 com o link real devolvido pelo backend.
   function mostrarRetoma(url) {
     const bloco = document.getElementById('successRetoma');
     const codigo = document.getElementById('retomaLink');
@@ -3044,12 +2899,6 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     if (!btn) return;
     btn.disabled = true;
     btn.textContent = 'Não foi possível preparar o download. O PDF segue no email.';
-  }
-  // ─────────── SAIR PARA O SITE ───────────
-  // Logo navega para o site principal. Já não há aviso de saída: o que está
-  // escrito fica guardado neste computador e é reposto ao voltar.
-  function sairParaSite() {
-    return true;
   }
 
   // ─────────── RESET ───────────
@@ -3083,7 +2932,6 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     state.current = 1;
     state.platform = null;
     state.platformLabel = null;
-    state.template = null;
     state.patamar = null;
     state.area = null;
     state.quiz = { 1: null, 2: null, 3: null };
@@ -3661,8 +3509,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     if (dados.plataforma) {
       state.platform = dados.plataforma;
       state.platformLabel = dados.plataformaRotulo || dados.plataforma;
-      state.template = 'branco';
-      atualizarNomesPlataforma();
+        atualizarNomesPlataforma();
       marcarCartaoPlataforma(dados.plataforma);
     }
 
