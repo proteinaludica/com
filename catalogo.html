@@ -8,6 +8,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- Assistentes e wizard vivem noutros subdomínios: resolver o nome
+     antes do clique encurta o salto entre domínios. -->
+<link rel="dns-prefetch" href="https://drescribia.proteinaludica.com">
+<link rel="dns-prefetch" href="https://familia.proteinaludica.com">
+<link rel="dns-prefetch" href="https://internato.proteinaludica.com">
+<link rel="dns-prefetch" href="https://criar.proteinaludica.com">
 <style>
   :root{
     --fundo:#141A10;
@@ -102,6 +108,7 @@
   .assistentes{padding:20px 0 60px}
   .grelha{display:flex;flex-direction:column;gap:14px}
   .cartao{
+    position:relative;
     background:linear-gradient(180deg,var(--cartao-a),var(--cartao-b));
     border:1px solid rgba(143,170,107,.16);
     border-radius:16px;
@@ -117,6 +124,12 @@
     padding:5px 0;transition:color .15s ease;
   }
   .cartao .ligacao:hover{color:var(--ocre)}
+  /* O cartão inteiro é clicável: a ligação estende-se por cima dele.
+     Continua a existir uma só ligação para teclado e leitores de ecrã. */
+  .cartao .ligacao::after{content:"";position:absolute;inset:0;border-radius:16px}
+  .cartao:hover .ligacao{color:var(--ocre)}
+  .cartao:has(.ligacao:focus-visible){outline:2px solid var(--ocre);outline-offset:3px}
+  .cartao:has(.ligacao:focus-visible) .ligacao{outline:none}
   .estado{
     align-self:flex-start;display:flex;align-items:center;gap:7px;
     font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;font-weight:600;
@@ -251,6 +264,30 @@
   menu.addEventListener('click', function(e){ if(e.target.closest('a')) fechar(); });
   document.addEventListener('keydown', function(e){ if(e.key === 'Escape') fechar(); });
   window.addEventListener('resize', function(){ if(window.innerWidth > 760) fechar(); });
+})();
+
+(function(){
+  // Cada assistente vive noutro subdomínio. Quando o rato se aproxima da
+  // ligação, o dedo lhe toca ou o teclado lhe dá foco, abrimos desde já a
+  // ligação segura a esse domínio. O clique passa a ser mais curto.
+  var jaAbertas = {};
+  function preligar(a){
+    var origem;
+    try { origem = new URL(a.href).origin; } catch (e) { return; }
+    if(origem === window.location.origin || jaAbertas[origem]) return;
+    jaAbertas[origem] = true;
+    var l = document.createElement('link');
+    l.rel = 'preconnect';
+    l.href = origem;
+    document.head.appendChild(l);
+  }
+  ['pointerover','touchstart','focusin'].forEach(function(evento){
+    document.addEventListener(evento, function(e){
+      var alvo = e.target;
+      var a = alvo && alvo.closest ? alvo.closest('a[href^="https://"]') : null;
+      if(a) preligar(a);
+    }, { passive: true });
+  });
 })();
 </script>
 
