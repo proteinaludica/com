@@ -257,3 +257,53 @@ test('o preço é 19€ e vive no servidor', () => {
   assert.strictEqual(ra.PRECO_CENTS, 1900);
   assert.strictEqual(ra.MOEDA, 'eur');
 });
+
+// ─────────────────── endpoint de verificação do PDF ───────────────────
+
+test('a verificação gera o PDF e devolve a prova, sem o ficheiro', async () => {
+  const verificar = require('./retiroassist-verificar');
+  const res = respostaFalsa();
+  await verificar({ method: 'GET', headers: { 'x-real-ip': '198.51.100.1' } }, res);
+
+  assert.strictEqual(res.codigo, 200);
+  assert.strictEqual(res.corpo.ok, true);
+  assert.ok(res.corpo.paginas >= 5, 'esperava várias páginas; tem ' + res.corpo.paginas);
+  assert.ok(res.corpo.bytes > 1000);
+  assert.match(res.corpo.sha256, /^[0-9a-f]{64}$/);
+  assert.strictEqual(res.corpo.kit_aprovado, true);
+  assert.strictEqual(res.cabecalhos['Cache-Control'], 'no-store');
+  assert.strictEqual(res.cabecalhos['X-Robots-Tag'], 'noindex');
+
+  // O que mais importa: o PDF não vai na resposta.
+  const serializado = JSON.stringify(res.corpo);
+  assert.ok(!serializado.includes('%PDF'), 'o PDF não devia ir na resposta');
+  assert.ok(!/RetiroAssist —|INSTRUÇÕES DE SISTEMA/.test(serializado), 'não devia vazar o kit');
+  assert.ok(serializado.length < 500, 'resposta grande demais para ser só metadados');
+});
+
+test('o sha256 da verificação bate com o PDF gerado', async () => {
+  const verificar = require('./retiroassist-verificar');
+  const res = respostaFalsa();
+  await verificar({ method: 'GET', headers: { 'x-real-ip': '198.51.100.2' } }, res);
+  const esperado = crypto.createHash('sha256').update(await ra.construirPDF()).digest('hex');
+  assert.strictEqual(res.corpo.sha256, esperado);
+});
+
+test('a verificação recusa métodos que não sejam GET', async () => {
+  const verificar = require('./retiroassist-verificar');
+  const res = respostaFalsa();
+  await verificar({ method: 'POST', headers: {} }, res);
+  assert.strictEqual(res.codigo, 405);
+  assert.strictEqual(res.cabecalhos.Allow, 'GET');
+});
+
+test('a verificação trava quem martela o endpoint', async () => {
+  const verificar = require('./retiroassist-verificar');
+  const req = { method: 'GET', headers: { 'x-real-ip': '198.51.100.99' } };
+  let ultimo = null;
+  for (let i = 0; i < 6; i++) {
+    ultimo = respostaFalsa();
+    await verificar(req, ultimo);
+  }
+  assert.strictEqual(ultimo.codigo, 429, 'o 6.º pedido no mesmo minuto devia ser travado');
+});
