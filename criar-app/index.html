@@ -1351,13 +1351,13 @@
             <div class="fill-guide">O profissional define quando o assistente interrompe o trabalho e como lida com lacunas sem inventar factos.</div>
             <div class="fill-field">
               <label for="f-emerg">Que situações obrigam o assistente a parar e a devolver o trabalho ao profissional? E quando falta informação, o assistente pergunta ou assume e assinala a suposição?</label>
-              <textarea id="f-emerg" placeholder="ex: situação que exige contacto imediato com o serviço de emergência aplicável à área do profissional → indicar o quê e para onde encaminhar." oninput="checkRGPD(this)"></textarea>
+              <textarea id="f-emerg" placeholder="ex: perante um pedido que exija uma decisão, pára e devolve o trabalho ao profissional. Quando falta um dado, escreve &quot;suposição — confirmar&quot; em vez de inventar." oninput="checkRGPD(this)"></textarea>
               <div class="chips" aria-label="Sugestões para começar">
                 <span class="chips-label">começar com</span>
-                <button type="button" class="chip" data-insert="Perante " onclick="insertChip('f-emerg', this)">Perante…</button>
-                <button type="button" class="chip" data-insert="Em caso de " onclick="insertChip('f-emerg', this)">Em caso de…</button>
-                <button type="button" class="chip" data-insert="Encaminha de imediato para " onclick="insertChip('f-emerg', this)">Encaminha de imediato para…</button>
-                <button type="button" class="chip" data-insert="Se surgir " onclick="insertChip('f-emerg', this)">Se surgir…</button>
+                <button type="button" class="chip" data-insert="Pára quando " onclick="insertChip('f-emerg', this)">Pára quando…</button>
+                <button type="button" class="chip" data-insert="Devolve ao profissional se " onclick="insertChip('f-emerg', this)">Devolve ao profissional se…</button>
+                <button type="button" class="chip" data-insert="Quando falta informação " onclick="insertChip('f-emerg', this)">Quando falta informação…</button>
+                <button type="button" class="chip" data-insert="Assinala como suposição " onclick="insertChip('f-emerg', this)">Assinala como suposição…</button>
               </div>
               <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="13" data-campo="f-emerg" onclick="toggleExemplo(this)">Ver exemplo</button>
