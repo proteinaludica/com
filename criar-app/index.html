@@ -729,6 +729,9 @@
   }
 
   .pay-buttons { display: flex; flex-direction: column; gap: 10px; margin-bottom: 1rem; }
+  /* .btn-pay é display:flex, que se sobrepunha ao atributo hidden: o botão
+     MB WAY ficava visível (inactivo) no Kit e no acesso Pro já pago. */
+  .btn-pay[hidden] { display: none; }
   .btn-pay {
     display: flex; align-items: center; justify-content: center;
     gap: 10px;
