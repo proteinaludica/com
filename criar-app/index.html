@@ -1196,7 +1196,7 @@
       <button class="platform-card" onclick="selectPlatform('mistral','Mistral Le Chat')">
         <div class="platform-badge b-mistral">M</div>
         <div class="platform-name">Mistral Le Chat</div>
-        <div class="platform-desc">LLM europeu. Privacidade máxima, dados na UE.</div>
+        <div class="platform-desc">IA europeia. Os dados ficam na UE.</div>
       </button>
 
       <button class="platform-card platform-card-solo" onclick="selectPlatform('outro','Outro / não sei')">
@@ -1204,7 +1204,7 @@
           <div class="platform-badge b-other">?</div>
           <div>
             <div class="platform-name">Outro / não sei</div>
-            <div class="platform-desc">É devolvido um bloco universal que funciona em qualquer LLM. A colar no campo de instruções da plataforma escolhida.</div>
+            <div class="platform-desc">É devolvido um bloco universal, que funciona em qualquer assistente de IA. Basta colá-lo no campo de instruções da plataforma escolhida.</div>
           </div>
         </div>
       </button>
@@ -1654,7 +1654,7 @@
         <div class="code-box-label">system-instructions.md</div>
         <button class="code-copy-btn" id="copyBtn" onclick="copyCode()">Copiar tudo</button>
       </div>
-      <div class="code-content" id="codeContent"># SYSTEM PROMPT · Assistente digital IA
+      <div class="code-content" id="codeContent"># INSTRUÇÕES · Assistente digital IA
 Gerado por Proteína Lúdica · proteinaludica.com/criar
 
 ## 1. Identidade e persona
@@ -1706,25 +1706,25 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     <div id="paywallTiers">
       <div class="step-label">Passo final</div>
       <h1 class="screen-title">Como continuar?</h1>
-      <p class="screen-sub">O patamar que melhor serve a necessidade atual — é sempre possível voltar a este ecrã.</p>
+      <p class="screen-sub">Escolher o patamar que melhor serve a necessidade actual. É sempre possível voltar a este ecrã.</p>
 
       <div class="tier-grid">
         <button class="tier-card" data-tier="free" onclick="selectTier('free', this)">
           <div class="tier-title">Grátis</div>
           <div class="tier-price">0€</div>
-          <div class="tier-desc">O prompt final completo, pronto a copiar e colar. Sem custo.</div>
+          <div class="tier-desc">As instruções completas do assistente, prontas a copiar e colar. Sem custo.</div>
           <ul class="tier-includes">
-            <li>Prompt final</li>
+            <li>Instruções do assistente</li>
           </ul>
-          <div class="tier-cta">Copiar prompt</div>
+          <div class="tier-cta">Copiar instruções</div>
         </button>
 
         <button class="tier-card" data-tier="kit" onclick="selectTier('kit', this)">
           <div class="tier-title">19€ · Kit completo</div>
           <div class="tier-price">19€</div>
-          <div class="tier-desc">O prompt + o guia de instalação em PDF, feito para a plataforma escolhida.</div>
+          <div class="tier-desc">As instruções do assistente e o guia de instalação em PDF, feito para a plataforma escolhida.</div>
           <ul class="tier-includes">
-            <li>Prompt final</li>
+            <li>Instruções do assistente</li>
             <li>Guia de instalação em PDF para <span id="tierPlatformName">a plataforma escolhida</span></li>
           </ul>
           <div class="tier-cta">Comprar Kit — 19€</div>
@@ -1784,7 +1784,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
           <div class="paywall-includes">
             <div class="paywall-includes-title">Incluído:</div>
             <ul id="checkoutIncludes">
-              <li>Prompt final</li>
+              <li>Instruções do assistente</li>
               <li>PDF com o passo-a-passo de instalação na plataforma escolhida</li>
             </ul>
           </div>
@@ -1811,7 +1811,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
           <div class="form-check">
             <input type="checkbox" id="f-terms">
             <label for="f-terms" style="font-family:var(--font-body); font-size:12px; letter-spacing:0; text-transform:none; font-weight:400;">
-              Aceito os <a href="#" onclick="return false">termos</a> e a <a href="#" onclick="return false">política de privacidade</a>.
+              Aceito os <a href="https://proteinaludica.com/termos" target="_blank" rel="noopener">termos</a> e a <a href="https://proteinaludica.com/privacidade" target="_blank" rel="noopener">política de privacidade</a>.
             </label>
           </div>
 
@@ -2119,17 +2119,17 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     free: {
       titulo: 'Versão grátis',
       preco: '0€',
-      inclui: 'Apenas o prompt final'
+      inclui: 'Apenas as instruções do assistente'
     },
     kit: {
       titulo: 'Kit completo',
       preco: '19€',
-      inclui: 'Prompt final + guia de instalação em PDF',
+      inclui: 'Instruções do assistente + guia de instalação em PDF',
       title: 'Kit completo<br><em>19€</em>',
       previewTitle: 'Kit completo',
       price: '19€',
       includes: [
-        'Prompt final',
+        'Instruções do assistente',
         'Guia de instalação em PDF para {plataforma}'
       ]
     },
@@ -2222,7 +2222,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     btnMbway.disabled = true;
     btnCard.disabled = true;
     mostrarAvisoPagamento(aviso,
-      'O pagamento do Kit completo ainda não está disponível. Para já, o prompt final continua grátis, e o patamar Pro inclui o guia de instalação.');
+      'O pagamento do Kit completo ainda não está disponível. Para já, as instruções do assistente continuam grátis, e o patamar Pro inclui o guia de instalação.');
   }
 
   function mostrarAvisoPagamento(el, texto) {
@@ -3060,7 +3060,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
         + document.getElementById(sec.campo).value.trim();
     }).join('\n\n');
 
-    const md = '# SYSTEM PROMPT · Assistente digital IA\n'
+    const md = '# INSTRUÇÕES · Assistente digital IA\n'
       + 'Gerado por Proteína Lúdica · proteinaludica.com/criar\n\n'
       + corpo
       + '\n\n---\n'
