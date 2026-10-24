@@ -112,3 +112,71 @@ test('com token Pro válido passa a barreira e chega à validação do corpo', a
   await handler(pedido({ authorization: 'Bearer ' + tokenPro() }, { email: 'a@b.pt' }), res);
   assert.strictEqual(res.codigo, 400);
 });
+
+// ─── Kit completo com pagamento adiado (KIT_PAGAMENTO_ADIADO) ───
+// Sem token, só o patamar 'kit' passa, e só dentro do limite diário por IP.
+// O limite conta na RPC incrementar_limite do Supabase; aqui o fetch é falso.
+
+const CORPO_KIT = Object.assign({ patamar: 'kit' }, CORPO_VALIDO);
+
+async function comSupabase(contagemDevolvida, fn) {
+  const antes = {
+    url: process.env.SUPABASE_URL,
+    key: process.env.SUPABASE_SERVICE_ROLE_KEY,
+    ip: process.env.RATE_LIMIT_IP_SEGREDO,
+    fetch: global.fetch,
+  };
+  process.env.SUPABASE_URL = 'https://supabase.teste';
+  process.env.SUPABASE_SERVICE_ROLE_KEY = 'chave-teste';
+  process.env.RATE_LIMIT_IP_SEGREDO = 'segredo-ip-teste';
+  const chamadas = [];
+  global.fetch = async (url, opts) => {
+    chamadas.push({ url: String(url), corpo: opts && opts.body });
+    if (String(url).includes('/rpc/incrementar_limite')) {
+      return { ok: true, json: async () => contagemDevolvida, text: async () => '' };
+    }
+    return { ok: true, json: async () => ({}), text: async () => '' };
+  };
+  try {
+    return await fn(chamadas);
+  } finally {
+    global.fetch = antes.fetch;
+    for (const [k, v] of [['SUPABASE_URL', antes.url], ['SUPABASE_SERVICE_ROLE_KEY', antes.key], ['RATE_LIMIT_IP_SEGREDO', antes.ip]]) {
+      if (v === undefined) delete process.env[k]; else process.env[k] = v;
+    }
+  }
+}
+
+test('kit sem token e sem Supabase configurado falha fechado com 503', async () => {
+  const res = resFalsa();
+  await handler(pedido({ 'x-real-ip': '1.2.3.4' }, CORPO_KIT), res);
+  assert.strictEqual(res.codigo, 503);
+});
+
+test('kit sem token acima do limite diário devolve 429 e não gera', async () => {
+  await comSupabase(4, async (chamadas) => {
+    const res = resFalsa();
+    await handler(pedido({ 'x-real-ip': '1.2.3.4' }, CORPO_KIT), res);
+    assert.strictEqual(res.codigo, 429);
+    assert.ok(!chamadas.some((c) => c.url.includes('resend')));
+  });
+});
+
+test('kit sem token dentro do limite passa a barreira e chega à validação do corpo', async () => {
+  await comSupabase(1, async (chamadas) => {
+    const res = resFalsa();
+    await handler(pedido({ 'x-real-ip': '1.2.3.4' }, { patamar: 'kit', email: 'a@b.pt' }), res);
+    assert.strictEqual(res.codigo, 400);
+    const rpc = chamadas.find((c) => c.url.includes('/rpc/incrementar_limite'));
+    assert.ok(rpc, 'o limite tem de ser contado');
+    assert.match(JSON.parse(rpc.corpo).p_chave, /^kit:/);
+  });
+});
+
+test('patamar diferente de kit sem token continua a devolver 401', async () => {
+  await comSupabase(1, async () => {
+    const res = resFalsa();
+    await handler(pedido({ 'x-real-ip': '1.2.3.4' }, Object.assign({ patamar: 'pro' }, CORPO_VALIDO)), res);
+    assert.strictEqual(res.codigo, 401);
+  });
+});

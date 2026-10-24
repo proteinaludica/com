@@ -14,7 +14,15 @@
 // sem browser headless) e o fetch nativo do Node 18+ na Vercel.
 
 const { PDFDocument, StandardFonts, rgb } = require('pdf-lib');
-const { emitirJWTdocumento, verificarJWT } = require('../lib/pro-comum');
+const { emitirJWTdocumento, verificarJWT, configSupabase } = require('../lib/pro-comum');
+const { incrementarContagem, janelaHoje, obterIp, resumirIp } = require('./assistir-campo');
+
+// Pagamento do Kit completo (19€) adiado. Enquanto estiver `true`, o guia do
+// Kit sai sem prova de pagamento, limitado por IP para o endpoint não servir
+// de canal de envio de email em massa. Quando o checkout do Kit estiver
+// ligado, passar a `false` e o Kit volta a exigir token como o Pro.
+const KIT_PAGAMENTO_ADIADO = true;
+const LIMITE_KIT_POR_IP = 3; // guias do Kit por IP e por dia (UTC)
 
 const LIMITES = {
   plataforma: 60,
@@ -503,18 +511,51 @@ function acessoConfirmado(req) {
   return payload;
 }
 
+// Kit sem pagamento: conta um pedido por IP e por dia na tabela de limites do
+// assistir-campo. Devolve 'ok', 'excedido' ou 'indisponivel' (falha fechado:
+// sem Supabase ou sem segredo do IP não se entrega nada).
+async function kitDentroDoLimite(req) {
+  const cfg = configSupabase();
+  if (!cfg) return 'indisponivel';
+  try {
+    const janela = janelaHoje();
+    const chave = 'kit:' + resumirIp(obterIp(req), janela);
+    const contagem = await incrementarContagem(cfg, chave, '__pdf__', janela);
+    if (typeof contagem !== 'number') return 'indisponivel';
+    return contagem > LIMITE_KIT_POR_IP ? 'excedido' : 'ok';
+  } catch (err) {
+    console.error('Limite do Kit indisponível:', err && err.message);
+    return 'indisponivel';
+  }
+}
+
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
     return res.status(405).json({ ok: false, error: 'Método não permitido.' });
   }
 
+  let body;
+  try {
+    body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
+  } catch (_) {
+    return res.status(400).json({ ok: false, error: 'Corpo do pedido inválido.' });
+  }
+
   if (!acessoConfirmado(req)) {
-    return res.status(401).json({ ok: false, erro: 'sessao_expirada', error: 'Acesso não confirmado.' });
+    if (!(KIT_PAGAMENTO_ADIADO && body.patamar === 'kit')) {
+      return res.status(401).json({ ok: false, erro: 'sessao_expirada', error: 'Acesso não confirmado.' });
+    }
+    const limite = await kitDentroDoLimite(req);
+    if (limite === 'excedido') {
+      return res.status(429).json({ ok: false, error: 'Limite diário de guias atingido.' });
+    }
+    if (limite !== 'ok') {
+      return res.status(503).json({ ok: false, error: 'Serviço indisponível.' });
+    }
   }
 
   try {
-    const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
 
     const plataforma = cortar(body.plataforma, LIMITES.plataforma);
     const nome_assistente = cortar(body.nome_assistente, LIMITES.nome_assistente);

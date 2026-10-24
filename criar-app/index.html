@@ -1873,7 +1873,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
 <section class="screen" id="screen-5">
   <div class="screen-inner success-inner">
     <div class="success-check"></div>
-    <h1 class="success-title">Pagamento <em>confirmado.</em></h1>
+    <h1 class="success-title" id="successTitle">Pagamento <em>confirmado.</em></h1>
     <p class="success-text">
       O kit completo foi enviado para <span class="success-email" id="successEmail">o email indicado</span>.<br>
       Também pode ser descarregado já:
@@ -2223,13 +2223,29 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       return;
     }
 
-    // Kit completo (19€): ainda não há checkout ligado para este patamar. Os
-    // botões ficam inertes com uma mensagem clara, em vez de simularem um
-    // pagamento que nunca acontece.
+    // Kit completo (19€): pagamento adiado (ver KIT_PAGAMENTO_ADIADO em
+    // api/gerar-pdf-instalacao.js). O guia sai sem cobrança; o servidor limita
+    // os pedidos por IP. Quando o checkout do Kit for ligado, este ramo passa
+    // a iniciar o pagamento como o Pro.
     btnMbway.disabled = true;
-    btnCard.disabled = true;
-    mostrarAvisoPagamento(aviso,
-      'O pagamento do Kit completo ainda não está disponível. Para já, as instruções do assistente continuam grátis, e o patamar Pro inclui o guia de instalação.');
+    btnMbway.hidden = true;
+    btnCard.disabled = false;
+    btnCard.innerHTML = '<span class="pay-icon">✓</span>Receber o guia de instalação';
+    btnCard.onclick = function () { entregarKit(btnCard); };
+    mostrarAvisoPagamento(aviso, '');
+  }
+
+  // Entrega do Kit enquanto o pagamento está adiado: mesmas validações da
+  // entrega Pro (email e termos), sem exigir token.
+  function entregarKit(btn) {
+    const email = validarEmailEntrega();
+    if (!email) return;
+    if (!aceitouTermos()) return;
+    if (btn) btn.disabled = true;
+    document.getElementById('successTitle').innerHTML = 'Guia <em>enviado.</em>';
+    document.getElementById('successEmail').textContent = email;
+    enviarGuiaInstalacao(email, 'kit');
+    goTo(5);
   }
 
   function mostrarAvisoPagamento(el, texto) {
@@ -2852,7 +2868,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
 
   // Pede a geração e o envio por email do guia de instalação (PDF) com o
   // conteúdo real do profissional, para a plataforma escolhida no Ecrã 1.
-  function enviarGuiaInstalacao(email) {
+  function enviarGuiaInstalacao(email, patamar) {
     if (!email || email === 'o email indicado') return;
     const timeoutErro = setTimeout(() => {
       if (!sessionStorage.getItem('pl_downloadUrl')) estadoErroDescarrega();
@@ -2868,6 +2884,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
         missao: (document.getElementById('f-missao') || {}).value || '',
         prompt_completo: (document.getElementById('codeContent') || {}).textContent || '',
         email: email,
+        patamar: patamar || '',
       }),
     }).then(r => r.json())
       .then(resposta => {
@@ -2961,6 +2978,8 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     if (termos) termos.checked = false;
     const livreResolucao = document.getElementById('f-livre-resolucao');
     if (livreResolucao) livreResolucao.checked = false;
+    const tituloSucesso = document.getElementById('successTitle');
+    if (tituloSucesso) tituloSucesso.innerHTML = 'Pagamento <em>confirmado.</em>';
 
     // O ecrã de sucesso não pode ficar com o PDF e a ligação do assistente
     // anterior à espera: era o que acontecia ao "Criar outro assistente".
