@@ -1044,6 +1044,7 @@
   .btn-rever[disabled]:hover { background: var(--accent); transform: none; }
   .rever-hint { font-size: 12px; color: var(--ink2); line-height: 1.45; }
   .rever-hint strong { color: var(--accent); font-weight: 500; }
+  .rever-hint a { color: var(--accent); text-decoration: underline; }
   /* Chips de sugestão (ponto de partida editável) */
   .chips { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 9px; }
   .chips-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted2); margin-right: 2px; }
@@ -1541,6 +1542,11 @@
           <button type="button" class="btn-pro">✨ Escrever com IA<span class="pro-tip"></span></button>
         </div>
       </div>
+    </div>
+
+    <div class="rever-bar">
+      <button class="btn-accent btn-rever" onclick="reverTerminar()" disabled>Rever e terminar →</button>
+      <span class="rever-hint">Faltam as <strong>5 secções obrigatórias</strong> para terminar. As opcionais ficam de fora.</span>
     </div>
     </div><!-- /opcionais -->
 
@@ -3144,22 +3150,28 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   window.addEventListener('load', initContadorSecoes);
 
   // ─── Fase 3: rever e terminar ───
+  // Há duas barras "Rever e terminar": por baixo das obrigatórias e no fim das
+  // opcionais (quem desce até à secção 16 não ficava sem botão). Ambas mostram
+  // o mesmo estado e, em falta, o nome de cada obrigatória com ligação a ela.
   function checkObrigatorias() {
-    const preenchidas = OBRIGATORIAS.filter(id => {
+    const emFalta = OBRIGATORIAS.filter(id => {
       const el = document.getElementById(id);
-      return el && el.value.trim() !== '';
-    }).length;
-    const btn = document.getElementById('btnRever');
-    const hint = document.getElementById('reverHint');
-    if (!btn || !hint) return;
-    const todas = preenchidas === OBRIGATORIAS.length;
-    btn.disabled = !todas;
+      return !el || el.value.trim() === '';
+    });
+    const todas = emFalta.length === 0;
+    let texto;
     if (todas) {
-      hint.innerHTML = 'As <strong>' + OBRIGATORIAS.length + ' obrigatórias</strong> estão preenchidas. As opcionais ficam de fora.';
+      texto = 'As <strong>' + OBRIGATORIAS.length + ' obrigatórias</strong> estão preenchidas. As opcionais ficam de fora.';
     } else {
-      hint.innerHTML = 'Faltam <strong>' + (OBRIGATORIAS.length - preenchidas) + ' de ' + OBRIGATORIAS.length
-        + '</strong> secções obrigatórias. As opcionais ficam de fora.';
+      const ligacoes = emFalta.map(id => {
+        const sec = SECCAO_POR_CAMPO[id];
+        return '<a href="#sec-' + numeroFormatado(sec.num) + '">' + sec.titulo + '</a>';
+      }).join(', ');
+      texto = 'Faltam <strong>' + emFalta.length + ' de ' + OBRIGATORIAS.length
+        + '</strong> secções obrigatórias: ' + ligacoes + '. As opcionais ficam de fora.';
     }
+    document.querySelectorAll('.btn-rever').forEach(btn => { btn.disabled = !todas; });
+    document.querySelectorAll('.rever-hint').forEach(hint => { hint.innerHTML = texto; });
   }
   function reverTerminar() {
     if (document.getElementById('btnRever').disabled) return;
