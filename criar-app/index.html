@@ -978,11 +978,6 @@
   .btn-pro:hover .pro-tip { opacity: 1; transform: translateX(-50%) translateY(0); }
   .pro-tip { position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%) translateY(4px); background: var(--ink); color: white; font-family: var(--font-body); font-size: 11px; letter-spacing: 0; padding: 6px 10px; border-radius: 5px; white-space: nowrap; opacity: 0; transition: all 0.2s; z-index: 10; box-shadow: var(--shadow-lg); pointer-events: none; }
   .pro-tip::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-top-color: var(--ink); }
-  .btn-pro-toggle { display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.04em; color: #6B3FA0; background: #F0E9F8; border: 0.5px dashed #6B3FA0; padding: 4px 10px; border-radius: 4px; cursor: pointer; transition: all 0.15s; margin-top: 6px; }
-  .btn-pro-toggle:hover, .btn-pro-toggle.open { border-style: solid; }
-  .pro-reveal-panel { margin-top: 8px; padding: 10px 12px; background: #F8F4FC; border: 0.5px solid #D9C7EC; border-radius: 6px; }
-  .pro-reveal-panel[hidden] { display: none; }
-  .pro-reveal-text { font-family: var(--font-body); font-size: 12.5px; line-height: 1.5; color: var(--ink); margin-bottom: 8px; }
   /* ─── PASSO 3: índice lateral + obrigatórias (Fase 1) ─── */
   .s3-body { display: grid; grid-template-columns: 210px 1fr; gap: 1.75rem; align-items: start; }
   .s3-content { min-width: 0; }
@@ -1299,7 +1294,7 @@
               </div>
               <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="1" data-campo="f-nome" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro">✨ Pro<span class="pro-tip"></span></button>
+          <button type="button" class="btn-pro">✨ Escrever com IA<span class="pro-tip"></span></button>
         </div>
             </div>
           </div>
@@ -1319,7 +1314,7 @@
               </div>
               <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="2" data-campo="f-missao" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro">✨ Pro<span class="pro-tip"></span></button>
+          <button type="button" class="btn-pro">✨ Escrever com IA<span class="pro-tip"></span></button>
         </div>
             </div>
           </div>
@@ -1340,7 +1335,7 @@
               </div>
               <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="12" data-campo="f-redline" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro">✨ Pro<span class="pro-tip"></span></button>
+          <button type="button" class="btn-pro">✨ Escrever com IA<span class="pro-tip"></span></button>
         </div>
             </div>
           </div>
@@ -1361,7 +1356,7 @@
               </div>
               <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="13" data-campo="f-emerg" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro">✨ Pro<span class="pro-tip"></span></button>
+          <button type="button" class="btn-pro">✨ Escrever com IA<span class="pro-tip"></span></button>
         </div>
             </div>
           </div>
@@ -1382,7 +1377,7 @@
               </div>
               <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="15" data-campo="f-fecho" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro">✨ Pro<span class="pro-tip"></span></button>
+          <button type="button" class="btn-pro">✨ Escrever com IA<span class="pro-tip"></span></button>
         </div>
             </div>
           </div>
@@ -1413,14 +1408,7 @@
         <textarea id="f-publico" placeholder="Descreva em 1-2 frases quem recebe estes textos." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="3" data-campo="f-publico" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro">✨ Pro<span class="pro-tip"></span></button>
-        </div>
-        <div class="pro-reveal">
-          <button type="button" class="btn-pro-toggle">✨ ver versão Pro →</button>
-          <div class="pro-reveal-panel" hidden>
-            <div class="pro-reveal-text"><strong>Clientes empresariais:</strong> PMEs entre 5-50 colaboradores, sem departamento financeiro próprio, que pedem sobretudo apoio em <strong>IVA trimestral</strong> e <strong>fecho de contas</strong>. Tom: directo, sem jargão contabilístico não explicado. <strong>Clientes particulares:</strong> sobretudo <strong>IRS anual</strong>, menor tolerância a prazos apertados — avisar sempre com antecedência.</div>
-            <button class="btn-example" data-example="Clientes empresariais: PMEs entre 5-50 colaboradores, sem departamento financeiro próprio, que pedem sobretudo apoio em IVA trimestral e fecho de contas. Tom: directo, sem jargão contabilístico não explicado. Clientes particulares: sobretudo IRS anual, menor tolerância a prazos apertados — avisar sempre com antecedência." onclick="fillFieldExample('f-publico', this)">↳ usar este exemplo</button>
-          </div>
+          <button type="button" class="btn-pro">✨ Escrever com IA<span class="pro-tip"></span></button>
         </div>
       </div>
     </div>
@@ -1433,14 +1421,7 @@
         <textarea id="f-contexto" placeholder="Descreva em 1-2 frases o ambiente onde o profissional actua." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="4" data-campo="f-contexto" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro">✨ Pro<span class="pro-tip"></span></button>
-        </div>
-        <div class="pro-reveal">
-          <button type="button" class="btn-pro-toggle">✨ ver versão Pro →</button>
-          <div class="pro-reveal-panel" hidden>
-            <div class="pro-reveal-text">Gabinete de contabilidade, dois perfis predominantes: <strong>empresários em nome individual</strong> — linguagem simples, evitar termos técnicos, explicar prazos com antecedência · <strong>Empresas com contabilidade organizada</strong> — directos, focados em prazos e valores. O assistente ajusta o tom consoante o perfil identificado nas notas.</div>
-            <button class="btn-example" data-example="Gabinete de contabilidade, dois perfis predominantes: empresários em nome individual — linguagem simples, evitar termos técnicos, explicar prazos com antecedência · Empresas com contabilidade organizada — directos, focados em prazos e valores. O assistente ajusta o tom consoante o perfil identificado nas notas." onclick="fillFieldExample('f-contexto', this)">↳ usar este exemplo</button>
-          </div>
+          <button type="button" class="btn-pro">✨ Escrever com IA<span class="pro-tip"></span></button>
         </div>
       </div>
     </div>
@@ -1453,14 +1434,7 @@
         <textarea id="f-tom" placeholder="Descreva em 1-2 frases o tom pretendido." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="5" data-campo="f-tom" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro">✨ Pro<span class="pro-tip"></span></button>
-        </div>
-        <div class="pro-reveal">
-          <button type="button" class="btn-pro-toggle">✨ ver versão Pro →</button>
-          <div class="pro-reveal-panel" hidden>
-            <div class="pro-reveal-text"><strong>Advogado:</strong> formal e sóbrio, frases completas, sem contracções coloquiais, precisão terminológica mesmo em comunicações informais como email. <strong>Treinador:</strong> directo e motivador, frases curtas, imperativo frequente ("Foca nisto esta semana"), evita jargão técnico de fisiologia salvo pedido expresso.</div>
-            <button class="btn-example" data-example="Advogado: formal e sóbrio, frases completas, sem contracções coloquiais, precisão terminológica mesmo em comunicações informais como email. Treinador: directo e motivador, frases curtas, imperativo frequente (&quot;Foca nisto esta semana&quot;), evita jargão técnico de fisiologia salvo pedido expresso." onclick="fillFieldExample('f-tom', this)">↳ usar este exemplo</button>
-          </div>
+          <button type="button" class="btn-pro">✨ Escrever com IA<span class="pro-tip"></span></button>
         </div>
       </div>
     </div>
@@ -1473,14 +1447,7 @@
         <textarea id="f-linguagem" placeholder="Descreva em 1-2 frases o registo de linguagem." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="6" data-campo="f-linguagem" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro">✨ Pro<span class="pro-tip"></span></button>
-        </div>
-        <div class="pro-reveal">
-          <button type="button" class="btn-pro-toggle">✨ ver versão Pro →</button>
-          <div class="pro-reveal-panel" hidden>
-            <div class="pro-reveal-text">Termos técnicos sempre explicados por comparação simples na primeira menção do documento ("IVA dedutível — o que a empresa pode descontar nas suas próprias compras"); da segunda em diante, usa o termo directo. <strong>Números sempre com separador de milhares</strong> · <strong>Datas fiscais sempre por extenso</strong> ("30 de Junho", nunca "30/06")</div>
-            <button class="btn-example" data-example="Termos técnicos sempre explicados por comparação simples na primeira menção do documento (&quot;IVA dedutível — o que a empresa pode descontar nas suas próprias compras&quot;); da segunda em diante, usa o termo directo. Números sempre com separador de milhares. Datas fiscais sempre por extenso (&quot;30 de Junho&quot;, nunca &quot;30/06&quot;)." onclick="fillFieldExample('f-linguagem', this)">↳ usar este exemplo</button>
-          </div>
+          <button type="button" class="btn-pro">✨ Escrever com IA<span class="pro-tip"></span></button>
         </div>
       </div>
     </div>
@@ -1493,14 +1460,7 @@
         <textarea id="f-estilo" placeholder="Descreva o formato-tipo dos textos e eventuais necessidades de acessibilidade." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="7" data-campo="f-estilo" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro">✨ Pro<span class="pro-tip"></span></button>
-        </div>
-        <div class="pro-reveal">
-          <button type="button" class="btn-pro-toggle">✨ ver versão Pro →</button>
-          <div class="pro-reveal-panel" hidden>
-            <div class="pro-reveal-text">Conclusão sempre na primeira frase (ex.: "O orçamento cabe no tecto definido"). Detalhe técnico só surge se o cliente perguntar "porquê" ou "como". Referências a normas/regulamentos citadas por nome, nunca por número de artigo isolado — o cliente não decora números de lei.</div>
-            <button class="btn-example" data-example="Conclusão sempre na primeira frase (ex.: &quot;O orçamento cabe no tecto definido&quot;). Detalhe técnico só surge se o cliente perguntar &quot;porquê&quot; ou &quot;como&quot;. Referências a normas/regulamentos citadas por nome, nunca por número de artigo isolado — o cliente não decora números de lei." onclick="fillFieldExample('f-estilo', this)">↳ usar este exemplo</button>
-          </div>
+          <button type="button" class="btn-pro">✨ Escrever com IA<span class="pro-tip"></span></button>
         </div>
       </div>
     </div>
@@ -1513,14 +1473,7 @@
         <textarea id="f-onboarding" placeholder="Descreva a sequência de perguntas do primeiro contacto." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="8" data-campo="f-onboarding" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro">✨ Pro<span class="pro-tip"></span></button>
-        </div>
-        <div class="pro-reveal">
-          <button type="button" class="btn-pro-toggle">✨ ver versão Pro →</button>
-          <div class="pro-reveal-panel" hidden>
-            <div class="pro-reveal-text">1. É um <strong>contacto novo</strong> ou já acompanhado? 2. Há <strong>notas do contacto anterior</strong> ou parte-se do zero? 3. O texto é para <strong>registo interno</strong> ou para entregar ao cliente? A pergunta 3 muda completamente o registo do texto final.</div>
-            <button class="btn-example" data-example="1. É um contacto novo ou já acompanhado? 2. Há notas do contacto anterior ou parte-se do zero? 3. O texto é para registo interno ou para entregar ao cliente? A pergunta 3 muda completamente o registo do texto final." onclick="fillFieldExample('f-onboarding', this)">↳ usar este exemplo</button>
-          </div>
+          <button type="button" class="btn-pro">✨ Escrever com IA<span class="pro-tip"></span></button>
         </div>
       </div>
     </div>
@@ -1533,14 +1486,7 @@
         <textarea id="f-tarefas" placeholder="Descreva os fluxos de trabalho e as regras para correcções e versões." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="9" data-campo="f-tarefas" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro">✨ Pro<span class="pro-tip"></span></button>
-        </div>
-        <div class="pro-reveal">
-          <button type="button" class="btn-pro-toggle">✨ ver versão Pro →</button>
-          <div class="pro-reveal-panel" hidden>
-            <div class="pro-reveal-text">Organizar notas de treino <strong>por atleta e por semana</strong>; a partir de observações soltas ("hoje mais cansado", "melhorou no agachamento"), preparar um <strong>resumo de progressão mensal</strong> pronto a enviar; estruturar plano da próxima semana em lista de tarefas com prioridade.</div>
-            <button class="btn-example" data-example="Organizar notas de treino por atleta e por semana; a partir de observações soltas (&quot;hoje mais cansado&quot;, &quot;melhorou no agachamento&quot;), preparar um resumo de progressão mensal pronto a enviar; estruturar plano da próxima semana em lista de tarefas com prioridade." onclick="fillFieldExample('f-tarefas', this)">↳ usar este exemplo</button>
-          </div>
+          <button type="button" class="btn-pro">✨ Escrever com IA<span class="pro-tip"></span></button>
         </div>
       </div>
     </div>
@@ -1553,7 +1499,7 @@
         <textarea id="f-fontes" placeholder="Descreva as fontes autorizadas e as que estão excluídas." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="10" data-campo="f-fontes" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro">✨ Pro<span class="pro-tip"></span></button>
+          <button type="button" class="btn-pro">✨ Escrever com IA<span class="pro-tip"></span></button>
         </div>
       </div>
     </div>
@@ -1566,14 +1512,7 @@
         <textarea id="f-conhecimento" placeholder="Descreva os dados fixos e as regras para dados variáveis." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="11" data-campo="f-conhecimento" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro">✨ Pro<span class="pro-tip"></span></button>
-        </div>
-        <div class="pro-reveal">
-          <button type="button" class="btn-pro-toggle">✨ ver versão Pro →</button>
-          <div class="pro-reveal-panel" hidden>
-            <div class="pro-reveal-text">Nome do atelier, contactos, modelos de orçamento e caderno de encargos habituais. Entrada: notas de reunião com cliente ou medições soltas. Saída: texto pronto a copiar, já com secções separadas: Memória descritiva · Orçamento · Prazo estimado. <strong>Nunca usar:</strong> "garantido", "sem imprevistos", "prazo fixo".</div>
-            <button class="btn-example" data-example="Nome do atelier, contactos, modelos de orçamento e caderno de encargos habituais. Entrada: notas de reunião com cliente ou medições soltas. Saída: texto pronto a copiar, já com secções separadas: Memória descritiva · Orçamento · Prazo estimado. Nunca usar: &quot;garantido&quot;, &quot;sem imprevistos&quot;, &quot;prazo fixo&quot;." onclick="fillFieldExample('f-conhecimento', this)">↳ usar este exemplo</button>
-          </div>
+          <button type="button" class="btn-pro">✨ Escrever com IA<span class="pro-tip"></span></button>
         </div>
       </div>
     </div>
@@ -1586,14 +1525,7 @@
         <textarea id="f-dados" placeholder="Descreva as regras de privacidade e tratamento de dados." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="14" data-campo="f-dados" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro">✨ Pro<span class="pro-tip"></span></button>
-        </div>
-        <div class="pro-reveal">
-          <button type="button" class="btn-pro-toggle">✨ ver versão Pro →</button>
-          <div class="pro-reveal-panel" hidden>
-            <div class="pro-reveal-text">Aceita <strong>NIF apenas se necessário</strong> para o documento fiscal em causa; fora disso, usa iniciais. <strong>Nunca guarda dados bancários ou NIF</strong> em texto de rascunho intermédio — só no documento final gerado. Se faltar dado obrigatório (ex. NIF em factura), pergunta em vez de inventar ou deixar em branco.</div>
-            <button class="btn-example" data-example="Aceita NIF apenas se necessário para o documento fiscal em causa; fora disso, usa iniciais. Nunca guarda dados bancários ou NIF em texto de rascunho intermédio — só no documento final gerado. Se faltar dado obrigatório (ex. NIF em factura), pergunta em vez de inventar ou deixar em branco." onclick="fillFieldExample('f-dados', this)">↳ usar este exemplo</button>
-          </div>
+          <button type="button" class="btn-pro">✨ Escrever com IA<span class="pro-tip"></span></button>
         </div>
       </div>
     </div>
@@ -1606,14 +1538,7 @@
         <textarea id="f-continuidade" placeholder="Descreva como o assistente mantém continuidade entre sessões." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="16" data-campo="f-continuidade" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro">✨ Pro<span class="pro-tip"></span></button>
-        </div>
-        <div class="pro-reveal">
-          <button type="button" class="btn-pro-toggle">✨ ver versão Pro →</button>
-          <div class="pro-reveal-panel" hidden>
-            <div class="pro-reveal-text">Pergunta se há algo a retomar do contacto anterior. Se notar que o profissional pede sempre o mesmo formato de resumo, sugere: "Quer guardar isto como modelo para os próximos casos semelhantes?" — só grava depois de confirmado. <strong>Nunca guarda dados pessoais.</strong></div>
-            <button class="btn-example" data-example="Pergunta se há algo a retomar do contacto anterior. Se notar que o profissional pede sempre o mesmo formato de resumo, sugere: &quot;Quer guardar isto como modelo para os próximos casos semelhantes?&quot; — só grava depois de confirmado. Nunca guarda dados pessoais." onclick="fillFieldExample('f-continuidade', this)">↳ usar este exemplo</button>
-          </div>
+          <button type="button" class="btn-pro">✨ Escrever com IA<span class="pro-tip"></span></button>
         </div>
       </div>
     </div>
@@ -1733,10 +1658,10 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
         <button class="tier-card" data-tier="pro" onclick="selectTier('pro', this)">
           <div class="tier-title">49€ · Pro</div>
           <div class="tier-price">49€</div>
-          <div class="tier-desc">A IA ajuda a preencher cada campo, em tempo real, enquanto o profissional escreve.</div>
+          <div class="tier-desc">A IA escreve cada campo a partir das respostas já dadas. O profissional só revê e ajusta.</div>
           <ul class="tier-includes">
             <li>Tudo do Kit completo</li>
-            <li>Assistente digital IA em tempo real</li>
+            <li>Escrita assistida por IA nas 16 secções</li>
           </ul>
           <div class="tier-cta">Comprar Pro — 49€</div>
         </button>
@@ -2143,13 +2068,13 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     pro: {
       titulo: 'Pro',
       preco: '49€',
-      inclui: 'A IA ajuda a preencher cada campo em tempo real',
+      inclui: 'A IA escreve cada campo a partir das respostas já dadas',
       title: 'Pro<br><em>49€</em>',
       previewTitle: 'Pro',
       price: '49€',
       includes: [
         'Tudo do Kit completo',
-        'Assistente digital IA em tempo real'
+        'Escrita assistida por IA nas 16 secções'
       ]
     },
     medida: {
@@ -2309,7 +2234,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       acao: () => goTo(4)
     },
     kit: {
-      upsell: '✨ Com Pro, a IA preenche por si · 49€',
+      upsell: '✨ Com o Pro, a IA escreve cada campo · 49€',
       botao: 'Ver Pro →',
       acao: goToProPricing
     },
@@ -2711,7 +2636,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   // repetido em cada um — e o onclick inline "goToProPricing()" era morto:
   // initAssistirCampo() substitui-o sempre. Passa a sair de TIERS, num sítio só.
   function escreverDicasPro() {
-    const texto = 'a IA ajuda a preencher este campo · ' + TIERS.pro.preco;
+    const texto = 'A IA escreve este campo a partir do que já foi preenchido · Pro ' + TIERS.pro.preco;
     document.querySelectorAll('.btn-pro .pro-tip').forEach(el => { el.textContent = texto; });
   }
 
@@ -3051,34 +2976,6 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     if (e.key === 'Escape') closeQuizModal();
   });
 
-  // ─── Secções de campo único: exemplo estático (sem abas de profissão) ───
-  function fillFieldExample(fieldId, btn) {
-    const el = document.getElementById(fieldId);
-    if (!el || !btn.dataset.example) return;
-    // Nunca substituir texto do utilizador sem confirmar.
-    const escrito = (typeof valorUtilizador === 'function') ? valorUtilizador(fieldId) : el.value;
-    if (escrito.trim() !== '' &&
-        !confirm('Já há texto escrito nesta secção. Substituir pelo exemplo?')) return;
-    el.value = btn.dataset.example;
-    el.dispatchEvent(new Event('input', { bubbles: true }));
-  }
-
-  // ─── Toggle: revelar/ocultar o exemplo Pro por baixo do exemplo grátis ───
-  function toggleProExample(btn) {
-    const panel = btn.nextElementSibling;
-    if (!panel) return;
-    const abrir = panel.hasAttribute('hidden');
-    if (abrir) {
-      panel.removeAttribute('hidden');
-      btn.textContent = '✨ ocultar versão Pro';
-      btn.classList.add('open');
-    } else {
-      panel.setAttribute('hidden', '');
-      btn.textContent = '✨ ver versão Pro →';
-      btn.classList.remove('open');
-    }
-  }
-
   // ─── Ecrã 3: gerar output a partir dos valores reais das 16 secções ───
 
   function gerarOutput() {
@@ -3108,23 +3005,6 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       conta.innerHTML = 'Foram incluídas ' + incluidas.length + ' das ' + TOTAL_SECOES
         + ' secções. <a onclick="goTo(2)">Voltar atrás para acrescentar mais.</a>';
     }
-  }
-
-  // ─── Inicializar event listeners do toggle Pro ───
-  function initProToggleListeners() {
-    const toggleBtns = document.querySelectorAll('.btn-pro-toggle');
-    toggleBtns.forEach(btn => {
-      btn.addEventListener('click', function() {
-        toggleProExample(this);
-      });
-    });
-  }
-
-  // Executar ao carregar o DOM
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initProToggleListeners);
-  } else {
-    initProToggleListeners();
   }
 
   // ─── Fase 2: recolher opcionais ───
