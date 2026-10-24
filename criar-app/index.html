@@ -3072,12 +3072,19 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   });
 
   // ─── Ecrã 3: onde colar, na plataforma escolhida ───
-  // Os caminhos seguem o Passo 1 dos guias em PDF (api/gerar-pdf-instalacao.js).
+  // ChatGPT, Claude e Gemini seguem o Passo 1 dos guias em PDF (api/gerar-pdf-instalacao.js).
   // O passo-a-passo completo continua a ser o guia do Kit.
   const ONDE_COLAR = {
     gpt: 'No ChatGPT: em chatgpt.com, abrir "Explorar GPTs", depois "Criar" e o separador "Configure". Colar no campo "Instructions".',
     claude: 'No Claude: em claude.ai, abrir "Projects" e depois "Create Project". Colar no campo "Instruções".',
     gemini: 'No Gemini: em gemini.google.com, abrir "Gems" e depois "Novo Gem". Colar no campo "Instruções".',
+    // Copilot, Perplexity e Mistral: segundo a documentação oficial de cada um
+    // (Microsoft Learn "Agent Builder", Perplexity Help Center "What are
+    // Projects?", Mistral docs "Le Chat · Agents"). No Perplexity, os Spaces
+    // passaram a chamar-se Projects e as instruções vão nas definições.
+    copilot: 'No Copilot: na aplicação Microsoft 365 Copilot, abrir "Agents", depois "New agent" e o separador "Configure". Colar no campo "Instructions".',
+    perplexity: 'No Perplexity: em perplexity.ai, abrir "Projects" e depois "New project". Depois de criado o projecto, colar no campo das instruções, nas definições.',
+    mistral: 'No Mistral: em chat.mistral.ai, abrir "Agents" e depois "Create Agent". Colar no campo "Instructions".',
   };
   function escreverOndeColar() {
     const el = document.getElementById('outputOnde');
