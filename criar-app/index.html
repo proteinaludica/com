@@ -1815,6 +1815,13 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
             </label>
           </div>
 
+          <div class="form-check">
+            <input type="checkbox" id="f-livre-resolucao">
+            <label for="f-livre-resolucao" style="font-family:var(--font-body); font-size:12px; letter-spacing:0; text-transform:none; font-weight:400;">
+              Peço a entrega imediata do conteúdo digital e reconheço que, a partir desse momento, perco o direito legal de livre resolução de 14 dias. Mantém-se a garantia comercial de reembolso em 7 dias, prevista nos termos.
+            </label>
+          </div>
+
           <div class="trust-row">
             <span>● Stripe + IfthenPay</span>
             <span>● Reembolso 7 dias</span>
@@ -2834,6 +2841,12 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       check.focus();
       return false;
     }
+    const livreResolucao = document.getElementById('f-livre-resolucao');
+    if (livreResolucao && !livreResolucao.checked) {
+      alert('É necessário confirmar o pedido de entrega imediata do conteúdo digital.');
+      livreResolucao.focus();
+      return false;
+    }
     return true;
   }
 
@@ -2946,6 +2959,8 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     // não a desmarcava e corrompia o atributo.
     const termos = document.getElementById('f-terms');
     if (termos) termos.checked = false;
+    const livreResolucao = document.getElementById('f-livre-resolucao');
+    if (livreResolucao) livreResolucao.checked = false;
 
     // O ecrã de sucesso não pode ficar com o PDF e a ligação do assistente
     // anterior à espera: era o que acontecia ao "Criar outro assistente".
