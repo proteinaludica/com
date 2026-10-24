@@ -219,6 +219,7 @@
     border-style: dashed;
   }
   .platform-card-solo:hover { background: var(--bg3); }
+  .platform-naosei { width: 100%; margin-bottom: 1rem; text-align: left; }
   .platform-card-solo .platform-desc { min-height: auto; }
 
   /* ─── ÁREA PROFISSIONAL (2.ª pergunta do Passo 1) ─── */
@@ -1034,6 +1035,35 @@
   .opc-chevron { font-family: var(--font-mono); font-size: 18px; line-height: 1; color: var(--muted); transition: transform 0.2s; }
   .btn-afinar.open .opc-chevron { transform: rotate(45deg); }
   .opcionais[hidden] { display: none; }
+  /* As opcionais têm ecrã próprio: enquanto estão abertas, as obrigatórias,
+     a barra de cima e o botão "Mais detalhe" saem de vista. */
+  .s3-content.modo-opcionais > .oblig-list,
+  .s3-content.modo-opcionais > .rever-bar,
+  .s3-content.modo-opcionais > .afinar-bar { display: none; }
+  .opc-voltar { margin-bottom: 1rem; }
+  /* Passo 3: a barra de preço é fixa no fundo — o fim da página tem de ficar
+     acima dela. No telemóvel a barra mostra só o patamar, o preço e o botão. */
+  #screen-3 .output-inner { padding-bottom: 180px; }
+  @media (max-width: 600px) {
+    .sticky-preco-inclui, .sticky-preco-upsell { display: none; }
+  }
+  .output-onde { margin: 1rem auto 0; max-width: 640px; text-align: center; font-size: 14px; line-height: 1.5; color: var(--ink); }
+
+  /* Uma só ajuda visível por campo: "Ver exemplo". Os inícios de frase saem
+     e "Escrever com IA" passa a ligação discreta, em segundo plano. */
+  .fill-field .chips { display: none; }
+  .fill-field .btn-pro { background: transparent; border-color: transparent; text-decoration: underline; opacity: 0.8; }
+  .fill-field .btn-pro:hover { opacity: 1; background: transparent; }
+
+  /* Telemóvel: uma pergunta essencial de cada vez, sem o índice das 16. */
+  .oblig-nav { display: none; }
+  @media (max-width: 600px) {
+    .s3-index { display: none; }
+    .oblig-list .oblig-block { display: none; }
+    .oblig-list .oblig-block.atual { display: block; }
+    .oblig-nav { display: flex; justify-content: space-between; gap: 0.75rem; margin: 1rem 0; }
+    .oblig-nav button[hidden] { display: none; }
+  }
   .opcionais { animation: fadeIn 0.3s ease; }
   .opc-note { font-size: 12px; color: var(--muted); line-height: 1.5; background: var(--bg2); border-radius: 6px; padding: 0.75rem 1rem; margin-bottom: 1.25rem; }
   .opc-note strong { color: var(--ink); font-weight: 500; }
@@ -1154,61 +1184,67 @@
 <section class="screen active" id="screen-1">
   <div class="screen-inner">
     <div class="step-label">Passo 1 de 3</div>
-    <h1 class="screen-title">Onde vai instalar o assistente digital IA?</h1>
-    <p class="screen-sub">Cada plataforma tem vantagens diferentes. Escolher a que se usa — ou pedir à Proteína Lúdica que escolha.</p>
+    <h1 class="screen-title">Que ferramenta de IA já usa?</h1>
+
+    <button class="platform-card platform-card-solo platform-naosei" onclick="openQuizModal()">
+      <div style="display:flex; align-items:center; gap:1rem;">
+        <div class="platform-badge b-other">?</div>
+        <div>
+          <div class="platform-name">Ainda não uso nenhuma, ou não sei qual escolher</div>
+          <div class="platform-desc">Responder a 3 perguntas e receber uma recomendação.</div>
+        </div>
+      </div>
+    </button>
 
     <div class="platform-grid">
-      <button class="platform-card" onclick="selectPlatform('claude','Claude Projects')">
+      <button class="platform-card" onclick="selectPlatform('claude','Claude')">
         <div class="platform-badge b-claude">C</div>
-        <div class="platform-name">Claude Projects</div>
+        <div class="platform-name">Claude</div>
         <div class="platform-desc">Melhor para texto longo e raciocínio detalhado.</div>
       </button>
 
-      <button class="platform-card" onclick="selectPlatform('gpt','ChatGPT Custom GPTs')">
+      <button class="platform-card" onclick="selectPlatform('gpt','ChatGPT')">
         <div class="platform-badge b-gpt">G</div>
-        <div class="platform-name">ChatGPT Custom GPTs</div>
+        <div class="platform-name">ChatGPT</div>
         <div class="platform-desc">Mais integrações, plugins e acções disponíveis.</div>
       </button>
 
-      <button class="platform-card" style="border-color:var(--accent); position:relative;" onclick="selectPlatform('gemini','Google Gemini Gems')">
+      <button class="platform-card" style="border-color:var(--accent); position:relative;" onclick="selectPlatform('gemini','Gemini')">
         <div style="position:absolute; top:10px; right:10px; font-family:var(--font-mono); font-size:9px; letter-spacing:0.06em; text-transform:uppercase; color:var(--accent); background:var(--accent-light); padding:2px 8px; border-radius:3px;">Recomendado</div>
         <div class="platform-badge b-gemini">◆</div>
-        <div class="platform-name">Google Gemini Gems</div>
+        <div class="platform-name">Gemini</div>
         <div class="platform-desc">Plano gratuito generoso e tudo no mesmo sítio para quem já utiliza Gmail, Drive e Google Documentos.</div>
       </button>
 
-      <button class="platform-card" onclick="selectPlatform('copilot','Microsoft Copilot Agents')">
+      <button class="platform-card" onclick="selectPlatform('copilot','Copilot')">
         <div class="platform-badge b-copilot">M</div>
-        <div class="platform-name">Microsoft Copilot</div>
+        <div class="platform-name">Copilot</div>
         <div class="platform-desc">Indicado para quem já utiliza Teams, Outlook e Microsoft 365.</div>
       </button>
 
-      <button class="platform-card" onclick="selectPlatform('perplexity','Perplexity Spaces')">
+      <button class="platform-card" onclick="selectPlatform('perplexity','Perplexity')">
         <div class="platform-badge b-perplexity">P</div>
-        <div class="platform-name">Perplexity Spaces</div>
+        <div class="platform-name">Perplexity</div>
         <div class="platform-desc">Para quem precisa de citações e fontes verificáveis.</div>
       </button>
 
-      <button class="platform-card" onclick="selectPlatform('mistral','Mistral Le Chat')">
+      <button class="platform-card" onclick="selectPlatform('mistral','Mistral')">
         <div class="platform-badge b-mistral">M</div>
-        <div class="platform-name">Mistral Le Chat</div>
+        <div class="platform-name">Mistral</div>
         <div class="platform-desc">IA europeia. Os dados ficam na UE.</div>
       </button>
 
-      <button class="platform-card platform-card-solo" onclick="selectPlatform('outro','Outro / não sei')">
+      <button class="platform-card platform-card-solo" onclick="selectPlatform('outro','Outra ferramenta')">
         <div style="display:flex; align-items:center; gap:1rem;">
           <div class="platform-badge b-other">?</div>
           <div>
-            <div class="platform-name">Outro / não sei</div>
+            <div class="platform-name">Outra ferramenta</div>
             <div class="platform-desc">É devolvido um bloco universal, que funciona em qualquer assistente de IA. Basta colá-lo no campo de instruções da plataforma escolhida.</div>
           </div>
         </div>
       </button>
     </div>
 
-    <button class="btn-secondary-wide" onclick="openQuizModal()">
-      Responder a 3 perguntas e receber recomendação →
-    </button>
 
     <!-- Segunda pergunta do Passo 1: só aparece depois de escolhida a plataforma.
          A área serve para escolher os exemplos mostrados nas 16 secções. -->
@@ -1247,8 +1283,8 @@
 <section class="screen" id="screen-2">
   <div class="screen-inner">
     <div class="step-label">Passo 2 de 3</div>
-    <h1 class="screen-title">Preencher as <em>16 secções</em></h1>
-    <p class="screen-sub">As cinco secções obrigatórias aparecem primeiro; as onze opcionais ficam no botão de afinar. O que for preenchido fica guardado — pode sair e voltar quando quiser.</p>
+    <h1 class="screen-title">5 perguntas <em>essenciais</em></h1>
+    <p class="screen-sub">Basta uma ou duas frases em cada resposta. O resto é opcional e pode ficar para depois.</p>
 
     <div class="pro-session-chip" id="proSessionChip" hidden>Sessão Pro activa · 3 gerações por campo, por dia</div>
 
@@ -1277,10 +1313,10 @@
           <strong>Atenção RGPD:</strong> detectámos o que parece ser um dado pessoal identificável (nome completo, número de cliente, data de nascimento ou similar). Para respeitar a privacidade dos seus clientes, use apenas iniciais + idade — ex: <em>"M.A., 62a"</em>. Este aviso aparece só para si, não bloqueia.
         </div>
 
-        <div class="oblig-list">
+        <div class="oblig-list" id="obligList">
 
           <div class="fill-main oblig-block" id="sec-01">
-            <div class="oblig-tag">Obrigatória · 01</div>
+            <div class="oblig-tag">Pergunta 1 de 5</div>
             <div class="fill-title">Nome e propósito</div>
             <div class="fill-guide">O profissional escolhe um nome simples e descreve a tarefa principal. O assistente parte sempre de algo que o profissional já produziu, seja um rascunho ou um ditado, e devolve esse material escrito e organizado.</div>
             <div class="fill-field">
@@ -1301,7 +1337,7 @@
           </div>
 
           <div class="fill-main oblig-block" id="sec-02">
-            <div class="oblig-tag">Obrigatória · 02</div>
+            <div class="oblig-tag">Pergunta 2 de 5</div>
             <div class="fill-title">Missão</div>
             <div class="fill-guide">O profissional escreve uma frase sobre a mudança que o assistente traz ao seu trabalho.</div>
             <div class="fill-field">
@@ -1321,7 +1357,7 @@
           </div>
 
           <div class="fill-main oblig-block" id="sec-12">
-            <div class="oblig-tag">Obrigatória · 12</div>
+            <div class="oblig-tag">Pergunta 3 de 5</div>
             <div class="fill-title">Limites intransponíveis</div>
             <div class="fill-guide">Esta secção mantém o assistente como ferramenta de organização e nunca de decisão.</div>
             <div class="fill-field">
@@ -1342,7 +1378,7 @@
           </div>
 
           <div class="fill-main oblig-block" id="sec-13">
-            <div class="oblig-tag">Obrigatória · 13</div>
+            <div class="oblig-tag">Pergunta 4 de 5</div>
             <div class="fill-title">Situações-limite</div>
             <div class="fill-guide">O profissional define quando o assistente interrompe o trabalho e como lida com lacunas sem inventar factos.</div>
             <div class="fill-field">
@@ -1363,7 +1399,7 @@
           </div>
 
           <div class="fill-main oblig-block" id="sec-15">
-            <div class="oblig-tag">Obrigatória · 15</div>
+            <div class="oblig-tag">Pergunta 5 de 5</div>
             <div class="fill-title">Fecho</div>
             <div class="fill-guide">A mensagem de fecho lembra sempre que o profissional revê e decide.</div>
             <div class="fill-field">
@@ -1383,6 +1419,10 @@
             </div>
           </div>
 
+          <div class="oblig-nav">
+            <button type="button" class="btn-ghost" id="btnPergAnt" onclick="mudarPergunta(-1)">← Anterior</button>
+            <button type="button" class="btn-accent" id="btnPergSeg" onclick="mudarPergunta(1)">Seguinte →</button>
+          </div>
         </div>
 
     <div class="rever-bar">
@@ -1392,13 +1432,14 @@
 
     <div class="afinar-bar">
       <button class="btn-afinar" id="btnAfinar" onclick="toggleOpcionais()" aria-expanded="false" aria-controls="opcionais">
-        <span class="afinar-left"><strong>Afinar mais</strong> <span class="opc-opt">(opcional)</span></span>
+        <span class="afinar-left"><strong>Mais detalhe</strong> <span class="opc-opt">(opcional)</span></span>
         <span class="opc-count" id="opcCount"></span>
         <span class="opc-chevron">+</span>
       </button>
     </div>
 
     <div class="opcionais" id="opcionais" hidden>
+      <button type="button" class="btn-ghost opc-voltar" onclick="fecharOpcionais(true)">← Voltar</button>
       <div class="opc-note" id="opcNote"></div>
 
     <div class="fill-main" id="sec-03">
@@ -1578,11 +1619,11 @@
   <div class="screen-inner output-inner">
     <div class="step-label" style="text-align:center">Passo 3 de 3 · Grátis</div>
     <h1 class="output-title">O assistente digital IA está <em>pronto.</em></h1>
-    <p class="output-sub">Copie o bloco abaixo e cole no campo de <em>instructions</em> da sua plataforma.</p>
+    <p class="output-sub">Copiar o bloco abaixo e colá-lo nas instruções do assistente, na plataforma escolhida.</p>
 
     <div class="code-box">
       <div class="code-box-header">
-        <div class="code-box-label">system-instructions.md</div>
+        <div class="code-box-label">Instruções do assistente</div>
         <button class="code-copy-btn" id="copyBtn" onclick="copyCode()">Copiar tudo</button>
       </div>
       <div class="code-content" id="codeContent"># INSTRUÇÕES · Assistente digital IA
@@ -1619,6 +1660,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     </div>
 
     <!-- Quantas das 16 secções entraram no bloco acima. -->
+    <p class="output-onde" id="outputOnde"></p>
     <p class="output-conta" id="outputConta"></p>
 
     <!-- A venda vive toda no ecrã "Como continuar?". Aqui fica só a porta. -->
@@ -2258,7 +2300,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   function atualizarStickyPreco() {
     const barra = document.getElementById('stickyPreco');
     if (!barra) return;
-    barra.classList.toggle('visible', state.current === 2);
+    barra.classList.toggle('visible', state.current === 3);
 
     // Quem já pagou o Pro vê o Pro, tenha ou não clicado num cartão. Antes
     // lia-se só o cartão escolhido, e um Pro pago aparecia como "kit".
@@ -2933,10 +2975,8 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     showPaywallStep('paywallTiers');
     document.querySelectorAll('.modal-q-opt').forEach(el => el.classList.remove('active'));
     document.getElementById('modalResult').classList.remove('show');
-    const _opc = document.getElementById('opcionais');
-    if (_opc) _opc.setAttribute('hidden', '');
-    const _btn = document.getElementById('btnAfinar');
-    if (_btn) { _btn.classList.remove('open'); _btn.setAttribute('aria-expanded', 'false'); }
+    fecharOpcionais(false);
+    mostrarPergunta(0);
     checkObrigatorias();
     atualizarStickyPreco();
     goTo(1);
@@ -2964,14 +3004,14 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     const q = state.quiz;
     let rec = '';
     // lógica simples de recomendação
-    if (q[1] === 'claude') rec = 'Claude Projects. Para quem já tem Pro; é o mais forte no raciocínio longo.';
-    else if (q[1] === 'm365') rec = 'Microsoft Copilot Agents. Integra-se com Outlook e SharePoint já existentes.';
-    else if (q[1] === 'gws') rec = 'Google Gemini Gems. Liga-se diretamente a Gmail e Drive sem configuração.';
-    else if (q[1] === 'gpt') rec = 'ChatGPT Custom GPTs. Aproveita uma licença Plus já existente.';
+    if (q[1] === 'claude') rec = 'Claude. Para quem já tem Pro; é o mais forte no raciocínio longo.';
+    else if (q[1] === 'm365') rec = 'Copilot. Integra-se com Outlook e SharePoint já existentes.';
+    else if (q[1] === 'gws') rec = 'Gemini. Liga-se diretamente a Gmail e Drive sem configuração.';
+    else if (q[1] === 'gpt') rec = 'ChatGPT. Aproveita uma licença Plus já existente.';
     else if (q[2] === 'yes') rec = 'Para quem utiliza Google, a integração faz-se com o Drive. Para quem utiliza Microsoft 365, faz-se com o OneDrive.';
-    else if (q[3] === 'solo') rec = 'Claude Projects. Sem licenças de equipa, melhor para uso individual e privado.';
+    else if (q[3] === 'solo') rec = 'Claude. Sem licenças de equipa, melhor para uso individual e privado.';
     else if (q[3] === 'equipa') rec = 'Microsoft Copilot ou Google Gemini. Ambos têm gestão central e licenças por utilizador.';
-    else rec = 'Claude Projects. Melhor ponto de partida neutro — sem integrações obrigatórias, privado por defeito.';
+    else rec = 'Claude. Melhor ponto de partida neutro — sem integrações obrigatórias, privado por defeito.';
 
     document.getElementById('modalResultText').textContent = rec;
     document.getElementById('modalResult').classList.add('show');
@@ -2981,6 +3021,21 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeQuizModal();
   });
+
+  // ─── Ecrã 3: onde colar, na plataforma escolhida ───
+  // Os caminhos seguem o Passo 1 dos guias em PDF (api/gerar-pdf-instalacao.js).
+  // O passo-a-passo completo continua a ser o guia do Kit.
+  const ONDE_COLAR = {
+    gpt: 'No ChatGPT: em chatgpt.com, abrir "Explorar GPTs", depois "Criar" e o separador "Configure". Colar no campo "Instructions".',
+    claude: 'No Claude: em claude.ai, abrir "Projects" e depois "Create Project". Colar no campo "Instruções".',
+    gemini: 'No Gemini: em gemini.google.com, abrir "Gems" e depois "Novo Gem". Colar no campo "Instruções".',
+  };
+  function escreverOndeColar() {
+    const el = document.getElementById('outputOnde');
+    if (!el) return;
+    el.textContent = ONDE_COLAR[state.platform]
+      || 'Colar no campo de instruções do assistente, na ferramenta escolhida. O guia de instalação do Kit mostra cada passo.';
+  }
 
   // ─── Ecrã 3: gerar output a partir dos valores reais das 16 secções ───
 
@@ -3006,6 +3061,8 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     const el = document.getElementById('codeContent');
     if (el) el.textContent = md;
 
+    escreverOndeColar();
+
     const conta = document.getElementById('outputConta');
     if (conta) {
       conta.innerHTML = 'Foram incluídas ' + incluidas.length + ' das ' + TOTAL_SECOES
@@ -3014,29 +3071,70 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   }
 
   // ─── Fase 2: recolher opcionais ───
+  // As 11 opcionais têm ecrã próprio, para o primeiro contacto ficar só com
+  // as 5 obrigatórias. "Abrir" troca o conteúdo do Passo 2; "fechar" volta.
+  // irAoTopo: true quando é a própria pessoa a mudar de ecrã (botão), false
+  // quando um link do índice ou da barra já vai fazer scroll para uma secção.
+  function abrirOpcionais(irAoTopo) {
+    const panel = document.getElementById('opcionais');
+    const btn = document.getElementById('btnAfinar');
+    const conteudo = panel && panel.closest('.s3-content');
+    if (!panel) return;
+    panel.removeAttribute('hidden');
+    if (conteudo) conteudo.classList.add('modo-opcionais');
+    if (btn) { btn.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); }
+    if (irAoTopo && conteudo) conteudo.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  function fecharOpcionais(irAoTopo) {
+    const panel = document.getElementById('opcionais');
+    const btn = document.getElementById('btnAfinar');
+    const conteudo = panel && panel.closest('.s3-content');
+    if (!panel || panel.hasAttribute('hidden')) return;
+    panel.setAttribute('hidden', '');
+    if (conteudo) conteudo.classList.remove('modo-opcionais');
+    if (btn) { btn.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); }
+    if (irAoTopo && conteudo) conteudo.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
   function toggleOpcionais() {
     const panel = document.getElementById('opcionais');
-    const btn = document.getElementById('btnAfinar');
-    const willOpen = panel.hasAttribute('hidden');
-    if (willOpen) {
-      panel.removeAttribute('hidden');
-      btn.classList.add('open');
-      btn.setAttribute('aria-expanded', 'true');
-    } else {
-      panel.setAttribute('hidden', '');
-      btn.classList.remove('open');
-      btn.setAttribute('aria-expanded', 'false');
-    }
+    if (panel && panel.hasAttribute('hidden')) abrirOpcionais(true);
+    else fecharOpcionais(true);
   }
-  function openOpcionais() {
-    const panel = document.getElementById('opcionais');
-    const btn = document.getElementById('btnAfinar');
-    if (panel && panel.hasAttribute('hidden')) {
-      panel.removeAttribute('hidden');
-      btn.classList.add('open');
-      btn.setAttribute('aria-expanded', 'true');
-    }
+  // Telemóvel: as 5 perguntas essenciais aparecem uma de cada vez (o CSS só
+  // esconde as outras abaixo de 600px; no computador ficam todas à vista).
+  let perguntaAtual = 0;
+  function mostrarPergunta(i) {
+    const blocos = document.querySelectorAll('#obligList .oblig-block');
+    if (!blocos.length) return;
+    perguntaAtual = Math.max(0, Math.min(blocos.length - 1, i));
+    blocos.forEach((b, k) => b.classList.toggle('atual', k === perguntaAtual));
+    const ant = document.getElementById('btnPergAnt');
+    const seg = document.getElementById('btnPergSeg');
+    if (ant) ant.hidden = perguntaAtual === 0;
+    if (seg) seg.hidden = perguntaAtual === blocos.length - 1;
   }
+  function mudarPergunta(d) {
+    mostrarPergunta(perguntaAtual + d);
+    const lista = document.getElementById('obligList');
+    if (lista) lista.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // Clique numa opcional do índice: abre o ecrã e deixa o link fazer o scroll.
+  function openOpcionais() { abrirOpcionais(false); }
+
+  // Links para obrigatórias (índice e frase "Faltam…"): com as opcionais
+  // abertas, a secção pedida está escondida — volta primeiro às obrigatórias.
+  document.addEventListener('click', function (e) {
+    const a = e.target.closest && e.target.closest('a[href^="#sec-"]');
+    if (!a) return;
+    const alvo = document.querySelector(a.getAttribute('href'));
+    if (alvo && alvo.closest('.oblig-list')) {
+      fecharOpcionais(false);
+      const blocos = Array.prototype.slice.call(document.querySelectorAll('#obligList .oblig-block'));
+      const k = blocos.indexOf(alvo);
+      if (k >= 0) mostrarPergunta(k);
+    }
+  });
 
   // ─── Índice lateral e contagens, gerados a partir de SECCOES ───
   // Os 16 <a> estavam escritos à mão, com o número, o nome e a marca de
@@ -3449,8 +3547,8 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
         if (OBRIGATORIAS.indexOf(id) === -1) algumaOpcional = true;
       });
     }
-    // Se havia texto em secções opcionais, abre o painel para ficar à vista.
-    if (algumaOpcional) openOpcionais();
+    // As opcionais têm ecrã próprio: o texto reposto fica lá guardado, sem
+    // tirar a pessoa das obrigatórias ao voltar ao assistente.
   }
 
   // Repor um valor por código tem de passar pelo mesmo caminho que escrever à
@@ -3492,6 +3590,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   atualizarIndiceProgresso();
   mostrarLinhaGuardado();
   checkObrigatorias();
+  mostrarPergunta(0);
   updateProgress();
   atualizarStickyPreco();
 </script>
