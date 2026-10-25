@@ -2068,7 +2068,50 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     updateProgress();
     atualizarStickyPreco();
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    registarHistorico();
   }
+
+  // ─────────── HISTÓRICO DO BROWSER ───────────
+  // O assistente é uma página só. Sem isto, o botão "recuar" do browser saía
+  // para a página anterior (o início de /criar) e parecia perder o trabalho.
+  // Cada mudança de ecrã, de passo do pagamento ou do ecrã das opcionais fica
+  // registada; "recuar" repõe a vista anterior sem sair do assistente.
+  let aReporHistorico = false;
+  const PASSOS_PAGAMENTO = ['paywallTiers', 'paywallCheckout', 'paywallContact', 'paywallContactSent'];
+  function vistaAtual() {
+    const opc = document.getElementById('opcionais');
+    const passo = PASSOS_PAGAMENTO.find(id => { const el = document.getElementById(id); return el && !el.hidden; });
+    return {
+      ecra: state.current,
+      passo: state.current === 4 ? (passo || 'paywallTiers') : null,
+      opc: state.current === 2 && !!(opc && !opc.hidden),
+    };
+  }
+  function registarHistorico() {
+    if (aReporHistorico) return;
+    const nova = vistaAtual();
+    const atual = window.history.state;
+    if (atual && atual.ecra === nova.ecra && atual.passo === nova.passo && atual.opc === nova.opc) return;
+    try { window.history.pushState(nova, ''); } catch (e) {}
+  }
+  window.addEventListener('popstate', function (e) {
+    const v = e.state;
+    if (!v || !v.ecra) return;
+    aReporHistorico = true;
+    try {
+      if (v.ecra !== state.current) goTo(v.ecra);
+      if (v.ecra === 4 && v.passo) {
+        if (v.passo === 'paywallTiers') backToTiers();
+        else showPaywallStep(v.passo);
+      }
+      if (v.ecra === 2) {
+        if (v.opc) abrirOpcionais(true);
+        else fecharOpcionais(true);
+      }
+    } finally {
+      aReporHistorico = false;
+    }
+  });
 
   function updateProgress() {
     const n = state.current;
@@ -2185,6 +2228,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     ['paywallTiers', 'paywallCheckout', 'paywallContact', 'paywallContactSent'].forEach(s => {
       document.getElementById(s).hidden = s !== id;
     });
+    registarHistorico();
   }
 
   function selectTier(tier, btn) {
@@ -2763,7 +2807,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     if (!pro) return;
 
     const limparUrl = function () {
-      try { window.history.replaceState({}, document.title, window.location.pathname); } catch (e) {}
+      try { window.history.replaceState(window.history.state, document.title, window.location.pathname); } catch (e) {}
     };
 
     // Pagamento cancelado no provedor: limpar a marca e dizê-lo, em vez de
@@ -3140,6 +3184,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     if (conteudo) conteudo.classList.add('modo-opcionais');
     if (btn) { btn.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); }
     if (irAoTopo && conteudo) conteudo.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    registarHistorico();
   }
   function fecharOpcionais(irAoTopo) {
     const panel = document.getElementById('opcionais');
@@ -3150,6 +3195,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     if (conteudo) conteudo.classList.remove('modo-opcionais');
     if (btn) { btn.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); }
     if (irAoTopo && conteudo) conteudo.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    registarHistorico();
   }
   function toggleOpcionais() {
     const panel = document.getElementById('opcionais');
@@ -3649,6 +3695,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   mostrarPergunta(0);
   updateProgress();
   atualizarStickyPreco();
+  try { window.history.replaceState(vistaAtual(), ''); } catch (e) {}
 </script>
 
 </body>
