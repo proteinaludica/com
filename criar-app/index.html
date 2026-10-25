@@ -427,6 +427,12 @@
     cursor: pointer;
   }
   .output-continuar { text-align: center; }
+  .guarantee[hidden] { display: none; }
+  .form-check[hidden], .trust-row[hidden] { display: none; }
+  .output-guia { margin: 2rem auto 0; max-width: 640px; padding: 1.25rem 1.5rem; background: var(--surface); border: 0.5px solid var(--accent); border-radius: 10px; text-align: center; }
+  .output-guia-titulo { font-family: var(--font-display, inherit); font-size: 20px; font-weight: 500; margin: 0 0 0.4rem; }
+  .output-guia-texto { font-size: 14px; line-height: 1.5; color: var(--ink2); margin: 0 0 1rem; }
+  .output-medida { margin: 1.25rem auto 0; text-align: center; }
   .output-continuar-link {
     font-family: inherit;
     font-size: 14px;
@@ -1051,7 +1057,7 @@
   .opc-voltar { margin-bottom: 1rem; }
   /* Passo 3: a barra de preço é fixa no fundo — o fim da página tem de ficar
      acima dela. No telemóvel a barra mostra só o patamar, o preço e o botão. */
-  #screen-3 .output-inner { padding-bottom: 180px; }
+  #screen-3 .output-inner { padding-bottom: 3rem; }
   @media (max-width: 600px) {
     .sticky-preco-inclui, .sticky-preco-upsell { display: none; }
   }
@@ -1726,10 +1732,14 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     <p class="output-onde" id="outputOnde"></p>
     <p class="output-conta" id="outputConta"></p>
 
-    <!-- A venda vive toda no ecrã "Como continuar?". Aqui fica só a porta. -->
-    <div class="output-continuar">
-      <button type="button" class="output-continuar-link" onclick="goTo(4)">Falta instalar? Ver as opções →</button>
+    <!-- O guia de instalação oferece-se aqui, onde a pessoa acabou de receber
+         as instruções. O ecrã "Como continuar?" deixa de estar no caminho. -->
+    <div class="output-guia">
+      <h2 class="output-guia-titulo">Precisa de ajuda para instalar?</h2>
+      <p class="output-guia-texto">Receber por email o guia de instalação passo a passo, em PDF, feito para a ferramenta escolhida.</p>
+      <button type="button" class="btn-accent" onclick="abrirKit()">Receber o guia · grátis</button>
     </div>
+    <p class="tier-medida output-medida">Precisa de um assistente feito por nós? <a href="#" onclick="abrirMedida(); return false;">Pedir contacto (a partir de 290€)</a></p>
   </div>
 </section>
 
@@ -1770,7 +1780,8 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
 
       <p class="tier-medida">Precisa de um assistente feito por nós? <a href="#" onclick="selectTier('medida', null); return false;">Pedir contacto (a partir de 290€)</a></p>
 
-      <div class="guarantee">● <strong>Reembolso 7 dias sem perguntas</strong> · pagamento seguro</div>
+      <!-- Escondido enquanto o Kit for grátis: não há pagamento a reembolsar. -->
+      <div class="guarantee" hidden>● <strong>Reembolso 7 dias sem perguntas</strong> · pagamento seguro</div>
     </div>
 
     <div id="paywallCheckout" hidden>
@@ -1836,14 +1847,14 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
             </label>
           </div>
 
-          <div class="form-check">
+          <div class="form-check" id="checkLivreResolucao">
             <input type="checkbox" id="f-livre-resolucao">
             <label for="f-livre-resolucao" style="font-family:var(--font-body); font-size:12px; letter-spacing:0; text-transform:none; font-weight:400;">
               Peço a entrega imediata do conteúdo digital e reconheço que, a partir desse momento, perco o direito legal de livre resolução de 14 dias. Mantém-se a garantia comercial de reembolso em 7 dias, prevista nos termos.
             </label>
           </div>
 
-          <div class="trust-row">
+          <div class="trust-row" id="trustRow">
             <span>● Stripe + IfthenPay</span>
             <span>● Reembolso 7 dias</span>
             <span>● UE</span>
@@ -2064,6 +2075,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     const target = document.getElementById('screen-' + n);
     if (target) target.classList.add('active');
     state.current = n;
+    if (n !== 4) state.voltarPara = null;
     // Sair do checkout do Pro sem pagar não deixa o Pro "escolhido" (a barra
     // do Passo 3 mostrava "Pro · 49€" a quem só tinha espreitado o preço).
     if (n !== 4 && state.patamar === 'pro' && state.acesso !== 'pro') state.patamar = null;
@@ -2124,7 +2136,8 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     if (n <= 3) {
       label.textContent = n + ' / 3';
     } else if (n === 4) {
-      label.textContent = 'pagamento';
+      // Só o Pro se paga; o Kit está grátis (KIT_PAGAMENTO_ADIADO no servidor).
+      label.textContent = state.patamar === 'pro' ? 'pagamento' : 'instalar';
     } else {
       label.textContent = 'concluído ✓';
     }
@@ -2199,7 +2212,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       titulo: 'Kit completo',
       preco: '19€',
       inclui: 'Instruções do assistente + guia de instalação em PDF',
-      title: 'Kit completo<br><em>19€</em>',
+      title: 'Kit completo<br><em>grátis</em>',
       previewTitle: 'Kit completo',
       price: '19€',
       includes: [
@@ -2269,6 +2282,14 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     btnCard.innerHTML = '<span class="pay-icon">VISA</span>Pagar com cartão · ' + t.price;
     btnMbway.onclick = null;
     btnCard.onclick = null;
+
+    // Kit grátis: sem pagamento, não há livre resolução a renunciar nem
+    // reembolso a garantir. A caixa e a linha de confiança só aparecem no Pro.
+    const kitGratis = tier === 'kit' && state.acesso !== 'pro';
+    const caixaLivre = document.getElementById('checkLivreResolucao');
+    if (caixaLivre) caixaLivre.hidden = kitGratis;
+    const confianca = document.getElementById('trustRow');
+    if (confianca) confianca.hidden = kitGratis;
 
     // Acesso já pago e confirmado pelo servidor: não se cobra outra vez, entrega-se.
     if (state.acesso === 'pro') {
@@ -2366,8 +2387,20 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   // (faixa no topo do Passo 2 ou "ver Pro →" num campo). O checkout abre
   // directamente e "← Voltar" regressa ao ecrã de onde se veio.
   function goToProPricing() {
-    state.voltarDoPro = state.current === 4 ? 2 : state.current;
+    state.voltarPara = state.current === 4 ? 2 : state.current;
     selectTier('pro', null);
+    goTo(4);
+  }
+  // Guia (Kit) e "À medida" abrem a partir do Passo 3, sem passar pelos
+  // cartões; "← Voltar" regressa ao Passo 3.
+  function abrirKit() {
+    state.voltarPara = state.current === 4 ? 3 : state.current;
+    selectTier('kit', null);
+    goTo(4);
+  }
+  function abrirMedida() {
+    state.voltarPara = state.current === 4 ? 3 : state.current;
+    selectTier('medida', null);
     goTo(4);
   }
 
@@ -2379,12 +2412,12 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     free: {
       upsell: '✨ Com o Kit, recebe também o guia de instalação · 19€',
       botao: 'Ver Kit →',
-      acao: () => goTo(4)
+      acao: abrirKit
     },
     kit: {
       upsell: '',
       botao: 'Ver Kit →',
-      acao: () => goTo(4)
+      acao: abrirKit
     },
     pro: {
       upsell: 'Precisa de algo à medida? · a partir de 290€',
@@ -2400,7 +2433,10 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   function atualizarStickyPreco() {
     const barra = document.getElementById('stickyPreco');
     if (!barra) return;
-    barra.classList.toggle('visible', state.current === 3);
+    // O cartão "Precisa de ajuda para instalar?" do Passo 3 faz agora o papel
+    // da barra; mostrá-las às duas repetia a oferta (e a barra dizia 19€ ao
+    // lado de "grátis"). A barra fica desligada.
+    barra.classList.toggle('visible', false);
 
     // Quem já pagou o Pro vê o Pro, tenha ou não clicado num cartão. Antes
     // lia-se só o cartão escolhido, e um Pro pago aparecia como "kit".
@@ -2419,10 +2455,12 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   }
 
   function backToTiers() {
-    if (state.patamar === 'pro') {
+    if (state.voltarPara) {
+      const destino = state.voltarPara;
+      state.voltarPara = null;
       state.patamar = null;
       showPaywallStep('paywallTiers');
-      goTo(state.voltarDoPro || 2);
+      goTo(destino);
       return;
     }
     document.querySelectorAll('.tier-card').forEach(c => c.classList.remove('selected'));
@@ -2939,7 +2977,8 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       return false;
     }
     const livreResolucao = document.getElementById('f-livre-resolucao');
-    if (livreResolucao && !livreResolucao.checked) {
+    const caixaLivre = document.getElementById('checkLivreResolucao');
+    if (livreResolucao && !livreResolucao.checked && !(caixaLivre && caixaLivre.hidden)) {
       alert('É necessário confirmar o pedido de entrega imediata do conteúdo digital.');
       livreResolucao.focus();
       return false;
@@ -3180,8 +3219,9 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
 
     const conta = document.getElementById('outputConta');
     if (conta) {
-      conta.innerHTML = 'Foram incluídas ' + incluidas.length + ' das ' + TOTAL_SECOES
-        + ' secções. <a onclick="goTo(2)">Voltar atrás para acrescentar mais.</a>';
+      const n = incluidas.length;
+      conta.innerHTML = (n === 1 ? 'Foi incluída 1 resposta.' : 'Foram incluídas ' + n + ' respostas.')
+        + ' <a onclick="goTo(2)">Voltar atrás para acrescentar mais detalhe.</a>';
     }
   }
 
