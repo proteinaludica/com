@@ -12,7 +12,7 @@
 //   nome_assistente, missao, prompt_completo, created_at, expires_at.
 
 const { gerarPdf } = require('./gerar-pdf-instalacao');
-const { verificarJWT } = require('../lib/pro-comum');
+const { verificarJWT } = require('./_lib/pro-comum');
 
 module.exports = async (req, res) => {
   if (req.method !== 'GET') {

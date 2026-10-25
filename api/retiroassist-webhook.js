@@ -14,7 +14,7 @@
 //   RESEND_API_KEY             — chave da API Resend (secreta)
 //   RETIROASSIST_FROM          — remetente verificado no Resend, ex:
 //                                "Proteína Lúdica <ola@proteinaludica.com>"
-//   JWT_SECRET / SUPABASE_*    — usados por lib/retiroassist
+//   JWT_SECRET / SUPABASE_*    — usados por _lib/retiroassist
 //   SITE_BASE                  — (opcional) base do site
 //
 // Configurar na Stripe um webhook a apontar para este endpoint, com o evento
@@ -23,8 +23,8 @@
 'use strict';
 
 const crypto = require('crypto');
-const ra = require('../lib/retiroassist');
-const kit = require('../lib/retiroassist-kit');
+const ra = require('./_lib/retiroassist');
+const kit = require('./_lib/retiroassist-kit');
 
 // Tolerância do timestamp da assinatura (5 minutos), como a lib oficial Stripe.
 const TOLERANCIA_S = 300;

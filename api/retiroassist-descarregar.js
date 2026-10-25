@@ -5,7 +5,7 @@
 // endpoint não decide quem comprou, só verifica.
 //
 // Duas verificações, ambas obrigatórias:
-//   1) assinatura e validade do token (lib/retiroassist);
+//   1) assinatura e validade do token (_lib/retiroassist);
 //   2) existência da compra em Supabase pelo `jti` — um token assinado cuja
 //      compra tenha sido apagada deixa de servir.
 //
@@ -13,7 +13,7 @@
 
 'use strict';
 
-const ra = require('../lib/retiroassist');
+const ra = require('./_lib/retiroassist');
 
 module.exports = async (req, res) => {
   if (req.method !== 'GET') {

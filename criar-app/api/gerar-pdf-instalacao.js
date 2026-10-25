@@ -14,7 +14,7 @@
 // sem browser headless) e o fetch nativo do Node 18+ na Vercel.
 
 const { PDFDocument, StandardFonts, rgb } = require('pdf-lib');
-const { emitirJWTdocumento, verificarJWT, configSupabase } = require('../lib/pro-comum');
+const { emitirJWTdocumento, verificarJWT, configSupabase } = require('./_lib/pro-comum');
 const { incrementarContagem, janelaHoje, obterIp, resumirIp } = require('./assistir-campo');
 
 // Pagamento do Kit completo (19€) adiado. Enquanto estiver `true`, o guia do
@@ -573,7 +573,7 @@ module.exports = async (req, res) => {
     const pdfBytes = await gerarPdf({ plataforma, nome_assistente, missao, prompt_completo });
     const pdfBase64 = Buffer.from(pdfBytes).toString('base64');
 
-    // ─── GERAR JWT PARA DOWNLOAD (30 dias, assinado por lib/pro-comum) ───
+    // ─── GERAR JWT PARA DOWNLOAD (30 dias, assinado por _lib/pro-comum) ───
     const jwtData = emitirJWTdocumento({
       email: email,
       plataforma: plataforma,

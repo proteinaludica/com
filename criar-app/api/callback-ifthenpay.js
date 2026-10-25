@@ -21,7 +21,7 @@
 
 'use strict';
 
-const pro = require('../lib/pro-comum');
+const pro = require('./_lib/pro-comum');
 
 // Preço do Pro em cêntimos (mesma fonte única de criar-sessao-pagamento). O
 // callback só confirma um pagamento cujo montante bata certo — um callback com

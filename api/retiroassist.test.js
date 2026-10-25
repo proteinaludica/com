@@ -13,8 +13,8 @@ const crypto = require('crypto');
 
 process.env.JWT_SECRET = process.env.JWT_SECRET || 'segredo-de-teste-com-32-caracteres!!';
 
-const ra = require('../lib/retiroassist');
-const kit = require('../lib/retiroassist-kit');
+const ra = require('./_lib/retiroassist');
+const kit = require('./_lib/retiroassist-kit');
 
 // ─────────────────────────── token de descarga ───────────────────────────
 
@@ -233,7 +233,7 @@ test('o kit está aprovado e tem prompt a sério', () => {
 
 test('o PDF leva uma página por guia, mais a capa', async () => {
   const { PDFDocument } = require('pdf-lib');
-  const guias = require('../lib/guias-instalacao');
+  const guias = require('./_lib/guias-instalacao');
   const pdf = await ra.construirPDF();
   // Contado pelo pdf-lib: os object streams vão comprimidos, por isso
   // procurar "/Type /Page" no texto cru não encontra nada.

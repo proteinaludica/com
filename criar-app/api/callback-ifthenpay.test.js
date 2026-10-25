@@ -8,7 +8,7 @@ const test = require('node:test');
 const assert = require('node:assert');
 
 process.env.IFTHENPAY_ANTI_PHISHING_KEY = 'chave-anti-phishing-teste';
-const pro = require('../lib/pro-comum');
+const pro = require('./_lib/pro-comum');
 const handler = require('./callback-ifthenpay');
 
 function resMock() {

@@ -1,3 +1,8 @@
 # Ficheiros que não são publicados na Vercel (projecto do site principal).
 # docs/ guarda registos internos (decisões); não são páginas do site.
 docs/
+# Notas internas do repositório; não são páginas do site.
+CLAUDE.md
+README.md
+# criar-app/ é publicado pelo projecto "criar" (Root Directory próprio).
+criar-app/
