@@ -20,8 +20,8 @@
 'use strict';
 
 const crypto = require('crypto');
-const ra = require('../lib/retiroassist');
-const kit = require('../lib/retiroassist-kit');
+const ra = require('./_lib/retiroassist');
+const kit = require('./_lib/retiroassist-kit');
 
 // Gerar um PDF custa CPU. Isto é um diagnóstico, não um caminho de produto,
 // por isso leva o mesmo travão em memória do api/contact.js: best-effort,

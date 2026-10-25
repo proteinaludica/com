@@ -2,7 +2,7 @@
 //
 // NÃO é um endpoint: não exporta handler. É `require`-d por
 // retiroassist-comprar.js / retiroassist-webhook.js / retiroassist-token.js /
-// retiroassist-descarregar.js, no mesmo espírito do criar-app/lib/pro-comum.js.
+// retiroassist-descarregar.js, no mesmo espírito do criar-app/api/_lib/pro-comum.js.
 //
 // Concentra o que esses endpoints partilham:
 //   - o preço (fonte única — o cliente nunca o dita);

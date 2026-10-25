@@ -11,7 +11,7 @@
 
 'use strict';
 
-const ra = require('../lib/retiroassist');
+const ra = require('./_lib/retiroassist');
 
 module.exports = async (req, res) => {
   if (req.method !== 'GET') {

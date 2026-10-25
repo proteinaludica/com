@@ -19,7 +19,7 @@
 'use strict';
 
 const crypto = require('crypto');
-const pro = require('../lib/pro-comum');
+const pro = require('./_lib/pro-comum');
 
 // Tolerância do timestamp da assinatura (5 minutos), como a lib oficial Stripe.
 const TOLERANCIA_S = 300;

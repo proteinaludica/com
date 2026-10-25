@@ -1,11 +1,11 @@
 // Conteúdo do RetiroAssist — o que quem paga 19€ recebe.
 //
-// NÃO é um endpoint. É `require`-d por lib/retiroassist.js (que constrói o
+// NÃO é um endpoint. É `require`-d por _lib/retiroassist.js (que constrói o
 // PDF) e por api/retiroassist-comprar.js (que verifica a trava abaixo).
 //
 // O kit segue o mesmo modelo do "Kit completo" (19€) do wizard: um guia de
 // instalação com três valores a colar na plataforma — nome, missão e o prompt
-// completo. Os guias estão em lib/guias-instalacao.js.
+// completo. Os guias estão em _lib/guias-instalacao.js.
 //
 // ┌──────────────────────────────────────────────────────────────────────────┐
 // │ INTERRUPTOR DE SEGURANÇA                                                 │

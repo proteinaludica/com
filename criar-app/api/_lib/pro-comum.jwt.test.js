@@ -1,5 +1,5 @@
 // Testes da assinatura única de JWT — sem rede.
-// Correr: node --test criar-app/lib/pro-comum.jwt.test.js
+// Correr: node --test criar-app/_lib/pro-comum.jwt.test.js
 //
 // Antes, gerar-pdf-instalacao.js tinha o seu próprio emissor, com um segredo
 // de fallback público no repositório ('fallback-secret-dev-only-32chars!!').

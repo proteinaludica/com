@@ -1,6 +1,6 @@
 // Guias de instalação — como instalar um assistente digital IA numa plataforma.
 //
-// NÃO é um endpoint. É `require`-d por lib/retiroassist.js para construir o
+// NÃO é um endpoint. É `require`-d por _lib/retiroassist.js para construir o
 // PDF do kit.
 //
 // ⚠️ ORIGEM DO TEXTO — não reescrever à toa.

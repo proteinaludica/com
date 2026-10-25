@@ -8,7 +8,7 @@
 //   SUPABASE_URL               — URL da API Supabase, ex: https://xxxxx.supabase.co
 //   SUPABASE_SERVICE_ROLE_KEY  — chave service_role (secreta · obrigatória)
 
-const { verificarJWT } = require('../lib/pro-comum');
+const { verificarJWT } = require('./_lib/pro-comum');
 
 module.exports = async (req, res) => {
   if (req.method !== 'GET') {

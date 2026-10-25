@@ -11,7 +11,7 @@
 
 'use strict';
 
-const pro = require('../lib/pro-comum');
+const pro = require('./_lib/pro-comum');
 
 module.exports = async (req, res) => {
   if (req.method !== 'GET') {

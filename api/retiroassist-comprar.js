@@ -18,8 +18,8 @@
 
 'use strict';
 
-const ra = require('../lib/retiroassist');
-const kit = require('../lib/retiroassist-kit');
+const ra = require('./_lib/retiroassist');
+const kit = require('./_lib/retiroassist-kit');
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {

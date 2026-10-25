@@ -15,7 +15,7 @@ const crypto = require('crypto');
 
 const handler = require('./gerar-pdf-instalacao.js');
 
-// Emite um JWT HS256/base64url com o mesmo esquema de lib/pro-comum.
+// Emite um JWT HS256/base64url com o mesmo esquema de _lib/pro-comum.
 function emitir(payload, secret) {
   const seg = secret || process.env.JWT_SECRET;
   const header = Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString('base64url');

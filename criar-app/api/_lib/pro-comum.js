@@ -23,7 +23,7 @@ const crypto = require('crypto');
 const VALIDADE_SEGUNDOS = 365 * 24 * 60 * 60;
 
 // Validade da ligação de descarga/retoma do guia de instalação. Pagamento
-// único, mas a ligação não é eterna: 30 dias, como em lib/retiroassist.js.
+// único, mas a ligação não é eterna: 30 dias, como em _lib/retiroassist.js.
 const VALIDADE_DOCUMENTO_SEGUNDOS = 30 * 24 * 60 * 60;
 
 // Segredo HS256. Falha FECHADO: sem JWT_SECRET definido não há segredo de

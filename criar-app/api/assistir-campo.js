@@ -44,7 +44,7 @@
 
 const crypto = require('crypto');
 const validador = require('./validador-campo');
-const pro = require('../lib/pro-comum');
+const pro = require('./_lib/pro-comum');
 
 // ---------------------------------------------------------------------------
 // Limites de entrada (defensivos)
