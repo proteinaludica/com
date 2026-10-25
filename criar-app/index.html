@@ -1205,6 +1205,11 @@
   #screen-2 .screen-inner { padding-bottom: 130px; }
   .pro-session-chip { display: inline-block; margin: 10px 0 0; padding: 5px 12px; border-radius: 14px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.04em; color: var(--accent); background: var(--accent-light); border: 0.5px solid var(--accent); }
   .pro-session-chip[hidden] { display: none; }
+  /* O Pro vende-se onde serve: enquanto a pessoa responde às perguntas. */
+  .pro-faixa { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; margin: 0.75rem 0 1rem; padding: 0.85rem 1rem; background: #F8F4FC; border: 0.5px solid #D9C7EC; border-radius: 8px; }
+  .pro-faixa[hidden] { display: none; }
+  .pro-faixa-texto { font-size: 13.5px; line-height: 1.45; color: var(--ink); }
+  .pro-faixa-btn { white-space: nowrap; }
 </style>
 </head>
 <body>
@@ -1335,6 +1340,10 @@
     <h1 class="screen-title">5 perguntas <em>essenciais</em></h1>
     <p class="screen-sub">Basta uma ou duas frases em cada resposta. O resto é opcional e pode ficar para depois.</p>
 
+    <div class="pro-faixa" id="proFaixa">
+      <span class="pro-faixa-texto" id="proFaixaTexto">✨ Com o Pro, a IA escreve as respostas a partir do que já foi escrito · 49€</span>
+      <button type="button" class="btn-accent pro-faixa-btn" onclick="goToProPricing()">Ver Pro →</button>
+    </div>
     <div class="pro-session-chip" id="proSessionChip" hidden>Sessão Pro activa · 3 gerações por campo, por dia</div>
 
     <div class="section-progress-wrap">
@@ -1752,16 +1761,6 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
           <div class="tier-cta">Receber o Kit · grátis por tempo limitado</div>
         </button>
 
-        <button class="tier-card" data-tier="pro" onclick="selectTier('pro', this)">
-          <div class="tier-title">Pro</div>
-          <div class="tier-price">49€</div>
-          <div class="tier-desc">A IA escreve cada campo a partir das respostas já dadas. O profissional só revê e ajusta.</div>
-          <ul class="tier-includes">
-            <li>Tudo do Kit completo</li>
-            <li>Escrita assistida por IA nas 16 secções</li>
-          </ul>
-          <div class="tier-cta">Comprar Pro — 49€</div>
-        </button>
 
         <button class="tier-card" data-tier="medida" onclick="selectTier('medida', this)">
           <div class="tier-title">À medida</div>
@@ -2065,6 +2064,9 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     const target = document.getElementById('screen-' + n);
     if (target) target.classList.add('active');
     state.current = n;
+    // Sair do checkout do Pro sem pagar não deixa o Pro "escolhido" (a barra
+    // do Passo 3 mostrava "Pro · 49€" a quem só tinha espreitado o preço).
+    if (n !== 4 && state.patamar === 'pro' && state.acesso !== 'pro') state.patamar = null;
     updateProgress();
     atualizarStickyPreco();
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2360,8 +2362,13 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     else showPaywallStep('paywallTiers');
   }
 
+  // O Pro já não tem cartão no ecrã final: compra-se a partir das perguntas
+  // (faixa no topo do Passo 2 ou "ver Pro →" num campo). O checkout abre
+  // directamente e "← Voltar" regressa ao ecrã de onde se veio.
   function goToProPricing() {
-    irParaPatamar('pro');
+    state.voltarDoPro = state.current === 4 ? 2 : state.current;
+    selectTier('pro', null);
+    goTo(4);
   }
 
   // ─────────── STICKY DE PREÇO (Ecrã 2) ───────────
@@ -2375,9 +2382,9 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       acao: () => goTo(4)
     },
     kit: {
-      upsell: '✨ Com o Pro, a IA escreve cada campo · 49€',
-      botao: 'Ver Pro →',
-      acao: goToProPricing
+      upsell: '',
+      botao: 'Ver Kit →',
+      acao: () => goTo(4)
     },
     pro: {
       upsell: 'Precisa de algo à medida? · a partir de 290€',
@@ -2412,6 +2419,12 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   }
 
   function backToTiers() {
+    if (state.patamar === 'pro') {
+      state.patamar = null;
+      showPaywallStep('paywallTiers');
+      goTo(state.voltarDoPro || 2);
+      return;
+    }
     document.querySelectorAll('.tier-card').forEach(c => c.classList.remove('selected'));
     state.patamar = null;
     showPaywallStep('paywallTiers');
@@ -2602,6 +2615,9 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   function atualizarProChip() {
     const chip = document.getElementById('proSessionChip');
     if (chip) chip.hidden = state.acesso !== 'pro';
+    // Quem já tem o Pro deixa de ver a oferta; vê o chip da sessão activa.
+    const faixa = document.getElementById('proFaixa');
+    if (faixa) faixa.hidden = state.acesso === 'pro';
   }
 
   function podeGerarIA() {
@@ -2802,9 +2818,9 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   // isso tenta algumas vezes antes de desistir. Limpa sempre o parâmetro da URL.
   async function recuperarTokenPro() {
     let params;
-    try { params = new URLSearchParams(window.location.search); } catch (e) { return; }
+    try { params = new URLSearchParams(window.location.search); } catch (e) { return false; }
     const pro = params.get('pro');
-    if (!pro) return;
+    if (!pro) return false;
 
     const limparUrl = function () {
       try { window.history.replaceState(window.history.state, document.title, window.location.pathname); } catch (e) {}
@@ -2815,7 +2831,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     if (pro !== '1') {
       limparUrl();
       if (pro === 'cancelado') mostrarAvisoPagamentoCancelado();
-      return;
+      return true;
     }
 
     const sessao = getSessao();
@@ -2833,27 +2849,26 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       } catch (e) { /* rede: tenta de novo */ }
     }
     limparUrl();
+    return true;
   }
 
   // Nota discreta de pagamento cancelado. Não bloqueia nada: o wizard segue
   // exactamente onde estava, com tudo o que já estava escrito.
   function mostrarAvisoPagamentoCancelado() {
-    const barra = document.getElementById('stickyPreco');
-    if (!barra) return;
-    const upsell = document.getElementById('stickyPrecoUpsell');
-    if (!upsell) return;
-    upsell.textContent = 'Pagamento cancelado. O que já está escrito continua guardado.';
-    upsell.dataset.aviso = '1';
-    setTimeout(function () {
-      delete upsell.dataset.aviso;
-      atualizarStickyPreco();
-    }, 8000);
+    const texto = document.getElementById('proFaixaTexto');
+    if (!texto) return;
+    const original = texto.textContent;
+    texto.textContent = 'Pagamento cancelado. O que já está escrito continua guardado.';
+    setTimeout(function () { texto.textContent = original; }, 8000);
   }
 
   async function bootAssistirCampo() {
-    await recuperarTokenPro();
+    const voltouDoPagamento = await recuperarTokenPro();
     inicializarPro();
     initAssistirCampo();
+    // O Pro compra-se durante as perguntas: ao regressar do pagamento (pago
+    // ou cancelado), a pessoa volta às perguntas, não ao Passo 1.
+    if (voltouDoPagamento && state.platform && state.area) goTo(2);
   }
 
   if (document.readyState === 'loading') {
