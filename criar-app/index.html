@@ -492,7 +492,12 @@
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 1.25rem;
     margin-bottom: 1.5rem;
+    max-width: 760px;
   }
+  /* "À medida" sai dos cartões: é um serviço feito por nós, não um patamar do
+     assistente. Fica como ligação discreta por baixo. */
+  .tier-medida { max-width: 760px; margin: 0 0 1.25rem; font-size: 13px; color: var(--muted); }
+  .tier-medida a { color: var(--accent); text-decoration: underline; }
   /* Sinal de confiança por baixo dos quatro patamares. */
   .guarantee {
     text-align: center;
@@ -1761,14 +1766,9 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
           <div class="tier-cta">Receber o Kit · grátis por tempo limitado</div>
         </button>
 
-
-        <button class="tier-card" data-tier="medida" onclick="selectTier('medida', this)">
-          <div class="tier-title">À medida</div>
-          <div class="tier-price">a partir de 290€</div>
-          <div class="tier-desc">Entramos em contacto. O preço final depende do que for preciso.</div>
-          <div class="tier-cta">Pedir contacto</div>
-        </button>
       </div>
+
+      <p class="tier-medida">Precisa de um assistente feito por nós? <a href="#" onclick="selectTier('medida', null); return false;">Pedir contacto (a partir de 290€)</a></p>
 
       <div class="guarantee">● <strong>Reembolso 7 dias sem perguntas</strong> · pagamento seguro</div>
     </div>
