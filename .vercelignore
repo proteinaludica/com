@@ -1,0 +1,3 @@
+# Ficheiros que não são publicados na Vercel (projecto do site principal).
+# docs/ guarda registos internos (decisões); não são páginas do site.
+docs/
