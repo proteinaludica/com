@@ -1,7 +1,7 @@
 // Função serverless (Vercel) — GET /api/retiroassist-token?s=<sessão Stripe>
 //
-// Devolve a ligação de descarga de uma compra já confirmada, para a página de
-// obrigado poder oferecer o PDF sem esperar pelo email. NÃO confirma nada: se
+// Devolve a ligação para o questionário do perfil de uma compra já confirmada,
+// para a página de obrigado não ter de esperar pelo email. NÃO confirma nada: se
 // o webhook ainda não tiver corrido, responde 202 e a página tenta de novo.
 //
 // O identificador da sessão Stripe só é conhecido por quem acabou de pagar —
@@ -49,6 +49,8 @@ module.exports = async (req, res) => {
   res.setHeader('Cache-Control', 'private, no-store');
   return res.status(200).json({
     ok: true,
-    url: '/api/retiroassist-descarregar?t=' + encodeURIComponent(token),
+    // Abre o questionário; depois de gravado o perfil, a mesma página
+    // mostra o botão de descarga.
+    url: '/retiroassist-perfil?t=' + encodeURIComponent(token),
   });
 };

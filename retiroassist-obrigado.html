@@ -224,12 +224,12 @@
 <section class="topo">
   <div class="contentor">
     <h1>Compra concluída</h1>
-    <p>O kit do RetiroAssist segue por email, em PDF. Também pode ser descarregado aqui.</p>
+    <p>Falta um passo: responder a 8 perguntas que configuram o RetiroAssist para uma só pessoa. A mesma ligação segue também por email.</p>
   </div>
 </section>
 
 <div class="contentor" style="text-align:center;padding-bottom:72px">
-  <a id="descarregar" class="btn-criar" href="#" hidden>Descarregar o kit</a>
+  <a id="descarregar" class="btn-criar" href="#" hidden>Configurar o RetiroAssist</a>
   <p id="estado" class="estado-compra">A confirmar o pagamento…</p>
   <p style="margin-top:20px;font-size:.92rem"><a href="/assistentes-pessoais">Voltar aos assistentes digitais pessoais</a></p>
 </div>
@@ -266,7 +266,7 @@
   var sessao = new URLSearchParams(location.search).get('s');
 
   if (!sessao) {
-    estado.textContent = 'A ligação de descarga chega por email.';
+    estado.textContent = 'A ligação para configurar o RetiroAssist chega por email.';
     return;
   }
 
@@ -294,14 +294,14 @@
           setTimeout(perguntar, 2000);
           return;
         }
-        estado.textContent = 'A ligação de descarga chega por email.';
+        estado.textContent = 'A ligação para configurar o RetiroAssist chega por email.';
       })
       .catch(function () {
         if (tentativas < MAX) {
           setTimeout(perguntar, 2000);
           return;
         }
-        estado.textContent = 'A ligação de descarga chega por email.';
+        estado.textContent = 'A ligação para configurar o RetiroAssist chega por email.';
       });
   }
 

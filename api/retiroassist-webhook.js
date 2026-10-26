@@ -1,9 +1,10 @@
 // Função serverless (Vercel) — POST /api/retiroassist-webhook
 //
 // Recebe os eventos da Stripe e, em checkout.session.completed com pagamento
-// concluído, regista a compra do RetiroAssist e entrega o kit: email via
-// Resend com o PDF em anexo, mais a ligação para voltar a descarregá-lo. É a
-// ÚNICA fonte de entrega — o cliente nunca se auto-atribui a compra.
+// concluído, regista a compra do RetiroAssist e envia por email (Resend) a
+// ligação para o questionário do perfil. O PDF só é gerado depois, já
+// personalizado, em retiroassist-descarregar. É a ÚNICA fonte de entrega — o
+// cliente nunca se auto-atribui a compra.
 //
 // A assinatura é verificada sobre o corpo BRUTO: por isso o bodyParser da
 // Vercel é desligado no fim do ficheiro e o corpo é lido do stream. Vindo já
@@ -72,7 +73,7 @@ function escaparHtml(s) {
     .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
-async function enviarKit({ email, url, pdf }) {
+async function enviarKit({ email, url }) {
   const chave = process.env.RESEND_API_KEY;
   const remetente = process.env.RETIROASSIST_FROM;
   if (!chave || !remetente) {
@@ -83,7 +84,7 @@ async function enviarKit({ email, url, pdf }) {
   const html =
     '<div style="font-family:system-ui,sans-serif;font-size:15px;line-height:1.6;color:#201e1d">' +
     intro +
-    '<p><a href="' + escaparHtml(url) + '">Descarregar o kit</a></p>' +
+    '<p><a href="' + escaparHtml(url) + '">Configurar o RetiroAssist</a></p>' +
     '<p style="color:#645c50;font-size:13px">' + escaparHtml(kit.AVISO) + '</p>' +
     '</div>';
   const texto = kit.EMAIL_INTRO.join('\n\n') + '\n\n' + url + '\n\n' + kit.AVISO;
@@ -100,7 +101,6 @@ async function enviarKit({ email, url, pdf }) {
       subject: kit.EMAIL_ASSUNTO,
       html,
       text: texto,
-      attachments: [{ filename: 'retiroassist.pdf', content: pdf.toString('base64') }],
     }),
   });
   if (!resp.ok) {
@@ -178,12 +178,13 @@ module.exports = async (req, res) => {
       moeda: sessao.currency || ra.MOEDA,
     });
 
-    // 2) Entrega. Se falhar, devolve 500 e a Stripe repete — o registo já
-    //    ficou feito, por isso a repetição reutiliza o token em vez de emitir
-    //    outro. Pode reenviar o email, o que é preferível a não o enviar.
-    const pdf = await ra.construirPDF();
-    const url = ra.baseSite() + '/api/retiroassist-descarregar?t=' + encodeURIComponent(emitido.token);
-    await enviarKit({ email, url, pdf });
+    // 2) Entrega da ligação para o questionário. O PDF só nasce depois, com
+    //    o perfil do comprador. Se o envio falhar, devolve 500 e a Stripe
+    //    repete — o registo já ficou feito, por isso a repetição reutiliza o
+    //    token em vez de emitir outro. Pode reenviar o email, o que é
+    //    preferível a não o enviar.
+    const url = ra.baseSite() + '/retiroassist-perfil?t=' + encodeURIComponent(emitido.token);
+    await enviarKit({ email, url });
   } catch (err) {
     console.error('Falha a entregar o RetiroAssist:', err && err.message);
     return res.status(500).json({ ok: false, error: 'Não foi possível concluir a entrega.' });

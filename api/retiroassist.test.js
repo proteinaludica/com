@@ -307,3 +307,180 @@ test('a verificação trava quem martela o endpoint', async () => {
   }
   assert.strictEqual(ultimo.codigo, 429, 'o 6.º pedido no mesmo minuto devia ser travado');
 });
+
+// ─────────────────── perfil do comprador e prompt personalizado ───────────────────
+
+const RESPOSTAS_OK = {
+  nome: 'Ana',
+  partida: 'Funchal',
+  companhia: 'Casal',
+  orcamento: '600 € no total',
+  tipos: 'Natureza, Gastronomia',
+  transporte: 'Avião até 3 horas',
+  evitar: '',
+  necessidades: '',
+};
+
+test('a licença é sempre a mesma para a mesma compra e muda de compra para compra', () => {
+  const a = ra.licencaDe('jti-a');
+  assert.match(a, /^RA-[0-9A-F]{6}$/);
+  assert.strictEqual(ra.licencaDe('jti-a'), a);
+  assert.notStrictEqual(ra.licencaDe('jti-b'), a);
+});
+
+test('o perfil válido passa e sai limpo, numa linha e sem chavetas', () => {
+  const r = ra.validarPerfil(Object.assign({}, RESPOSTAS_OK, {
+    nome: '  Ana\n  {{CODIGO}} ',
+    evitar: 'escalas    longas',
+  }));
+  assert.strictEqual(r.ok, true);
+  assert.strictEqual(r.perfil.nome, 'Ana CODIGO');
+  assert.strictEqual(r.perfil.evitar, 'escalas longas');
+  assert.strictEqual(r.perfil.necessidades, '');
+});
+
+test('falta de uma resposta obrigatória é recusada e indica o campo', () => {
+  const r = ra.validarPerfil(Object.assign({}, RESPOSTAS_OK, { partida: '   ' }));
+  assert.strictEqual(r.ok, false);
+  assert.strictEqual(r.campo, 'partida');
+});
+
+test('uma resposta longa demais é recusada', () => {
+  const r = ra.validarPerfil(Object.assign({}, RESPOSTAS_OK, { nome: 'x'.repeat(41) }));
+  assert.strictEqual(r.ok, false);
+  assert.strictEqual(r.campo, 'nome');
+});
+
+test('o prompt composto não deixa marcadores por preencher e prende-se ao comprador', () => {
+  const prompt = kit.comporPrompt(RESPOSTAS_OK, 'RA-ABC123');
+  assert.ok(!/\{\{[A-Z]+\}\}/.test(prompt), 'ficaram marcadores por preencher');
+  assert.match(prompt, /configurado para uma só pessoa: Ana\./);
+  assert.match(prompt, /Partida habitual: Funchal/);
+  assert.match(prompt, /A evitar: Nada indicado\./);
+  assert.match(prompt, /Lista pronta a rever\. A decisão é de quem viaja\. · Licença RA-ABC123/);
+  assert.strictEqual(ra.limpar(prompt), prompt);
+});
+
+test('o modelo do prompt usa todos os marcadores do questionário', () => {
+  for (const p of kit.PERGUNTAS) {
+    assert.ok(kit.PROMPT.includes('{{' + p.marcador + '}}'), 'falta {{' + p.marcador + '}}');
+  }
+  assert.ok(kit.PROMPT.includes('{{CODIGO}}'));
+});
+
+test('o PDF personalizado é gerado com o perfil do comprador', async () => {
+  const pdf = await ra.construirPDF({ perfil: RESPOSTAS_OK, licenca: 'RA-ABC123' });
+  assert.strictEqual(pdf.subarray(0, 5).toString('latin1'), '%PDF-');
+  const exemplo = await ra.construirPDF();
+  assert.notStrictEqual(
+    crypto.createHash('sha256').update(pdf).digest('hex'),
+    crypto.createHash('sha256').update(exemplo).digest('hex'),
+    'o PDF personalizado devia diferir do de exemplo'
+  );
+});
+
+// Simula o Supabase: devolve a compra dada nas leituras e regista os PATCH.
+function supabaseFalso(compra) {
+  const chamadas = [];
+  const fetchFalso = async (url, opcoes) => {
+    const metodo = (opcoes && opcoes.method) || 'GET';
+    chamadas.push({ url: String(url), metodo, corpo: opcoes && opcoes.body });
+    if (metodo === 'PATCH') return { ok: true, status: 204, text: async () => '' };
+    return { ok: true, status: 200, json: async () => (compra ? [compra] : []), text: async () => '' };
+  };
+  return { chamadas, fetchFalso };
+}
+
+async function comSupabase(compra, fn) {
+  const fetchOriginal = globalThis.fetch;
+  const url = process.env.SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  process.env.SUPABASE_URL = 'https://supabase.teste';
+  process.env.SUPABASE_SERVICE_ROLE_KEY = 'chave-de-teste';
+  const falso = supabaseFalso(compra);
+  globalThis.fetch = falso.fetchFalso;
+  try {
+    await fn(falso.chamadas);
+  } finally {
+    globalThis.fetch = fetchOriginal;
+    if (url === undefined) delete process.env.SUPABASE_URL; else process.env.SUPABASE_URL = url;
+    if (key === undefined) delete process.env.SUPABASE_SERVICE_ROLE_KEY; else process.env.SUPABASE_SERVICE_ROLE_KEY = key;
+  }
+}
+
+function compraViva(extra) {
+  return Object.assign(
+    { token_jti: 'jti-perfil', email: 'a@b.pt', expira_em: new Date(Date.now() + 86400000).toISOString() },
+    extra || {}
+  );
+}
+
+test('o perfil recusa um token inválido', async () => {
+  const perfil = require('./retiroassist-perfil');
+  const res = respostaFalsa();
+  await perfil({ method: 'GET', url: '/api/retiroassist-perfil?t=lixo', headers: {} }, res);
+  assert.strictEqual(res.codigo, 403);
+});
+
+test('respostas inválidas são recusadas antes de chegar ao Supabase', async () => {
+  const perfil = require('./retiroassist-perfil');
+  const { token } = ra.emitirToken('jti-perfil');
+  await comSupabase(compraViva(), async (chamadas) => {
+    const res = respostaFalsa();
+    await perfil({ method: 'POST', headers: {}, body: { t: token, respostas: { nome: 'Ana' } } }, res);
+    assert.strictEqual(res.codigo, 400);
+    assert.strictEqual(res.corpo.campo, 'partida');
+    assert.strictEqual(chamadas.length, 0, 'não devia ter contactado o Supabase');
+  });
+});
+
+test('um perfil válido é gravado e devolve a ligação de descarga com a licença', async () => {
+  const perfil = require('./retiroassist-perfil');
+  const { token } = ra.emitirToken('jti-perfil');
+  await comSupabase(compraViva({ perfil_gravacoes: 1 }), async (chamadas) => {
+    const res = respostaFalsa();
+    await perfil({ method: 'POST', headers: {}, body: { t: token, respostas: RESPOSTAS_OK } }, res);
+    assert.strictEqual(res.codigo, 200);
+    assert.strictEqual(res.corpo.licenca, ra.licencaDe('jti-perfil'));
+    assert.match(res.corpo.url, /^\/api\/retiroassist-descarregar\?t=/);
+    const patch = chamadas.find((c) => c.metodo === 'PATCH');
+    assert.ok(patch, 'devia ter gravado o perfil');
+    const corpo = JSON.parse(patch.corpo);
+    assert.strictEqual(corpo.perfil.nome, 'Ana');
+    assert.strictEqual(corpo.perfil_gravacoes, 2);
+  });
+});
+
+test('o perfil deixa de ser gravado depois do limite de gravações', async () => {
+  const perfil = require('./retiroassist-perfil');
+  const { token } = ra.emitirToken('jti-perfil');
+  await comSupabase(compraViva({ perfil_gravacoes: ra.MAX_GRAVACOES_PERFIL }), async (chamadas) => {
+    const res = respostaFalsa();
+    await perfil({ method: 'POST', headers: {}, body: { t: token, respostas: RESPOSTAS_OK } }, res);
+    assert.strictEqual(res.codigo, 409);
+    assert.ok(!chamadas.some((c) => c.metodo === 'PATCH'), 'não devia ter gravado');
+  });
+});
+
+test('sem perfil gravado, a descarga leva ao questionário', async () => {
+  const descarregar = require('./retiroassist-descarregar');
+  const { token } = ra.emitirToken('jti-perfil');
+  await comSupabase(compraViva({ perfil: null }), async () => {
+    const res = respostaFalsa();
+    await descarregar({ method: 'GET', url: '/api/retiroassist-descarregar?t=' + token, headers: {} }, res);
+    assert.strictEqual(res.codigo, 302);
+    assert.strictEqual(res.cabecalhos.Location, '/retiroassist-perfil?t=' + encodeURIComponent(token));
+  });
+});
+
+test('com perfil gravado, a descarga entrega o PDF com o nome da licença', async () => {
+  const descarregar = require('./retiroassist-descarregar');
+  const { token } = ra.emitirToken('jti-perfil');
+  await comSupabase(compraViva({ perfil: RESPOSTAS_OK }), async () => {
+    const res = respostaFalsa();
+    await descarregar({ method: 'GET', url: '/api/retiroassist-descarregar?t=' + token, headers: {} }, res);
+    assert.strictEqual(res.codigo, 200);
+    assert.strictEqual(res.cabecalhos['Content-Type'], 'application/pdf');
+    assert.ok(res.cabecalhos['Content-Disposition'].includes(ra.licencaDe('jti-perfil')));
+  });
+});

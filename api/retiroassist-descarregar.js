@@ -9,6 +9,9 @@
 //   2) existência da compra em Supabase pelo `jti` — um token assinado cuja
 //      compra tenha sido apagada deixa de servir.
 //
+// O PDF sai personalizado com o perfil do comprador. Sem perfil gravado, o
+// pedido é redirigido para o questionário (/retiroassist-perfil).
+//
 // Variáveis de ambiente: JWT_SECRET, SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY.
 
 'use strict';
@@ -49,16 +52,24 @@ module.exports = async (req, res) => {
     return res.status(403).json({ ok: false, error: 'Ligação inválida ou expirada.' });
   }
 
+  // O kit só existe depois do questionário: sem perfil, a ligação leva lá.
+  if (!compra.perfil) {
+    res.setHeader('Cache-Control', 'private, no-store');
+    res.setHeader('Location', '/retiroassist-perfil?t=' + encodeURIComponent(token));
+    return res.status(302).end();
+  }
+
+  const licenca = ra.licencaDe(payload.jti);
   let pdf;
   try {
-    pdf = await ra.construirPDF();
+    pdf = await ra.construirPDF({ perfil: compra.perfil, licenca });
   } catch (err) {
     console.error('Falha a gerar o PDF do RetiroAssist:', err && err.message);
     return res.status(500).json({ ok: false, error: 'Não foi possível gerar o ficheiro.' });
   }
 
   res.setHeader('Content-Type', 'application/pdf');
-  res.setHeader('Content-Disposition', 'attachment; filename="retiroassist.pdf"');
+  res.setHeader('Content-Disposition', 'attachment; filename="retiroassist-' + licenca + '.pdf"');
   res.setHeader('Content-Length', String(pdf.length));
   // Conteúdo pago e ligado a um token — nunca em cache partilhada.
   res.setHeader('Cache-Control', 'private, no-store');
