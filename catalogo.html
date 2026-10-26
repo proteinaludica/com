@@ -141,6 +141,10 @@
   .estado-breve .ponto{background:transparent;border:1px solid var(--ocre)}
   .cartao-breve{background:transparent;border-style:dashed;border-color:rgba(200,168,107,.35)}
   .cartao-breve:hover{transform:none;border-color:rgba(200,168,107,.35)}
+  .linha-cabeca{margin-bottom:18px}
+  .linha-cabeca h2{font-size:clamp(1.3rem,4vw,1.6rem);margin-bottom:6px}
+  .linha-cabeca p{color:var(--texto-2);font-size:.95rem;max-width:60ch}
+  .cartao .preco{color:var(--texto-3);font-size:.85rem}
   .linha-final{color:var(--texto-3);font-size:.815rem;margin-top:20px;text-align:center}
   .cta-proprio{padding:24px 0 72px;text-align:center}
   .cta-proprio h2{font-size:clamp(1.4rem,4.5vw,1.8rem);margin-bottom:10px}
@@ -191,12 +195,16 @@
 <section class="topo">
   <div class="contentor">
     <h1>Os assistentes</h1>
-    <p>Esta linha é dedicada a profissionais de saúde. Assistentes digitais IA especializados, prontos a usar. Cada assistente disponível tem página própria, com demonstração e período de experiência gratuito.</p>
+    <p>Assistentes digitais IA especializados, prontos a usar. Estão organizados em duas linhas separadas: uma para profissionais de saúde e outra para uso pessoal.</p>
   </div>
 </section>
 
-<section class="assistentes">
+<section class="assistentes" aria-labelledby="linha-saude">
   <div class="contentor">
+    <div class="linha-cabeca">
+      <h2 id="linha-saude">Profissionais de saúde</h2>
+      <p>Cada assistente tem página própria, com demonstração e período de experiência gratuito.</p>
+    </div>
     <div class="grelha">
       <article class="cartao">
         <span class="estado estado-disp"><span class="ponto" aria-hidden="true"></span>Disponível (Beta)</span>
@@ -223,6 +231,24 @@
       </article>
     </div>
     <p class="linha-final">Mais especialidades e profissões a caminho.</p>
+  </div>
+</section>
+
+<section class="assistentes" aria-labelledby="linha-pessoal">
+  <div class="contentor">
+    <div class="linha-cabeca">
+      <h2 id="linha-pessoal">Assistentes pessoais</h2>
+      <p>Para o dia-a-dia fora da saúde. Cada assistente trata de uma tarefa concreta e devolve uma lista organizada, pronta a rever.</p>
+    </div>
+    <div class="grelha">
+      <article class="cartao">
+        <span class="estado estado-disp"><span class="ponto" aria-hidden="true"></span>Disponível</span>
+        <h3>RetiroAssist</h3>
+        <p>Assistente digital IA especializado em escapadinhas curtas. Reúne destinos, datas e preços num só lugar e apresenta-os em lista, sem escolher por ninguém.</p>
+        <span class="preco">19&nbsp;€ · pagamento único</span>
+        <a class="ligacao" href="/assistentes-pessoais">Ver o RetiroAssist →</a>
+      </article>
+    </div>
   </div>
 </section>
 
