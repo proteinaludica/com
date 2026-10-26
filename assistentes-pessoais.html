@@ -89,62 +89,56 @@
 
       <div class="ra-pedido" style="display: flex; flex-direction: column; gap: 16px; background: var(--color-neutral-100); border: 1px solid var(--color-neutral-300); border-radius: var(--radius-lg); padding: 32px">
         <span style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: var(--color-neutral-600)">Pedido de quem usa</span>
-        <p style="font-size: 21px; line-height: 1.6; margin: 0; text-wrap: pretty">«Quero uma escapadinha de 4 dias em Outubro, orçamento até 500€, vou com a minha mulher, prefiro sítios calmos, sem escalas longas.»</p>
+        <p style="font-size: 21px; line-height: 1.6; margin: 0; text-wrap: pretty">«Quero uma escapadinha de 4 noites em Outubro. Parto de Lisboa e vou com a minha mulher. O orçamento é de 500&nbsp;€ no total. Prefiro sítios calmos e sem escalas longas.»</p>
         <p style="font-size: 16px; line-height: 1.5; margin: 0; color: var(--color-neutral-600)">Exemplo escrito por um utilizador (Dr. Silva, nome fictício).</p>
       </div>
 
       <div class="ra-resposta" style="display: flex; flex-direction: column; gap: 20px; background: var(--color-surface); border-radius: var(--radius-lg); padding: 32px">
         <span style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: var(--color-neutral-700)">Resposta do assistente digital IA</span>
 
+        <div style="display: flex; flex-direction: column; gap: 8px">
+          <p style="font-size: 17px; line-height: 1.55; margin: 0">Critérios confirmados: partida de Lisboa, 4 noites em Outubro, 2 adultos, até 500&nbsp;€ no total, sítio calmo, sem escalas longas.</p>
+          <p style="font-size: 17px; line-height: 1.55; margin: 0; color: var(--color-neutral-700)">Opções ordenadas por custo total, do mais baixo para o mais alto.</p>
+        </div>
+
         <ol style="list-style: none; counter-reset: opt; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0">
 
           <li class="ra-opcao" style="counter-increment: opt; display: grid; grid-template-columns: 40px 1fr; gap: 16px; padding: 20px 0; border-top: 1px solid var(--color-divider)">
             <span style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 22px; color: var(--color-neutral-700)">1.</span>
             <div style="display: flex; flex-direction: column; gap: 6px">
-              <span style="font-size: 20px; font-weight: 600">Ria Formosa, Olhão</span>
-              <span style="font-size: 17px; color: var(--color-neutral-700)">12 a 16 de Outubro</span>
-              <span style="font-size: 17px">438&nbsp;€ · média dos últimos 60 dias: 465&nbsp;€</span>
-              <span style="font-size: 17px; color: var(--color-neutral-700)">Sem voo, 2h30 de carro. Casa de hóspedes, 4 quartos.</span>
+              <span style="font-size: 20px; font-weight: 600">Serra da Estrela, Manteigas · Casa de campo</span>
+              <span style="font-size: 17px; color: var(--color-neutral-700)">22 a 26 de Outubro · 4 noites</span>
+              <span style="font-size: 17px; color: var(--color-neutral-700)">Carro próprio, 3h20, sem paragens obrigatórias.</span>
+              <span style="font-size: 17px">Transporte 70&nbsp;€ · Alojamento 280&nbsp;€ · Total 350&nbsp;€</span>
+              <span style="font-size: 17px; color: var(--color-neutral-700)">Inclui pequeno-almoço e jantar. Não inclui taxa turística.</span>
+              <span style="font-size: 17px; color: var(--color-neutral-700)">Cancelamento gratuito até 7 dias antes.</span>
+              <span style="font-size: 15px; color: var(--color-neutral-600)">Fonte: página do alojamento, consultada a 2 de Outubro.</span>
             </div>
           </li>
 
           <li class="ra-opcao" style="counter-increment: opt; display: grid; grid-template-columns: 40px 1fr; gap: 16px; padding: 20px 0; border-top: 1px solid var(--color-divider)">
             <span style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 22px; color: var(--color-neutral-700)">2.</span>
             <div style="display: flex; flex-direction: column; gap: 6px">
-              <span style="font-size: 20px; font-weight: 600">Menorca, Espanha</span>
-              <span style="font-size: 17px; color: var(--color-neutral-700)">6 a 10 de Outubro</span>
-              <span style="font-size: 17px">474&nbsp;€ · média dos últimos 60 dias: 452&nbsp;€</span>
-              <span style="font-size: 17px; color: var(--color-neutral-700)">Voo directo, 2h35. Hotel pequeno junto ao porto.</span>
-            </div>
-          </li>
-
-          <li class="ra-opcao" style="counter-increment: opt; display: grid; grid-template-columns: 40px 1fr; gap: 16px; padding: 20px 0; border-top: 1px solid var(--color-divider)">
-            <span style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 22px; color: var(--color-neutral-700)">3.</span>
-            <div style="display: flex; flex-direction: column; gap: 6px">
-              <span style="font-size: 20px; font-weight: 600">Rias Baixas, Galiza</span>
-              <span style="font-size: 17px; color: var(--color-neutral-700)">19 a 23 de Outubro</span>
-              <span style="font-size: 17px">396&nbsp;€ · média dos últimos 60 dias: 410&nbsp;€</span>
-              <span style="font-size: 17px; color: var(--color-neutral-700)">Sem voo, 3h de comboio. Hotel rural com jardim.</span>
-            </div>
-          </li>
-
-          <li class="ra-opcao" style="counter-increment: opt; display: grid; grid-template-columns: 40px 1fr; gap: 16px; padding: 20px 0; border-top: 1px solid var(--color-divider)">
-            <span style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 22px; color: var(--color-neutral-700)">4.</span>
-            <div style="display: flex; flex-direction: column; gap: 6px">
-              <span style="font-size: 20px; font-weight: 600">Funchal, Madeira</span>
-              <span style="font-size: 17px; color: var(--color-neutral-700)">14 a 18 de Outubro</span>
-              <span style="font-size: 17px">489&nbsp;€ · média dos últimos 60 dias: 501&nbsp;€</span>
-              <span style="font-size: 17px; color: var(--color-neutral-700)">Voo directo, 1h50. Apartamento com varanda.</span>
+              <span style="font-size: 20px; font-weight: 600">Ria Formosa, Olhão · Casa de hóspedes com 4 quartos</span>
+              <span style="font-size: 17px; color: var(--color-neutral-700)">12 a 16 de Outubro · 4 noites</span>
+              <span style="font-size: 17px; color: var(--color-neutral-700)">Carro próprio, 2h30, sem paragens obrigatórias.</span>
+              <span style="font-size: 17px">Transporte 60&nbsp;€ · Alojamento 340&nbsp;€ · Total 400&nbsp;€</span>
+              <span style="font-size: 17px; color: var(--color-neutral-700)">Inclui pequeno-almoço. Não inclui taxa turística.</span>
+              <span style="font-size: 17px; color: var(--color-neutral-700)">Cancelamento gratuito até 48 horas antes.</span>
+              <span style="font-size: 15px; color: var(--color-neutral-600)">Fonte: página do alojamento, consultada a 2 de Outubro.</span>
             </div>
           </li>
 
           <li class="ra-opcao" style="counter-increment: opt; display: grid; grid-template-columns: 40px 1fr; gap: 16px; padding: 20px 0; border-top: 1px solid var(--color-divider); border-bottom: 1px solid var(--color-divider)">
-            <span style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 22px; color: var(--color-neutral-700)">5.</span>
+            <span style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 22px; color: var(--color-neutral-700)">3.</span>
             <div style="display: flex; flex-direction: column; gap: 6px">
-              <span style="font-size: 20px; font-weight: 600">Serra da Estrela, Manteigas</span>
-              <span style="font-size: 17px; color: var(--color-neutral-700)">22 a 26 de Outubro</span>
-              <span style="font-size: 17px">352&nbsp;€ · média dos últimos 60 dias: 349&nbsp;€</span>
-              <span style="font-size: 17px; color: var(--color-neutral-700)">Sem voo, 3h20 de carro. Casa de campo, meia pensão.</span>
+              <span style="font-size: 20px; font-weight: 600">Funchal, Madeira · Apartamento com varanda</span>
+              <span style="font-size: 17px; color: var(--color-neutral-700)">14 a 18 de Outubro · 4 noites</span>
+              <span style="font-size: 17px; color: var(--color-neutral-700)">Voo directo, 1h45.</span>
+              <span style="font-size: 17px">Transporte 180&nbsp;€ · Alojamento 290&nbsp;€ · Total 470&nbsp;€</span>
+              <span style="font-size: 17px; color: var(--color-neutral-700)">Inclui bagagem de mão. Não inclui mala de porão nem taxa turística.</span>
+              <span style="font-size: 17px; color: var(--color-neutral-700)">Cancelamento gratuito do alojamento até 5 dias antes. O voo não é reembolsável.</span>
+              <span style="font-size: 15px; color: var(--color-neutral-600)">Fonte: páginas da companhia aérea e do alojamento, consultadas a 2 de Outubro.</span>
             </div>
           </li>
 
