@@ -33,11 +33,11 @@ alter table public.retiroassist_compras
 -- perfil sai.
 --
 -- Requer o pg_cron, já ligado pela migração 004 no mesmo projecto.
--- 03:37 UTC, todos os dias.
+-- 03:57 UTC, todos os dias. (03:37 já é do apagar_limites_antigos.)
 
 select cron.schedule(
   'apagar_retiroassist_perfis_expirados',
-  '37 3 * * *',
+  '57 3 * * *',
   $$
     update public.retiroassist_compras
        set perfil = null
