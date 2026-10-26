@@ -22,145 +22,336 @@
 <meta name="twitter:image" content="https://proteinaludica.com/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caprasimo&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/styles/organic.css">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  body { margin: 0; background: var(--color-bg); color: var(--color-text); font-family: var(--font-body); }
-  a { color: var(--color-accent-700); text-decoration-thickness: 1px; text-underline-offset: 3px; }
-  a:hover { color: var(--color-accent-800); }
+  :root{
+    --fundo:#141A10;
+    --fundo-2:#1A2214;
+    --cartao-a:#1B2315;
+    --cartao-b:#161C11;
+    --musgo:#8FAA6B;
+    --musgo-claro:#A9C287;
+    --ocre:#C8A86B;
+    --texto:#E9EDE3;
+    --texto-2:#B9C2AD;
+    --texto-3:#8A9478;
+    --linha:rgba(143,170,107,.14);
+    --linha-2:rgba(143,170,107,.35);
+    --largura:1040px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation:none!important;transition:none!important}
+  }
+  body{
+    background:var(--fundo);
+    color:var(--texto);
+    font-family:'Geist',system-ui,-apple-system,sans-serif;
+    font-size:16px;line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;line-height:1.15;letter-spacing:-.015em}
+  a{color:var(--musgo-claro)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--ocre);outline-offset:3px;border-radius:4px}
+  .contentor{max-width:var(--largura);margin:0 auto;padding:0 20px}
 
-  /* Adaptação a ecrãs estreitos. Só medidas — nenhum texto, ordem ou
-     componente muda. As regras do desenho aprovado vivem em atributos
-     style="", por isso os ajustes abaixo precisam de !important. */
-  @media (max-width: 860px) {
-    .ra-pagina { padding: 40px 20px 64px !important; }
-    .ra-coluna { gap: 44px !important; }
-    .ra-titulo { font-size: 34px !important; letter-spacing: -0.2px !important; }
-    .ra-entrada { font-size: 18px !important; }
-    .ra-principio { padding-left: 18px !important; }
-    .ra-principio p { font-size: 22px !important; }
-    .ra-produto { padding: 26px !important; }
-    .ra-produto .card-title { font-size: 28px !important; }
-    .ra-acesso { font-size: 17px !important; }
-    .ra-seccao-titulo { font-size: 30px !important; }
-    .ra-demo { grid-template-columns: 1fr !important; gap: 20px !important; }
-    .ra-pedido, .ra-resposta { padding: 24px !important; }
-    .ra-pedido p:first-of-type { font-size: 19px !important; }
-    .ra-opcao { grid-template-columns: 28px 1fr !important; gap: 12px !important; }
-    .ra-compra { flex-direction: column !important; align-items: flex-start !important; gap: 12px !important; }
-    .ra-compra .btn { white-space: normal !important; text-align: center !important; }
+  /* ---------- Header ---------- */
+  header{
+    position:sticky;top:0;z-index:20;
+    background:rgba(20,26,16,.92);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--linha);
+  }
+  .barra{display:flex;align-items:center;justify-content:space-between;height:56px}
+  .marca{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:1rem;color:var(--texto);text-decoration:none}
+  .marca span{color:var(--musgo)}
+  nav ul{display:flex;gap:24px;list-style:none;align-items:center}
+  nav a{color:var(--texto-2);text-decoration:none;font-size:.845rem;transition:color .15s ease}
+  nav a:hover,nav a[aria-current="page"]{color:var(--texto)}
+  nav a[aria-current="page"]{font-weight:600}
+  .nav-cta{
+    background:var(--musgo);color:var(--fundo)!important;
+    padding:8px 16px;border-radius:999px;font-weight:600;
+    transition:background .15s ease;
+  }
+  .nav-cta:hover{background:var(--musgo-claro)}
+  .so-desktop{display:none}
+  .menu-btn{
+    display:flex;flex-direction:column;gap:4px;justify-content:center;
+    background:none;border:0;padding:12px 8px;cursor:pointer;min-height:44px;
+  }
+  .menu-btn span{width:17px;height:1.5px;background:var(--texto);display:block;border-radius:2px;transition:transform .2s ease,opacity .2s ease}
+  .menu-btn[aria-expanded="true"] span:first-child{transform:translateY(5.5px) rotate(45deg)}
+  .menu-btn[aria-expanded="true"] span:last-child{transform:translateY(-5.5px) rotate(-45deg)}
+  #menu-movel{border-top:1px solid var(--linha);padding:10px 20px 18px}
+  #menu-movel a{
+    display:block;padding:13px 4px;color:var(--texto-2);text-decoration:none;
+    font-size:.97rem;border-bottom:1px solid var(--linha);
+  }
+  #menu-movel a:hover{color:var(--texto)}
+  #menu-movel a[aria-current="page"]{color:var(--texto);font-weight:600}
+  #menu-movel .nav-cta{
+    margin-top:14px;text-align:center;border-bottom:0;
+    padding:13px 16px;font-size:.95rem;
+  }
+  @media (min-width:761px){
+    .barra{height:60px}
+    .marca{font-size:1.06rem}
+    .so-desktop{display:flex}
+    .menu-btn,#menu-movel{display:none}
+  }
+
+  /* ---------- Topo ---------- */
+  .topo{
+    padding:72px 0 44px;text-align:center;
+    background:radial-gradient(680px 340px at 50% -12%, rgba(143,170,107,.13), transparent 65%);
+  }
+  .topo h1{font-size:clamp(1.9rem,6.5vw,2.5rem);line-height:1.1;margin:0 auto 14px}
+  .topo p{color:var(--texto-2);max-width:52ch;margin:0 auto;font-size:clamp(.97rem,2vw,1.03rem)}
+  @media (min-width:761px){ .topo{padding:96px 0 64px} .topo h1{margin-bottom:16px} }
+
+  /* ---------- Grelha de assistentes ---------- */
+  .assistentes{padding:20px 0 60px}
+  .grelha{display:flex;flex-direction:column;gap:14px}
+  .cartao{
+    position:relative;
+    background:linear-gradient(180deg,var(--cartao-a),var(--cartao-b));
+    border:1px solid rgba(143,170,107,.16);
+    border-radius:16px;
+    padding:24px 22px;
+    display:flex;flex-direction:column;gap:10px;
+    transition:border-color .15s ease,transform .15s ease;
+  }
+  .cartao:hover{border-color:rgba(143,170,107,.45);transform:translateY(-1px)}
+  .cartao h3{font-size:1.155rem;margin-top:4px}
+  .cartao p{color:var(--texto-2);font-size:.905rem;flex:1}
+  .cartao .ligacao{
+    font-weight:600;text-decoration:none;font-size:.905rem;
+    padding:5px 0;transition:color .15s ease;
+  }
+  .cartao .ligacao:hover{color:var(--ocre)}
+  /* O cartão inteiro é clicável: a ligação estende-se por cima dele.
+     Continua a existir uma só ligação para teclado e leitores de ecrã. */
+  .cartao .ligacao::after{content:"";position:absolute;inset:0;border-radius:16px}
+  .cartao:hover .ligacao{color:var(--ocre)}
+  .cartao:has(.ligacao:focus-visible){outline:2px solid var(--ocre);outline-offset:3px}
+  .cartao:has(.ligacao:focus-visible) .ligacao{outline:none}
+  .estado{
+    align-self:flex-start;display:flex;align-items:center;gap:7px;
+    font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;font-weight:600;
+    padding:4px 11px;border-radius:999px;
+  }
+  .estado .ponto{width:5px;height:5px;border-radius:999px;background:var(--musgo)}
+  .estado-disp{background:rgba(143,170,107,.14);color:var(--musgo-claro)}
+  .estado-breve{background:rgba(200,168,107,.12);color:var(--ocre)}
+  .estado-breve .ponto{background:transparent;border:1px solid var(--ocre)}
+  .cartao-breve{background:transparent;border-style:dashed;border-color:rgba(200,168,107,.35)}
+  .cartao-breve:hover{transform:none;border-color:rgba(200,168,107,.35)}
+  .linha-cabeca{margin-bottom:18px}
+  .linha-cabeca h2{font-size:clamp(1.3rem,4vw,1.6rem);margin-bottom:6px}
+  .linha-cabeca p{color:var(--texto-2);font-size:.95rem;max-width:60ch}
+  .cartao .preco{color:var(--texto-3);font-size:.85rem}
+  .linha-final{color:var(--texto-3);font-size:.815rem;margin-top:20px;text-align:center}
+  .cta-proprio{padding:24px 0 72px;text-align:center}
+  .cta-proprio h2{font-size:clamp(1.4rem,4.5vw,1.8rem);margin-bottom:10px}
+  .cta-proprio p{color:var(--texto-2);max-width:46ch;margin:0 auto 22px;font-size:.95rem}
+  .btn-criar{display:inline-block;background:var(--musgo);color:var(--fundo);text-decoration:none;font-weight:600;font-size:.98rem;padding:13px 26px;border-radius:999px;transition:background .15s ease}
+  .btn-criar:hover{background:var(--musgo-claro)}
+  @media (min-width:761px){
+    .assistentes{padding:24px 0 80px}
+    .grelha{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .cartao{padding:28px 26px;gap:11px}
+    .cartao h3{font-size:1.25rem;margin-top:6px}
+    .cartao p{font-size:.94rem}
+    .linha-final{font-size:.845rem;margin-top:22px}
+  }
+  footer .legal a{color:var(--texto-2);text-decoration:none}
+  footer .legal a:hover{color:var(--texto)}
+
+  [hidden]{display:none!important}
+
+  /* ---------- Página dos assistentes pessoais ---------- */
+  .seccao{padding:0 0 56px}
+  .principio{border-left:3px solid var(--musgo);padding:2px 0 2px 20px;max-width:640px;margin:0 auto 56px}
+  .principio p{font-family:'Fraunces',Georgia,serif;font-weight:500;font-size:clamp(1.1rem,3vw,1.3rem);line-height:1.45;color:var(--texto)}
+  .cartao-fixo:hover{transform:none;border-color:rgba(143,170,107,.16)}
+  .cartao .meta{display:flex;flex-wrap:wrap;gap:6px 20px;color:var(--texto-3);font-size:.85rem}
+  .seccao-cabeca{margin-bottom:18px}
+  .seccao-cabeca h2{font-size:clamp(1.3rem,4vw,1.6rem);margin-bottom:6px}
+  .seccao-cabeca p{color:var(--texto-2);font-size:.95rem;max-width:60ch}
+  .demo{display:flex;flex-direction:column;gap:14px}
+  .rotulo{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--texto-3)}
+  .cartao .pedido{font-size:1.02rem;line-height:1.6;color:var(--texto)}
+  .cartao .nota{color:var(--texto-3);font-size:.82rem}
+  .resposta .criterios{color:var(--texto);font-size:.92rem}
+  .resposta .ordem{color:var(--texto-2);font-size:.88rem}
+  .opcoes{list-style:none;margin-top:6px}
+  .opcao{display:grid;grid-template-columns:28px 1fr;gap:12px;padding:16px 0;border-top:1px solid var(--linha)}
+  .opcao:last-child{border-bottom:1px solid var(--linha)}
+  .opcao .num{font-family:'Fraunces',Georgia,serif;font-weight:600;color:var(--musgo)}
+  .opcao div{display:flex;flex-direction:column;gap:3px;font-size:.9rem;color:var(--texto-2)}
+  .opcao .nome{font-weight:600;font-size:.98rem;color:var(--texto)}
+  .opcao .custo{color:var(--texto)}
+  .opcao .fonte{font-size:.8rem;color:var(--texto-3)}
+  .fecho{font-weight:600;color:var(--texto);font-size:.95rem;margin-top:4px}
+  .compra{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px}
+  .compra span{color:var(--texto-2);font-size:.92rem}
+  .estado-compra{color:var(--ocre);font-size:.92rem;margin-top:12px}
+  .btn-criar[aria-busy="true"]{opacity:.7;cursor:progress}
+  @media (min-width:761px){
+    .seccao{padding-bottom:72px}
+    .demo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.55fr);gap:18px;align-items:start}
   }
 </style>
 </head>
 <body>
 
-<div class="ra-pagina" style="min-height: 100vh; padding: 72px 40px 96px; display: flex; justify-content: center">
-<div class="ra-coluna" style="width: 100%; max-width: 1080px; display: flex; flex-direction: column; gap: 64px">
+<header>
+  <div class="contentor barra">
+    <a class="marca" href="/">Proteína <span>Lúdica</span></a>
+    <nav class="so-desktop" aria-label="Navegação principal">
+      <ul>
+        <li><a href="/catalogo">Assistentes</a></li>
+        <li><a href="/assistentes-pessoais" aria-current="page">Assistentes pessoais</a></li>
+        <li><a href="/#quem-somos">Quem somos</a></li>
+        <li><a href="/#faq">FAQ</a></li>
+        <li><a class="nav-cta" href="https://criar.proteinaludica.com">Criar o meu assistente</a></li>
+      </ul>
+    </nav>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu-movel" aria-label="Menu">
+      <span></span><span></span>
+    </button>
+  </div>
+  <nav id="menu-movel" hidden aria-label="Navegação principal">
+    <a href="/catalogo">Assistentes</a>
+    <a href="/assistentes-pessoais" aria-current="page">Assistentes pessoais</a>
+    <a href="/#quem-somos">Quem somos</a>
+    <a href="/#faq">FAQ</a>
+    <a class="nav-cta" href="https://criar.proteinaludica.com">Criar o meu assistente</a>
+  </nav>
+</header>
 
-  <header style="display: flex; flex-direction: column; gap: 20px; max-width: 760px">
-    <span class="tag tag-accent-2" style="align-self: flex-start">Assistentes digitais pessoais</span>
-    <h1 class="ra-titulo" style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 58px; line-height: 1.05; margin: 0; letter-spacing: -0.5px">Assistentes digitais IA para uso pessoal</h1>
-    <p class="ra-entrada" style="font-size: 21px; line-height: 1.55; margin: 0; color: var(--color-neutral-800); text-wrap: pretty">Assistentes especializados numa tarefa concreta. Recebem um pedido em linguagem comum e devolvem uma lista organizada, pronta a rever.</p>
-  </header>
+<main>
 
-  <section class="ra-principio" aria-label="Princípio da secção" style="border-left: 4px solid var(--color-accent-400); padding: 4px 0 4px 28px; max-width: 720px">
-    <p style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 30px; line-height: 1.3; margin: 0; text-wrap: pretty">Quem usa determina. A IA organiza e dá forma. Quem usa revê e decide. Nada nasce da máquina sozinha.</p>
+<section class="topo">
+  <div class="contentor">
+    <h1>Assistentes digitais IA para uso pessoal</h1>
+    <p>Assistentes especializados numa tarefa concreta. Recebem um pedido em linguagem comum e devolvem uma lista organizada, pronta a rever.</p>
+  </div>
+</section>
+
+<div class="contentor">
+  <section class="principio" aria-label="Princípio da secção">
+    <p>Quem usa determina. A IA organiza e dá forma. Quem usa revê e decide. Nada nasce da máquina sozinha.</p>
   </section>
 
-  <section class="card ra-produto" style="display: flex; flex-direction: column; gap: 20px; padding: 36px; border-radius: var(--radius-lg); max-width: 720px">
-    <div style="display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap">
-      <h2 class="card-title" style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 36px; margin: 0">RetiroAssist</h2>
-      <span class="tag tag-outline">Disponível</span>
-    </div>
-    <p class="card-body" style="font-size: 19px; line-height: 1.6; margin: 0; max-width: 60ch; text-wrap: pretty">Assistente digital IA especializado em escapadinhas curtas. Reúne destinos, datas e preços num só lugar e apresenta-os em lista, sem escolher por ninguém.</p>
-    <div class="card-meta" style="display: flex; gap: 24px; flex-wrap: wrap; font-size: 17px; color: var(--color-neutral-700)">
-      <span>19&nbsp;€ · pagamento único</span>
-      <span>Primeiro de três assistentes pessoais</span>
-    </div>
-  </section>
-
-  <section style="display: flex; flex-direction: column; gap: 28px">
-    <div style="display: flex; flex-direction: column; gap: 10px; max-width: 720px">
-      <h2 class="ra-seccao-titulo" style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 40px; margin: 0">Demonstração</h2>
-      <p style="font-size: 18px; line-height: 1.55; margin: 0; color: var(--color-neutral-700)">Um pedido escrito à esquerda, a resposta do assistente à direita. Exemplo fixo, com valores de demonstração.</p>
-    </div>
-
-    <div class="ra-demo" style="display: grid; grid-template-columns: minmax(280px, 1fr) minmax(420px, 1.55fr); gap: 28px; align-items: start">
-
-      <div class="ra-pedido" style="display: flex; flex-direction: column; gap: 16px; background: var(--color-neutral-100); border: 1px solid var(--color-neutral-300); border-radius: var(--radius-lg); padding: 32px">
-        <span style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: var(--color-neutral-600)">Pedido de quem usa</span>
-        <p style="font-size: 21px; line-height: 1.6; margin: 0; text-wrap: pretty">«Quero uma escapadinha de 4 noites em Outubro. Parto de Lisboa e vou com a minha mulher. O orçamento é de 500&nbsp;€ no total. Prefiro sítios calmos e sem escalas longas.»</p>
-        <p style="font-size: 16px; line-height: 1.5; margin: 0; color: var(--color-neutral-600)">Exemplo escrito por um utilizador (Dr. Silva, nome fictício).</p>
+  <section class="seccao">
+    <article class="cartao cartao-fixo" style="max-width:640px">
+      <span class="estado estado-disp"><span class="ponto" aria-hidden="true"></span>Disponível</span>
+      <h2 style="font-size:1.4rem;margin-top:4px">RetiroAssist</h2>
+      <p>Assistente digital IA especializado em escapadinhas curtas. Reúne destinos, datas e preços num só lugar e apresenta-os em lista, sem escolher por ninguém.</p>
+      <div class="meta">
+        <span>19&nbsp;€ · pagamento único</span>
+        <span>Primeiro de três assistentes pessoais</span>
       </div>
+    </article>
+  </section>
 
-      <div class="ra-resposta" style="display: flex; flex-direction: column; gap: 20px; background: var(--color-surface); border-radius: var(--radius-lg); padding: 32px">
-        <span style="font-size: 14px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; color: var(--color-neutral-700)">Resposta do assistente digital IA</span>
-
-        <div style="display: flex; flex-direction: column; gap: 8px">
-          <p style="font-size: 17px; line-height: 1.55; margin: 0">Critérios confirmados: partida de Lisboa, 4 noites em Outubro, 2 adultos, até 500&nbsp;€ no total, sítio calmo, sem escalas longas.</p>
-          <p style="font-size: 17px; line-height: 1.55; margin: 0; color: var(--color-neutral-700)">Opções ordenadas por custo total, do mais baixo para o mais alto.</p>
-        </div>
-
-        <ol style="list-style: none; counter-reset: opt; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0">
-
-          <li class="ra-opcao" style="counter-increment: opt; display: grid; grid-template-columns: 40px 1fr; gap: 16px; padding: 20px 0; border-top: 1px solid var(--color-divider)">
-            <span style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 22px; color: var(--color-neutral-700)">1.</span>
-            <div style="display: flex; flex-direction: column; gap: 6px">
-              <span style="font-size: 20px; font-weight: 600">Serra da Estrela, Manteigas · Casa de campo</span>
-              <span style="font-size: 17px; color: var(--color-neutral-700)">22 a 26 de Outubro · 4 noites</span>
-              <span style="font-size: 17px; color: var(--color-neutral-700)">Carro próprio, 3h20, sem paragens obrigatórias.</span>
-              <span style="font-size: 17px">Transporte 70&nbsp;€ · Alojamento 280&nbsp;€ · Total 350&nbsp;€</span>
-              <span style="font-size: 17px; color: var(--color-neutral-700)">Inclui pequeno-almoço e jantar. Não inclui taxa turística.</span>
-              <span style="font-size: 17px; color: var(--color-neutral-700)">Cancelamento gratuito até 7 dias antes.</span>
-              <span style="font-size: 15px; color: var(--color-neutral-600)">Fonte: página do alojamento, consultada a 2 de Outubro.</span>
+  <section class="seccao" aria-labelledby="demo-titulo">
+    <div class="seccao-cabeca">
+      <h2 id="demo-titulo">Demonstração</h2>
+      <p>Um pedido escrito à esquerda, a resposta do assistente à direita. Exemplo fixo, com valores de demonstração.</p>
+    </div>
+    <div class="demo">
+      <div class="cartao cartao-fixo">
+        <span class="rotulo">Pedido de quem usa</span>
+        <p class="pedido">«Quero uma escapadinha de 4 noites em Outubro. Parto de Lisboa e vou com a minha mulher. O orçamento é de 500&nbsp;€ no total. Prefiro sítios calmos e sem escalas longas.»</p>
+        <p class="nota">Exemplo escrito por um utilizador (Dr. Silva, nome fictício).</p>
+      </div>
+      <div class="cartao cartao-fixo resposta">
+        <span class="rotulo">Resposta do assistente digital IA</span>
+        <p class="criterios">Critérios confirmados: partida de Lisboa, 4 noites em Outubro, 2 adultos, até 500&nbsp;€ no total, sítio calmo, sem escalas longas.</p>
+        <p class="ordem">Opções ordenadas por custo total, do mais baixo para o mais alto.</p>
+        <ol class="opcoes">
+          <li class="opcao">
+            <span class="num">1.</span>
+            <div>
+              <span class="nome">Serra da Estrela, Manteigas · Casa de campo</span>
+              <span>22 a 26 de Outubro · 4 noites</span>
+              <span>Carro próprio, 3h20, sem paragens obrigatórias.</span>
+              <span class="custo">Transporte 70&nbsp;€ · Alojamento 280&nbsp;€ · Total 350&nbsp;€</span>
+              <span>Inclui pequeno-almoço e jantar. Não inclui taxa turística.</span>
+              <span>Cancelamento gratuito até 7 dias antes.</span>
+              <span class="fonte">Fonte: página do alojamento, consultada a 2 de Outubro.</span>
             </div>
           </li>
-
-          <li class="ra-opcao" style="counter-increment: opt; display: grid; grid-template-columns: 40px 1fr; gap: 16px; padding: 20px 0; border-top: 1px solid var(--color-divider)">
-            <span style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 22px; color: var(--color-neutral-700)">2.</span>
-            <div style="display: flex; flex-direction: column; gap: 6px">
-              <span style="font-size: 20px; font-weight: 600">Ria Formosa, Olhão · Casa de hóspedes com 4 quartos</span>
-              <span style="font-size: 17px; color: var(--color-neutral-700)">12 a 16 de Outubro · 4 noites</span>
-              <span style="font-size: 17px; color: var(--color-neutral-700)">Carro próprio, 2h30, sem paragens obrigatórias.</span>
-              <span style="font-size: 17px">Transporte 60&nbsp;€ · Alojamento 340&nbsp;€ · Total 400&nbsp;€</span>
-              <span style="font-size: 17px; color: var(--color-neutral-700)">Inclui pequeno-almoço. Não inclui taxa turística.</span>
-              <span style="font-size: 17px; color: var(--color-neutral-700)">Cancelamento gratuito até 48 horas antes.</span>
-              <span style="font-size: 15px; color: var(--color-neutral-600)">Fonte: página do alojamento, consultada a 2 de Outubro.</span>
+          <li class="opcao">
+            <span class="num">2.</span>
+            <div>
+              <span class="nome">Ria Formosa, Olhão · Casa de hóspedes com 4 quartos</span>
+              <span>12 a 16 de Outubro · 4 noites</span>
+              <span>Carro próprio, 2h30, sem paragens obrigatórias.</span>
+              <span class="custo">Transporte 60&nbsp;€ · Alojamento 340&nbsp;€ · Total 400&nbsp;€</span>
+              <span>Inclui pequeno-almoço. Não inclui taxa turística.</span>
+              <span>Cancelamento gratuito até 48 horas antes.</span>
+              <span class="fonte">Fonte: página do alojamento, consultada a 2 de Outubro.</span>
             </div>
           </li>
-
-          <li class="ra-opcao" style="counter-increment: opt; display: grid; grid-template-columns: 40px 1fr; gap: 16px; padding: 20px 0; border-top: 1px solid var(--color-divider); border-bottom: 1px solid var(--color-divider)">
-            <span style="font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 22px; color: var(--color-neutral-700)">3.</span>
-            <div style="display: flex; flex-direction: column; gap: 6px">
-              <span style="font-size: 20px; font-weight: 600">Funchal, Madeira · Apartamento com varanda</span>
-              <span style="font-size: 17px; color: var(--color-neutral-700)">14 a 18 de Outubro · 4 noites</span>
-              <span style="font-size: 17px; color: var(--color-neutral-700)">Voo directo, 1h45.</span>
-              <span style="font-size: 17px">Transporte 180&nbsp;€ · Alojamento 290&nbsp;€ · Total 470&nbsp;€</span>
-              <span style="font-size: 17px; color: var(--color-neutral-700)">Inclui bagagem de mão. Não inclui mala de porão nem taxa turística.</span>
-              <span style="font-size: 17px; color: var(--color-neutral-700)">Cancelamento gratuito do alojamento até 5 dias antes. O voo não é reembolsável.</span>
-              <span style="font-size: 15px; color: var(--color-neutral-600)">Fonte: páginas da companhia aérea e do alojamento, consultadas a 2 de Outubro.</span>
+          <li class="opcao">
+            <span class="num">3.</span>
+            <div>
+              <span class="nome">Funchal, Madeira · Apartamento com varanda</span>
+              <span>14 a 18 de Outubro · 4 noites</span>
+              <span>Voo directo, 1h45.</span>
+              <span class="custo">Transporte 180&nbsp;€ · Alojamento 290&nbsp;€ · Total 470&nbsp;€</span>
+              <span>Inclui bagagem de mão. Não inclui mala de porão nem taxa turística.</span>
+              <span>Cancelamento gratuito do alojamento até 5 dias antes. O voo não é reembolsável.</span>
+              <span class="fonte">Fonte: páginas da companhia aérea e do alojamento, consultadas a 2 de Outubro.</span>
             </div>
           </li>
-
         </ol>
-
-        <p style="font-size: 19px; line-height: 1.55; margin: 0; font-weight: 600">Lista pronta a rever. A decisão é de quem viaja.</p>
+        <p class="fecho">Lista pronta a rever. A decisão é de quem viaja.</p>
       </div>
     </div>
   </section>
 
-  <section style="display: flex; flex-direction: column; gap: 24px; max-width: 720px">
-    <div class="ra-compra" style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap">
-      <a id="comprar" class="btn btn-primary" href="/api/retiroassist-comprar" style="white-space: nowrap">Comprar o RetiroAssist · 19&nbsp;€</a>
-      <span class="ra-acesso" style="font-size: 17px; color: var(--color-neutral-700)">Pagamento único. Sem subscrição.</span>
+  <section class="seccao">
+    <div class="compra">
+      <a id="comprar" class="btn-criar" href="/api/retiroassist-comprar">Comprar o RetiroAssist · 19&nbsp;€</a>
+      <span>Pagamento único. Sem subscrição.</span>
     </div>
-    <p id="comprar-estado" style="font-size: 17px; line-height: 1.55; margin: 0; color: var(--color-accent-700)" role="status" hidden></p>
-    <p style="font-size: 17px; line-height: 1.55; margin: 0; padding: 18px 22px; border-radius: var(--radius-md); background: var(--color-accent-200); color: var(--color-accent-900)">Não substituem aconselhamento profissional de nenhuma área.</p>
+    <p id="comprar-estado" class="estado-compra" role="status" hidden></p>
   </section>
-
-</div>
 </div>
 
+</main>
+
+<footer style="border-top:1px solid var(--linha);padding:32px 0 40px;color:var(--texto-2);font-size:.78rem;text-align:center">
+  <div class="contentor">
+    <p class="aviso" style="max-width:70ch;margin:0 auto 10px">Não substituem aconselhamento profissional de nenhuma área.</p>
+    <p class="legal" style="color:var(--texto-3)">© 2026 Proteína Lúdica, Lda. · NIF 514411520 · Região Autónoma da Madeira, Portugal · <a href="/privacidade">Política de privacidade</a> · <a href="/termos">Termos</a></p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var btn = document.querySelector('.menu-btn');
+  var menu = document.getElementById('menu-movel');
+  if(!btn || !menu) return;
+  function fechar(){ btn.setAttribute('aria-expanded','false'); menu.hidden = true; }
+  btn.addEventListener('click', function(){
+    var aberto = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!aberto));
+    menu.hidden = aberto;
+  });
+  menu.addEventListener('click', function(e){ if(e.target.closest('a')) fechar(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') fechar(); });
+  window.addEventListener('resize', function(){ if(window.innerWidth > 760) fechar(); });
+})();
+</script>
 <script>
 (function () {
   var botao = document.getElementById('comprar');
@@ -204,6 +395,5 @@
   }
 })();
 </script>
-
 </body>
 </html>
