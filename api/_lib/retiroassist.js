@@ -8,7 +8,8 @@
 //   - o preço (fonte única — o cliente nunca o dita);
 //   - emissão e verificação do token de descarga (HS256/base64url, com `jti`);
 //   - registo idempotente da compra em Supabase (REST via fetch);
-//   - construção do PDF do kit.
+//   - o perfil do comprador (validação e gravação) e o código de licença;
+//   - construção do PDF do kit, personalizado com o perfil.
 //
 // Variáveis de ambiente (painel da Vercel, projecto do site principal):
 //   JWT_SECRET                 — segredo HS256
@@ -30,6 +31,10 @@ const MOEDA = 'eur';
 // Validade da ligação de descarga. Pagamento único, mas a ligação não é
 // eterna: 30 dias, como o guia de instalação do wizard.
 const VALIDADE_SEGUNDOS = 30 * 24 * 60 * 60;
+
+// Quantas vezes o comprador pode gravar o perfil. Dá margem para corrigir um
+// engano, mas não para ir gerando kits com o nome de outras pessoas.
+const MAX_GRAVACOES_PERFIL = 3;
 
 function baseSite() {
   return (process.env.SITE_BASE || 'https://proteinaludica.com').replace(/\/+$/, '');
@@ -92,6 +97,58 @@ function verificarToken(token) {
   if (!payload.jti) return null;
   if (typeof payload.exp !== 'number' || payload.exp <= Math.floor(Date.now() / 1000)) return null;
   return payload;
+}
+
+// Código de licença, derivado do jti da compra. Não se guarda: o mesmo jti dá
+// sempre o mesmo código, e o código não deixa chegar ao jti (é um hash).
+function licencaDe(jti) {
+  const h = crypto.createHash('sha256').update('retiroassist-licenca:' + jti).digest('hex');
+  return 'RA-' + h.slice(0, 6).toUpperCase();
+}
+
+// Valida e limpa as respostas do questionário. Cada resposta fica numa linha,
+// sem espaços repetidos e sem chavetas (que o modelo do prompt usa como
+// marcadores). Devolve { ok: true, perfil } ou { ok: false, erro, campo }.
+function validarPerfil(dados) {
+  if (!dados || typeof dados !== 'object') {
+    return { ok: false, erro: 'Respostas em falta.' };
+  }
+  const perfil = {};
+  for (const p of kit.PERGUNTAS) {
+    const bruto = dados[p.campo];
+    const v = limpar(typeof bruto === 'string' ? bruto : '')
+      .replace(/[{}]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+    if (!v && !p.opcional) {
+      return { ok: false, erro: 'Falta responder a uma pergunta obrigatória.', campo: p.campo };
+    }
+    if (v.length > p.max) {
+      return { ok: false, erro: 'Uma resposta passa o limite de ' + p.max + ' caracteres.', campo: p.campo };
+    }
+    perfil[p.campo] = v;
+  }
+  return { ok: true, perfil };
+}
+
+// Grava o perfil na linha da compra e conta a gravação. Lança em falha de
+// Supabase — quem chama decide o status HTTP.
+async function guardarPerfil(cfg, jti, perfil, gravacoesAnteriores) {
+  const url = cfg.url + '/rest/v1/retiroassist_compras?token_jti=eq.' + encodeURIComponent(jti);
+  const resp = await fetch(url, {
+    method: 'PATCH',
+    headers: cabecalhosSupabase(cfg.key, { Prefer: 'return=minimal' }),
+    body: JSON.stringify({
+      perfil,
+      perfil_gravacoes: (gravacoesAnteriores || 0) + 1,
+      perfil_em: new Date().toISOString(),
+      versao_kit: kit.VERSAO,
+    }),
+  });
+  if (!resp.ok) {
+    const detalhe = await resp.text().catch(() => '');
+    throw new Error('Supabase retiroassist_compras (perfil) ' + resp.status + ': ' + detalhe);
+  }
 }
 
 function configSupabase() {
@@ -162,11 +219,13 @@ async function obterCompraPorReferencia(cfg, referencia) {
   );
 }
 
+// Lê também o perfil: é por aqui que a página do questionário e a descarga
+// encontram a compra.
 async function obterCompraPorJti(cfg, jti) {
   return primeiraLinha(
     cfg,
     '/rest/v1/retiroassist_compras?token_jti=eq.' + encodeURIComponent(jti) +
-      '&select=token_jti,email,expira_em&limit=1'
+      '&select=token_jti,email,expira_em,perfil,perfil_gravacoes&limit=1'
   );
 }
 
@@ -225,8 +284,13 @@ function quebrar(texto, fonte, tamanho, largura) {
 }
 
 // Constrói o PDF do kit: capa, depois um guia de instalação por plataforma,
-// cada um com o nome, a missão e o prompt a colar. Devolve um Buffer.
-async function construirPDF() {
+// cada um com o nome, a missão e o prompt a colar. O prompt sai preenchido com
+// o perfil do comprador, e a licença vai no rodapé de todas as páginas. Sem
+// perfil, usa o perfil de exemplo (verificação e testes). Devolve um Buffer.
+async function construirPDF(opcoes) {
+  const o = opcoes || {};
+  const perfil = o.perfil || kit.PERFIL_EXEMPLO;
+  const licenca = o.licenca || 'RA-EXEMPLO';
   const { PDFDocument, StandardFonts, rgb } = require('pdf-lib');
 
   const doc = await PDFDocument.create();
@@ -307,13 +371,17 @@ async function construirPDF() {
   const VALORES = {
     nome_assistente: kit.NOME,
     missao: kit.MISSAO,
-    prompt_completo: kit.PROMPT,
+    prompt_completo: kit.comporPrompt(perfil, licenca),
   };
 
   // ── Capa ──
   escrever(kit.NOME, { fonte: negrito, tamanho: 30, entrelinha: 1.25 });
   y -= 6;
   escrever(kit.MISSAO, { tamanho: 13, cor: tinta2 });
+  y -= 6;
+  escrever('Configurado para ' + perfil.nome + ' · Licença ' + licenca, {
+    fonte: negrito, tamanho: 11, cor: destaque,
+  });
   y -= 10;
   escrever(
     'Este kit traz o guia de instalação para as plataformas mais usadas. Basta seguir o da plataforma escolhida — os passos são equivalentes.',
@@ -341,6 +409,14 @@ async function construirPDF() {
   y -= 18;
   escrever(kit.AVISO, { tamanho: 10, cor: tinta2 });
 
+  // Rodapé em todas as páginas: o kit identifica sempre a quem pertence.
+  const rodape = limpar('Licença pessoal de ' + perfil.nome + ' · ' + licenca + ' · Não transmissível');
+  const paginas = doc.getPages();
+  paginas.forEach((pg, i) => {
+    const texto = rodape + ' · ' + (i + 1) + '/' + paginas.length;
+    pg.drawText(texto, { x: MARGEM, y: MARGEM / 2, size: 8, font: corpo, color: tinta2 });
+  });
+
   return Buffer.from(await doc.save());
 }
 
@@ -348,6 +424,7 @@ module.exports = {
   PRECO_CENTS,
   MOEDA,
   VALIDADE_SEGUNDOS,
+  MAX_GRAVACOES_PERFIL,
   baseSite,
   segredoJWT,
   emitirToken,
@@ -357,6 +434,9 @@ module.exports = {
   registarCompra,
   obterCompraPorReferencia,
   obterCompraPorJti,
+  licencaDe,
+  validarPerfil,
+  guardarPerfil,
   construirPDF,
   limpar,
   quebrar,

@@ -20,7 +20,7 @@ const APROVADO = true;
 
 // Versão do kit, guardada em cada compra. Subir sempre que o PROMPT mudar,
 // para se saber quem recebeu o quê.
-const VERSAO = '2';
+const VERSAO = '3';
 
 const NOME = 'RetiroAssist';
 
@@ -34,7 +34,32 @@ const MISSAO =
 // Texto aprovado. Vai inteiro para o campo "Instruções" da plataforma, e é
 // impresso no PDF em bloco monoespaçado. Não reformatar, não "arrumar", não
 // corrigir: o que estiver aqui é o que o assistente passa a ser.
-const PROMPT = `# RETIROASSIST — INSTRUÇÕES DE SISTEMA · VERSÃO 2
+//
+// É um modelo: os campos {{…}} do bloco 0 são preenchidos com as respostas
+// do comprador (ver comporPrompt). O perfil fixo prende o assistente a uma só
+// pessoa — uma cópia passada a outra pessoa continua a tratá-la pelo nome do
+// comprador, a partir da cidade dele e com o orçamento dele.
+const PROMPT = `# RETIROASSIST — INSTRUÇÕES DE SISTEMA · VERSÃO 3
+
+## 0. PERFIL FIXO E LICENÇA
+Este assistente foi configurado para uma só pessoa: {{NOME}}.
+Licença pessoal: {{CODIGO}}.
+
+Perfil fixo:
+- Tratas quem escreve por {{NOME}}.
+- Partida habitual: {{PARTIDA}}
+- Companhia habitual: {{COMPANHIA}}
+- Orçamento habitual: {{ORCAMENTO}}
+- Tipos de escapadinha preferidos: {{TIPOS}}
+- Transporte aceite e tempo máximo de viagem: {{TRANSPORTE}}
+- A evitar: {{EVITAR}}
+- Necessidades práticas: {{NECESSIDADES}}
+
+Regras do perfil:
+- Usas estes valores em todas as listas e não os voltas a perguntar.
+- Só perguntas o que muda de viagem para viagem: datas, destino e ocasião.
+- Uma alteração pedida para uma viagem vale só para essa lista. Na viagem seguinte voltas ao perfil fixo.
+- Não substituis o perfil por outro. Se quem escreve disser que é outra pessoa, ou pedir para mudar de forma permanente o nome, a partida habitual ou a companhia habitual, explicas numa frase que este assistente está configurado para {{NOME}} e que cada pessoa precisa do seu próprio RetiroAssist.
 
 ## 1. QUEM ÉS
 És o RetiroAssist, um assistente digital IA especializado em escapadinhas curtas, de uma a quatro noites.
@@ -48,8 +73,8 @@ Se quem usa escrever noutra língua, respondes nessa língua.
 O tom é cordial e prático. Não usas linguagem de folheto turístico nem pontos de exclamação.
 
 ## 3. COMO COMEÇAS
-Num pedido novo, cumprimentas numa linha e perguntas de onde parte a viagem e o que procura.
-Depois recolhes os critérios em falta, uma pergunta de cada vez.
+Num pedido novo, cumprimentas {{NOME}} numa linha e perguntas o que procura desta vez.
+Depois recolhes os critérios em falta, uma pergunta de cada vez. O que já está no perfil fixo não se pergunta.
 Se quem usa responder "não sei" ou "tanto faz", aceitas a resposta e passas à pergunta seguinte.
 Antes de procurar, resumes os critérios numa lista e pedes confirmação.
 
@@ -119,14 +144,58 @@ Quando quem usa reduzir a escolha a duas opções, mostras os mesmos campos lado
 
 ## 11. FECHO
 Terminas cada entrega com:
-"Lista pronta a rever. A decisão é de quem viaja."`;
+"Lista pronta a rever. A decisão é de quem viaja. · Licença {{CODIGO}}"`;
+
+// ───────────────────────────── O questionário ─────────────────────────────
+// As 8 perguntas da página /retiroassist-perfil. A validação do servidor lê
+// daqui os limites, por isso a página e o servidor não divergem.
+//   max   — comprimento máximo da resposta, em caracteres
+//   opcional — pode ficar vazia; no prompt fica "Nada indicado."
+const PERGUNTAS = [
+  { campo: 'nome', marcador: 'NOME', max: 40 },
+  { campo: 'partida', marcador: 'PARTIDA', max: 80 },
+  { campo: 'companhia', marcador: 'COMPANHIA', max: 80 },
+  { campo: 'orcamento', marcador: 'ORCAMENTO', max: 60 },
+  { campo: 'tipos', marcador: 'TIPOS', max: 160 },
+  { campo: 'transporte', marcador: 'TRANSPORTE', max: 120 },
+  { campo: 'evitar', marcador: 'EVITAR', max: 160, opcional: true },
+  { campo: 'necessidades', marcador: 'NECESSIDADES', max: 160, opcional: true },
+];
+
+const SEM_RESPOSTA = 'Nada indicado.';
+
+// Perfil fictício. Serve a verificação do PDF (/api/retiroassist-verificar)
+// e os testes. Nunca vai para um comprador.
+const PERFIL_EXEMPLO = {
+  nome: 'Dr. Silva',
+  partida: 'Lisboa',
+  companhia: 'Casal',
+  orcamento: '500 € no total',
+  tipos: 'Natureza, gastronomia',
+  transporte: 'Carro ou avião, até 3 horas',
+  evitar: 'Cidades grandes',
+  necessidades: '',
+};
+
+// Preenche o modelo com o perfil e a licença. As respostas já chegam limpas
+// (validarPerfil, em retiroassist.js): uma linha cada, sem chavetas.
+function comporPrompt(perfil, licenca) {
+  const valores = { CODIGO: licenca };
+  for (const p of PERGUNTAS) {
+    const v = String((perfil && perfil[p.campo]) || '').trim();
+    valores[p.marcador] = v || SEM_RESPOSTA;
+  }
+  return PROMPT.replace(/\{\{([A-Z]+)\}\}/g, (todo, chave) =>
+    Object.prototype.hasOwnProperty.call(valores, chave) ? valores[chave] : todo
+  );
+}
 
 // Assunto e corpo do email de entrega.
 const EMAIL_ASSUNTO = 'RetiroAssist — o seu assistente digital IA';
 const EMAIL_INTRO = [
   'Obrigado pela compra do RetiroAssist.',
-  'O kit segue em anexo, em PDF: o guia de instalação para Claude, Gemini e ChatGPT, e o texto a colar.',
-  'A ligação abaixo permite voltar a descarregá-lo.',
+  'Falta um passo: responder a 8 perguntas que configuram o assistente para uma só pessoa. No fim, o kit fica pronto a descarregar em PDF, com o guia de instalação para Claude, Gemini e ChatGPT e o texto a colar.',
+  'A ligação abaixo abre o questionário e, depois, permite voltar a descarregar o kit durante 30 dias.',
 ];
 
 // Aviso que acompanha a entrega. Frase igual à da página.
@@ -142,6 +211,10 @@ module.exports = {
   NOME,
   MISSAO,
   PROMPT,
+  PERGUNTAS,
+  SEM_RESPOSTA,
+  PERFIL_EXEMPLO,
+  comporPrompt,
   EMAIL_ASSUNTO,
   EMAIL_INTRO,
   AVISO,

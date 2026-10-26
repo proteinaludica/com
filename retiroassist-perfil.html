@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Configurar o RetiroAssist</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --fundo:#141A10;
+    --fundo-2:#1A2214;
+    --cartao-a:#1B2315;
+    --cartao-b:#161C11;
+    --musgo:#8FAA6B;
+    --musgo-claro:#A9C287;
+    --ocre:#C8A86B;
+    --texto:#E9EDE3;
+    --texto-2:#B9C2AD;
+    --texto-3:#8A9478;
+    --linha:rgba(143,170,107,.14);
+    --linha-2:rgba(143,170,107,.35);
+    --largura:1040px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation:none!important;transition:none!important}
+  }
+  body{
+    background:var(--fundo);
+    color:var(--texto);
+    font-family:'Geist',system-ui,-apple-system,sans-serif;
+    font-size:16px;line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;line-height:1.15;letter-spacing:-.015em}
+  a{color:var(--musgo-claro)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--ocre);outline-offset:3px;border-radius:4px}
+  .contentor{max-width:var(--largura);margin:0 auto;padding:0 20px}
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky;top:0;z-index:20;
+    background:rgba(20,26,16,.92);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--linha);
+  }
+  .barra{display:flex;align-items:center;justify-content:space-between;height:56px}
+  .marca{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:1rem;color:var(--texto);text-decoration:none}
+  .marca span{color:var(--musgo)}
+  nav ul{display:flex;gap:24px;list-style:none;align-items:center}
+  nav a{color:var(--texto-2);text-decoration:none;font-size:.845rem;transition:color .15s ease}
+  nav a:hover,nav a[aria-current="page"]{color:var(--texto)}
+  nav a[aria-current="page"]{font-weight:600}
+  .nav-cta{
+    background:var(--musgo);color:var(--fundo)!important;
+    padding:8px 16px;border-radius:999px;font-weight:600;
+    transition:background .15s ease;
+  }
+  .nav-cta:hover{background:var(--musgo-claro)}
+  .so-desktop{display:none}
+  .menu-btn{
+    display:flex;flex-direction:column;gap:4px;justify-content:center;
+    background:none;border:0;padding:12px 8px;cursor:pointer;min-height:44px;
+  }
+  .menu-btn span{width:17px;height:1.5px;background:var(--texto);display:block;border-radius:2px;transition:transform .2s ease,opacity .2s ease}
+  .menu-btn[aria-expanded="true"] span:first-child{transform:translateY(5.5px) rotate(45deg)}
+  .menu-btn[aria-expanded="true"] span:last-child{transform:translateY(-5.5px) rotate(-45deg)}
+  #menu-movel{border-top:1px solid var(--linha);padding:10px 20px 18px}
+  #menu-movel a{
+    display:block;padding:13px 4px;color:var(--texto-2);text-decoration:none;
+    font-size:.97rem;border-bottom:1px solid var(--linha);
+  }
+  #menu-movel a:hover{color:var(--texto)}
+  #menu-movel a[aria-current="page"]{color:var(--texto);font-weight:600}
+  #menu-movel .nav-cta{
+    margin-top:14px;text-align:center;border-bottom:0;
+    padding:13px 16px;font-size:.95rem;
+  }
+  @media (min-width:761px){
+    .barra{height:60px}
+    .marca{font-size:1.06rem}
+    .so-desktop{display:flex}
+    .menu-btn,#menu-movel{display:none}
+  }
+
+  /* ---------- Topo ---------- */
+  .topo{
+    padding:72px 0 44px;text-align:center;
+    background:radial-gradient(680px 340px at 50% -12%, rgba(143,170,107,.13), transparent 65%);
+  }
+  .topo h1{font-size:clamp(1.9rem,6.5vw,2.5rem);line-height:1.1;margin:0 auto 14px}
+  .topo p{color:var(--texto-2);max-width:52ch;margin:0 auto;font-size:clamp(.97rem,2vw,1.03rem)}
+  @media (min-width:761px){ .topo{padding:96px 0 64px} .topo h1{margin-bottom:16px} }
+
+  /* ---------- Grelha de assistentes ---------- */
+  .assistentes{padding:20px 0 60px}
+  .grelha{display:flex;flex-direction:column;gap:14px}
+  .cartao{
+    position:relative;
+    background:linear-gradient(180deg,var(--cartao-a),var(--cartao-b));
+    border:1px solid rgba(143,170,107,.16);
+    border-radius:16px;
+    padding:24px 22px;
+    display:flex;flex-direction:column;gap:10px;
+    transition:border-color .15s ease,transform .15s ease;
+  }
+  .cartao:hover{border-color:rgba(143,170,107,.45);transform:translateY(-1px)}
+  .cartao h3{font-size:1.155rem;margin-top:4px}
+  .cartao p{color:var(--texto-2);font-size:.905rem;flex:1}
+  .cartao .ligacao{
+    font-weight:600;text-decoration:none;font-size:.905rem;
+    padding:5px 0;transition:color .15s ease;
+  }
+  .cartao .ligacao:hover{color:var(--ocre)}
+  /* O cartão inteiro é clicável: a ligação estende-se por cima dele.
+     Continua a existir uma só ligação para teclado e leitores de ecrã. */
+  .cartao .ligacao::after{content:"";position:absolute;inset:0;border-radius:16px}
+  .cartao:hover .ligacao{color:var(--ocre)}
+  .cartao:has(.ligacao:focus-visible){outline:2px solid var(--ocre);outline-offset:3px}
+  .cartao:has(.ligacao:focus-visible) .ligacao{outline:none}
+  .estado{
+    align-self:flex-start;display:flex;align-items:center;gap:7px;
+    font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;font-weight:600;
+    padding:4px 11px;border-radius:999px;
+  }
+  .estado .ponto{width:5px;height:5px;border-radius:999px;background:var(--musgo)}
+  .estado-disp{background:rgba(143,170,107,.14);color:var(--musgo-claro)}
+  .estado-breve{background:rgba(200,168,107,.12);color:var(--ocre)}
+  .estado-breve .ponto{background:transparent;border:1px solid var(--ocre)}
+  .cartao-breve{background:transparent;border-style:dashed;border-color:rgba(200,168,107,.35)}
+  .cartao-breve:hover{transform:none;border-color:rgba(200,168,107,.35)}
+  .linha-cabeca{margin-bottom:18px}
+  .linha-cabeca h2{font-size:clamp(1.3rem,4vw,1.6rem);margin-bottom:6px}
+  .linha-cabeca p{color:var(--texto-2);font-size:.95rem;max-width:60ch}
+  .cartao .preco{color:var(--texto-3);font-size:.85rem}
+  .linha-final{color:var(--texto-3);font-size:.815rem;margin-top:20px;text-align:center}
+  .cta-proprio{padding:24px 0 72px;text-align:center}
+  .cta-proprio h2{font-size:clamp(1.4rem,4.5vw,1.8rem);margin-bottom:10px}
+  .cta-proprio p{color:var(--texto-2);max-width:46ch;margin:0 auto 22px;font-size:.95rem}
+  .btn-criar{display:inline-block;background:var(--musgo);color:var(--fundo);text-decoration:none;font-weight:600;font-size:.98rem;padding:13px 26px;border-radius:999px;transition:background .15s ease}
+  .btn-criar:hover{background:var(--musgo-claro)}
+  @media (min-width:761px){
+    .assistentes{padding:24px 0 80px}
+    .grelha{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .cartao{padding:28px 26px;gap:11px}
+    .cartao h3{font-size:1.25rem;margin-top:6px}
+    .cartao p{font-size:.94rem}
+    .linha-final{font-size:.845rem;margin-top:22px}
+  }
+  footer .legal a{color:var(--texto-2);text-decoration:none}
+  footer .legal a:hover{color:var(--texto)}
+
+  [hidden]{display:none!important}
+
+  /* ---------- Página dos assistentes pessoais ---------- */
+  .seccao{padding:0 0 56px}
+  .principio{border-left:3px solid var(--musgo);padding:2px 0 2px 20px;max-width:640px;margin:0 auto 56px}
+  .principio p{font-family:'Fraunces',Georgia,serif;font-weight:500;font-size:clamp(1.1rem,3vw,1.3rem);line-height:1.45;color:var(--texto)}
+  .cartao-fixo:hover{transform:none;border-color:rgba(143,170,107,.16)}
+  .cartao .meta{display:flex;flex-wrap:wrap;gap:6px 20px;color:var(--texto-3);font-size:.85rem}
+  .seccao-cabeca{margin-bottom:18px}
+  .seccao-cabeca h2{font-size:clamp(1.3rem,4vw,1.6rem);margin-bottom:6px}
+  .seccao-cabeca p{color:var(--texto-2);font-size:.95rem;max-width:60ch}
+  .demo{display:flex;flex-direction:column;gap:14px}
+  .rotulo{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--texto-3)}
+  .cartao .pedido{font-size:1.02rem;line-height:1.6;color:var(--texto)}
+  .cartao .nota{color:var(--texto-3);font-size:.82rem}
+  .resposta .criterios{color:var(--texto);font-size:.92rem}
+  .resposta .ordem{color:var(--texto-2);font-size:.88rem}
+  .opcoes{list-style:none;margin-top:6px}
+  .opcao{display:grid;grid-template-columns:28px 1fr;gap:12px;padding:16px 0;border-top:1px solid var(--linha)}
+  .opcao:last-child{border-bottom:1px solid var(--linha)}
+  .opcao .num{font-family:'Fraunces',Georgia,serif;font-weight:600;color:var(--musgo)}
+  .opcao div{display:flex;flex-direction:column;gap:3px;font-size:.9rem;color:var(--texto-2)}
+  .opcao .nome{font-weight:600;font-size:.98rem;color:var(--texto)}
+  .opcao .custo{color:var(--texto)}
+  .opcao .fonte{font-size:.8rem;color:var(--texto-3)}
+  .fecho{font-weight:600;color:var(--texto);font-size:.95rem;margin-top:4px}
+  .compra{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px}
+  .compra span{color:var(--texto-2);font-size:.92rem}
+  .estado-compra{color:var(--ocre);font-size:.92rem;margin-top:12px}
+  .btn-criar[aria-busy="true"]{opacity:.7;cursor:progress}
+  @media (min-width:761px){
+    .seccao{padding-bottom:72px}
+    .demo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.55fr);gap:18px;align-items:start}
+  }
+
+  /* ---------- Questionário ---------- */
+  .form{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+  .campo{display:flex;flex-direction:column;gap:6px}
+  .campo label,.campo legend{font-weight:600;font-size:.95rem;color:var(--texto)}
+  .campo .num{color:var(--musgo);font-family:'Fraunces',Georgia,serif;margin-right:6px}
+  .campo .ajuda{color:var(--texto-3);font-size:.82rem}
+  .campo input[type=text]{
+    background:var(--fundo-2);border:1px solid var(--linha-2);border-radius:10px;
+    color:var(--texto);font:inherit;font-size:.95rem;padding:11px 13px;width:100%;
+  }
+  .campo input[type=text]:focus{outline:2px solid var(--ocre);outline-offset:1px;border-color:transparent}
+  .campo[data-erro] input[type=text]{border-color:var(--ocre)}
+  fieldset.campo{border:0}
+  .opcoes-tipo{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+  .opcoes-tipo label{
+    display:flex;align-items:center;gap:7px;font-weight:500;font-size:.9rem;color:var(--texto-2);
+    border:1px solid var(--linha-2);border-radius:999px;padding:7px 13px;cursor:pointer;
+  }
+  .opcoes-tipo input{accent-color:var(--musgo)}
+  .nota-dados{color:var(--texto-3);font-size:.82rem;border-top:1px solid var(--linha);padding-top:16px}
+  .accoes{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px}
+  .btn-criar{border:0;cursor:pointer;font-family:inherit}
+  .btn-criar[disabled]{opacity:.6;cursor:progress}
+  .mensagem{color:var(--ocre);font-size:.92rem}
+  .pronto{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+  .resumo{list-style:none;display:flex;flex-direction:column;gap:6px;font-size:.92rem;color:var(--texto-2)}
+  .resumo b{color:var(--texto);font-weight:600}
+  .ligacao-sec{background:none;border:0;color:var(--musgo-claro);font:inherit;font-size:.92rem;text-decoration:underline;cursor:pointer;padding:0;align-self:flex-start}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="contentor barra">
+    <a class="marca" href="/">Proteína <span>Lúdica</span></a>
+    <nav class="so-desktop" aria-label="Navegação principal">
+      <ul>
+        <li><a href="/catalogo">Assistentes</a></li>
+        <li><a href="/assistentes-pessoais" aria-current="page">Assistentes pessoais</a></li>
+        <li><a href="/#quem-somos">Quem somos</a></li>
+        <li><a href="/#faq">FAQ</a></li>
+        <li><a class="nav-cta" href="https://criar.proteinaludica.com">Criar o meu assistente</a></li>
+      </ul>
+    </nav>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu-movel" aria-label="Menu">
+      <span></span><span></span>
+    </button>
+  </div>
+  <nav id="menu-movel" hidden aria-label="Navegação principal">
+    <a href="/catalogo">Assistentes</a>
+    <a href="/assistentes-pessoais" aria-current="page">Assistentes pessoais</a>
+    <a href="/#quem-somos">Quem somos</a>
+    <a href="/#faq">FAQ</a>
+    <a class="nav-cta" href="https://criar.proteinaludica.com">Criar o meu assistente</a>
+  </nav>
+</header>
+
+<main>
+
+<section class="topo">
+  <div class="contentor">
+    <h1>Configurar o RetiroAssist</h1>
+    <p id="entrada">Oito perguntas configuram o assistente para uma só pessoa. As respostas ficam escritas no próprio assistente, por isso as conversas começam sem repetir o essencial.</p>
+  </div>
+</section>
+
+<div class="contentor" style="padding-bottom:72px">
+
+  <p id="estado" class="mensagem" style="text-align:center">A abrir o questionário…</p>
+
+  <form id="questionario" class="form" novalidate hidden>
+      <div class="campo" data-campo="nome">
+        <label for="c-nome"><span class="num">1.</span>Nome pelo qual o assistente trata quem o usa</label>
+        <input type="text" id="c-nome" name="nome" maxlength="40" autocomplete="off" required>
+        <span class="ajuda">Por exemplo: Ana, ou Dr. Silva.</span>
+      </div>
+      <div class="campo" data-campo="partida">
+        <label for="c-partida"><span class="num">2.</span>Local de partida habitual</label>
+        <input type="text" id="c-partida" name="partida" maxlength="80" autocomplete="off" required>
+        <span class="ajuda">Cidade ou aeroporto. Por exemplo: Funchal.</span>
+      </div>
+      <div class="campo" data-campo="companhia">
+        <label for="c-companhia"><span class="num">3.</span>Companhia habitual</label>
+        <input type="text" id="c-companhia" name="companhia" maxlength="80" autocomplete="off" required>
+        <span class="ajuda">Por exemplo: casal; família com duas crianças de 6 e 9 anos; sozinho.</span>
+      </div>
+      <div class="campo" data-campo="orcamento">
+        <label for="c-orcamento"><span class="num">4.</span>Orçamento habitual de uma escapadinha</label>
+        <input type="text" id="c-orcamento" name="orcamento" maxlength="60" autocomplete="off" required>
+        <span class="ajuda">No total ou por pessoa. Por exemplo: 600 € no total.</span>
+      </div>
+      <fieldset class="campo" data-campo="tipos">
+        <legend><span class="num">5.</span>Tipos de escapadinha preferidos</legend>
+        <span class="ajuda">Escolher um ou mais.</span>
+        <div class="opcoes-tipo">
+          <label><input type="checkbox" name="tipos" value="Cidade"> Cidade</label>
+          <label><input type="checkbox" name="tipos" value="Natureza"> Natureza</label>
+          <label><input type="checkbox" name="tipos" value="Praia"> Praia</label>
+          <label><input type="checkbox" name="tipos" value="Termas"> Termas</label>
+          <label><input type="checkbox" name="tipos" value="Gastronomia"> Gastronomia</label>
+          <label><input type="checkbox" name="tipos" value="Descanso"> Descanso</label>
+        </div>
+      </fieldset>
+      <div class="campo" data-campo="transporte">
+        <label for="c-transporte"><span class="num">6.</span>Transporte aceite e tempo máximo de viagem</label>
+        <input type="text" id="c-transporte" name="transporte" maxlength="120" autocomplete="off" required>
+        <span class="ajuda">Por exemplo: avião até 3 horas, ou carro até 4 horas.</span>
+      </div>
+      <div class="campo" data-campo="evitar">
+        <label for="c-evitar"><span class="num">7.</span>O que evitar (opcional)</label>
+        <input type="text" id="c-evitar" name="evitar" maxlength="160" autocomplete="off">
+        <span class="ajuda">Por exemplo: cidades grandes, escalas, zonas de multidão.</span>
+      </div>
+      <div class="campo" data-campo="necessidades">
+        <label for="c-necessidades"><span class="num">8.</span>Necessidades práticas (opcional)</label>
+        <input type="text" id="c-necessidades" name="necessidades" maxlength="160" autocomplete="off">
+        <span class="ajuda">Por exemplo: animal de estimação, alergia alimentar, mobilidade reduzida.</span>
+      </div>
+      <p class="nota-dados">As respostas servem só para gerar este kit. Ficam guardadas enquanto a ligação de descarga é válida, 30 dias, e são apagadas depois. Gravações do perfil ainda disponíveis: <span id="restantes">3</span>.</p>
+      <div class="accoes">
+        <button type="submit" id="gravar" class="btn-criar">Gerar o meu RetiroAssist</button>
+        <p id="erro" class="mensagem" role="alert" hidden></p>
+      </div>
+  </form>
+
+  <section id="pronto" class="pronto" hidden>
+    <h2 style="font-size:clamp(1.3rem,4vw,1.6rem)">O RetiroAssist está pronto</h2>
+    <p style="color:var(--texto-2)">Licença pessoal <b id="licenca" style="color:var(--texto)"></b>. O PDF traz o guia de instalação para Claude, Gemini e ChatGPT e o texto a colar, já com o perfil abaixo.</p>
+    <ul id="resumo" class="resumo"></ul>
+    <div class="accoes">
+      <a id="descarregar" class="btn-criar" href="#">Descarregar o kit</a>
+      <button type="button" id="corrigir" class="ligacao-sec" hidden>Corrigir as respostas</button>
+    </div>
+  </section>
+
+</div>
+
+</main>
+
+<footer style="border-top:1px solid var(--linha);padding:32px 0 40px;color:var(--texto-2);font-size:.78rem;text-align:center">
+  <div class="contentor">
+    <p class="aviso" style="max-width:70ch;margin:0 auto 10px">Não substituem aconselhamento profissional de nenhuma área.</p>
+    <p class="legal" style="color:var(--texto-3)">© 2026 Proteína Lúdica, Lda. · NIF 514411520 · Região Autónoma da Madeira, Portugal · <a href="/privacidade">Política de privacidade</a> · <a href="/termos">Termos</a></p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var btn = document.querySelector('.menu-btn');
+  var menu = document.getElementById('menu-movel');
+  if(!btn || !menu) return;
+  function fechar(){ btn.setAttribute('aria-expanded','false'); menu.hidden = true; }
+  btn.addEventListener('click', function(){
+    var aberto = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!aberto));
+    menu.hidden = aberto;
+  });
+  menu.addEventListener('click', function(e){ if(e.target.closest('a')) fechar(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') fechar(); });
+  window.addEventListener('resize', function(){ if(window.innerWidth > 760) fechar(); });
+})();
+</script>
+<script>
+(function () {
+  var token = new URLSearchParams(location.search).get('t');
+  var estado = document.getElementById('estado');
+  var form = document.getElementById('questionario');
+  var pronto = document.getElementById('pronto');
+  var erro = document.getElementById('erro');
+  var gravar = document.getElementById('gravar');
+  var corrigir = document.getElementById('corrigir');
+  var restantes = 0;
+
+  var ROTULOS = {
+    nome: 'Nome', partida: 'Partida habitual', companhia: 'Companhia habitual',
+    orcamento: 'Orçamento habitual', tipos: 'Tipos preferidos',
+    transporte: 'Transporte e tempo máximo', evitar: 'A evitar',
+    necessidades: 'Necessidades práticas'
+  };
+
+  if (!token) {
+    estado.textContent = 'Falta a ligação. Usar a ligação recebida por email.';
+    return;
+  }
+
+  function preencher(perfil) {
+    Object.keys(ROTULOS).forEach(function (c) {
+      if (c === 'tipos') {
+        var escolhidos = String(perfil.tipos || '').split(',').map(function (s) { return s.trim(); });
+        form.querySelectorAll('input[name=tipos]').forEach(function (cx) {
+          cx.checked = escolhidos.indexOf(cx.value) !== -1;
+        });
+      } else if (form.elements[c]) {
+        form.elements[c].value = perfil[c] || '';
+      }
+    });
+  }
+
+  function respostas() {
+    var r = {};
+    Object.keys(ROTULOS).forEach(function (c) {
+      if (c === 'tipos') {
+        r.tipos = Array.prototype.map.call(
+          form.querySelectorAll('input[name=tipos]:checked'), function (cx) { return cx.value; }
+        ).join(', ');
+      } else {
+        r[c] = form.elements[c].value.trim();
+      }
+    });
+    return r;
+  }
+
+  function mostrarPronto(licenca, perfil) {
+    document.getElementById('licenca').textContent = licenca;
+    var lista = document.getElementById('resumo');
+    lista.textContent = '';
+    Object.keys(ROTULOS).forEach(function (c) {
+      var li = document.createElement('li');
+      var b = document.createElement('b');
+      b.textContent = ROTULOS[c] + ': ';
+      li.appendChild(b);
+      li.appendChild(document.createTextNode(perfil[c] || 'Nada indicado.'));
+      lista.appendChild(li);
+    });
+    document.getElementById('descarregar').href =
+      '/api/retiroassist-descarregar?t=' + encodeURIComponent(token);
+    corrigir.hidden = restantes <= 0;
+    form.hidden = true;
+    estado.hidden = true;
+    pronto.hidden = false;
+  }
+
+  function mostrarForm() {
+    document.getElementById('restantes').textContent = String(restantes);
+    pronto.hidden = true;
+    estado.hidden = true;
+    form.hidden = false;
+  }
+
+  function marcarErro(campo, mensagem) {
+    form.querySelectorAll('[data-erro]').forEach(function (el) { el.removeAttribute('data-erro'); });
+    if (campo) {
+      var el = form.querySelector('[data-campo="' + campo + '"]');
+      if (el) {
+        el.setAttribute('data-erro', '');
+        var alvo = el.querySelector('input');
+        if (alvo) alvo.focus();
+      }
+    }
+    erro.textContent = mensagem;
+    erro.hidden = false;
+  }
+
+  fetch('/api/retiroassist-perfil?t=' + encodeURIComponent(token), { headers: { Accept: 'application/json' } })
+    .then(function (r) { return r.json().then(function (d) { return { status: r.status, dados: d }; }); })
+    .then(function (r) {
+      if (r.status !== 200 || !r.dados.ok) {
+        estado.textContent = (r.dados && r.dados.error) || 'Não foi possível abrir o questionário.';
+        return;
+      }
+      restantes = r.dados.gravacoes_restantes;
+      if (r.dados.perfil) {
+        preencher(r.dados.perfil);
+        mostrarPronto(r.dados.licenca, r.dados.perfil);
+      } else {
+        mostrarForm();
+      }
+    })
+    .catch(function () { estado.textContent = 'Não foi possível abrir o questionário. Tentar de novo.'; });
+
+  corrigir.addEventListener('click', mostrarForm);
+
+  form.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    erro.hidden = true;
+    var r = respostas();
+    var obrigatorios = ['nome', 'partida', 'companhia', 'orcamento', 'tipos', 'transporte'];
+    for (var i = 0; i < obrigatorios.length; i++) {
+      if (!r[obrigatorios[i]]) {
+        marcarErro(obrigatorios[i], 'Falta responder à pergunta ' + (i + 1) + '.');
+        return;
+      }
+    }
+    gravar.disabled = true;
+    fetch('/api/retiroassist-perfil', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({ t: token, respostas: r })
+    })
+      .then(function (resp) { return resp.json().then(function (d) { return { status: resp.status, dados: d }; }); })
+      .then(function (resp) {
+        gravar.disabled = false;
+        if (resp.status === 200 && resp.dados.ok) {
+          restantes = Math.max(0, restantes - 1);
+          mostrarPronto(resp.dados.licenca, r);
+          return;
+        }
+        // A mensagem vem do servidor — a página não a inventa.
+        marcarErro(resp.dados && resp.dados.campo, (resp.dados && resp.dados.error) || 'Não foi possível gravar.');
+      })
+      .catch(function () {
+        gravar.disabled = false;
+        marcarErro(null, 'Não foi possível gravar. Tentar de novo.');
+      });
+  });
+})();
+</script>
+
+</body>
+</html>
