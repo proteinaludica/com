@@ -5,6 +5,11 @@
 -- publicar o código que a usa: api/_lib/retiroassist.js passa a ler estas
 -- colunas, e um SELECT a colunas que não existem faz falhar a descarga.
 --
+-- ✅ JÁ APLICADA em 2026-10-26. Verificado depois de aplicar, contra a base de
+--    dados: perfil (jsonb), perfil_gravacoes (integer) e perfil_em
+--    (timestamptz) existem; o job apagar_retiroassist_perfis_expirados está
+--    agendado para 57 3 * * *.
+--
 -- Quem a usa:
 --   api/retiroassist-perfil.js       — lê e grava o perfil (PATCH por token_jti)
 --   api/retiroassist-descarregar.js  — lê o perfil para gerar o PDF
