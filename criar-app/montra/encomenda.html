@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Encomendar um assistente digital IA — Proteína Lúdica</title>
+<meta name="description" content="Encomenda de um assistente digital IA para uma tarefa da profissão. Pagamento único, IVA incluído.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- Montra por profissão, ecrã de encomenda. Lê ?profissao=…&tarefa=… do
+     endereço, grava a encomenda por POST /api/encomenda e mostra a
+     confirmação. Ainda sem ligação ao pagamento. -->
+<style>
+  :root{
+    --fundo-escuro:#141A10;
+    --fundo-campo-escuro:#1F2818;
+    --musgo:#8FAA6B;
+    --ocre:#C8A86B;
+    --creme:#F4F1E8;
+    --branco:#FFFFFF;
+    --texto:#141A10;
+    --texto-2:#3D4535;
+    --texto-sobre-escuro:#DCE5CC;
+    --musgo-escuro:#4A5A36;
+    --aviso-fundo:#F7EFDC;
+    --aviso-texto:#3D3420;
+    --erro:#8B1A1A;
+    --linha:#E2DCCB;
+    --linha-campo:#C9C1AC;
+    --linha-escura:#5C6B4A;
+    --linha-escura-2:#3A4630;
+    --titulo:'Fraunces', Georgia, serif;
+    --corpo:'Geist', system-ui, sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--creme);color:var(--texto);font-family:var(--corpo)}
+  a{color:var(--texto)}
+  a:hover{color:var(--musgo-escuro)}
+  h1,h2{margin:0}
+  p{margin:0}
+  .contentor{max-width:1120px;margin:0 auto}
+
+  /* Cabeçalho */
+  .cabecalho{background:var(--fundo-escuro);padding:20px 24px}
+  .cabecalho .contentor{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
+  .marca{font-family:var(--titulo);font-size:22px;font-weight:600;color:var(--creme);text-decoration:none}
+  .marca:hover{color:var(--creme)}
+  .voltar{display:inline-flex;align-items:center;min-height:44px;color:var(--texto-sobre-escuro);text-decoration:none;font-size:15px}
+  .voltar:hover{color:var(--musgo)}
+
+  /* Abertura */
+  .abertura{padding:56px 24px 24px}
+  .abertura .contentor{display:flex;flex-direction:column;gap:12px}
+  .sobretitulo{font-size:14px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--musgo-escuro)}
+  .abertura h1{font-family:var(--titulo);font-weight:600;font-size:clamp(32px,4.2vw,48px);line-height:1.1}
+  .abertura .entrada{font-size:18px;line-height:1.55;color:var(--texto-2);max-width:700px}
+
+  /* Formulário */
+  .corpo{padding:16px 24px 72px}
+  .corpo .contentor{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}
+  form{flex:999 1 560px;min-width:0;display:flex;flex-direction:column;gap:28px}
+  fieldset{margin:0;padding:28px;border:1px solid var(--linha);border-radius:12px;background:var(--branco);display:flex;flex-direction:column;gap:18px;min-width:0}
+  legend{padding:0 8px;font-family:var(--titulo);font-size:22px;font-weight:600}
+  .grelha-campos{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+  .campo{display:flex;flex-direction:column;gap:6px;font-size:15px;font-weight:500}
+  .campo input,.campo select{min-height:48px;padding:0 12px;border:1px solid var(--linha-campo);border-radius:8px;font:inherit;font-weight:400;background:var(--branco);color:var(--texto);width:100%}
+  .campo input:focus,.campo select:focus,.caixa input:focus{outline:2px solid var(--musgo-escuro);outline-offset:1px}
+  .passos-depois{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:10px;font-size:16px;line-height:1.55;color:var(--texto-2)}
+  .aviso{padding:14px 18px;background:var(--aviso-fundo);border-radius:8px;font-size:15px;line-height:1.55;color:var(--aviso-texto)}
+  .caixa{display:flex;align-items:flex-start;gap:10px;font-size:15px;line-height:1.5}
+  .caixa input{width:18px;height:18px;margin-top:3px;flex:none}
+  .erro-campo{font-size:14px;font-weight:500;color:var(--erro)}
+  .erro-campo:empty{display:none}
+  .armadilha{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
+
+  /* Resumo */
+  .resumo{flex:1 1 320px;display:flex;flex-direction:column;gap:18px;padding:28px;background:var(--fundo-escuro);color:var(--creme);border-radius:16px}
+  .resumo h2{font-family:var(--titulo);font-size:24px;font-weight:600}
+  .resumo-escolha{display:flex;flex-direction:column;gap:6px;font-size:15px;color:var(--texto-sobre-escuro)}
+  .resumo-escolha strong{color:var(--creme);font-weight:500}
+  .total{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding-top:16px;border-top:1px solid var(--linha-escura-2)}
+  .total span:first-child{font-size:15px;color:var(--texto-sobre-escuro)}
+  .total .valor{font-family:var(--titulo);font-size:40px;font-weight:600}
+  .nota{font-size:14px;line-height:1.55;color:var(--texto-sobre-escuro)}
+  .pagar{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 22px;border:0;border-radius:8px;background:var(--musgo);color:var(--fundo-escuro);font:inherit;font-weight:600;cursor:pointer}
+  .pagar:hover{background:var(--ocre)}
+  .pagar:disabled{opacity:.6;cursor:wait}
+  .mensagem-envio{font-size:14px;font-weight:500;color:var(--ocre)}
+  .mensagem-envio:empty{display:none}
+
+  /* Confirmação */
+  .confirmacao{flex:1 1 100%;padding:28px;background:var(--branco);border:1px solid var(--musgo);border-radius:12px;font-size:18px;line-height:1.55}
+  .confirmacao h2{font-family:var(--titulo);font-size:26px;font-weight:600;margin-bottom:8px}
+
+  @media (max-width:600px){
+    .cabecalho{padding-left:16px;padding-right:16px}
+    .abertura{padding:40px 16px 16px}
+    .corpo{padding:16px 16px 56px}
+    fieldset,.resumo{padding:20px}
+  }
+</style>
+</head>
+<body>
+
+<header class="cabecalho">
+  <div class="contentor">
+    <a class="marca" href="/montra">Proteína Lúdica</a>
+    <a class="voltar" href="/montra#profissoes">Voltar às profissões</a>
+  </div>
+</header>
+
+<main>
+
+<section class="abertura">
+  <div class="contentor">
+    <p class="sobretitulo">Encomenda</p>
+    <h1>Encomendar um assistente digital IA</h1>
+    <p class="entrada">Depois do pagamento, o profissional preenche o assistente num guia passo a passo, com ajuda de IA.</p>
+  </div>
+</section>
+
+<section class="corpo">
+  <div class="contentor" id="area">
+
+    <form id="formEncomenda" novalidate>
+
+      <fieldset>
+        <legend>1. Tarefa</legend>
+        <div class="grelha-campos">
+          <label class="campo">Profissão
+            <select id="profissao" name="profissao" required>
+              <option value="contabilista">Contabilista</option>
+              <option value="advogado">Advogado</option>
+              <option value="arquitecto">Arquitecto ou engenheiro</option>
+              <option value="professor">Professor ou formador</option>
+            </select>
+          </label>
+          <label class="campo">Tarefa
+            <select id="tarefa" name="tarefa" required></select>
+          </label>
+        </div>
+        <label class="campo">Onde vai ser usado o assistente
+          <select id="ferramenta" name="ferramenta" required>
+            <option value="gpt">ChatGPT</option>
+            <option value="claude">Claude</option>
+            <option value="gemini">Gemini</option>
+            <option value="copilot">Microsoft Copilot</option>
+            <option value="perplexity">Perplexity</option>
+            <option value="outra">Outra ferramenta</option>
+          </select>
+        </label>
+      </fieldset>
+
+      <fieldset>
+        <legend>2. Depois do pagamento</legend>
+        <ol class="passos-depois">
+          <li>O guia de criação abre logo a seguir ao pagamento.</li>
+          <li>O profissional preenche cada secção, com ajuda de IA.</li>
+          <li>No fim, o assistente e um PDF de instruções seguem por email.</li>
+        </ol>
+        <p class="aviso">O guia fica disponível durante 7 dias. Durante o preenchimento, não se escrevem nomes, moradas, contactos ou números de identificação de terceiros.</p>
+      </fieldset>
+
+      <fieldset>
+        <legend>3. Contacto</legend>
+        <div class="grelha-campos">
+          <label class="campo">Nome
+            <input type="text" id="nome" name="nome" autocomplete="name" maxlength="120" required aria-describedby="erroNome">
+            <span class="erro-campo" id="erroNome" aria-live="polite"></span>
+          </label>
+          <label class="campo">Email
+            <input type="email" id="email" name="email" autocomplete="email" maxlength="200" required aria-describedby="erroEmail">
+            <span class="erro-campo" id="erroEmail" aria-live="polite"></span>
+          </label>
+          <label class="campo">NIF para a factura (opcional)
+            <input type="text" id="nif" name="nif" inputmode="numeric" maxlength="11" aria-describedby="erroNif">
+            <span class="erro-campo" id="erroNif" aria-live="polite"></span>
+          </label>
+        </div>
+        <div class="armadilha" aria-hidden="true">
+          <label>Sítio <input type="text" id="website" name="website" tabindex="-1" autocomplete="off"></label>
+        </div>
+        <label class="caixa"><input type="checkbox" id="aceitaTermos" aria-describedby="erroTermos"><span>Li e aceito os <a href="https://proteinaludica.com/termos" target="_blank" rel="noopener">termos de utilização</a> e a <a href="https://proteinaludica.com/privacidade" target="_blank" rel="noopener">política de privacidade</a>.</span></label>
+        <span class="erro-campo" id="erroTermos" aria-live="polite"></span>
+        <label class="caixa"><input type="checkbox" id="renuncia" aria-describedby="erroRenuncia"><span>Peço o acesso imediato ao guia de criação e reconheço que perco o direito de livre resolução, porque o assistente é feito à medida.</span></label>
+        <span class="erro-campo" id="erroRenuncia" aria-live="polite"></span>
+      </fieldset>
+
+    </form>
+
+    <aside class="resumo" aria-labelledby="tituloResumo">
+      <h2 id="tituloResumo">Resumo</h2>
+      <div class="resumo-escolha">
+        <span id="resumoProfissao"></span>
+        <strong id="resumoTarefa"></strong>
+      </div>
+      <div class="total">
+        <span>Total</span>
+        <span class="valor">49 €</span>
+      </div>
+      <p class="nota">IVA incluído.</p>
+      <button type="submit" form="formEncomenda" class="pagar" id="botaoPagar">Pagar e começar</button>
+      <p class="mensagem-envio" id="mensagemEnvio" role="alert"></p>
+      <p class="nota">O guia de criação abre logo após o pagamento e fica disponível durante 7 dias. No fim, o assistente e o PDF de instruções seguem por email. Pagamento único, sem mensalidades.</p>
+    </aside>
+
+  </div>
+</section>
+
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  // Tarefas de cada profissão. Os identificadores são os de /api/encomenda.
+  var PROFISSOES = {
+    contabilista: { nome: 'Contabilista', tarefas: [
+      ['prazos-fiscais', 'Cartas a clientes sobre prazos fiscais'],
+      ['resumo-mensal', 'Resumo mensal das contas do cliente'],
+      ['duvidas-frequentes', 'Respostas a dúvidas frequentes']] },
+    advogado: { nome: 'Advogado', tarefas: [
+      ['contestacao', 'Primeira versão de contestação'],
+      ['estado-processo', 'Cartas a clientes sobre o estado do processo'],
+      ['resumo-documentos', 'Resumo de documentos recebidos']] },
+    arquitecto: { nome: 'Arquitecto ou engenheiro', tarefas: [
+      ['memoria-descritiva', 'Memória descritiva'],
+      ['visita-obra', 'Relatório de visita à obra'],
+      ['honorarios', 'Propostas de honorários']] },
+    professor: { nome: 'Professor ou formador', tarefas: [
+      ['planos-aula', 'Planos de aula'],
+      ['avaliacoes', 'Comentários às avaliações dos alunos'],
+      ['encarregados-educacao', 'Comunicações aos encarregados de educação']] }
+  };
+
+  var $ = function (id) { return document.getElementById(id); };
+  var form = $('formEncomenda');
+  var selProfissao = $('profissao');
+  var selTarefa = $('tarefa');
+
+  function preencherTarefas(tarefaEscolhida) {
+    var p = PROFISSOES[selProfissao.value];
+    selTarefa.innerHTML = '';
+    p.tarefas.forEach(function (t) {
+      var o = document.createElement('option');
+      o.value = t[0];
+      o.textContent = t[1];
+      if (t[0] === tarefaEscolhida) o.selected = true;
+      selTarefa.appendChild(o);
+    });
+    actualizarResumo();
+  }
+
+  function actualizarResumo() {
+    $('resumoProfissao').textContent = PROFISSOES[selProfissao.value].nome;
+    $('resumoTarefa').textContent = selTarefa.options[selTarefa.selectedIndex].textContent;
+  }
+
+  // Profissão e tarefa chegam no endereço, vindas do botão da página da profissão.
+  var params = new URLSearchParams(location.search);
+  if (PROFISSOES[params.get('profissao')]) selProfissao.value = params.get('profissao');
+  preencherTarefas(params.get('tarefa'));
+
+  selProfissao.addEventListener('change', function () { preencherTarefas(null); });
+  selTarefa.addEventListener('change', actualizarResumo);
+
+  function erro(id, texto) { $(id).textContent = texto || ''; }
+
+  function validar() {
+    var ok = true;
+    var nome = $('nome').value.trim();
+    var email = $('email').value.trim();
+    var nif = $('nif').value.replace(/\s/g, '');
+    erro('erroNome'); erro('erroEmail'); erro('erroNif'); erro('erroTermos'); erro('erroRenuncia');
+    if (!nome) { erro('erroNome', 'Falta preencher este campo.'); ok = false; }
+    if (!email) { erro('erroEmail', 'Falta preencher este campo.'); ok = false; }
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { erro('erroEmail', 'O email não parece válido.'); ok = false; }
+    if (nif && !/^\d{9}$/.test(nif)) { erro('erroNif', 'O NIF tem 9 algarismos.'); ok = false; }
+    if (!$('aceitaTermos').checked) { erro('erroTermos', 'É preciso aceitar os termos de utilização.'); ok = false; }
+    if (!$('renuncia').checked) { erro('erroRenuncia', 'É preciso confirmar o pedido de acesso imediato.'); ok = false; }
+    return ok;
+  }
+
+  form.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    erro('mensagemEnvio');
+    if (!validar()) return;
+
+    var botao = $('botaoPagar');
+    botao.disabled = true;
+
+    fetch('/api/encomenda', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        profissao: selProfissao.value,
+        tarefa: selTarefa.value,
+        ferramenta: $('ferramenta').value,
+        nome: $('nome').value.trim(),
+        email: $('email').value.trim(),
+        nif: $('nif').value,
+        aceitaTermos: $('aceitaTermos').checked,
+        renunciaLivreResolucao: $('renuncia').checked,
+        website: $('website').value
+      })
+    })
+      .then(function (r) { return r.json().catch(function () { return { ok: false }; }); })
+      .then(function (d) {
+        if (!d || !d.ok) {
+          erro('mensagemEnvio', (d && d.error) || 'Não foi possível registar a encomenda. Tentar de novo.');
+          botao.disabled = false;
+          return;
+        }
+        var area = $('area');
+        area.innerHTML = '';
+        var caixa = document.createElement('div');
+        caixa.className = 'confirmacao';
+        caixa.setAttribute('role', 'status');
+        var h = document.createElement('h2');
+        h.textContent = 'Encomenda registada.';
+        var p = document.createElement('p');
+        p.textContent = 'O pagamento fica disponível em breve.';
+        caixa.appendChild(h);
+        caixa.appendChild(p);
+        area.appendChild(caixa);
+      })
+      .catch(function () {
+        erro('mensagemEnvio', 'Não foi possível registar a encomenda. Tentar de novo.');
+        botao.disabled = false;
+      });
+  });
+})();
+</script>
+
+</body>
+</html>
