@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assistentes digitais IA para cada profissão — Proteína Lúdica</title>
+<meta name="description" content="Assistentes digitais IA para contabilistas, advogados, arquitectos, engenheiros, professores e formadores. Um assistente por tarefa, com pagamento único.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- Montra por profissão, página principal. Estática: sem ligação ao
+     pagamento nem ao wizard. As páginas de cada profissão chegam depois. -->
+<style>
+  :root{
+    --fundo-escuro:#141A10;
+    --musgo:#8FAA6B;
+    --ocre:#C8A86B;
+    --creme:#F4F1E8;
+    --branco:#FFFFFF;
+    --texto:#141A10;
+    --texto-2:#3D4535;
+    --texto-3:#4F5747;
+    --texto-sobre-escuro:#DCE5CC;
+    --musgo-escuro:#4A5A36;
+    --ocre-escuro:#8C6E33;
+    --linha:#E2DCCB;
+    --linha-escura:#5C6B4A;
+    --titulo:'Fraunces', Georgia, serif;
+    --corpo:'Geist', system-ui, sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--creme);color:var(--texto);font-family:var(--corpo)}
+  a{color:var(--texto)}
+  a:hover{color:var(--musgo-escuro)}
+  h1,h2,h3{margin:0}
+  p{margin:0}
+  .contentor{max-width:1120px;margin:0 auto}
+
+  /* Cabeçalho */
+  .cabecalho{background:var(--fundo-escuro);padding:20px 24px}
+  .cabecalho .contentor{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
+  .marca{font-family:var(--titulo);font-size:22px;font-weight:600;color:var(--creme);text-decoration:none}
+  .marca:hover{color:var(--creme)}
+  .nav{display:flex;flex-wrap:wrap;gap:24px;font-size:15px}
+  .nav a{color:var(--texto-sobre-escuro);text-decoration:none}
+  .nav a:hover{color:var(--musgo)}
+
+  /* Destaque */
+  .destaque{background:var(--fundo-escuro);color:var(--creme);padding:72px 24px 96px}
+  .destaque .contentor{display:flex;flex-direction:column;gap:24px}
+  .sobretitulo{font-size:14px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--musgo)}
+  .destaque h1{font-family:var(--titulo);font-weight:600;font-size:clamp(36px,5vw,60px);line-height:1.08;max-width:820px}
+  .destaque .entrada{font-size:20px;line-height:1.55;color:var(--texto-sobre-escuro);max-width:680px}
+  .botoes{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
+  .botao{display:inline-flex;align-items:center;min-height:48px;padding:0 24px;border-radius:8px;font-weight:600;text-decoration:none}
+  .botao-principal{background:var(--musgo);color:var(--fundo-escuro)}
+  .botao-principal:hover{background:var(--ocre);color:var(--fundo-escuro)}
+  .botao-secundario{border:1px solid var(--linha-escura);color:var(--creme);font-weight:500}
+  .botao-secundario:hover{border-color:var(--musgo);color:var(--creme)}
+
+  /* Secções */
+  .seccao{padding:72px 24px}
+  .seccao .contentor{display:flex;flex-direction:column;gap:32px}
+  .seccao h2{font-family:var(--titulo);font-weight:600;font-size:34px}
+  .grelha{display:grid;gap:24px}
+  .cartao{display:flex;flex-direction:column;background:var(--branco);border:1px solid var(--linha);border-radius:12px}
+
+  /* Como funciona */
+  #como{padding-bottom:24px}
+  .passos{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+  .passo{gap:10px;padding:24px}
+  .passo .numero{font-family:var(--titulo);font-size:32px;color:var(--ocre-escuro)}
+  .passo h3{font-size:18px;font-weight:600}
+  .passo p{font-size:16px;line-height:1.55;color:var(--texto-2)}
+
+  /* Profissões */
+  .profissoes{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+  .profissao{gap:16px;padding:28px}
+  .profissao svg{width:32px;height:32px;stroke:var(--musgo-escuro)}
+  .profissao h3{font-family:var(--titulo);font-size:24px;font-weight:600}
+  .profissao ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;font-size:16px;line-height:1.45;color:var(--texto-2)}
+
+  /* Preços */
+  #precos{padding:0 24px 72px}
+  .precos{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:36px;background:var(--fundo-escuro);color:var(--creme);border-radius:16px}
+  .precos-texto{display:flex;flex-direction:column;gap:8px;flex:1 1 360px}
+  .precos-texto h2{font-family:var(--titulo);font-weight:600;font-size:30px}
+  .precos-texto p{font-size:17px;line-height:1.55;color:var(--texto-sobre-escuro)}
+  .precos-valores{display:flex;flex-direction:column;gap:12px}
+  .precos-caixas{display:flex;flex-wrap:wrap;gap:16px}
+  .preco{display:flex;flex-direction:column;gap:4px;padding:20px 24px;border:1px solid var(--linha-escura);border-radius:12px;min-width:180px}
+  .preco span:first-child{font-size:14px;color:var(--texto-sobre-escuro)}
+  .preco .valor{font-family:var(--titulo);font-size:36px;font-weight:600}
+  .preco-seguinte{border-color:var(--musgo)}
+  .preco-seguinte .valor{color:var(--musgo)}
+  .iva{font-size:14px;color:var(--texto-sobre-escuro)}
+
+  /* Rodapé */
+  .rodape{border-top:1px solid var(--linha);padding:32px 24px}
+  .rodape .contentor{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;font-size:14px;color:var(--texto-3)}
+
+  @media (max-width:600px){
+    .destaque{padding:48px 16px 64px}
+    .seccao{padding:56px 16px}
+    #como{padding-bottom:16px}
+    #precos{padding:0 16px 56px}
+    .precos{padding:24px}
+    .cabecalho,.rodape{padding-left:16px;padding-right:16px}
+    .preco{flex:1 1 140px;min-width:0}
+  }
+</style>
+</head>
+<body>
+
+<header class="cabecalho">
+  <div class="contentor">
+    <a class="marca" href="#">Proteína Lúdica</a>
+    <nav class="nav" aria-label="Navegação principal">
+      <a href="#profissoes">Profissões</a>
+      <a href="#precos">Preços</a>
+      <a href="#como">Como funciona</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<section class="destaque">
+  <div class="contentor">
+    <p class="sobretitulo">Montra de assistentes</p>
+    <h1>Assistentes digitais IA para cada profissão</h1>
+    <p class="entrada">Cada profissional escolhe a tarefa. O assistente aprende o estilo dele e devolve textos prontos a rever. O profissional revê e decide sempre.</p>
+    <div class="botoes">
+      <a class="botao botao-principal" href="#profissoes">Ver as profissões</a>
+      <a class="botao botao-secundario" href="#como">Como funciona</a>
+    </div>
+  </div>
+</section>
+
+<section class="seccao" id="como">
+  <div class="contentor">
+    <h2>Como funciona</h2>
+    <div class="grelha passos">
+      <div class="cartao passo">
+        <span class="numero">1</span>
+        <h3>O profissional escolhe a tarefa</h3>
+        <p>Cada profissão tem tarefas típicas. Cada tarefa corresponde a um assistente.</p>
+      </div>
+      <div class="cartao passo">
+        <span class="numero">2</span>
+        <h3>Preenche o assistente com ajuda de IA</h3>
+        <p>Depois do pagamento, um guia passo a passo recolhe o vocabulário, o tom e a estrutura do profissional.</p>
+      </div>
+      <div class="cartao passo">
+        <span class="numero">3</span>
+        <h3>Recebe o assistente por email</h3>
+        <p>No fim, o assistente segue por email, com um PDF de instruções. O profissional rascunha, o assistente devolve no estilo dele, e o profissional revê e decide.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="seccao" id="profissoes">
+  <div class="contentor">
+    <h2>Profissões</h2>
+    <div class="grelha profissoes">
+
+      <article class="cartao profissao">
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"></rect><path d="M8 7h8M8 11h2M12 11h2M16 11h0M8 15h2M12 15h2M8 18h8"></path></svg>
+        <h3>Contabilista</h3>
+        <ul>
+          <li>Cartas a clientes sobre prazos fiscais</li>
+          <li>Resumo mensal das contas do cliente</li>
+          <li>Respostas a dúvidas frequentes</li>
+        </ul>
+      </article>
+
+      <article class="cartao profissao">
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M5 21h14M6 7h12M6 7l-3 7a3 3 0 0 0 6 0zM18 7l-3 7a3 3 0 0 0 6 0z"></path></svg>
+        <h3>Advogado</h3>
+        <ul>
+          <li>Primeira versão de contestação</li>
+          <li>Cartas a clientes sobre o estado do processo</li>
+          <li>Resumo de documentos recebidos</li>
+        </ul>
+      </article>
+
+      <article class="cartao profissao">
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V10l7-6 7 6v11M9 21v-6h6v6"></path></svg>
+        <h3>Arquitecto ou engenheiro</h3>
+        <ul>
+          <li>Memória descritiva</li>
+          <li>Relatório de visita à obra</li>
+          <li>Propostas de honorários</li>
+        </ul>
+      </article>
+
+      <article class="cartao profissao">
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8l10-5 10 5-10 5z"></path><path d="M6 10v5c0 2 3 3.5 6 3.5s6-1.5 6-3.5v-5M22 8v6"></path></svg>
+        <h3>Professor ou formador</h3>
+        <ul>
+          <li>Planos de aula</li>
+          <li>Comentários às avaliações dos alunos</li>
+          <li>Comunicações aos encarregados de educação</li>
+        </ul>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section id="precos">
+  <div class="contentor precos">
+    <div class="precos-texto">
+      <h2>Preço por assistente</h2>
+      <p>Cada assistente é feito para uma tarefa e paga-se uma vez. Quando surge outra tarefa, encomenda-se um assistente novo.</p>
+    </div>
+    <div class="precos-valores">
+      <div class="precos-caixas">
+        <div class="preco">
+          <span>Primeiro assistente</span>
+          <span class="valor">49 €</span>
+        </div>
+        <div class="preco preco-seguinte">
+          <span>Cada assistente seguinte</span>
+          <span class="valor">39 €</span>
+        </div>
+      </div>
+      <p class="iva">IVA incluído.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="rodape">
+  <div class="contentor">
+    <span>Proteína Lúdica, Lda. · Madeira</span>
+    <span>O assistente digital IA organiza e dá forma. O profissional revê e decide.</span>
+  </div>
+</footer>
+
+</body>
+</html>
