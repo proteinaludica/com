@@ -232,6 +232,9 @@
     font-weight:600;color:var(--musgo-claro);
   }
 
+  .prof-outra{grid-column:1/-1}
+  .prof-outra p{font-size:16px;line-height:1.55;color:var(--texto-3);max-width:640px}
+
   .prof-precos{
     display:flex;flex-wrap:wrap;gap:24px 40px;align-items:flex-start;justify-content:space-between;
     margin-top:18px;padding:28px;border:1px solid var(--contorno-cta);border-radius:22px;
@@ -365,24 +368,20 @@
   <div class="barra">
     <a class="marca" href="/">Proteína Lúdica</a>
     <nav class="nav-desktop" aria-label="Navegação principal">
-      <a href="/catalogo">Assistentes</a>
-      <a href="/assistentes-pessoais">Assistentes pessoais</a>
-      <a href="#profissoes">Profissões</a>
+      <a href="/catalogo">Assistentes prontos</a>
       <a href="#quem-somos">Quem somos</a>
-      <a href="#faq">FAQ</a>
+      <a href="#faq">Perguntas frequentes</a>
     </nav>
-    <a class="nav-cta" href="https://criar.proteinaludica.com">Criar o meu assistente</a>
+    <a class="nav-cta" href="#profissoes">Criar o meu assistente</a>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu-movel" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
   </div>
   <nav id="menu-movel" hidden aria-label="Navegação principal">
-    <a href="/catalogo">Assistentes</a>
-    <a href="/assistentes-pessoais">Assistentes pessoais</a>
-    <a href="#profissoes">Profissões</a>
+    <a href="/catalogo">Assistentes prontos</a>
     <a href="#quem-somos">Quem somos</a>
-    <a href="#faq">FAQ</a>
-    <a class="nav-cta" href="https://criar.proteinaludica.com">Criar o meu assistente</a>
+    <a href="#faq">Perguntas frequentes</a>
+    <a class="nav-cta" href="#profissoes">Criar o meu assistente</a>
   </nav>
 </header>
 
@@ -395,7 +394,7 @@
     <p class="subtitulo">Um guia passo a passo transforma a maneira de trabalhar de cada profissional num assistente digital IA pronto a instalar.</p>
     <p class="apoio">Guia de instalação em PDF grátis · Assistente personalizado por 49 €</p>
     <div class="accoes">
-      <a class="btn btn-primario" href="https://criar.proteinaludica.com">Criar o meu assistente</a>
+      <a class="btn btn-primario" href="#profissoes">Criar o meu assistente</a>
       <a class="btn btn-secundario" href="/catalogo">Ver assistentes já prontos</a>
     </div>
   </div>
@@ -492,6 +491,11 @@
             <li>Comunicações aos encarregados de educação</li>
           </ul>
           <a href="/montra/professor">Ver tarefas</a>
+        </article>
+        <article class="prof-cartao prof-outra">
+          <h4>Outra profissão</h4>
+          <p>O guia passo a passo serve qualquer profissão. O profissional define as tarefas e o assistente aprende o estilo dele.</p>
+          <a href="https://criar.proteinaludica.com">Abrir o guia</a>
         </article>
       </div>
       <div class="prof-precos">
