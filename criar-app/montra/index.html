@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
 <!-- Montra por profissão, página principal. Estática: sem ligação ao
-     pagamento nem ao wizard. As páginas de cada profissão chegam depois. -->
+     pagamento nem ao wizard. Cada cartão leva à página da profissão. -->
 <style>
   :root{
     --fundo-escuro:#141A10;
@@ -78,6 +78,7 @@
   .profissao{gap:16px;padding:28px}
   .profissao svg{width:32px;height:32px;stroke:var(--musgo-escuro)}
   .profissao h3{font-family:var(--titulo);font-size:24px;font-weight:600}
+  .ver-tarefas{margin-top:auto;display:inline-flex;align-items:center;min-height:44px;font-weight:600;color:var(--texto)}
   .profissao ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;font-size:16px;line-height:1.45;color:var(--texto-2)}
 
   /* Preços */
@@ -173,6 +174,7 @@
           <li>Resumo mensal das contas do cliente</li>
           <li>Respostas a dúvidas frequentes</li>
         </ul>
+        <a class="ver-tarefas" href="/montra/contabilista">Ver tarefas</a>
       </article>
 
       <article class="cartao profissao">
@@ -183,6 +185,7 @@
           <li>Cartas a clientes sobre o estado do processo</li>
           <li>Resumo de documentos recebidos</li>
         </ul>
+        <a class="ver-tarefas" href="/montra/advogado">Ver tarefas</a>
       </article>
 
       <article class="cartao profissao">
@@ -193,6 +196,7 @@
           <li>Relatório de visita à obra</li>
           <li>Propostas de honorários</li>
         </ul>
+        <a class="ver-tarefas" href="/montra/arquitecto">Ver tarefas</a>
       </article>
 
       <article class="cartao profissao">
@@ -203,6 +207,7 @@
           <li>Comentários às avaliações dos alunos</li>
           <li>Comunicações aos encarregados de educação</li>
         </ul>
+        <a class="ver-tarefas" href="/montra/professor">Ver tarefas</a>
       </article>
 
     </div>

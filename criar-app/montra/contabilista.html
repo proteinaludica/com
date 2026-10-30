@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assistentes digitais IA para contabilistas — Proteína Lúdica</title>
+<meta name="description" content="Assistentes digitais IA para contabilistas: cartas sobre prazos fiscais, resumos mensais e respostas a dúvidas frequentes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400&display=swap" rel="stylesheet">
+<!-- Montra por profissão, página de contabilistas. Estática. O botão de cada
+     tarefa leva ao ecrã de encomenda com a profissão e a tarefa no endereço. -->
+<style>
+  :root{
+    --fundo-escuro:#141A10;
+    --musgo:#8FAA6B;
+    --ocre:#C8A86B;
+    --creme:#F4F1E8;
+    --branco:#FFFFFF;
+    --texto:#141A10;
+    --texto-2:#3D4535;
+    --texto-sobre-escuro:#DCE5CC;
+    --musgo-escuro:#4A5A36;
+    --ocre-rotulo:#6B5426;
+    --aviso-fundo:#F7EFDC;
+    --aviso-texto:#3D3420;
+    --linha:#E2DCCB;
+    --titulo:'Fraunces', Georgia, serif;
+    --corpo:'Geist', system-ui, sans-serif;
+    --mono:'Geist Mono', ui-monospace, monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--creme);color:var(--texto);font-family:var(--corpo)}
+  a{color:var(--texto)}
+  a:hover{color:var(--musgo-escuro)}
+  h1,h2{margin:0}
+  p{margin:0}
+  .contentor{max-width:1120px;margin:0 auto}
+
+  /* Cabeçalho */
+  .cabecalho{background:var(--fundo-escuro);padding:20px 24px}
+  .cabecalho .contentor{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
+  .marca{font-family:var(--titulo);font-size:22px;font-weight:600;color:var(--creme);text-decoration:none}
+  .marca:hover{color:var(--creme)}
+  .voltar{display:inline-flex;align-items:center;min-height:44px;color:var(--texto-sobre-escuro);text-decoration:none;font-size:15px}
+  .voltar:hover{color:var(--musgo)}
+
+  /* Abertura */
+  .abertura{padding:56px 24px 32px}
+  .abertura .contentor{display:flex;flex-direction:column;gap:16px}
+  .sobretitulo{font-size:14px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--musgo-escuro)}
+  .abertura h1{font-family:var(--titulo);font-weight:600;font-size:clamp(34px,4.5vw,52px);line-height:1.1}
+  .abertura .entrada{font-size:19px;line-height:1.55;color:var(--texto-2);max-width:700px}
+
+  /* Tarefas */
+  .tarefas{padding:0 24px 48px}
+  .tarefas .contentor{display:flex;flex-direction:column;gap:28px}
+  .tarefa{display:flex;flex-direction:column;gap:20px;padding:28px;background:var(--branco);border:1px solid var(--linha);border-radius:12px}
+  .tarefa-topo{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
+  .tarefa h2{font-family:var(--titulo);font-size:26px;font-weight:600}
+  .encomendar{display:inline-flex;align-items:center;min-height:48px;padding:0 22px;border-radius:8px;background:var(--fundo-escuro);color:var(--creme);font-weight:600;text-decoration:none}
+  .encomendar:hover{background:var(--musgo-escuro);color:var(--creme)}
+  .exemplo{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+  .antes,.depois{display:flex;flex-direction:column;gap:10px;padding:20px;border-radius:10px}
+  .antes{background:var(--creme)}
+  .depois{border:1px solid var(--musgo)}
+  .rotulo{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+  .antes .rotulo{color:var(--ocre-rotulo)}
+  .depois .rotulo{color:var(--musgo-escuro)}
+  .antes p{font-family:var(--mono);font-size:15px;line-height:1.6;color:var(--texto-2)}
+  .depois p{font-size:16px;line-height:1.6}
+  .aviso{padding:14px 18px;background:var(--aviso-fundo);border-radius:8px;font-size:15px;line-height:1.55;color:var(--aviso-texto)}
+
+  /* Fecho */
+  .fecho{padding:0 24px 72px}
+  .fecho .contentor{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:32px;background:var(--fundo-escuro);color:var(--creme);border-radius:16px}
+  .fecho p{font-size:17px;line-height:1.55;color:var(--texto-sobre-escuro);flex:1 1 360px}
+  .outras{display:inline-flex;align-items:center;min-height:48px;padding:0 22px;border-radius:8px;background:var(--musgo);color:var(--fundo-escuro);font-weight:600;text-decoration:none}
+  .outras:hover{background:var(--ocre);color:var(--fundo-escuro)}
+
+  @media (max-width:600px){
+    .cabecalho{padding-left:16px;padding-right:16px}
+    .abertura{padding:40px 16px 24px}
+    .tarefas{padding:0 16px 40px}
+    .tarefa{padding:20px}
+    .exemplo{grid-template-columns:1fr}
+    .fecho{padding:0 16px 56px}
+    .fecho .contentor{padding:24px}
+  }
+</style>
+</head>
+<body>
+
+<header class="cabecalho">
+  <div class="contentor">
+    <a class="marca" href="/montra">Proteína Lúdica</a>
+    <a class="voltar" href="/montra#profissoes">Voltar às profissões</a>
+  </div>
+</header>
+
+<main>
+
+<section class="abertura">
+  <div class="contentor">
+    <p class="sobretitulo">Profissão</p>
+    <h1>Contabilista</h1>
+    <p class="entrada">Três tarefas de escrita frequentes. Cada uma tem o seu assistente, preenchido pelo próprio contabilista, com ajuda de IA.</p>
+  </div>
+</section>
+
+<section class="tarefas">
+  <div class="contentor">
+
+    <article class="tarefa">
+      <div class="tarefa-topo">
+        <h2>Cartas a clientes sobre prazos fiscais</h2>
+        <a class="encomendar" href="/montra/encomenda?profissao=contabilista&amp;tarefa=prazos-fiscais">Encomendar este assistente</a>
+      </div>
+      <div class="exemplo">
+        <div class="antes">
+          <span class="rotulo">Rascunho do contabilista</span>
+          <p>lembrar [NOME] IRS até [DATA]. falta recibo da renda e despesas de saúde. se não enviar, entrega sem deduções</p>
+        </div>
+        <div class="depois">
+          <span class="rotulo">Texto devolvido pelo assistente</span>
+          <p>Caro [NOME], o prazo de entrega da declaração de IRS termina a [DATA]. Ainda faltam o recibo da renda e as facturas de despesas de saúde. Sem estes documentos, a declaração segue sem as respectivas deduções. Peço o envio até ao fim desta semana.</p>
+        </div>
+      </div>
+    </article>
+    <article class="tarefa">
+      <div class="tarefa-topo">
+        <h2>Resumo mensal das contas do cliente</h2>
+        <a class="encomendar" href="/montra/encomenda?profissao=contabilista&amp;tarefa=resumo-mensal">Encomendar este assistente</a>
+      </div>
+      <div class="exemplo">
+        <div class="antes">
+          <span class="rotulo">Rascunho do contabilista</span>
+          <p>[MÊS]: vendas [VALOR], abaixo do mês anterior. IVA a pagar [VALOR] até [DATA]. 2 facturas de fornecedor por lançar</p>
+        </div>
+        <div class="depois">
+          <span class="rotulo">Texto devolvido pelo assistente</span>
+          <p>Em [MÊS], as vendas somaram [VALOR] e ficaram abaixo do mês anterior. O IVA a pagar é de [VALOR], com prazo até [DATA]. Ainda há duas facturas de fornecedor por lançar. Peço o envio para fechar o mês.</p>
+        </div>
+      </div>
+    </article>
+    <article class="tarefa">
+      <div class="tarefa-topo">
+        <h2>Respostas a dúvidas frequentes</h2>
+        <a class="encomendar" href="/montra/encomenda?profissao=contabilista&amp;tarefa=duvidas-frequentes">Encomendar este assistente</a>
+      </div>
+      <div class="exemplo">
+        <div class="antes">
+          <span class="rotulo">Rascunho do contabilista</span>
+          <p>cliente pergunta se pode deduzir portátil. sim se for para a actividade, factura com NIF, amortiza</p>
+        </div>
+        <div class="depois">
+          <span class="rotulo">Texto devolvido pelo assistente</span>
+          <p>O portátil pode entrar como gasto da actividade se for usado no trabalho. A factura tem de ter o NIF. O valor não entra de uma só vez: é amortizado ao longo de alguns anos. Os detalhes ficam para a próxima reunião.</p>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="fecho">
+  <div class="contentor">
+    <p>Primeiro assistente: 49 euros. Cada assistente seguinte: 39 euros. IVA incluído. O contabilista revê e decide sempre.</p>
+    <a class="outras" href="/montra#profissoes">Ver outras profissões</a>
+  </div>
+</section>
+
+</main>
+
+</body>
+</html>
