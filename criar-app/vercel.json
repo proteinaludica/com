@@ -7,7 +7,7 @@
   "redirects": [
     {
       "source": "/montra",
-      "destination": "https://proteinaludica.com/montra",
+      "destination": "https://proteinaludica.com/#profissoes",
       "permanent": true
     },
     {
