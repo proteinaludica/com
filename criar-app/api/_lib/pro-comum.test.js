@@ -19,7 +19,8 @@ test('emitirJWTpro produz um JWT Pro válido e verificável', () => {
   assert.strictEqual(payload.tier, 'pro');
   assert.strictEqual(payload.sub, 'pro-sessao-abc');
   assert.strictEqual(payload.exp, exp);
-  // Validade ~1 ano.
+  // Validade: 7 dias.
+  assert.strictEqual(pro.VALIDADE_SEGUNDOS, 7 * 24 * 60 * 60);
   assert.strictEqual(exp - payload.iat, pro.VALIDADE_SEGUNDOS);
 });
 

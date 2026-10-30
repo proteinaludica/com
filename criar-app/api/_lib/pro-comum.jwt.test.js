@@ -36,7 +36,7 @@ test('emitirJWTpro mantém o payload que assistir-campo verifica', () => {
   const p = payloadDe(token);
   assert.strictEqual(p.sub, 'pro-sessao-1');
   assert.strictEqual(p.tier, 'pro');
-  assert.strictEqual(exp - p.iat, pro.VALIDADE_SEGUNDOS);
+  assert.strictEqual(exp - p.iat, 7 * 24 * 60 * 60, 'o acesso Pro dura 7 dias');
 });
 
 test('emitirJWTdocumento dura 30 dias e traz jti próprio', () => {

@@ -19,8 +19,10 @@
 
 const crypto = require('crypto');
 
-// Validade do acesso Pro. Pagamento único; o token dura 1 ano.
-const VALIDADE_SEGUNDOS = 365 * 24 * 60 * 60;
+// Validade do acesso Pro. Pagamento único; o acesso de edição dura 7 dias.
+// Os tokens já emitidos levam o seu próprio `exp` e mantêm a validade com que
+// foram pagos. A ligação de descarga/retoma é outra (VALIDADE_DOCUMENTO_SEGUNDOS).
+const VALIDADE_SEGUNDOS = 7 * 24 * 60 * 60;
 
 // Validade da ligação de descarga/retoma do guia de instalação. Pagamento
 // único, mas a ligação não é eterna: 30 dias, como em _lib/retiroassist.js.
