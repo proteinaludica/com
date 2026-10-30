@@ -75,7 +75,7 @@ teste('termos e renúncia ficam com hora e versão', async () => {
   await pedir(com({}));
   assert(!isNaN(Date.parse(enviado.supabase.termos_aceites_em)), 'falta hora dos termos');
   assert(!isNaN(Date.parse(enviado.supabase.renuncia_livre_resolucao_em)), 'falta hora da renúncia');
-  assert(enviado.supabase.versao_termos === '2026-06', 'versão dos termos errada');
+  assert(enviado.supabase.versao_termos === '2026-10', 'versão dos termos errada');
 });
 
 teste('NIF vazio vai a null; NIF com espaços é aceite', async () => {

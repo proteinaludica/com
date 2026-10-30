@@ -22,7 +22,7 @@
 const VALOR_CENTS = 4900;
 
 // Versão dos termos aceites: a data de "Última actualização" de /termos.
-const VERSAO_TERMOS = '2026-06';
+const VERSAO_TERMOS = '2026-10';
 
 // Tarefas de cada profissão. Os identificadores são os das páginas da montra.
 const TAREFAS = {

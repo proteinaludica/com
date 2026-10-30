@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Assistentes digitais IA, à medida de cada profissional · Proteína Lúdica</title>
-<meta name="description" content="Um formulário guiado transforma a sua maneira de trabalhar num assistente digital IA pronto a instalar. Prompt final grátis.">
+<meta name="description" content="Assistentes digitais IA à medida de cada profissional. Um assistente por tarefa, com pagamento único. Guia de instalação em PDF grátis.">
 <link rel="canonical" href="https://proteinaludica.com">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://proteinaludica.com">
 <meta property="og:title" content="Assistentes digitais IA, à medida de cada profissional · Proteína Lúdica">
-<meta property="og:description" content="Um formulário guiado transforma a sua maneira de trabalhar num assistente digital IA pronto a instalar. Prompt final grátis.">
+<meta property="og:description" content="Assistentes digitais IA à medida de cada profissional. Um assistente por tarefa, com pagamento único. Guia de instalação em PDF grátis.">
 <meta property="og:locale" content="pt_PT">
 <meta property="og:image" content="https://proteinaludica.com/og-image.png">
 <meta property="og:image:width" content="1200">
@@ -17,7 +17,7 @@
 <meta property="og:image:alt" content="Proteína Lúdica — assistentes digitais IA">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Assistentes digitais IA, à medida de cada profissional · Proteína Lúdica">
-<meta name="twitter:description" content="Um formulário guiado transforma a sua maneira de trabalhar num assistente digital IA pronto a instalar. Prompt final grátis.">
+<meta name="twitter:description" content="Assistentes digitais IA à medida de cada profissional. Um assistente por tarefa, com pagamento único. Guia de instalação em PDF grátis.">
 <meta name="twitter:image" content="https://proteinaludica.com/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -232,6 +232,25 @@
     font-weight:600;color:var(--musgo-claro);
   }
 
+  .prof-precos{
+    display:flex;flex-wrap:wrap;gap:24px 40px;align-items:flex-start;justify-content:space-between;
+    margin-top:18px;padding:28px;border:1px solid var(--contorno-cta);border-radius:22px;
+  }
+  .prof-precos-texto{flex:1 1 320px}
+  .prof-precos-texto h3{
+    font-family:'Newsreader',Georgia,serif;font-weight:400;
+    font-size:26px;line-height:1.2;color:var(--texto-forte);
+  }
+  .prof-precos-texto p{margin-top:10px;font-size:16px;line-height:1.6;color:var(--texto-2)}
+  .prof-precos-valores{display:flex;flex-wrap:wrap;gap:14px}
+  .prof-preco{
+    display:flex;flex-direction:column;gap:4px;min-width:170px;
+    padding:16px 20px;background:var(--fundo-cartao);border:1px solid var(--linha-cartao);border-radius:16px;
+  }
+  .prof-preco span{font-size:14px;color:var(--texto-3)}
+  .prof-preco strong{font-family:'Newsreader',Georgia,serif;font-weight:400;font-size:34px;color:var(--musgo-claro)}
+  .prof-iva{flex-basis:100%;font-size:14px;color:var(--texto-3)}
+
   /* ---------- Perguntas frequentes ---------- */
   #faq{padding-top:0}
   .faq-lista{max-width:820px;display:flex;flex-direction:column;gap:14px}
@@ -323,6 +342,9 @@
     .prof-grelha{grid-template-columns:1fr;gap:12px;margin-top:24px}
     .prof-cartao{border-radius:18px;padding:20px}
     .prof-cartao h4{font-size:22px}
+    .prof-precos{padding:20px;border-radius:18px}
+    .prof-precos-texto h3{font-size:22px}
+    .prof-preco{flex:1 1 140px;min-width:0}
 
     .faq-lista{gap:10px}
     .faq-lista details{border-radius:18px;padding:2px 18px}
@@ -370,10 +392,10 @@
 <section class="hero">
   <div>
     <h1>Assistentes digitais IA, <span>à medida de cada profissional</span></h1>
-    <p class="subtitulo">Um formulário guiado transforma a sua maneira de trabalhar num assistente digital IA pronto a instalar. Em 15 minutos.</p>
-    <p class="apoio">Prompt final grátis · Kit completo desde 19€</p>
+    <p class="subtitulo">Um guia passo a passo transforma a maneira de trabalhar de cada profissional num assistente digital IA pronto a instalar.</p>
+    <p class="apoio">Guia de instalação em PDF grátis · Assistente personalizado por 49 €</p>
     <div class="accoes">
-      <a class="btn btn-primario" href="https://criar.proteinaludica.com">Criar o meu assistente — grátis</a>
+      <a class="btn btn-primario" href="#profissoes">Ver profissões</a>
       <a class="btn btn-secundario" href="/catalogo">Ver assistentes já prontos</a>
     </div>
   </div>
@@ -426,8 +448,6 @@
 </section>
 
 <!-- ─── Profissões ─── -->
-<!-- Os preços (49 € e 39 €) entram com a ligação ao pagamento, junto com a
-     revisão da oferta do topo da página. -->
 <section id="profissoes" class="seccao seccao-linha">
   <div class="duas-colunas">
     <h2 class="titulo-lado">Profissões</h2>
@@ -474,6 +494,17 @@
           <a href="/montra/professor">Ver tarefas</a>
         </article>
       </div>
+      <div class="prof-precos">
+        <div class="prof-precos-texto">
+          <h3>Preço por assistente</h3>
+          <p>Cada assistente é feito para uma tarefa e paga-se uma vez. Depois do pagamento, o profissional preenche o assistente num guia passo a passo, com ajuda de IA, e recebe-o por email.</p>
+        </div>
+        <div class="prof-precos-valores">
+          <div class="prof-preco"><span>Primeiro assistente</span><strong>49 €</strong></div>
+          <div class="prof-preco"><span>Cada assistente seguinte</span><strong>39 €</strong></div>
+          <p class="prof-iva">IVA incluído.</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -497,32 +528,62 @@
 
       <details>
         <summary><span>O que é um assistente digital IA?</span><span class="faq-mais" aria-hidden="true">+</span></summary>
-        <p>Uma ferramenta que recebe o que o profissional determina — notas, tarefas, informação — e devolve organizado, no estilo dele. Não cria nada sozinho: parte sempre do que o profissional produziu.</p>
+        <p>Um assistente digital IA recebe o que o profissional determina, como notas, tarefas ou informação, e devolve o texto organizado, no estilo dele. Não cria nada sozinho. Parte sempre do que o profissional escreveu.</p>
       </details>
 
       <details>
         <summary><span>Os assistentes decidem alguma coisa sozinhos?</span><span class="faq-mais" aria-hidden="true">+</span></summary>
-        <p>Não. Recebem, organizam e escrevem. Quem decide é sempre quem assina.</p>
+        <p>Não. Os assistentes recebem, organizam e escrevem. Quem decide é sempre quem assina.</p>
       </details>
 
       <details>
-        <summary><span>E a confidencialidade dos dados?</span><span class="faq-mais" aria-hidden="true">+</span></summary>
-        <p>Os dados são tratados na União Europeia, ao abrigo do RGPD. O que escreve no formulário não é usado para treinar modelos de IA. Enquanto preenche, o rascunho fica guardado apenas no seu computador e pode apagá-lo quando quiser. Se pedir o preenchimento assistido ou o kit completo, o que escreveu é enviado para produzir esses ficheiros — a <a href="/privacidade">Política de privacidade</a> explica para onde vai e por quanto tempo lá fica.</p>
+        <summary><span>Que assistentes existem?</span><span class="faq-mais" aria-hidden="true">+</span></summary>
+        <p>Há três caminhos. O <a href="/catalogo">catálogo</a> reúne assistentes prontos para profissionais de saúde. Os <a href="/assistentes-pessoais">assistentes pessoais</a> servem tarefas do dia-a-dia, como planear uma escapadinha. A secção <a href="#profissoes">Profissões</a> permite encomendar um assistente para uma tarefa concreta de contabilistas, advogados, arquitectos, engenheiros, professores e formadores.</p>
+      </details>
+
+      <details>
+        <summary><span>Como funciona a encomenda de um assistente por profissão?</span><span class="faq-mais" aria-hidden="true">+</span></summary>
+        <p>O profissional escolhe a profissão e a tarefa e faz o pagamento. Logo a seguir, abre um guia passo a passo, onde preenche o assistente com ajuda de IA. No fim, o assistente e um PDF de instruções seguem por email.</p>
       </details>
 
       <details>
         <summary><span>Quanto custa?</span><span class="faq-mais" aria-hidden="true">+</span></summary>
-        <p>O prompt final do formulário é gratuito. O kit completo começa em 19€ e cada assistente do catálogo tem período de experiência gratuito. Os valores são apresentados antes de qualquer compromisso.</p>
+        <p>O primeiro assistente custa 49 euros. Cada assistente seguinte custa 39 euros. Os preços incluem IVA. O pagamento é único e não há mensalidades. O guia de instalação em PDF é gratuito para qualquer pessoa, mesmo sem compra. Os assistentes do catálogo têm um período de experiência gratuito.</p>
+      </details>
+
+      <details>
+        <summary><span>Durante quanto tempo se pode editar o assistente?</span><span class="faq-mais" aria-hidden="true">+</span></summary>
+        <p>O guia de criação fica disponível durante 7 dias após o pagamento. Depois desse prazo, o assistente fica tal como foi enviado. Não há actualizações posteriores.</p>
+      </details>
+
+      <details>
+        <summary><span>Como se paga?</span><span class="faq-mais" aria-hidden="true">+</span></summary>
+        <p>O pagamento faz-se por cartão, MB WAY ou Multibanco.</p>
+      </details>
+
+      <details>
+        <summary><span>Existe direito de livre resolução?</span><span class="faq-mais" aria-hidden="true">+</span></summary>
+        <p>O assistente é feito à medida e o guia de criação abre logo após o pagamento. Por isso, na encomenda, o profissional pede o acesso imediato e reconhece que perde o direito de livre resolução. Em contrapartida, pode editar o assistente durante 7 dias após o pagamento.</p>
+      </details>
+
+      <details>
+        <summary><span>Em que ferramentas funciona?</span><span class="faq-mais" aria-hidden="true">+</span></summary>
+        <p>O assistente funciona no ChatGPT, no Claude, no Gemini, no Microsoft Copilot e no Perplexity. Para outras ferramentas, existe uma versão universal.</p>
+      </details>
+
+      <details>
+        <summary><span>E a confidencialidade dos dados?</span><span class="faq-mais" aria-hidden="true">+</span></summary>
+        <p>Os dados são tratados na União Europeia, ao abrigo do RGPD. O que se escreve no guia não é usado para treinar modelos de IA. Enquanto o profissional preenche, o rascunho fica guardado no próprio computador e pode ser apagado a qualquer momento. Durante o preenchimento, não se escrevem nomes, moradas, contactos nem números de identificação de terceiros. A <a href="/privacidade">Política de privacidade</a> explica que dados se guardam, onde e durante quanto tempo.</p>
       </details>
 
       <details>
         <summary><span>É preciso perceber de informática?</span><span class="faq-mais" aria-hidden="true">+</span></summary>
-        <p>Não. Quem sabe usar o browser e escrever uma mensagem, sabe usar um assistente digital IA.</p>
+        <p>Não. Quem sabe usar o navegador e escrever uma mensagem sabe usar um assistente digital IA.</p>
       </details>
 
       <details>
         <summary><span>Para que profissionais é?</span><span class="faq-mais" aria-hidden="true">+</span></summary>
-        <p>Qualquer profissional que produza muita documentação — medicina, advocacia, contabilidade. O catálogo actual começou na área da saúde; o caminho de criação serve todas as áreas.</p>
+        <p>Para qualquer profissional que produza muita documentação. O catálogo começou na área da saúde. A secção Profissões começa com quatro profissões. Quem não encontrar a sua profissão pode pedir um assistente à medida para <a href="mailto:info@proteinaludica.com">info@proteinaludica.com</a>.</p>
       </details>
 
     </div>
