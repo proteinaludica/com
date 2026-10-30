@@ -86,6 +86,7 @@
   .pagar{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 22px;border:0;border-radius:8px;background:var(--musgo);color:var(--fundo-escuro);font:inherit;font-weight:600;cursor:pointer}
   .pagar:hover{background:var(--ocre)}
   .pagar:disabled{opacity:.6;cursor:wait}
+  .aviso-pagamento{padding:12px 14px;border:1px solid var(--linha-escura);border-radius:8px;font-size:14px;line-height:1.55;color:var(--texto-sobre-escuro)}
   .mensagem-envio{font-size:14px;font-weight:500;color:var(--ocre)}
   .mensagem-envio:empty{display:none}
 
@@ -200,7 +201,10 @@
         <span class="valor">49 €</span>
       </div>
       <p class="nota">IVA incluído.</p>
-      <button type="submit" form="formEncomenda" class="pagar" id="botaoPagar">Pagar e começar</button>
+      <!-- Provisório até o pagamento abrir: aviso e botão "Registar encomenda".
+           Com o pagamento ligado, o aviso sai e o botão volta a "Pagar e começar". -->
+      <p class="aviso-pagamento">O pagamento abre em breve. Até lá, a encomenda fica registada e a Proteína Lúdica envia um email quando o pagamento estiver disponível.</p>
+      <button type="submit" form="formEncomenda" class="pagar" id="botaoPagar">Registar encomenda</button>
       <p class="mensagem-envio" id="mensagemEnvio" role="alert"></p>
       <p class="nota">O guia de criação abre logo após o pagamento e fica disponível durante 7 dias. No fim, o assistente e o PDF de instruções seguem por email. Pagamento único, sem mensalidades.</p>
     </aside>
