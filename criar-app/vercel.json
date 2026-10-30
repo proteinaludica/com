@@ -1,15 +1,35 @@
 {
-  "regions": ["dub1"],
+  "regions": [
+    "dub1"
+  ],
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/montra",
+      "destination": "https://proteinaludica.com/montra",
+      "permanent": true
+    },
+    {
+      "source": "/montra/:profissao(contabilista|advogado|arquitecto|professor)",
+      "destination": "https://proteinaludica.com/montra/:profissao",
+      "permanent": true
+    }
+  ],
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" }
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
+    }
   ],
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
       ]
     }
   ]
