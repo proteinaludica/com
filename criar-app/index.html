@@ -2925,10 +2925,40 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     setTimeout(function () { texto.textContent = original; }, 8000);
   }
 
+  // Campanha de lançamento: o email de acesso traz ?acesso=<token Pro>&ferramenta=…
+  // (ver enviarAcessoCampanha em api/encomenda.js). Guarda o token como se viesse
+  // do pagamento e limpa a barra de endereço. Devolve a ferramenta, ou null.
+  const FERRAMENTAS_CAMPANHA = {
+    claude: ['claude', 'Claude'],
+    gpt: ['gpt', 'ChatGPT'],
+    gemini: ['gemini', 'Gemini'],
+    copilot: ['copilot', 'Copilot'],
+    perplexity: ['perplexity', 'Perplexity'],
+    outra: ['outro', 'Outra ferramenta']
+  };
+
+  function aplicarAcessoCampanha() {
+    let params;
+    try { params = new URLSearchParams(window.location.search); } catch (e) { return null; }
+    const token = params.get('acesso');
+    if (!token) return null;
+    try { sessionStorage.setItem('pl_proToken', token); } catch (e) {}
+    try { window.history.replaceState(window.history.state, document.title, window.location.pathname); } catch (e) {}
+    return FERRAMENTAS_CAMPANHA[params.get('ferramenta')] || null;
+  }
+
   async function bootAssistirCampo() {
+    const ferramentaCampanha = aplicarAcessoCampanha();
     const voltouDoPagamento = await recuperarTokenPro();
     inicializarPro();
     initAssistirCampo();
+    // Vindo do email da campanha: ferramenta já escolhida e área de escritório
+    // e serviços (as quatro profissões da campanha); segue para as perguntas.
+    if (ferramentaCampanha) {
+      selectPlatform(ferramentaCampanha[0], ferramentaCampanha[1]);
+      selectArea('escritorio');
+      return;
+    }
     // O Pro compra-se durante as perguntas: ao regressar do pagamento (pago
     // ou cancelado), a pessoa volta às perguntas, não ao Passo 1.
     if (voltouDoPagamento && state.platform && state.area) goTo(2);

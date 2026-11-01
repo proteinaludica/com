@@ -201,10 +201,11 @@
         <span class="valor">49 €</span>
       </div>
       <p class="nota">IVA incluído.</p>
-      <!-- Provisório até o pagamento abrir: aviso e botão "Registar encomenda".
-           Com o pagamento ligado, o aviso sai e o botão volta a "Pagar e começar". -->
-      <p class="aviso-pagamento">O pagamento abre em breve. Até lá, a encomenda fica registada e a Proteína Lúdica envia um email quando o pagamento estiver disponível.</p>
-      <button type="submit" form="formEncomenda" class="pagar" id="botaoPagar">Registar encomenda</button>
+      <!-- Campanha de lançamento (até 30 de Novembro de 2026, 50 acessos): o
+           servidor decide se há lugar e envia o acesso por email. Com o
+           pagamento ligado, o aviso sai e o botão volta a "Pagar e começar". -->
+      <p class="aviso-pagamento">Campanha de lançamento: os primeiros 50 assistentes são oferecidos até 30 de Novembro de 2026. Depois do registo, o acesso ao guia de criação segue por email.</p>
+      <button type="submit" form="formEncomenda" class="pagar" id="botaoPagar">Receber o acesso</button>
       <p class="mensagem-envio" id="mensagemEnvio" role="alert"></p>
       <p class="nota">O guia de criação abre logo após o pagamento e fica disponível durante 7 dias. No fim, o assistente e o PDF de instruções seguem por email. Pagamento único, sem mensalidades.</p>
     </aside>
@@ -324,7 +325,11 @@
         var h = document.createElement('h2');
         h.textContent = 'Encomenda registada.';
         var p = document.createElement('p');
-        p.textContent = 'O pagamento fica disponível em breve.';
+        // Com lugar na campanha, o acesso segue por email; sem lugar (campanha
+        // terminada, limite atingido ou email já usado), fica a aguardar o pagamento.
+        p.textContent = d.campanha
+          ? 'O acesso ao guia de criação segue para o email indicado.'
+          : 'O pagamento fica disponível em breve.';
         caixa.appendChild(h);
         caixa.appendChild(p);
         area.appendChild(caixa);
