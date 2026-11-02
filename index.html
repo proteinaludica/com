@@ -22,9 +22,9 @@
 <meta name="twitter:title" content="Assistentes digitais IA, à medida de cada um · Proteína Lúdica">
 <meta name="twitter:description" content="Assistentes digitais IA à medida de cada profissional. Um assistente por tarefa, com pagamento único. Guia de instalação em PDF grátis.">
 <meta name="twitter:image" content="https://proteinaludica.com/og-image.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" href="/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fraunces-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/styles/fontes.css">
 <style>
   :root{
     /* ---- fundo e tinta ---- */
@@ -74,11 +74,11 @@
   body{
     background:var(--fundo);
     color:var(--texto);
-    font-family:'Figtree',system-ui,-apple-system,sans-serif;
+    font-family:'Geist',system-ui,-apple-system,sans-serif;
     font-size:16px;line-height:1.5;
     -webkit-font-smoothing:antialiased;
   }
-  h1,h2{font-family:'Newsreader',Georgia,serif;font-weight:400;letter-spacing:-.02em}
+  h1,h2{font-family:'Fraunces',Georgia,serif;font-weight:400;letter-spacing:-.02em}
   a{color:var(--musgo-claro);text-decoration:none}
   a:hover{color:var(--musgo-hover)}
   :focus-visible{outline:2px solid var(--musgo-claro);outline-offset:2px;border-radius:4px}
@@ -96,7 +96,7 @@
     max-width:var(--largura);margin:0 auto;
   }
   .marca{
-    font-family:'Newsreader',Georgia,serif;font-size:21px;
+    font-family:'Fraunces',Georgia,serif;font-size:21px;
     letter-spacing:-.01em;margin-right:auto;color:var(--texto);
   }
   .marca:hover{color:var(--texto)}
@@ -169,7 +169,7 @@
   .maq-barras{display:flex;gap:6px;margin:14px 0 22px}
   .maq-barras span{height:6px;flex:1;border-radius:999px;background:var(--maq-barra)}
   .maq-barras span.feita{background:var(--verde-medio)}
-  .maq-titulo{font-family:'Newsreader',Georgia,serif;font-size:27px;line-height:1.25;color:var(--maq-tinta)}
+  .maq-titulo{font-family:'Fraunces',Georgia,serif;font-size:27px;line-height:1.25;color:var(--maq-tinta)}
   .maq-guia{font-size:15.5px;color:var(--maq-tinta-2);margin:10px 0 20px}
   .maq-campo{
     border:2px solid var(--verde-medio);background:var(--maq-campo);
@@ -215,7 +215,7 @@
 
   /* ---------- Profissões ---------- */
   .prof-intro h3{
-    font-family:'Newsreader',Georgia,serif;font-weight:400;letter-spacing:-.01em;
+    font-family:'Fraunces',Georgia,serif;font-weight:400;letter-spacing:-.01em;
     font-size:30px;line-height:1.2;color:var(--texto-forte);
   }
   .prof-intro p{margin-top:14px;font-size:18px;line-height:1.6;color:var(--texto-2);max-width:720px}
@@ -226,7 +226,7 @@
     border-radius:22px;padding:26px 28px;
   }
   .prof-cartao h4{
-    font-family:'Newsreader',Georgia,serif;font-weight:400;
+    font-family:'Fraunces',Georgia,serif;font-weight:400;
     font-size:25px;line-height:1.2;color:var(--texto-forte);
   }
   .prof-cartao ul{padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:16px;line-height:1.5;color:var(--texto-3)}
@@ -244,7 +244,7 @@
   }
   .prof-precos-texto{flex:1 1 320px}
   .prof-precos-texto h3{
-    font-family:'Newsreader',Georgia,serif;font-weight:400;
+    font-family:'Fraunces',Georgia,serif;font-weight:400;
     font-size:26px;line-height:1.2;color:var(--texto-forte);
   }
   .prof-precos-texto p{margin-top:10px;font-size:16px;line-height:1.6;color:var(--texto-2)}
@@ -254,7 +254,7 @@
     padding:16px 20px;background:var(--fundo-cartao);border:1px solid var(--linha-cartao);border-radius:16px;
   }
   .prof-preco span{font-size:14px;color:var(--texto-3)}
-  .prof-preco strong{font-family:'Newsreader',Georgia,serif;font-weight:400;font-size:34px;color:var(--musgo-claro)}
+  .prof-preco strong{font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:34px;color:var(--musgo-claro)}
   .prof-iva{flex-basis:100%;font-size:14px;color:var(--texto-3)}
   .prof-campanha{flex-basis:100%;font-size:15px;line-height:1.55;color:var(--musgo-claro)}
 
@@ -282,7 +282,7 @@
   /* ---------- Rodapé ---------- */
   footer{border-top:1px solid var(--linha);padding:72px var(--margem) 56px;max-width:var(--largura);margin:0 auto}
   .contacto-email{
-    font-family:'Newsreader',Georgia,serif;font-size:34px;
+    font-family:'Fraunces',Georgia,serif;font-size:34px;
     color:var(--texto-forte);letter-spacing:-.01em;
   }
   .contacto-email:hover{color:var(--musgo-claro)}
