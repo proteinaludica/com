@@ -509,6 +509,12 @@
     white-space: pre-wrap;
     word-break: break-word;
   }
+  /* Ficheiro de exemplos: segundo bloco, só aparece quando a secção 00 tem texto. */
+  .code-box-exemplos { margin-top: 1.5rem; }
+  .code-box-botoes { display: flex; gap: 6px; }
+  .output-exemplos-nota { margin: 0.75rem auto 0; max-width: 640px; text-align: center; font-size: 14px; line-height: 1.5; color: var(--ink); }
+  /* Aviso quando as instruções passam o limite da ferramenta escolhida. */
+  .output-aviso { margin: 1rem auto 0; max-width: 640px; padding: 10px 14px; border: 0.5px solid var(--accent); border-radius: 8px; font-size: 14px; line-height: 1.5; color: var(--ink); text-align: center; }
   .code-content::-webkit-scrollbar { width: 8px; }
   .code-content::-webkit-scrollbar-track { background: transparent; }
   .code-content::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
@@ -1766,6 +1772,24 @@ Documentos e modelos fornecidos pelo profissional
 ---
 Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     </div>
+
+    <!-- Aviso de tamanho: só aparece quando as instruções passam o limite
+         conhecido da ferramenta escolhida (ver LIMITE_INSTRUCOES). -->
+    <p class="output-aviso" id="outputAviso" hidden></p>
+
+    <!-- Ficheiro de exemplos (secção 00). Fica fora das instruções para não
+         gastar o limite de caracteres; carrega-se como conhecimento. -->
+    <div class="code-box code-box-exemplos" id="exemplosBox" hidden>
+      <div class="code-box-header">
+        <div class="code-box-label">Ficheiro de exemplos</div>
+        <div class="code-box-botoes">
+          <button class="code-copy-btn" id="copyExemplosBtn" onclick="copiarExemplos()">Copiar tudo</button>
+          <button class="code-copy-btn" onclick="descarregarExemplos()">Descarregar ficheiro</button>
+        </div>
+      </div>
+      <div class="code-content" id="exemplosContent"></div>
+    </div>
+    <p class="output-exemplos-nota" id="exemplosNota" hidden>Os exemplos ficam fora das instruções, para não ultrapassarem o limite da ferramenta. Descarregar o ficheiro e carregá-lo no conhecimento do assistente.</p>
 
     <!-- Quantas das 16 secções entraram no bloco acima. -->
     <p class="output-onde" id="outputOnde"></p>
@@ -3290,6 +3314,74 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       || 'Colar no campo de instruções do assistente, na ferramenta escolhida. O guia de instalação do Kit mostra cada passo.';
   }
 
+  // ─── Ecrã 3: ficheiro de exemplos e aviso de tamanho ───
+
+  const TEXTO_REFERENCIA_EXEMPLOS = 'O ficheiro de exemplos, carregado no conhecimento do assistente, mostra como o profissional escreve. O assistente imita o estilo e não copia o conteúdo.';
+  const CABECALHO_EXEMPLOS = 'EXEMPLOS · Textos escritos pelo profissional\nO assistente imita o estilo e não copia o conteúdo.';
+
+  // Limite das instruções em cada ferramenta, em caracteres. Só entram as
+  // ferramentas com limite conhecido; as outras não mostram aviso.
+  const LIMITE_INSTRUCOES = { gemini: 4000, gpt: 8000, copilot: 8000 };
+
+  function valorExemplos() {
+    const el = document.getElementById('f-exemplos');
+    return el ? el.value.trim() : '';
+  }
+
+  function textoFicheiroExemplos() {
+    return CABECALHO_EXEMPLOS + '\n\n' + valorExemplos();
+  }
+
+  function escreverExemplos(exemplos) {
+    const box = document.getElementById('exemplosBox');
+    const nota = document.getElementById('exemplosNota');
+    const conteudo = document.getElementById('exemplosContent');
+    if (conteudo) conteudo.textContent = exemplos ? textoFicheiroExemplos() : '';
+    if (box) box.hidden = !exemplos;
+    if (nota) nota.hidden = !exemplos;
+  }
+
+  function escreverAvisoTamanho(n) {
+    const el = document.getElementById('outputAviso');
+    if (!el) return;
+    const limite = LIMITE_INSTRUCOES[state.platform];
+    if (!limite || n <= limite) { el.hidden = true; el.textContent = ''; return; }
+    el.textContent = 'O texto tem ' + n.toLocaleString('pt-PT') + ' caracteres. O '
+      + (state.platformLabel || 'a ferramenta') + ' aceita cerca de '
+      + limite.toLocaleString('pt-PT') + ' nas instruções. Encurtar as secções opcionais antes de colar.';
+    el.hidden = false;
+  }
+
+  function copiarExemplos() {
+    const btn = document.getElementById('copyExemplosBtn');
+    try {
+      navigator.clipboard.writeText(textoFicheiroExemplos()).then(() => {
+        btn.textContent = '✓ Copiado';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = 'Copiar tudo';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    } catch (e) {
+      btn.textContent = 'Seleccionar texto manual';
+    }
+  }
+
+  // O ficheiro é criado no próprio navegador: os exemplos não passam pelo
+  // servidor nem seguem no email do guia.
+  function descarregarExemplos() {
+    const blob = new Blob([textoFicheiroExemplos()], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'exemplos.txt';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
   // ─── Ecrã 3: gerar output a partir dos valores reais das 16 secções ───
 
   function gerarOutput() {
@@ -3300,14 +3392,18 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       return el && el.value.trim() !== '';
     });
 
-    const corpo = incluidas.map((sec, i) => {
-      // Os exemplos levam uma linha a dizer ao assistente o que fazer com eles.
-      const nota = sec.num === 0
-        ? 'Textos escritos pelo profissional. O assistente imita o estilo e não copia o conteúdo.\n\n'
-        : '';
-      return '## ' + numeroFormatado(i + 1) + '. ' + sec.titulo + '\n'
-        + nota
-        + document.getElementById(sec.campo).value.trim();
+    // Os exemplos (secção 00) não entram nas instruções: vão num ficheiro à
+    // parte, carregado como conhecimento do assistente, como no Dr. Escriba IA.
+    // Nas instruções fica só uma secção final a apontar para esse ficheiro.
+    const exemplos = valorExemplos();
+    const seccoes = incluidas.filter(sec => sec.num !== 0).map(sec => ({
+      titulo: sec.titulo,
+      texto: document.getElementById(sec.campo).value.trim()
+    }));
+    if (exemplos) seccoes.push({ titulo: 'Exemplos', texto: TEXTO_REFERENCIA_EXEMPLOS });
+
+    const corpo = seccoes.map((sec, i) => {
+      return '## ' + numeroFormatado(i + 1) + '. ' + sec.titulo + '\n' + sec.texto;
     }).join('\n\n');
 
     const md = '# INSTRUÇÕES · Assistente digital IA\n'
@@ -3319,6 +3415,8 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     const el = document.getElementById('codeContent');
     if (el) el.textContent = md;
 
+    escreverExemplos(exemplos);
+    escreverAvisoTamanho(md.length);
     escreverOndeColar();
 
     const conta = document.getElementById('outputConta');
