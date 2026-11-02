@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Só páginas indexáveis. As montras entram quando perderem o noindex. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://proteinaludica.com/</loc></url>
+  <url><loc>https://proteinaludica.com/catalogo</loc></url>
+  <url><loc>https://proteinaludica.com/assistentes-pessoais</loc></url>
+  <url><loc>https://proteinaludica.com/conformidade</loc></url>
+  <url><loc>https://proteinaludica.com/privacidade</loc></url>
+  <url><loc>https://proteinaludica.com/termos</loc></url>
+</urlset>

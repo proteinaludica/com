@@ -1,0 +1,7 @@
+# Páginas com noindex (montra, outputs, retiroassist) continuam abertas ao
+# rastreio de propósito: o Google tem de as ler para respeitar o noindex.
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: https://proteinaludica.com/sitemap.xml
