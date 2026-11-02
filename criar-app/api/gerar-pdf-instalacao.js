@@ -137,6 +137,48 @@ const GUIA_FALLBACK = {
   ],
 };
 
+// ─────────── FICHEIRO DE EXEMPLOS (secção 00 do wizard) ───────────
+// Quando o profissional preenche a secção 00, o wizard tira os exemplos das
+// instruções e entrega-os num ficheiro à parte (exemplos.txt). As instruções
+// passam a terminar com esta frase, que o wizard escreve sempre igual. O guia
+// detecta-a no próprio texto, sem campo novo no pedido nem na base de dados,
+// e por isso o passo extra também aparece quando o PDF é descarregado de novo.
+const MARCA_EXEMPLOS = 'O ficheiro de exemplos, carregado no conhecimento do assistente';
+
+const PASSO_EXEMPLOS = {
+  claude: {
+    heading: 'Passo 5 — Conhecimento do Projecto (ficheiro de exemplos)',
+    texto: 'Na página do Projecto, em "Project knowledge", carregar o ficheiro exemplos.txt descarregado no fim do preenchimento.',
+  },
+  gemini: {
+    heading: 'Passo 5 — Conhecimento do Gem (ficheiro de exemplos)',
+    texto: 'No mesmo ecrã, em "Conhecimento", carregar o ficheiro exemplos.txt descarregado no fim do preenchimento. Depois voltar a gravar.',
+  },
+  gpt: {
+    heading: 'Passo 5 — Campo "Knowledge" (ficheiro de exemplos)',
+    texto: 'Em "Knowledge", clicar em "Upload files" e carregar o ficheiro exemplos.txt descarregado no fim do preenchimento.',
+  },
+  fallback: {
+    heading: null,
+    texto: 'Se a ferramenta aceitar ficheiros de conhecimento, carregar também o ficheiro exemplos.txt descarregado no fim do preenchimento.',
+  },
+};
+
+function temExemplos(prompt_completo) {
+  return String(prompt_completo || '').includes(MARCA_EXEMPLOS);
+}
+
+// Devolve uma cópia do guia com o passo dos exemplos logo a seguir ao passo
+// das instruções. Não altera GUIAS, que é partilhado entre pedidos.
+function guiaComExemplos(guia, plataforma) {
+  const chave = cortar(plataforma, LIMITES.plataforma).toLowerCase();
+  const extra = PASSO_EXEMPLOS[GUIAS[chave] ? chave : 'fallback'];
+  const passos = guia.passos.slice();
+  const i = passos.findIndex((p) => p.copiar === 'prompt_completo');
+  passos.splice(i + 1, 0, extra);
+  return { titulo: guia.titulo, passos: passos };
+}
+
 function escolherGuia(plataforma) {
   const chave = cortar(plataforma, LIMITES.plataforma).toLowerCase();
   if (chave === 'claude') return GUIAS.claude;
@@ -215,7 +257,8 @@ function desenharTexto(page, texto, x, y, font, size, color, tracking) {
 }
 
 async function gerarPdf({ plataforma, nome_assistente, missao, prompt_completo }) {
-  const guia = escolherGuia(plataforma);
+  const base = escolherGuia(plataforma);
+  const guia = temExemplos(prompt_completo) ? guiaComExemplos(base, plataforma) : base;
   const valores = { nome_assistente, missao, prompt_completo };
 
   const pdf = await PDFDocument.create();
@@ -663,3 +706,6 @@ module.exports = async (req, res) => {
 };
 
 module.exports.gerarPdf = gerarPdf;
+module.exports.temExemplos = temExemplos;
+module.exports.guiaComExemplos = guiaComExemplos;
+module.exports.escolherGuia = escolherGuia;
