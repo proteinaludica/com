@@ -15,9 +15,9 @@
 <meta property="og:title" content="Política de Privacidade · Proteína Lúdica">
 <meta property="og:description" content="Que dados a Proteína Lúdica recolhe, para onde vão, quanto tempo ficam e como se apagam.">
 <meta property="og:locale" content="pt_PT">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" href="/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fraunces-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/styles/fontes.css">
 <style>
   :root{
     /* ---- fundo e tinta (mesma paleta da homepage) ---- */
@@ -48,11 +48,11 @@
   body{
     background:var(--fundo);
     color:var(--texto);
-    font-family:'Figtree',system-ui,-apple-system,sans-serif;
+    font-family:'Geist',system-ui,-apple-system,sans-serif;
     font-size:16px;line-height:1.5;
     -webkit-font-smoothing:antialiased;
   }
-  h1,h2,h3{font-family:'Newsreader',Georgia,serif;font-weight:400;letter-spacing:-.02em}
+  h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:400;letter-spacing:-.02em}
   a{color:var(--musgo-claro);text-decoration:none}
   a:hover{color:var(--musgo-hover)}
   :focus-visible{outline:2px solid var(--musgo-claro);outline-offset:2px;border-radius:4px}
@@ -70,7 +70,7 @@
     max-width:var(--largura);margin:0 auto;
   }
   .marca{
-    font-family:'Newsreader',Georgia,serif;font-size:21px;
+    font-family:'Fraunces',Georgia,serif;font-size:21px;
     letter-spacing:-.01em;margin-right:auto;color:var(--texto);
   }
   .marca:hover{color:var(--texto)}
@@ -117,7 +117,7 @@
   }
   h2{font-size:31px;line-height:1.15;color:var(--texto-forte);text-wrap:pretty}
   h3{
-    font-family:'Figtree',system-ui,sans-serif;font-weight:600;letter-spacing:0;
+    font-family:'Geist',system-ui,sans-serif;font-weight:600;letter-spacing:0;
     font-size:17px;color:var(--texto-forte);margin:30px 0 8px;
   }
   h3 .sub{color:var(--musgo-claro);font-weight:600;margin-right:8px}
