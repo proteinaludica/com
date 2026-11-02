@@ -341,6 +341,20 @@
     color: var(--ink);
     margin-bottom: 6px;
   }
+  /* Secção 00: caixa de confirmação da anonimização dos exemplos. */
+  .fill-field label.confirma-dados {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-weight: 400;
+    margin-top: 10px;
+  }
+  .fill-field label.confirma-dados input {
+    width: auto;
+    padding: 0;
+    margin-top: 2px;
+    flex: none;
+  }
   .fill-field textarea, .fill-field input {
     width: 100%;
     padding: 12px 14px;
@@ -1391,6 +1405,24 @@
 
         <div class="oblig-list" id="obligList">
 
+          <!-- Secção 00: opcional, vem antes de tudo porque os exemplos orientam o
+               resto do preenchimento. Não tem botão Pro: a IA não inventa os
+               textos do profissional. Não é .oblig-block: fica fora do passo-a-passo
+               das 5 obrigatórias no telemóvel. -->
+          <div class="fill-main" id="sec-00">
+            <div class="oblig-tag">Opcional</div>
+            <div class="fill-title">Exemplos</div>
+            <div class="fill-guide">Um exemplo verdadeiro ensina mais ao assistente do que qualquer descrição. O profissional cola textos já escritos por si. Antes de colar, retira os nomes, os contactos e qualquer dado que identifique alguém. Quem não tiver exemplos à mão avança e volta aqui mais tarde.</div>
+            <div class="fill-field">
+              <label for="f-exemplos">Antes de começar, o profissional tem dois ou três textos seus que mostrem como gosta de escrever?</label>
+              <textarea id="f-exemplos" placeholder="ex: Um contabilista cola um email de resposta a um cliente e um resumo de reunião, com os nomes trocados por iniciais." oninput="checkRGPD(this)"></textarea>
+              <label class="confirma-dados" for="f-exemplos-confirma">
+                <input type="checkbox" id="f-exemplos-confirma">
+                <span>Confirmo que retirei dos exemplos os nomes, os contactos e os dados que identificam alguém.</span>
+              </label>
+            </div>
+          </div>
+
           <div class="fill-main oblig-block" id="sec-01">
             <div class="oblig-tag">Pergunta 1 de 5</div>
             <div class="fill-title">Nome e propósito</div>
@@ -2012,7 +2044,9 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   // de IDs do scroll-margin no CSS, e os 16 <a> escritos à mão no índice.
   // Já tinham divergido — o mesmo campo com dois títulos diferentes.
   //
-  //   num          número da secção, tal como o profissional a vê (1..16)
+  //   num          número da secção, tal como o profissional a vê (0..16).
+  //                A 00 (Exemplos) é opcional e fica antes da 01, no ecrã das
+  //                obrigatórias; não entra no painel das opcionais.
   //   campo        id do <textarea> correspondente
   //   titulo       nome curto: índice lateral e cabeçalho do output
   //   obrigatoria  entra na conta das que faltam para terminar
@@ -2023,7 +2057,9 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   // A orientação (o texto de apoio) NÃO se repete aqui: é lida do
   // .fill-guide da própria secção, que é onde o profissional a lê.
   const SECCOES = [
-    { num: 1,  campo: 'f-nome',         titulo: 'Nome e propósito',          obrigatoria: true,  familia: 'A', maxPalavras: 40 },
+    // Secção 00: textos do próprio profissional. Opcional, sem botão Pro.
+    { num: 0,  campo: 'f-exemplos',     titulo: 'Exemplos',                  obrigatoria: false, familia: 'B', maxPalavras: 0,  rotulo: 'Exemplos de textos escritos pelo profissional' },
+    { num: 1, campo: 'f-nome',         titulo: 'Nome e propósito',          obrigatoria: true,  familia: 'A', maxPalavras: 40 },
     { num: 2,  campo: 'f-missao',       titulo: 'Missão',                    obrigatoria: true,  familia: 'A', maxPalavras: 40 },
     { num: 3,  campo: 'f-publico',      titulo: 'Público-alvo',              obrigatoria: false, familia: 'A', maxPalavras: 60 },
     { num: 4,  campo: 'f-contexto',     titulo: 'Contexto',                  obrigatoria: false, familia: 'A', maxPalavras: 60 },
@@ -2045,7 +2081,8 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   const SECCAO_POR_CAMPO = {};
   SECCOES.forEach(sec => { SECCAO_POR_CAMPO[sec.campo] = sec; });
   const OBRIGATORIAS = SECCOES.filter(sec => sec.obrigatoria).map(sec => sec.campo);
-  const OPCIONAIS = SECCOES.filter(sec => !sec.obrigatoria);
+  // As do painel "Mais detalhe". A 00 é opcional mas fica no ecrã principal.
+  const OPCIONAIS = SECCOES.filter(sec => !sec.obrigatoria && sec.num !== 0);
 
   // "01".."16" — o número como aparece no índice e nos ids dos blocos.
   function numeroFormatado(num) {
@@ -2620,6 +2657,11 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       if (!valor) return;
       campos.push({ rotulo: rotuloDaSeccao(sec), valor: valor });
     });
+    // Os exemplos (secção 00) podem ser longos. O servidor corta o contexto
+    // pelo fim, por isso vão em último: são os primeiros a sair e nunca
+    // empurram para fora o nome, a missão ou os limites.
+    const iEx = campos.findIndex(c => c.rotulo === rotuloDaSeccao(SECCOES[0]));
+    if (iEx > -1) campos.push(campos.splice(iEx, 1)[0]);
     return campos;
   }
 
@@ -3119,6 +3161,8 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       esconderContradicao(sec.campo);
     });
     document.querySelectorAll('.chip').forEach(c => c.classList.remove('used'));
+    const confirma = document.getElementById('f-exemplos-confirma');
+    if (confirma) confirma.checked = false;
     const warn = document.getElementById('rgpdWarn');
     if (warn) warn.classList.remove('show');
   }
@@ -3257,7 +3301,12 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     });
 
     const corpo = incluidas.map((sec, i) => {
+      // Os exemplos levam uma linha a dizer ao assistente o que fazer com eles.
+      const nota = sec.num === 0
+        ? 'Textos escritos pelo profissional. O assistente imita o estilo e não copia o conteúdo.\n\n'
+        : '';
       return '## ' + numeroFormatado(i + 1) + '. ' + sec.titulo + '\n'
+        + nota
         + document.getElementById(sec.campo).value.trim();
     }).join('\n\n');
 
@@ -3377,8 +3426,9 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
         badge.className = 's3-index-badge oblig';
         badge.textContent = 'obrig.';
         a.appendChild(badge);
-      } else {
+      } else if (sec.num !== 0) {
         // Uma secção opcional só está visível com o painel aberto.
+        // A 00 é a excepção: está no ecrã principal, antes da 01.
         a.addEventListener('click', openOpcionais);
       }
       lista.appendChild(a);
@@ -3404,7 +3454,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   // (atualizarBarraProgresso), que só cresce com o que fica escrito.
   function setSecaoAtual(num) {
     const label = document.getElementById('currentSec');
-    if (label) label.textContent = num;
+    if (label) label.textContent = num === 0 ? '00' : num;
   }
 
   function atualizarBarraProgresso() {
@@ -3447,7 +3497,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
         if (ratio > melhorRatio) { melhorRatio = ratio; melhorId = id; }
       });
       const n = melhorId && parseInt(melhorId.replace('sec-', ''), 10);
-      if (n && !isNaN(n)) setSecaoAtual(n);
+      if (typeof n === 'number' && !isNaN(n)) setSecaoAtual(n);
     }, { rootMargin: '-45% 0px -45% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] });
     secoes.forEach(s => obs.observe(s));
   }
