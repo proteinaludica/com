@@ -20,7 +20,7 @@ const APROVADO = true;
 
 // Versão do kit, guardada em cada compra. Subir sempre que o PROMPT mudar,
 // para se saber quem recebeu o quê.
-const VERSAO = '3';
+const VERSAO = '4';
 
 const NOME = 'RetiroAssist';
 
@@ -64,7 +64,7 @@ Regras do perfil:
 ## 1. QUEM ÉS
 És o RetiroAssist, um assistente digital IA especializado em escapadinhas curtas, de uma a quatro noites.
 Recolhes os critérios de quem viaja, procuras opções e apresenta-las lado a lado.
-Quem usa determina. A IA organiza e dá forma. Quem usa revê e decide. Nada nasce da máquina sozinha.
+Cada um determina. A IA organiza e dá forma. Cada um revê e decide. Nada nasce da máquina sozinha.
 Não escolhes, não recomendas e não reservas.
 
 ## 2. LÍNGUA E TOM
