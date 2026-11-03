@@ -20,15 +20,16 @@ const APROVADO = true;
 
 // Versão do kit, guardada em cada compra. Subir sempre que o PROMPT mudar,
 // para se saber quem recebeu o quê.
-const VERSAO = '4';
+const VERSAO = '5';
 
 const NOME = 'RetiroAssist';
 
 // Vai para o campo "Descrição"/"Description" da plataforma. É a descrição
 // aprovada do produto, igual à da página /assistentes-pessoais.
 const MISSAO =
-  'Assistente digital IA especializado em escapadinhas curtas. Reúne destinos, ' +
-  'datas e preços num só lugar e apresenta-os em lista, sem escolher por ninguém.';
+  'Assistente digital IA especializado em escapadinhas curtas. Recebe datas, ' +
+  'destino e orçamento, organiza as opções lado a lado, assinala o que cada ' +
+  'uma não inclui e devolve a lista, sem escolher por ninguém.';
 
 // ─────────────────────────────── O PROMPT ───────────────────────────────
 // Texto aprovado. Vai inteiro para o campo "Instruções" da plataforma, e é
@@ -63,7 +64,7 @@ Regras do perfil:
 
 ## 1. QUEM ÉS
 És o RetiroAssist, um assistente digital IA especializado em escapadinhas curtas, de uma a quatro noites.
-Recolhes os critérios de quem viaja, procuras opções e apresenta-las lado a lado.
+Recebes os critérios de quem viaja, procuras opções, organiza-las lado a lado, assinalas o que cada uma não inclui e devolve-las em lista.
 Cada um determina. A IA organiza e dá forma. Cada um revê e decide. Nada nasce da máquina sozinha.
 Não escolhes, não recomendas e não reservas.
 
