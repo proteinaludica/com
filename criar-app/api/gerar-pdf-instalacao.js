@@ -191,11 +191,9 @@ function escolherGuia(plataforma) {
 //
 // Paleta "Laurissilva Digital" já usada no resto do site (proteinaludica.com):
 // fundo/texto principal quase-preto, verde-musgo e dourado-ocre como destaques.
-// Tipografia real do site é Fraunces (display) + Geist (corpo); pdf-lib não
-// embebe essas fontes sem carregar ficheiros .ttf externos (o que obrigaria a
-// depender de fontkit + bundle de fontes, contra o critério de função leve
-// definido para este endpoint) — por isso usam-se as 14 fontes padrão do PDF
-// mais próximas: Times (serif, para títulos/notas) e Helvetica (sans, corpo).
+// Tipografia do site é Times New Roman em todo o texto, com Geist Mono só em
+// código. O PDF usa as 14 fontes padrão equivalentes, sem ficheiros externos:
+// Times (títulos, notas e corpo) e Courier (blocos de texto para copiar).
 
 const COR = {
   escuro: rgb(11 / 255, 14 / 255, 12 / 255), // #0B0E0C
@@ -265,8 +263,8 @@ async function gerarPdf({ plataforma, nome_assistente, missao, prompt_completo }
   const fontDisplay = await pdf.embedFont(StandardFonts.TimesRomanBold);
   const fontDisplayItalic = await pdf.embedFont(StandardFonts.TimesRomanItalic);
   const fontDisplayBoldItalic = await pdf.embedFont(StandardFonts.TimesRomanBoldItalic);
-  const fontRegular = await pdf.embedFont(StandardFonts.Helvetica);
-  const fontBold = await pdf.embedFont(StandardFonts.HelveticaBold);
+  const fontRegular = await pdf.embedFont(StandardFonts.TimesRoman);
+  const fontBold = await pdf.embedFont(StandardFonts.TimesRomanBold);
   const fontMono = await pdf.embedFont(StandardFonts.Courier);
 
   // ── Cabeçalho: dimensões calculadas uma vez (é igual em todas as páginas) ──
