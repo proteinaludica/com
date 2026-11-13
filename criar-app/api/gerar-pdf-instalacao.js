@@ -191,9 +191,9 @@ function escolherGuia(plataforma) {
 //
 // Paleta "Laurissilva Digital" já usada no resto do site (proteinaludica.com):
 // fundo/texto principal quase-preto, verde-musgo e dourado-ocre como destaques.
-// Tipografia do site é Times New Roman em todo o texto, com Geist Mono só em
+// Tipografia do site é Arial em todo o texto, com Geist Mono só em
 // código. O PDF usa as 14 fontes padrão equivalentes, sem ficheiros externos:
-// Times (títulos, notas e corpo) e Courier (blocos de texto para copiar).
+// Helvetica, equivalente à Arial (títulos, notas e corpo), e Courier (blocos de texto para copiar).
 
 const COR = {
   escuro: rgb(11 / 255, 14 / 255, 12 / 255), // #0B0E0C
@@ -260,11 +260,11 @@ async function gerarPdf({ plataforma, nome_assistente, missao, prompt_completo }
   const valores = { nome_assistente, missao, prompt_completo };
 
   const pdf = await PDFDocument.create();
-  const fontDisplay = await pdf.embedFont(StandardFonts.TimesRomanBold);
-  const fontDisplayItalic = await pdf.embedFont(StandardFonts.TimesRomanItalic);
-  const fontDisplayBoldItalic = await pdf.embedFont(StandardFonts.TimesRomanBoldItalic);
-  const fontRegular = await pdf.embedFont(StandardFonts.TimesRoman);
-  const fontBold = await pdf.embedFont(StandardFonts.TimesRomanBold);
+  const fontDisplay = await pdf.embedFont(StandardFonts.HelveticaBold);
+  const fontDisplayItalic = await pdf.embedFont(StandardFonts.HelveticaOblique);
+  const fontDisplayBoldItalic = await pdf.embedFont(StandardFonts.HelveticaBoldOblique);
+  const fontRegular = await pdf.embedFont(StandardFonts.Helvetica);
+  const fontBold = await pdf.embedFont(StandardFonts.HelveticaBold);
   const fontMono = await pdf.embedFont(StandardFonts.Courier);
 
   // ── Cabeçalho: dimensões calculadas uma vez (é igual em todas as páginas) ──
