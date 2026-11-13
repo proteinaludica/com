@@ -5,9 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>A recuperar o rascunho · Proteína Lúdica</title>
 <meta name="robots" content="noindex">
-<link rel="preload" href="/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/fonts/fraunces-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/styles/fontes.css">
+<link rel="stylesheet" href="/styles/acessibilidade.css">
 <style>
   /* Coerente com criar-app/index.html (mesmo sistema de tokens) */
   :root {
@@ -16,13 +15,13 @@
     --surface: #FDFBF6;
     --ink: #0D0F0B;
     --ink2: #3A3D35;
-    --accent: #2D5A1B;
+    --accent: #285018;
     --accent2: #3D7A26;
     --accent-light: #EAF3DE;
     --border: rgba(13,15,11,0.10);
     --border-strong: rgba(13,15,11,0.20);
-    --font-head: 'Fraunces', 'Instrument Serif', Georgia, serif;
-    --font-body: 'Geist', -apple-system, sans-serif;
+    --font-head: 'Times New Roman', Times, serif;
+    --font-body: 'Times New Roman', Times, serif;
     --font-mono: 'Geist Mono', 'JetBrains Mono', monospace;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -49,7 +48,7 @@
   }
   .brand {
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: 1rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--ink2);
@@ -68,7 +67,7 @@
   }
   @keyframes spin { to { transform: rotate(360deg); } }
   .loading-text {
-    font-size: 15px;
+    font-size: 1.1133rem;
     color: var(--ink2);
   }
 
@@ -80,26 +79,26 @@
     background: var(--bg2);
     display: flex; align-items: center; justify-content: center;
     font-family: var(--font-head);
-    font-size: 22px;
+    font-size: 1.607rem;
     color: var(--ink2);
     font-style: italic;
   }
   .err-title {
     font-family: var(--font-head);
-    font-size: 22px;
+    font-size: 1.607rem;
     font-weight: 400;
     color: var(--ink);
     margin-bottom: 0.6rem;
   }
   .err-msg {
-    font-size: 14px;
+    font-size: 1.0391rem;
     color: var(--ink2);
     margin-bottom: 1.75rem;
   }
   .btn {
     display: inline-block;
     font-family: var(--font-body);
-    font-size: 14px;
+    font-size: 1.0391rem;
     font-weight: 500;
     color: #fff;
     background: var(--accent);

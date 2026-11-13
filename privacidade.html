@@ -15,9 +15,8 @@
 <meta property="og:title" content="Política de Privacidade · Proteína Lúdica">
 <meta property="og:description" content="Que dados a Proteína Lúdica recolhe, para onde vão, quanto tempo ficam e como se apagam.">
 <meta property="og:locale" content="pt_PT">
-<link rel="preload" href="/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/fonts/fraunces-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/styles/fontes.css">
+<link rel="stylesheet" href="/styles/acessibilidade.css">
 <style>
   :root{
     /* ---- fundo e tinta (mesma paleta da homepage) ---- */
@@ -27,8 +26,8 @@
     --texto-forte:#f6f8f0;
     --texto-2:rgba(242,244,236,.78);
     --texto-3:rgba(242,244,236,.7);
-    --texto-4:rgba(242,244,236,.6);
-    --texto-5:rgba(242,244,236,.45);
+    --texto-4:rgba(242,244,236,.72);
+    --texto-5:rgba(242,244,236,.68);
     --texto-nav:rgba(242,244,236,.75);
 
     --musgo-claro:#c9e4a8;
@@ -48,14 +47,14 @@
   body{
     background:var(--fundo);
     color:var(--texto);
-    font-family:'Geist',system-ui,-apple-system,sans-serif;
-    font-size:16px;line-height:1.5;
+    font-family:'Times New Roman', Times, serif;
+    font-size:1.1875rem;line-height:1.5;
     -webkit-font-smoothing:antialiased;
   }
-  h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:400;letter-spacing:-.02em}
+  h1,h2,h3{font-family:'Times New Roman', Times, serif;font-weight:400;letter-spacing:0}
   a{color:var(--musgo-claro);text-decoration:none}
   a:hover{color:var(--musgo-hover)}
-  :focus-visible{outline:2px solid var(--musgo-claro);outline-offset:2px;border-radius:4px}
+  :focus-visible{outline:3px solid var(--musgo-claro);outline-offset:2px;border-radius:4px}
 
   @media (prefers-reduced-motion: reduce){
     html{scroll-behavior:auto}
@@ -70,16 +69,16 @@
     max-width:var(--largura);margin:0 auto;
   }
   .marca{
-    font-family:'Fraunces',Georgia,serif;font-size:21px;
-    letter-spacing:-.01em;margin-right:auto;color:var(--texto);
+    font-family:'Times New Roman', Times, serif;font-size:1.5463rem;
+    letter-spacing:0;margin-right:auto;color:var(--texto);
   }
   .marca:hover{color:var(--texto)}
-  .nav-desktop{display:flex;gap:30px;font-size:15.5px}
+  .nav-desktop{display:flex;gap:30px;font-size:1.1504rem}
   .nav-desktop a{color:var(--texto-nav)}
   .nav-desktop a:hover{color:var(--texto)}
   .nav-cta{
     border:1.5px solid var(--contorno-cta);color:var(--musgo-claro);
-    border-radius:999px;padding:10px 22px;font-size:15.5px;font-weight:600;
+    border-radius:999px;padding:10px 22px;font-size:1.1504rem;font-weight:600;
     transition:background .15s ease;white-space:nowrap;
   }
   .nav-cta:hover{background:rgba(201,228,168,.12);color:var(--musgo-claro)}
@@ -92,7 +91,7 @@
   #menu-movel{border-top:1px solid var(--linha-suave);padding:8px var(--margem) 20px}
   #menu-movel a{
     display:block;padding:14px 2px;color:var(--texto-nav);
-    font-size:16.5px;border-bottom:1px solid var(--linha-suave);
+    font-size:1.2246rem;border-bottom:1px solid var(--linha-suave);
   }
   #menu-movel a:hover{color:var(--texto)}
   #menu-movel .nav-cta{
@@ -103,30 +102,30 @@
   /* ---------- Corpo do documento ---------- */
   .wrap{max-width:780px;margin:0 auto;padding:72px var(--margem) 40px}
   .etiqueta{
-    font-size:13px;color:var(--texto-5);
+    font-size:1rem;color:var(--texto-5);
     letter-spacing:.14em;text-transform:uppercase;
   }
-  h1{font-size:52px;line-height:1.08;color:var(--texto-forte);margin:14px 0 0;text-wrap:pretty}
-  .data-topo{margin:20px 0 0;font-size:15px;color:var(--texto-4)}
-  .abertura{font-size:19px;line-height:1.6;color:var(--texto-2);margin:32px 0 0;text-wrap:pretty}
+  h1{font-size:3.25rem;line-height:1.08;color:var(--texto-forte);margin:14px 0 0;text-wrap:pretty}
+  .data-topo{margin:20px 0 0;font-size:1.1133rem;color:var(--texto-4)}
+  .abertura{font-size:1.4102rem;line-height:1.6;color:var(--texto-2);margin:32px 0 0;text-wrap:pretty}
 
   .seccao{border-top:1px solid var(--linha-suave);margin-top:52px;padding-top:32px}
   .numero{
-    display:block;font-size:14px;font-weight:600;color:var(--musgo-claro);
+    display:block;font-size:1.0391rem;font-weight:600;color:var(--musgo-claro);
     letter-spacing:.16em;margin-bottom:10px;
   }
-  h2{font-size:31px;line-height:1.15;color:var(--texto-forte);text-wrap:pretty}
+  h2{font-size:2.101rem;line-height:1.15;color:var(--texto-forte);text-wrap:pretty}
   h3{
-    font-family:'Geist',system-ui,sans-serif;font-weight:600;letter-spacing:0;
-    font-size:17px;color:var(--texto-forte);margin:30px 0 8px;
+    font-family:'Times New Roman', Times, serif;font-weight:600;letter-spacing:0;
+    font-size:1.2617rem;color:var(--texto-forte);margin:30px 0 8px;
   }
   h3 .sub{color:var(--musgo-claro);font-weight:600;margin-right:8px}
-  p{margin:16px 0 0;font-size:16.5px;line-height:1.65;color:var(--texto-3)}
+  p{margin:16px 0 0;font-size:1.2246rem;line-height:1.65;color:var(--texto-3)}
   .seccao > p:first-of-type{margin-top:18px}
   strong{color:var(--texto-forte);font-weight:600}
 
   ul{margin:16px 0 0;padding-left:22px;color:var(--texto-3)}
-  li{margin-bottom:9px;font-size:16.5px;line-height:1.6}
+  li{margin-bottom:9px;font-size:1.2246rem;line-height:1.6}
   li::marker{color:var(--musgo-claro)}
 
   .cartao{
@@ -142,7 +141,7 @@
   }
   .ficha li:last-child{border-bottom:0}
   .ficha .rotulo{
-    flex:0 0 190px;color:var(--texto-5);font-size:14px;
+    flex:0 0 190px;color:var(--texto-5);font-size:1.0391rem;
     letter-spacing:.08em;text-transform:uppercase;line-height:1.5;
   }
   .ficha .valor{color:var(--texto-2);min-width:0;overflow-wrap:anywhere}
@@ -154,15 +153,15 @@
     border-top:1px solid var(--linha);
     max-width:780px;margin:56px auto 0;padding:32px var(--margem) 64px;
   }
-  .versao{font-size:15px;color:var(--texto-4)}
-  .legal{margin:14px 0 0;font-size:14px;line-height:1.6;color:var(--texto-5)}
+  .versao{font-size:1.1133rem;color:var(--texto-4)}
+  .legal{margin:14px 0 0;font-size:1.0391rem;line-height:1.6;color:var(--texto-5)}
   .legal a{color:var(--texto-4)}
   .legal a:hover{color:var(--texto-2)}
 
   /* ---------- Ecrãs estreitos ---------- */
   @media (max-width:1080px){
     :root{--margem:40px}
-    h1{font-size:44px}
+    h1{font-size:2.75rem}
   }
   @media (max-width:860px){
     :root{--margem:22px}
@@ -170,19 +169,19 @@
     .barra > .nav-cta{display:none}
     .menu-btn{display:flex}
     .barra{padding:18px var(--margem);gap:0}
-    .marca{font-size:17px}
+    .marca{font-size:1.2617rem}
 
     .wrap{padding:38px var(--margem) 26px}
-    h1{font-size:32px;line-height:1.14}
-    .abertura{font-size:17px;margin-top:24px}
-    .data-topo{font-size:14px}
+    h1{font-size:2.15rem;line-height:1.14}
+    .abertura{font-size:1.2617rem;margin-top:24px}
+    .data-topo{font-size:1.0391rem}
     .seccao{margin-top:38px;padding-top:26px}
-    h2{font-size:24px}
-    h3{font-size:16.5px;margin-top:26px}
-    p,li{font-size:16px}
+    h2{font-size:1.725rem}
+    h3{font-size:1.2246rem;margin-top:26px}
+    p,li{font-size:1.1875rem}
     .cartao{padding:20px 18px;border-radius:14px}
     .ficha li{flex-direction:column;gap:4px;padding:11px 0}
-    .ficha .rotulo{flex:none;font-size:12.5px;letter-spacing:.1em}
+    .ficha .rotulo{flex:none;font-size:1rem;letter-spacing:.1em}
     footer{margin-top:38px;padding:26px var(--margem) 48px}
   }
 </style>

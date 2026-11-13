@@ -7,9 +7,8 @@
 <meta name="description" content="Criar um assistente digital IA à medida de cada profissional. O profissional determina, a IA organiza e dá forma, o profissional revê e decide.">
 <meta name="robots" content="noindex, nofollow">
 
-<link rel="preload" href="/fonts/geist-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/fonts/fraunces-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/styles/fontes.css">
+<link rel="stylesheet" href="/styles/acessibilidade.css">
 
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -21,15 +20,15 @@
     --surface: #FDFBF6;
     --ink: #0D0F0B;
     --ink2: #3A3D35;
-    --muted: #7A7D72;
-    --muted2: #A5A89E;
-    --accent: #2D5A1B;
+    --muted: #464741;
+    --muted2: #4E5049;
+    --accent: #285018;
     --accent2: #3D7A26;
     --accent-light: #EAF3DE;
     --amber: #C47B0A;
     --amber2: #E08A0A;
     --amber-light: #FDF3DC;
-    --amber-dark: #8A5507;
+    --amber-dark: #754806;
     --red: #8B1A1A;
     --red-light: #FBEDED;
     --border: rgba(13,15,11,0.10);
@@ -37,8 +36,8 @@
     --shadow-sm: 0 1px 2px rgba(13,15,11,0.04);
     --shadow: 0 2px 8px rgba(13,15,11,0.06);
     --shadow-lg: 0 8px 24px rgba(13,15,11,0.08);
-    --font-head: 'Fraunces', 'Instrument Serif', Georgia, serif;
-    --font-body: 'Geist', -apple-system, sans-serif;
+    --font-head: 'Times New Roman', Times, serif;
+    --font-body: 'Times New Roman', Times, serif;
     --font-mono: 'Geist Mono', 'JetBrains Mono', monospace;
   }
 
@@ -47,7 +46,7 @@
     background: var(--bg);
     color: var(--ink);
     font-family: var(--font-body);
-    font-size: 15px;
+    font-size: 1.1133rem;
     line-height: 1.55;
     min-height: 100vh;
   }
@@ -67,8 +66,8 @@
   }
   .logo {
     font-family: var(--font-head);
-    font-size: 17px;
-    letter-spacing: -0.01em;
+    font-size: 1.2617rem;
+    letter-spacing:0;
     color: var(--ink);
     text-decoration: none;
     cursor: pointer;
@@ -78,7 +77,7 @@
   .logo em { color: var(--accent); font-style: italic; }
   .logo-sub {
     font-family: var(--font-mono);
-    font-size: 9px;
+    font-size: 1rem;
     color: var(--muted);
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -89,7 +88,7 @@
   .progress {
     display: flex; align-items: center; gap: 10px;
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: 1rem;
     color: var(--muted);
     letter-spacing: 0.05em;
     text-transform: uppercase;
@@ -107,7 +106,7 @@
 
   .demo-reset {
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: 1rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--muted);
@@ -132,7 +131,7 @@
   /* ─── HEADINGS ─── */
   .step-label {
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: 1rem;
     color: var(--accent);
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -140,15 +139,15 @@
   }
   h1.screen-title {
     font-family: var(--font-head);
-    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-size: clamp(2.15rem,4vw,2.8rem);
     font-weight: 400;
-    letter-spacing: -0.015em;
+    letter-spacing:0;
     line-height: 1.08;
     margin-bottom: 0.8rem;
   }
   h1.screen-title em { color: var(--accent); font-style: italic; }
   .screen-sub {
-    font-size: 16px;
+    font-size: 1.1875rem;
     color: var(--ink2);
     max-width: 600px;
     margin-bottom: 2.5rem;
@@ -190,7 +189,7 @@
     border-radius: 7px;
     display: flex; align-items: center; justify-content: center;
     font-family: var(--font-mono);
-    font-size: 14px;
+    font-size: 1.0391rem;
     font-weight: 500;
     color: white;
   }
@@ -202,12 +201,12 @@
   .b-mistral { background: #F54900; }
   .b-other { background: var(--muted); }
   .platform-name {
-    font-size: 15px;
+    font-size: 1.1133rem;
     font-weight: 500;
-    letter-spacing: -0.005em;
+    letter-spacing:0;
   }
   .platform-desc {
-    font-size: 13px;
+    font-size: 1rem;
     color: var(--muted);
     line-height: 1.45;
     min-height: 2.7em;
@@ -231,13 +230,13 @@
   .area-bloco[hidden] { display: none; }
   .area-title {
     font-family: var(--font-head);
-    font-size: 22px;
+    font-size: 1.607rem;
     font-weight: 500;
-    letter-spacing: -0.01em;
+    letter-spacing:0;
     margin-bottom: 0.35rem;
   }
   .area-sub {
-    font-size: 14px;
+    font-size: 1.0391rem;
     color: var(--ink2);
     margin-bottom: 1.25rem;
   }
@@ -267,8 +266,8 @@
     border-color: var(--accent);
     background: var(--accent-light);
   }
-  .area-name { font-size: 15px; font-weight: 500; margin-bottom: 0.3rem; }
-  .area-desc { font-size: 12.5px; color: var(--muted); line-height: 1.45; }
+  .area-name { font-size: 1.1133rem; font-weight: 500; margin-bottom: 0.3rem; }
+  .area-desc { font-size: 1rem; color: var(--muted); line-height: 1.45; }
   @media (max-width: 900px) { .area-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 560px) { .area-grid { grid-template-columns: 1fr; } }
 
@@ -279,7 +278,7 @@
     padding: 10px 20px;
     border-radius: 4px;
     font-family: var(--font-body);
-    font-size: 13px;
+    font-size: 1rem;
     color: var(--ink2);
     cursor: pointer;
     transition: all 0.2s;
@@ -309,7 +308,7 @@
   }
   .section-counter {
     font-family: var(--font-mono);
-    font-size: 12px;
+    font-size: 1rem;
     color: var(--muted);
     letter-spacing: 0.05em;
     white-space: nowrap;
@@ -324,19 +323,19 @@
   }
   .fill-title {
     font-family: var(--font-head);
-    font-size: 1.75rem;
+    font-size: 1.9469rem;
     font-weight: 400;
-    letter-spacing: -0.01em;
+    letter-spacing:0;
     margin-bottom: 0.4rem;
   }
   .fill-guide {
-    font-size: 14px;
+    font-size: 1.0391rem;
     color: var(--muted);
     margin-bottom: 1.5rem;
   }
   .fill-field label {
     display: block;
-    font-size: 13px;
+    font-size: 1rem;
     font-weight: 500;
     color: var(--ink);
     margin-bottom: 6px;
@@ -359,7 +358,7 @@
     width: 100%;
     padding: 12px 14px;
     font-family: var(--font-body);
-    font-size: 14px;
+    font-size: 1.0391rem;
     line-height: 1.5;
     color: var(--ink);
     background: var(--bg);
@@ -382,7 +381,7 @@
     border-left: 3px solid var(--amber);
     padding: 10px 14px;
     border-radius: 0 4px 4px 0;
-    font-size: 13px;
+    font-size: 1rem;
     color: var(--amber-dark);
     margin-top: 10px;
   }
@@ -395,7 +394,7 @@
     border-left: 3px solid var(--amber);
     padding: 10px 14px;
     border-radius: 0 4px 4px 0;
-    font-size: 13px;
+    font-size: 1rem;
     color: var(--amber-dark);
     margin-top: 10px;
   }
@@ -411,16 +410,16 @@
   .output-inner { max-width: 720px; margin: 0 auto; }
   .output-title {
     font-family: var(--font-head);
-    font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+    font-size: clamp(1.989rem,3.5vw,2.436rem);
     font-weight: 400;
-    letter-spacing: -0.015em;
+    letter-spacing:0;
     line-height: 1.1;
     margin-bottom: 0.6rem;
     text-align: center;
   }
   .output-title em { color: var(--accent); font-style: italic; }
   .output-sub {
-    font-size: 15px;
+    font-size: 1.1133rem;
     color: var(--ink2);
     text-align: center;
     margin-bottom: 2.5rem;
@@ -429,7 +428,7 @@
   .output-conta {
     text-align: center;
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: 1rem;
     letter-spacing: 0.04em;
     color: var(--muted);
     margin-bottom: 1.75rem;
@@ -444,19 +443,19 @@
   .guarantee[hidden] { display: none; }
   .pdf-mockup[hidden], .pro-mockup[hidden] { display: none; }
   .pro-mockup { background: #F8F4FC; border: 0.5px solid #D9C7EC; border-radius: 10px; padding: 1.5rem; max-width: 420px; margin: 0 auto; text-align: left; }
-  .pro-mockup-tag { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: #6B3FA0; margin-bottom: 1rem; }
-  .pro-mockup-campo { font-weight: 500; font-size: 15px; margin-bottom: 0.5rem; }
-  .pro-mockup-antes { font-size: 13px; color: var(--muted); background: var(--surface); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 0.6rem 0.75rem; }
-  .pro-mockup-seta { font-family: var(--font-mono); font-size: 11px; color: #6B3FA0; margin: 0.6rem 0; text-align: center; }
-  .pro-mockup-depois { font-size: 13.5px; line-height: 1.5; color: var(--ink); background: var(--surface); border: 0.5px solid #D9C7EC; border-radius: 6px; padding: 0.75rem; }
+  .pro-mockup-tag { font-family: var(--font-mono); font-size: 1rem; letter-spacing: 0.08em; text-transform: uppercase; color: #6B3FA0; margin-bottom: 1rem; }
+  .pro-mockup-campo { font-weight: 500; font-size: 1.1133rem; margin-bottom: 0.5rem; }
+  .pro-mockup-antes { font-size: 1rem; color: var(--muted); background: var(--surface); border: 0.5px dashed var(--border-strong); border-radius: 6px; padding: 0.6rem 0.75rem; }
+  .pro-mockup-seta { font-family: var(--font-mono); font-size: 1rem; color: #6B3FA0; margin: 0.6rem 0; text-align: center; }
+  .pro-mockup-depois { font-size: 1.002rem; line-height: 1.5; color: var(--ink); background: var(--surface); border: 0.5px solid #D9C7EC; border-radius: 6px; padding: 0.75rem; }
   .form-check[hidden], .trust-row[hidden] { display: none; }
   .output-guia { margin: 2rem auto 0; max-width: 640px; padding: 1.25rem 1.5rem; background: var(--surface); border: 0.5px solid var(--accent); border-radius: 10px; text-align: center; }
-  .output-guia-titulo { font-family: var(--font-display, inherit); font-size: 20px; font-weight: 500; margin: 0 0 0.4rem; }
-  .output-guia-texto { font-size: 14px; line-height: 1.5; color: var(--ink2); margin: 0 0 1rem; }
+  .output-guia-titulo { font-family: var(--font-display, inherit); font-size: 1.4844rem; font-weight: 500; margin: 0 0 0.4rem; }
+  .output-guia-texto { font-size: 1.0391rem; line-height: 1.5; color: var(--ink2); margin: 0 0 1rem; }
   .output-medida { margin: 1.25rem auto 0; text-align: center; }
   .output-continuar-link {
     font-family: inherit;
-    font-size: 14px;
+    font-size: 1.0391rem;
     color: var(--accent);
     background: none;
     border: 0;
@@ -480,13 +479,13 @@
   }
   .code-box-label {
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: 1rem;
     color: rgba(255,255,255,0.5);
     letter-spacing: 0.05em;
   }
   .code-copy-btn {
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: 1rem;
     color: #A5D48E;
     background: rgba(165,212,142,0.08);
     border: 0.5px solid rgba(165,212,142,0.3);
@@ -503,7 +502,7 @@
     overflow-y: auto;
     padding: 1.25rem 1.5rem;
     font-family: var(--font-mono);
-    font-size: 12px;
+    font-size: 1rem;
     line-height: 1.65;
     color: #D8D8D0;
     white-space: pre-wrap;
@@ -512,9 +511,9 @@
   /* Ficheiro de exemplos: segundo bloco, só aparece quando a secção 00 tem texto. */
   .code-box-exemplos { margin-top: 1.5rem; }
   .code-box-botoes { display: flex; gap: 6px; }
-  .output-exemplos-nota { margin: 0.75rem auto 0; max-width: 640px; text-align: center; font-size: 14px; line-height: 1.5; color: var(--ink); }
+  .output-exemplos-nota { margin: 0.75rem auto 0; max-width: 640px; text-align: center; font-size: 1.0391rem; line-height: 1.5; color: var(--ink); }
   /* Aviso quando as instruções passam o limite da ferramenta escolhida. */
-  .output-aviso { margin: 1rem auto 0; max-width: 640px; padding: 10px 14px; border: 0.5px solid var(--accent); border-radius: 8px; font-size: 14px; line-height: 1.5; color: var(--ink); text-align: center; }
+  .output-aviso { margin: 1rem auto 0; max-width: 640px; padding: 10px 14px; border: 0.5px solid var(--accent); border-radius: 8px; font-size: 1.0391rem; line-height: 1.5; color: var(--ink); text-align: center; }
   .code-content::-webkit-scrollbar { width: 8px; }
   .code-content::-webkit-scrollbar-track { background: transparent; }
   .code-content::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
@@ -529,13 +528,13 @@
   }
   /* "À medida" sai dos cartões: é um serviço feito por nós, não um patamar do
      assistente. Fica como ligação discreta por baixo. */
-  .tier-medida { max-width: 760px; margin: 0 0 1.25rem; font-size: 13px; color: var(--muted); }
+  .tier-medida { max-width: 760px; margin: 0 0 1.25rem; font-size: 1rem; color: var(--muted); }
   .tier-medida a { color: var(--accent); text-decoration: underline; }
   /* Sinal de confiança por baixo dos quatro patamares. */
   .guarantee {
     text-align: center;
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: 1rem;
     color: var(--muted);
     letter-spacing: 0.05em;
   }
@@ -566,25 +565,25 @@
   }
   .tier-title {
     font-family: var(--font-head);
-    font-size: 1.25rem;
+    font-size: 1.4844rem;
     font-weight: 400;
     line-height: 1.15;
-    letter-spacing: -0.01em;
+    letter-spacing:0;
   }
   .tier-price {
     font-family: var(--font-mono);
-    font-size: 1rem;
+    font-size: 1.1875rem;
     font-weight: 500;
     color: var(--accent);
   }
   .tier-desc {
-    font-size: 13px;
+    font-size: 1rem;
     color: var(--ink2);
     line-height: 1.5;
   }
   .tier-includes {
     list-style: none;
-    font-size: 12px;
+    font-size: 1rem;
     color: var(--ink2);
     margin-top: auto;
     padding-top: 0.25rem;
@@ -607,7 +606,7 @@
     border-radius: 6px;
     background: var(--accent);
     color: white;
-    font-size: 13px;
+    font-size: 1rem;
     font-weight: 500;
     transition: background 0.2s;
   }
@@ -616,7 +615,7 @@
 
   .paywall-step-back { margin-bottom: 1.5rem; }
   .paywall-note {
-    font-size: 12px;
+    font-size: 1rem;
     color: var(--muted);
     background: var(--bg2);
     border-radius: 6px;
@@ -644,7 +643,7 @@
   }
   .pdf-cover-tag {
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: 1rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--accent);
@@ -652,15 +651,15 @@
   }
   .pdf-cover-title {
     font-family: var(--font-head);
-    font-size: 1.7rem;
+    font-size: 1.904rem;
     font-weight: 400;
     line-height: 1.1;
-    letter-spacing: -0.01em;
+    letter-spacing:0;
     color: var(--ink);
     margin-bottom: 0.5rem;
   }
   .pdf-cover-sub {
-    font-size: 12px;
+    font-size: 1rem;
     color: var(--muted);
     margin-bottom: 3rem;
   }
@@ -671,7 +670,7 @@
     user-select: none;
   }
   .pdf-section-head {
-    font-size: 10px;
+    font-size: 1rem;
     letter-spacing: 0.1em;
     color: var(--muted);
     text-transform: uppercase;
@@ -691,7 +690,7 @@
     margin-top: auto;
     padding-top: 1rem;
     font-family: var(--font-mono);
-    font-size: 9px;
+    font-size: 1rem;
     letter-spacing: 0.1em;
     color: var(--muted);
     text-align: right;
@@ -700,14 +699,14 @@
   .preview-caption {
     text-align: center;
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: 1rem;
     color: var(--muted);
     letter-spacing: 0.05em;
     margin-top: 1rem;
   }
 
   .paywall-form { max-width: 400px; }
-  .paywall-form .screen-title { font-size: 2rem; }
+  .paywall-form .screen-title { font-size: 2.15rem; }
   .paywall-form .screen-sub { margin-bottom: 2rem; }
 
   .paywall-includes {
@@ -717,13 +716,13 @@
     margin-bottom: 1.5rem;
   }
   .paywall-includes-title {
-    font-size: 13px;
+    font-size: 1rem;
     font-weight: 500;
     margin-bottom: 0.75rem;
   }
   .paywall-includes ul {
     list-style: none;
-    font-size: 13px;
+    font-size: 1rem;
     color: var(--ink2);
   }
   .paywall-includes li {
@@ -741,7 +740,7 @@
   .form-row { margin-bottom: 1rem; }
   .form-row label {
     display: block;
-    font-size: 12px;
+    font-size: 1rem;
     font-weight: 500;
     color: var(--ink);
     margin-bottom: 5px;
@@ -753,7 +752,7 @@
     width: 100%;
     padding: 11px 14px;
     font-family: var(--font-body);
-    font-size: 14px;
+    font-size: 1.0391rem;
     color: var(--ink);
     background: var(--surface);
     border: 0.5px solid var(--border-strong);
@@ -778,7 +777,7 @@
     padding: 14px 20px;
     border-radius: 6px;
     font-family: var(--font-body);
-    font-size: 14px;
+    font-size: 1.0391rem;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s;
@@ -797,7 +796,7 @@
   .btn-pay[disabled] { opacity: 0.45; cursor: not-allowed; }
   .btn-pay[disabled]:hover { background: inherit; }
   .pay-indisponivel {
-    font-size: 12.5px;
+    font-size: 1rem;
     line-height: 1.5;
     color: var(--ink2);
     background: var(--bg2);
@@ -809,7 +808,7 @@
     width: 26px; height: 16px;
     display: inline-flex; align-items: center; justify-content: center;
     font-family: var(--font-mono);
-    font-size: 9px;
+    font-size: 1rem;
     font-weight: 600;
     letter-spacing: 0.02em;
     background: rgba(255,255,255,0.18);
@@ -819,7 +818,7 @@
 
   .form-check {
     display: flex; align-items: flex-start; gap: 8px;
-    font-size: 12px;
+    font-size: 1rem;
     color: var(--ink2);
     margin-bottom: 1rem;
   }
@@ -830,7 +829,7 @@
     display: flex; align-items: center; justify-content: center;
     gap: 1.5rem;
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: 1rem;
     color: var(--muted);
     letter-spacing: 0.05em;
     padding-top: 1rem;
@@ -862,14 +861,14 @@
   }
   .success-title {
     font-family: var(--font-head);
-    font-size: 2.2rem;
+    font-size: 2.299rem;
     font-weight: 400;
-    letter-spacing: -0.015em;
+    letter-spacing:0;
     margin-bottom: 0.8rem;
   }
   .success-title em { color: var(--accent); font-style: italic; }
   .success-text {
-    font-size: 15px;
+    font-size: 1.1133rem;
     color: var(--ink2);
     margin-bottom: 2rem;
     line-height: 1.6;
@@ -884,12 +883,12 @@
     background: var(--bg2);
     border-radius: 8px;
     padding: 1.25rem;
-    font-size: 13px;
+    font-size: 1rem;
     color: var(--ink2);
     text-align: left;
   }
   .success-retoma-title {
-    font-size: 13px;
+    font-size: 1rem;
     font-weight: 500;
     color: var(--ink);
     margin-bottom: 5px;
@@ -897,7 +896,7 @@
   .success-retoma code {
     display: block;
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: 1rem;
     background: var(--surface);
     padding: 8px 12px;
     border-radius: 4px;
@@ -929,9 +928,9 @@
   }
   .modal-title {
     font-family: var(--font-head);
-    font-size: 1.5rem;
+    font-size: 1.725rem;
     font-weight: 400;
-    letter-spacing: -0.01em;
+    letter-spacing:0;
     margin-bottom: 0.8rem;
   }
   .modal-q {
@@ -941,7 +940,7 @@
   }
   .modal-q:last-of-type { border-bottom: none; }
   .modal-q-title {
-    font-size: 14px;
+    font-size: 1.0391rem;
     font-weight: 500;
     margin-bottom: 0.6rem;
   }
@@ -953,7 +952,7 @@
     border: 0.5px solid var(--border-strong);
     padding: 6px 14px;
     border-radius: 20px;
-    font-size: 13px;
+    font-size: 1rem;
     cursor: pointer;
     transition: all 0.2s;
   }
@@ -968,7 +967,7 @@
   }
   .modal-result.show { display: block; animation: fadeIn 0.3s ease; }
   .modal-result-title {
-    font-size: 12px;
+    font-size: 1rem;
     font-weight: 500;
     color: var(--accent);
     letter-spacing: 0.05em;
@@ -976,7 +975,7 @@
     margin-bottom: 6px;
   }
   .modal-result-text {
-    font-size: 14px;
+    font-size: 1.0391rem;
     color: var(--ink);
   }
   .modal-actions {
@@ -998,14 +997,14 @@
     .platform-card-solo { grid-column: span 1; }
     .progress-dot { width: 16px; }
     .logo-sub { display: none; }
-    h1.screen-title { font-size: 1.7rem; }
+    h1.screen-title { font-size: 1.904rem; }
     .fill-main { padding: 1.25rem; }
     .pdf-mockup { padding: 1.25rem; }
   }
 
   /* ─── NÍVEL A: exemplos + Pro ─── */
   .field-actions { display: flex; align-items: center; gap: 8px; margin-top: 7px; flex-wrap: wrap; }
-  .btn-example { display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.04em; color: var(--accent); background: var(--accent-light); border: 0.5px solid transparent; padding: 4px 10px; border-radius: 4px; cursor: pointer; transition: all 0.15s; }
+  .btn-example { display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-mono); font-size: 1rem; letter-spacing: 0.04em; color: var(--accent); background: var(--accent-light); border: 0.5px solid transparent; padding: 4px 10px; border-radius: 4px; cursor: pointer; transition: all 0.15s; }
   .btn-example:hover { border-color: var(--accent); }
   /* Estado "Limpar exemplo": enquanto o exemplo inserido não for editado. */
   .btn-example.is-ativo { color: var(--amber-dark); background: var(--amber-light); }
@@ -1015,29 +1014,29 @@
   .btn-example[disabled]:hover { border-color: transparent; }
   /* Texto de exemplo por editar: mais claro, mas totalmente editável. */
   textarea.is-exemplo { color: var(--muted); font-style: italic; }
-  .btn-pro { display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.04em; color: #6B3FA0; background: #F0E9F8; border: 0.5px dashed #6B3FA0; padding: 4px 10px; border-radius: 4px; cursor: pointer; opacity: 1; position: relative; transition: all 0.15s; }
+  .btn-pro { display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-mono); font-size: 1rem; letter-spacing: 0.04em; color: #6B3FA0; background: #F0E9F8; border: 0.5px dashed #6B3FA0; padding: 4px 10px; border-radius: 4px; cursor: pointer; opacity: 1; position: relative; transition: all 0.15s; }
   .btn-pro:hover { background: #E8DFF5; border-style: solid; }
   .btn-pro:hover .pro-tip { opacity: 1; transform: translateX(-50%) translateY(0); }
-  .pro-tip { position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%) translateY(4px); background: var(--ink); color: white; font-family: var(--font-body); font-size: 11px; letter-spacing: 0; padding: 6px 10px; border-radius: 5px; white-space: nowrap; opacity: 0; transition: all 0.2s; z-index: 10; box-shadow: var(--shadow-lg); pointer-events: none; }
+  .pro-tip { position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%) translateY(4px); background: var(--ink); color: white; font-family: var(--font-body); font-size: 1rem; letter-spacing: 0; padding: 6px 10px; border-radius: 5px; white-space: nowrap; opacity: 0; transition: all 0.2s; z-index: 10; box-shadow: var(--shadow-lg); pointer-events: none; }
   .pro-tip::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-top-color: var(--ink); }
   /* ─── PASSO 3: índice lateral + obrigatórias (Fase 1) ─── */
-  .s3-body { display: grid; grid-template-columns: 210px 1fr; gap: 1.75rem; align-items: start; }
+  .s3-body { display: grid; grid-template-columns: 280px 1fr; gap: 1.75rem; align-items: start; }
   .s3-content { min-width: 0; }
   .s3-index { position: sticky; top: 100px; background: var(--surface); border: 0.5px solid var(--border); border-radius: 10px; padding: 1rem; }
-  .s3-index-title { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; padding: 0 4px; }
+  .s3-index-title { font-family: var(--font-mono); font-size: 1rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; padding: 0 4px; }
   .s3-index-list { display: flex; flex-direction: column; gap: 1px; }
-  .s3-index-item { display: flex; align-items: baseline; gap: 7px; padding: 5px 8px; border-radius: 5px; font-size: 12px; color: var(--ink2); text-decoration: none; line-height: 1.35; transition: background 0.15s, color 0.15s; }
+  .s3-index-item { display: flex; align-items: baseline; gap: 7px; padding: 5px 8px; border-radius: 5px; font-size: 1rem; color: var(--ink2); text-decoration: none; line-height: 1.35; transition: background 0.15s, color 0.15s; }
   a.s3-index-item:hover { background: var(--accent-light); color: var(--accent); }
-  .s3-index-num { font-family: var(--font-mono); font-size: 10px; color: var(--muted2); flex-shrink: 0; width: 16px; }
+  .s3-index-num { font-family: var(--font-mono); font-size: 1rem; color: var(--muted2); flex-shrink: 0; width: 1.4rem; }
   .s3-index-name { flex: 1; }
   .s3-index-item.is-oblig .s3-index-num { color: var(--accent); }
   .s3-index-item.is-oblig .s3-index-name { color: var(--ink); font-weight: 500; }
-  .s3-index-badge { font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.04em; text-transform: uppercase; padding: 1px 5px; border-radius: 3px; flex-shrink: 0; align-self: center; }
+  .s3-index-badge { font-family: var(--font-mono); font-size: 1rem; letter-spacing: 0.04em; text-transform: uppercase; padding: 1px 5px; border-radius: 3px; flex-shrink: 0; align-self: center; }
   .s3-index-badge.oblig { color: var(--accent); background: var(--accent-light); }
   /* Secção já escrita pelo utilizador (texto de exemplo por editar não conta). */
   .s3-index-item.is-preenchida::after {
     content: '✓';
-    font-size: 11px;
+    font-size: 1rem;
     line-height: 1;
     color: var(--accent);
     flex-shrink: 0;
@@ -1050,7 +1049,7 @@
     display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
     margin-top: 0.6rem;
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: 1rem;
     letter-spacing: 0.04em;
     color: var(--muted2);
   }
@@ -1065,15 +1064,15 @@
   /* Todas as 16 secções param abaixo da barra fixa. Antes, a regra abaixo
      enumerava só os IDs das opcionais, e as obrigatórias aterravam tapadas. */
   .fill-main { scroll-margin-top: 90px; }
-  .oblig-tag { display: inline-block; font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); background: var(--accent-light); padding: 2px 8px; border-radius: 3px; margin-bottom: 0.6rem; }
+  .oblig-tag { display: inline-block; font-family: var(--font-mono); font-size: 1rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); background: var(--accent-light); padding: 2px 8px; border-radius: 3px; margin-bottom: 0.6rem; }
   /* Fase 2: recolher opcionais */
   .afinar-bar { margin: 0.5rem 0 1.5rem; }
-  .btn-afinar { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; background: var(--bg2); border: 0.5px dashed var(--border-strong); border-radius: 8px; padding: 0.9rem 1.25rem; cursor: pointer; font-family: var(--font-body); font-size: 14px; color: var(--ink); transition: all 0.2s; }
+  .btn-afinar { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; background: var(--bg2); border: 0.5px dashed var(--border-strong); border-radius: 8px; padding: 0.9rem 1.25rem; cursor: pointer; font-family: var(--font-body); font-size: 1.0391rem; color: var(--ink); transition: all 0.2s; }
   .btn-afinar:hover { border-color: var(--accent); background: var(--accent-light); }
-  .afinar-left { display: flex; align-items: baseline; gap: 8px; }
-  .afinar-left .opc-opt { color: var(--muted); font-size: 12px; }
-  .opc-count { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 0.04em; margin-left: auto; }
-  .opc-chevron { font-family: var(--font-mono); font-size: 18px; line-height: 1; color: var(--muted); transition: transform 0.2s; }
+  .afinar-left { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+  .afinar-left .opc-opt { color: var(--muted); font-size: 1rem; }
+  .opc-count { font-family: var(--font-mono); font-size: 1rem; color: var(--muted); letter-spacing: 0.04em; margin-left: auto; }
+  .opc-chevron { font-family: var(--font-mono); font-size: 1.3359rem; line-height: 1; color: var(--muted); transition: transform 0.2s; }
   .btn-afinar.open .opc-chevron { transform: rotate(45deg); }
   .opcionais[hidden] { display: none; }
   /* As opcionais têm ecrã próprio: enquanto estão abertas, as obrigatórias,
@@ -1088,7 +1087,7 @@
   @media (max-width: 600px) {
     .sticky-preco-inclui, .sticky-preco-upsell { display: none; }
   }
-  .output-onde { margin: 1rem auto 0; max-width: 640px; text-align: center; font-size: 14px; line-height: 1.5; color: var(--ink); }
+  .output-onde { margin: 1rem auto 0; max-width: 640px; text-align: center; font-size: 1.0391rem; line-height: 1.5; color: var(--ink); }
 
   /* Uma só ajuda visível por campo: "Ver exemplo". Os inícios de frase saem
      e "Escrever com IA" passa a ligação discreta, em segundo plano. */
@@ -1106,7 +1105,7 @@
     .oblig-nav button[hidden] { display: none; }
   }
   .opcionais { animation: fadeIn 0.3s ease; }
-  .opc-note { font-size: 12px; color: var(--muted); line-height: 1.5; background: var(--bg2); border-radius: 6px; padding: 0.75rem 1rem; margin-bottom: 1.25rem; }
+  .opc-note { font-size: 1rem; color: var(--muted); line-height: 1.5; background: var(--bg2); border-radius: 6px; padding: 0.75rem 1rem; margin-bottom: 1.25rem; }
   .opc-note strong { color: var(--ink); font-weight: 500; }
   /* Fase 3: rever e terminar */
   /* Botões base. Foram apagados por engano em abec634 e os botões que os usam
@@ -1119,7 +1118,7 @@
     padding: 14px 28px;
     border-radius: 6px;
     font-family: var(--font-body);
-    font-size: 14px;
+    font-size: 1.0391rem;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s;
@@ -1135,7 +1134,7 @@
     padding: 11px 22px;
     border-radius: 6px;
     font-family: var(--font-body);
-    font-size: 14px;
+    font-size: 1.0391rem;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s;
@@ -1149,7 +1148,7 @@
     padding: 10px 20px;
     border-radius: 6px;
     font-family: var(--font-body);
-    font-size: 13px;
+    font-size: 1rem;
     cursor: pointer;
     transition: all 0.2s;
   }
@@ -1159,13 +1158,13 @@
   .btn-rever { white-space: nowrap; }
   .btn-rever[disabled] { opacity: 0.45; cursor: not-allowed; }
   .btn-rever[disabled]:hover { background: var(--accent); transform: none; }
-  .rever-hint { font-size: 12px; color: var(--ink2); line-height: 1.45; }
+  .rever-hint { font-size: 1rem; color: var(--ink2); line-height: 1.45; }
   .rever-hint strong { color: var(--accent); font-weight: 500; }
   .rever-hint a { color: var(--accent); text-decoration: underline; }
   /* Chips de sugestão (ponto de partida editável) */
   .chips { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 9px; }
-  .chips-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted2); margin-right: 2px; }
-  .chip { font-family: var(--font-body); font-size: 12px; color: var(--ink2); background: var(--bg2); border: 0.5px solid var(--border-strong); border-radius: 14px; padding: 5px 12px; cursor: pointer; transition: all 0.15s; }
+  .chips-label { font-family: var(--font-mono); font-size: 1rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted2); margin-right: 2px; }
+  .chip { font-family: var(--font-body); font-size: 1rem; color: var(--ink2); background: var(--bg2); border: 0.5px solid var(--border-strong); border-radius: 14px; padding: 5px 12px; cursor: pointer; transition: all 0.15s; }
   .chip:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
   .chip.used { opacity: 0.4; cursor: default; text-decoration: line-through; pointer-events: none; }
   @media (max-width: 860px) {
@@ -1201,18 +1200,18 @@
     flex-wrap: wrap;
   }
   .sticky-preco-titulo {
-    font-size: 14px;
+    font-size: 1.0391rem;
     font-weight: 500;
     color: #F5F2EC;
   }
   .sticky-preco-valor {
     font-family: var(--font-mono);
-    font-size: 15px;
+    font-size: 1.1133rem;
     font-weight: 600;
     color: #C8A86B;
   }
   .sticky-preco-inclui {
-    font-size: 12px;
+    font-size: 1rem;
     color: #8FAA6B;
   }
   .sticky-preco-upgrade {
@@ -1222,12 +1221,12 @@
     flex-wrap: wrap;
   }
   .sticky-preco-upsell {
-    font-size: 12px;
+    font-size: 1rem;
     color: rgba(245, 242, 236, 0.75);
   }
   .sticky-preco-btn {
     font-family: var(--font-body);
-    font-size: 13px;
+    font-size: 1rem;
     font-weight: 500;
     color: #0B0E0C;
     background: #8FAA6B;
@@ -1241,12 +1240,12 @@
   .sticky-preco-btn:hover { background: #C8A86B; }
   /* espaço no fundo do Ecrã 2 para o conteúdo não ficar tapado pela barra */
   #screen-2 .screen-inner { padding-bottom: 130px; }
-  .pro-session-chip { display: inline-block; margin: 10px 0 0; padding: 5px 12px; border-radius: 14px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.04em; color: var(--accent); background: var(--accent-light); border: 0.5px solid var(--accent); }
+  .pro-session-chip { display: inline-block; margin: 10px 0 0; padding: 5px 12px; border-radius: 14px; font-family: var(--font-mono); font-size: 1rem; letter-spacing: 0.04em; color: var(--accent); background: var(--accent-light); border: 0.5px solid var(--accent); }
   .pro-session-chip[hidden] { display: none; }
   /* O Pro vende-se onde serve: enquanto a pessoa responde às perguntas. */
   .pro-faixa { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; margin: 0.75rem 0 1rem; padding: 0.85rem 1rem; background: #F8F4FC; border: 0.5px solid #D9C7EC; border-radius: 8px; }
   .pro-faixa[hidden] { display: none; }
-  .pro-faixa-texto { font-size: 13.5px; line-height: 1.45; color: var(--ink); }
+  .pro-faixa-texto { font-size: 1.002rem; line-height: 1.45; color: var(--ink); }
   .pro-faixa-btn { white-space: nowrap; }
 </style>
 </head>
@@ -1302,7 +1301,7 @@
       </button>
 
       <button class="platform-card" style="border-color:var(--accent); position:relative;" onclick="selectPlatform('gemini','Gemini')">
-        <div style="position:absolute; top:10px; right:10px; font-family:var(--font-mono); font-size:9px; letter-spacing:0.06em; text-transform:uppercase; color:var(--accent); background:var(--accent-light); padding:2px 8px; border-radius:3px;">Recomendado</div>
+        <div style="position:absolute; top:10px; right:10px; font-family:var(--font-mono); font-size:1rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--accent); background:var(--accent-light); padding:2px 8px; border-radius:3px;">Recomendado</div>
         <div class="platform-badge b-gemini">◆</div>
         <div class="platform-name">Gemini</div>
         <div class="platform-desc">Plano gratuito generoso e tudo no mesmo sítio para quem já utiliza Gmail, Drive e Google Documentos.</div>
@@ -1912,14 +1911,14 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
 
           <div class="form-check">
             <input type="checkbox" id="f-terms">
-            <label for="f-terms" style="font-family:var(--font-body); font-size:12px; letter-spacing:0; text-transform:none; font-weight:400;">
+            <label for="f-terms" style="font-family:var(--font-body); font-size:1rem; letter-spacing:0; text-transform:none; font-weight:400;">
               Aceito os <a href="https://proteinaludica.com/termos" target="_blank" rel="noopener">termos</a> e a <a href="https://proteinaludica.com/privacidade" target="_blank" rel="noopener">política de privacidade</a>.
             </label>
           </div>
 
           <div class="form-check" id="checkLivreResolucao">
             <input type="checkbox" id="f-livre-resolucao">
-            <label for="f-livre-resolucao" style="font-family:var(--font-body); font-size:12px; letter-spacing:0; text-transform:none; font-weight:400;">
+            <label for="f-livre-resolucao" style="font-family:var(--font-body); font-size:1rem; letter-spacing:0; text-transform:none; font-weight:400;">
               Peço a entrega imediata do conteúdo digital e reconheço que, a partir desse momento, perco o direito legal de livre resolução de 14 dias.
             </label>
           </div>
@@ -2000,7 +1999,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
 <div class="modal-overlay" id="quizModal" onclick="if(event.target===this) closeQuizModal()">
   <div class="modal">
     <div class="modal-title">Deixa-nos uma recomendação</div>
-    <p style="font-size:14px; color:var(--ink2); margin-bottom:0.5rem;">Três perguntas rápidas.</p>
+    <p style="font-size:1.0391rem; color:var(--ink2); margin-bottom:0.5rem;">Três perguntas rápidas.</p>
 
     <div class="modal-q">
       <div class="modal-q-title">1. Já existe licença paga de alguma destas?</div>
