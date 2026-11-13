@@ -1,0 +1,25 @@
+/* Leitura e usabilidade para visão reduzida. Carregado em todas as páginas,
+   antes do estilo de cada página, que pode ajustar o que precisar. */
+
+/* Texto base de 19 px, em unidade relativa: acompanha o tamanho de letra
+   escolhido no browser. */
+body { font-size: 1.1875rem; }
+
+/* Linhas com cerca de 70 caracteres. */
+p, li { max-width: 60ch; }
+
+/* Alvos de clique com 44 px de altura mínima. */
+button, summary, select, textarea, .btn, .nav-cta,
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="hidden"]) {
+  min-height: 44px;
+}
+nav a, .marca, .logo, .ligacao, .nav-voltar, .file-action {
+  display: inline-block; padding-block: .6em; min-height: 44px;
+}
+
+/* Anel de foco de 3 px com dois tons: visível sobre fundo claro e escuro. */
+:focus-visible {
+  outline: 3px solid #1b4d0f;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px #fff;
+}

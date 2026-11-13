@@ -11,18 +11,19 @@
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://proteinaludica.com/conformidade">
 <link rel="stylesheet" href="/styles/fontes.css">
+<link rel="stylesheet" href="/styles/acessibilidade.css">
 <style>
   :root{
     --fundo:#141A10;          /* verde-escuro Laurissilva — nunca preto puro */
     --fundo-2:#1A2214;
     --cartao-a:#1B2315;
     --cartao-b:#161C11;
-    --musgo:#8FAA6B;
+    --musgo:#9BB37B;
     --musgo-claro:#A9C287;
-    --ocre:#C8A86B;
+    --ocre:#CEB27C;
     --texto:#E9EDE3;
     --texto-2:#B9C2AD;
-    --texto-3:#8A9478;
+    --texto-3:#A7AE99;
     --linha:rgba(143,170,107,.14);
     --linha-2:rgba(143,170,107,.35);
   }
@@ -36,10 +37,10 @@
     background:var(--fundo);
     color:var(--texto);
     font-family:'Times New Roman', Times, serif;
-    font-size:16px;line-height:1.65;
+    font-size:1.1875rem;line-height:1.65;
     -webkit-font-smoothing:antialiased;
   }
-  a:focus-visible{outline:2px solid var(--ocre);outline-offset:3px;border-radius:4px}
+  a:focus-visible{outline:3px solid var(--ocre);outline-offset:3px;border-radius:4px}
 
   /* ---------- Header ---------- */
   header{
@@ -53,34 +54,34 @@
     max-width:1040px;margin:0 auto;padding:0 20px;
     display:flex;align-items:center;justify-content:space-between;height:56px;
   }
-  .marca{font-family:'Times New Roman', Times, serif;font-weight:600;font-size:1rem;color:var(--texto);text-decoration:none}
+  .marca{font-family:'Times New Roman', Times, serif;font-weight:600;font-size:1.1875rem;color:var(--texto);text-decoration:none}
   .marca span{color:var(--musgo)}
-  .nav-voltar{color:var(--texto-2);text-decoration:none;font-size:.845rem;transition:color .15s ease}
+  .nav-voltar{color:var(--texto-2);text-decoration:none;font-size:1.0034rem;transition:color .15s ease}
   .nav-voltar:hover{color:var(--texto)}
   @media (min-width:761px){
     .barra{height:60px}
-    .marca{font-size:1.06rem}
+    .marca{font-size:1.2588rem}
   }
 
   /* ---------- Conteúdo ---------- */
   .wrap{max-width:760px;margin:0 auto;padding:56px 20px 72px}
   .eyebrow{
-    font-size:.72rem;color:var(--texto-3);
+    font-size:1rem;color:var(--texto-3);
     letter-spacing:.12em;text-transform:uppercase;
   }
   h1{
     font-family:'Times New Roman', Times, serif;font-weight:600;
-    font-size:clamp(1.95rem,6vw,2.8rem);line-height:1.1;letter-spacing:-.015em;
+    font-size:clamp(2.1109rem,6vw,2.8rem);line-height:1.1;letter-spacing:0;
     margin:.6rem 0 1rem;
   }
   h1 em{font-style:italic;color:var(--musgo)}
   h2{
     font-family:'Times New Roman', Times, serif;font-weight:600;
-    font-size:clamp(1.25rem,3.5vw,1.5rem);line-height:1.15;letter-spacing:-.015em;
+    font-size:clamp(1.4844rem,3.5vw,1.725rem);line-height:1.15;letter-spacing:0;
     margin:2.5rem 0 .75rem;
   }
   p{color:var(--texto-2);margin-bottom:1rem}
-  .wrap > p:first-of-type{color:var(--texto);font-size:1.05rem}
+  .wrap > p:first-of-type{color:var(--texto);font-size:1.2469rem}
   ul{margin:0 0 1rem 1.25rem;color:var(--texto-2)}
   li{margin-bottom:.4rem}
   a{color:var(--musgo-claro)}
@@ -94,7 +95,7 @@
   footer{
     border-top:1px solid var(--linha);
     padding:32px 0 40px;
-    color:var(--texto-2);font-size:.78rem;text-align:center;
+    color:var(--texto-2);font-size:1rem;text-align:center;
   }
   footer .contentor{max-width:1040px;margin:0 auto;padding:0 20px}
   footer .aviso{max-width:70ch;margin:0 auto 10px}
@@ -102,7 +103,7 @@
   footer .legal a{color:var(--texto-2);text-decoration:none}
   footer .legal a:hover{color:var(--texto)}
   @media (min-width:761px){
-    footer{padding:36px 0 44px;font-size:.845rem}
+    footer{padding:36px 0 44px;font-size:1.0034rem}
     footer .aviso{margin-bottom:12px}
   }
 </style>

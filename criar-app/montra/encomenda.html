@@ -6,6 +6,7 @@
 <title>Encomendar um assistente digital IA — Proteína Lúdica</title>
 <meta name="description" content="Encomenda de um assistente digital IA para uma tarefa da profissão. Pagamento único, IVA incluído.">
 <link rel="stylesheet" href="/styles/fontes.css">
+<link rel="stylesheet" href="/styles/acessibilidade.css">
 <!-- Montra por profissão, ecrã de encomenda. Lê ?profissao=…&tarefa=… do
      endereço, grava a encomenda por POST /api/encomenda e mostra a
      confirmação. Ainda sem ligação ao pagamento. -->
@@ -13,14 +14,14 @@
   :root{
     --fundo-escuro:#141A10;
     --fundo-campo-escuro:#1F2818;
-    --musgo:#8FAA6B;
-    --ocre:#C8A86B;
+    --musgo:#9BB37B;
+    --ocre:#CEB27C;
     --creme:#F4F1E8;
     --branco:#FFFFFF;
     --texto:#141A10;
     --texto-2:#3D4535;
     --texto-sobre-escuro:#DCE5CC;
-    --musgo-escuro:#4A5A36;
+    --musgo-escuro:#465533;
     --aviso-fundo:#F7EFDC;
     --aviso-texto:#3D3420;
     --erro:#8B1A1A;
@@ -42,55 +43,55 @@
   /* Cabeçalho */
   .cabecalho{background:var(--fundo-escuro);padding:20px 24px}
   .cabecalho .contentor{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
-  .marca{font-family:var(--titulo);font-size:22px;font-weight:600;color:var(--creme);text-decoration:none}
+  .marca{font-family:var(--titulo);font-size:1.607rem;font-weight:600;color:var(--creme);text-decoration:none}
   .marca:hover{color:var(--creme)}
-  .voltar{display:inline-flex;align-items:center;min-height:44px;color:var(--texto-sobre-escuro);text-decoration:none;font-size:15px}
+  .voltar{display:inline-flex;align-items:center;min-height:44px;color:var(--texto-sobre-escuro);text-decoration:none;font-size:1.1133rem}
   .voltar:hover{color:var(--musgo)}
 
   /* Abertura */
   .abertura{padding:56px 24px 24px}
   .abertura .contentor{display:flex;flex-direction:column;gap:12px}
-  .sobretitulo{font-size:14px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--musgo-escuro)}
-  .abertura h1{font-family:var(--titulo);font-weight:600;font-size:clamp(32px,4.2vw,48px);line-height:1.1}
-  .abertura .entrada{font-size:18px;line-height:1.55;color:var(--texto-2);max-width:700px}
+  .sobretitulo{font-size:1.0391rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--musgo-escuro)}
+  .abertura h1{font-family:var(--titulo);font-weight:600;font-size:clamp(2.15rem,4.2vw,3rem);line-height:1.1}
+  .abertura .entrada{font-size:1.3359rem;line-height:1.55;color:var(--texto-2);max-width:700px}
 
   /* Formulário */
   .corpo{padding:16px 24px 72px}
   .corpo .contentor{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}
   form{flex:999 1 560px;min-width:0;display:flex;flex-direction:column;gap:28px}
   fieldset{margin:0;padding:28px;border:1px solid var(--linha);border-radius:12px;background:var(--branco);display:flex;flex-direction:column;gap:18px;min-width:0}
-  legend{padding:0 8px;font-family:var(--titulo);font-size:22px;font-weight:600}
+  legend{padding:0 8px;font-family:var(--titulo);font-size:1.607rem;font-weight:600}
   .grelha-campos{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
-  .campo{display:flex;flex-direction:column;gap:6px;font-size:15px;font-weight:500}
+  .campo{display:flex;flex-direction:column;gap:6px;font-size:1.1133rem;font-weight:500}
   .campo input,.campo select{min-height:48px;padding:0 12px;border:1px solid var(--linha-campo);border-radius:8px;font:inherit;font-weight:400;background:var(--branco);color:var(--texto);width:100%}
-  .campo input:focus,.campo select:focus,.caixa input:focus{outline:2px solid var(--musgo-escuro);outline-offset:1px}
-  .passos-depois{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:10px;font-size:16px;line-height:1.55;color:var(--texto-2)}
-  .aviso{padding:14px 18px;background:var(--aviso-fundo);border-radius:8px;font-size:15px;line-height:1.55;color:var(--aviso-texto)}
-  .caixa{display:flex;align-items:flex-start;gap:10px;font-size:15px;line-height:1.5}
+  .campo input:focus,.campo select:focus,.caixa input:focus{outline:3px solid var(--musgo-escuro);outline-offset:1px}
+  .passos-depois{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:10px;font-size:1.1875rem;line-height:1.55;color:var(--texto-2)}
+  .aviso{padding:14px 18px;background:var(--aviso-fundo);border-radius:8px;font-size:1.1133rem;line-height:1.55;color:var(--aviso-texto)}
+  .caixa{display:flex;align-items:flex-start;gap:10px;font-size:1.1133rem;line-height:1.5}
   .caixa input{width:18px;height:18px;margin-top:3px;flex:none}
-  .erro-campo{font-size:14px;font-weight:500;color:var(--erro)}
+  .erro-campo{font-size:1.0391rem;font-weight:500;color:var(--erro)}
   .erro-campo:empty{display:none}
   .armadilha{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
 
   /* Resumo */
   .resumo{flex:1 1 320px;display:flex;flex-direction:column;gap:18px;padding:28px;background:var(--fundo-escuro);color:var(--creme);border-radius:16px}
-  .resumo h2{font-family:var(--titulo);font-size:24px;font-weight:600}
-  .resumo-escolha{display:flex;flex-direction:column;gap:6px;font-size:15px;color:var(--texto-sobre-escuro)}
+  .resumo h2{font-family:var(--titulo);font-size:1.725rem;font-weight:600}
+  .resumo-escolha{display:flex;flex-direction:column;gap:6px;font-size:1.1133rem;color:var(--texto-sobre-escuro)}
   .resumo-escolha strong{color:var(--creme);font-weight:500}
   .total{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding-top:16px;border-top:1px solid var(--linha-escura-2)}
-  .total span:first-child{font-size:15px;color:var(--texto-sobre-escuro)}
-  .total .valor{font-family:var(--titulo);font-size:40px;font-weight:600}
-  .nota{font-size:14px;line-height:1.55;color:var(--texto-sobre-escuro)}
+  .total span:first-child{font-size:1.1133rem;color:var(--texto-sobre-escuro)}
+  .total .valor{font-family:var(--titulo);font-size:2.5rem;font-weight:600}
+  .nota{font-size:1.0391rem;line-height:1.55;color:var(--texto-sobre-escuro)}
   .pagar{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 22px;border:0;border-radius:8px;background:var(--musgo);color:var(--fundo-escuro);font:inherit;font-weight:600;cursor:pointer}
   .pagar:hover{background:var(--ocre)}
   .pagar:disabled{opacity:.6;cursor:wait}
-  .aviso-pagamento{padding:12px 14px;border:1px solid var(--linha-escura);border-radius:8px;font-size:14px;line-height:1.55;color:var(--texto-sobre-escuro)}
-  .mensagem-envio{font-size:14px;font-weight:500;color:var(--ocre)}
+  .aviso-pagamento{padding:12px 14px;border:1px solid var(--linha-escura);border-radius:8px;font-size:1.0391rem;line-height:1.55;color:var(--texto-sobre-escuro)}
+  .mensagem-envio{font-size:1.0391rem;font-weight:500;color:var(--ocre)}
   .mensagem-envio:empty{display:none}
 
   /* Confirmação */
-  .confirmacao{flex:1 1 100%;padding:28px;background:var(--branco);border:1px solid var(--musgo);border-radius:12px;font-size:18px;line-height:1.55}
-  .confirmacao h2{font-family:var(--titulo);font-size:26px;font-weight:600;margin-bottom:8px}
+  .confirmacao{flex:1 1 100%;padding:28px;background:var(--branco);border:1px solid var(--musgo);border-radius:12px;font-size:1.3359rem;line-height:1.55}
+  .confirmacao h2{font-family:var(--titulo);font-size:1.8383rem;font-weight:600;margin-bottom:8px}
 
   @media (max-width:600px){
     .cabecalho{padding-left:16px;padding-right:16px}

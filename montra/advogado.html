@@ -11,21 +11,22 @@
 <title>Assistentes digitais IA para advogados — Proteína Lúdica</title>
 <meta name="description" content="Assistentes digitais IA para advogados: primeira versão de contestação, cartas sobre o estado do processo e resumos de documentos.">
 <link rel="stylesheet" href="/styles/fontes.css">
+<link rel="stylesheet" href="/styles/acessibilidade.css">
 <!-- Montra por profissão, página de advogados. Estática. O botão de cada
      tarefa leva ao ecrã de encomenda em criar.proteinaludica.com, com a profissão e a
      tarefa no endereço. -->
 <style>
   :root{
     --fundo-escuro:#141A10;
-    --musgo:#8FAA6B;
-    --ocre:#C8A86B;
+    --musgo:#9BB37B;
+    --ocre:#CEB27C;
     --creme:#F4F1E8;
     --branco:#FFFFFF;
     --texto:#141A10;
     --texto-2:#3D4535;
     --texto-sobre-escuro:#DCE5CC;
-    --musgo-escuro:#4A5A36;
-    --ocre-rotulo:#6B5426;
+    --musgo-escuro:#465533;
+    --ocre-rotulo:#624D23;
     --aviso-fundo:#F7EFDC;
     --aviso-texto:#3D3420;
     --linha:#E2DCCB;
@@ -44,41 +45,41 @@
   /* Cabeçalho */
   .cabecalho{background:var(--fundo-escuro);padding:20px 24px}
   .cabecalho .contentor{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
-  .marca{font-family:var(--titulo);font-size:22px;font-weight:600;color:var(--creme);text-decoration:none}
+  .marca{font-family:var(--titulo);font-size:1.607rem;font-weight:600;color:var(--creme);text-decoration:none}
   .marca:hover{color:var(--creme)}
-  .voltar{display:inline-flex;align-items:center;min-height:44px;color:var(--texto-sobre-escuro);text-decoration:none;font-size:15px}
+  .voltar{display:inline-flex;align-items:center;min-height:44px;color:var(--texto-sobre-escuro);text-decoration:none;font-size:1.1133rem}
   .voltar:hover{color:var(--musgo)}
 
   /* Abertura */
   .abertura{padding:56px 24px 32px}
   .abertura .contentor{display:flex;flex-direction:column;gap:16px}
-  .sobretitulo{font-size:14px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--musgo-escuro)}
-  .abertura h1{font-family:var(--titulo);font-weight:600;font-size:clamp(34px,4.5vw,52px);line-height:1.1}
-  .abertura .entrada{font-size:19px;line-height:1.55;color:var(--texto-2);max-width:700px}
+  .sobretitulo{font-size:1.0391rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--musgo-escuro)}
+  .abertura h1{font-family:var(--titulo);font-weight:600;font-size:clamp(2.2445rem,4.5vw,3.25rem);line-height:1.1}
+  .abertura .entrada{font-size:1.4102rem;line-height:1.55;color:var(--texto-2);max-width:700px}
 
   /* Tarefas */
   .tarefas{padding:0 24px 48px}
   .tarefas .contentor{display:flex;flex-direction:column;gap:28px}
   .tarefa{display:flex;flex-direction:column;gap:20px;padding:28px;background:var(--branco);border:1px solid var(--linha);border-radius:12px}
   .tarefa-topo{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
-  .tarefa h2{font-family:var(--titulo);font-size:26px;font-weight:600}
+  .tarefa h2{font-family:var(--titulo);font-size:1.8383rem;font-weight:600}
   .encomendar{display:inline-flex;align-items:center;min-height:48px;padding:0 22px;border-radius:8px;background:var(--fundo-escuro);color:var(--creme);font-weight:600;text-decoration:none}
   .encomendar:hover{background:var(--musgo-escuro);color:var(--creme)}
   .exemplo{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
   .antes,.depois{display:flex;flex-direction:column;gap:10px;padding:20px;border-radius:10px}
   .antes{background:var(--creme)}
   .depois{border:1px solid var(--musgo)}
-  .rotulo{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+  .rotulo{font-size:1rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
   .antes .rotulo{color:var(--ocre-rotulo)}
   .depois .rotulo{color:var(--musgo-escuro)}
-  .antes p{font-family:var(--mono);font-size:15px;line-height:1.6;color:var(--texto-2)}
-  .depois p{font-size:16px;line-height:1.6}
-  .aviso{padding:14px 18px;background:var(--aviso-fundo);border-radius:8px;font-size:15px;line-height:1.55;color:var(--aviso-texto)}
+  .antes p{font-family:var(--mono);font-size:1.1133rem;line-height:1.6;color:var(--texto-2)}
+  .depois p{font-size:1.1875rem;line-height:1.6}
+  .aviso{padding:14px 18px;background:var(--aviso-fundo);border-radius:8px;font-size:1.1133rem;line-height:1.55;color:var(--aviso-texto)}
 
   /* Fecho */
   .fecho{padding:0 24px 72px}
   .fecho .contentor{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:32px;background:var(--fundo-escuro);color:var(--creme);border-radius:16px}
-  .fecho p{font-size:17px;line-height:1.55;color:var(--texto-sobre-escuro);flex:1 1 360px}
+  .fecho p{font-size:1.2617rem;line-height:1.55;color:var(--texto-sobre-escuro);flex:1 1 360px}
   .outras{display:inline-flex;align-items:center;min-height:48px;padding:0 22px;border-radius:8px;background:var(--musgo);color:var(--fundo-escuro);font-weight:600;text-decoration:none}
   .outras:hover{background:var(--ocre);color:var(--fundo-escuro)}
 
