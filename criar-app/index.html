@@ -39,8 +39,8 @@
     --shadow-sm: 0 1px 2px rgba(13,15,11,0.04);
     --shadow: 0 2px 8px rgba(13,15,11,0.06);
     --shadow-lg: 0 8px 24px rgba(13,15,11,0.08);
-    --font-head: 'Times New Roman', Times, serif;
-    --font-body: 'Times New Roman', Times, serif;
+    --font-head: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+    --font-body: Arial, 'Helvetica Neue', Helvetica, sans-serif;
     --font-mono: 'Geist Mono', 'JetBrains Mono', monospace;
   }
 
@@ -1021,6 +1021,7 @@
   .btn-pro:hover { background: #E8DFF5; border-style: solid; }
   .btn-pro:hover .pro-tip { opacity: 1; transform: translateX(-50%) translateY(0); }
   .pro-tip { position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%) translateY(4px); background: var(--ink); color: white; font-family: var(--font-body); font-size: 1rem; letter-spacing: 0; padding: 6px 10px; border-radius: 5px; white-space: nowrap; opacity: 0; transition: all 0.2s; z-index: 10; box-shadow: var(--shadow-lg); pointer-events: none; }
+  @media (max-width: 600px) { .pro-tip { white-space: normal; width: max-content; max-width: min(18rem, calc(100vw - 2rem)); } }
   .pro-tip::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-top-color: var(--ink); }
   /* ─── PASSO 3: índice lateral + obrigatórias (Fase 1) ─── */
   .s3-body { display: grid; grid-template-columns: 280px 1fr; gap: 1.75rem; align-items: start; }
