@@ -1,0 +1,23 @@
+/* Logótipo ao lado do nome da marca, no cabeçalho de todas as páginas. */
+.marca-logo {
+  display: inline-block;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 22%;
+  vertical-align: middle;
+  margin-right: .55em;
+  flex-shrink: 0;
+}
+
+/* Cabeçalhos em que o nome e a linha de baixo são blocos (termos):
+   o logótipo fica à esquerda dos dois. */
+a.logo:has(> .logo-name) {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: .55em;
+  align-items: center;
+}
+a.logo:has(> .logo-name) .marca-logo {
+  grid-row: 1 / span 2;
+  margin-right: 0;
+}
