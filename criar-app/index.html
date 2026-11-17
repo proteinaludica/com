@@ -1092,8 +1092,6 @@
   .bob-passos li { margin: 0 0 0.3rem; padding-left: 0.15rem; }
   .bob-passos li::marker { color: var(--accent); font-weight: 600; }
   .bob-passos:empty { display: none; }
-  .bob-conversa p.bob-nota { margin-top: 0.5rem; font-size: 0.9rem; color: var(--muted); }
-  .bob-conversa p.bob-nota:empty { display: none; }
   /* Recolhido: fica só o botão redondo, no mesmo canto. */
   .bob-botao {
     position: fixed; right: 1.25rem; bottom: calc(1.25rem + var(--bob-fundo, 0px)); z-index: 70;
@@ -1113,6 +1111,10 @@
   @media (min-width: 901px) and (max-width: 1759px) {
     body.bob-aberto .screen { padding-right: 372px; }
   }
+  /* Telemóvel e tablet ao alto, no preenchimento: a janela fixa taparia o
+     campo. O Bob passa a cartão no topo do conteúdo (ver bobPosicionar). */
+  .bob-janela.bob-embutido { position: static; width: auto; max-width: none; margin: 0 0 1.25rem; box-shadow: none; border-radius: 14px; }
+  .bob-janela.bob-embutido .bob-conversa { max-height: none; }
   @media (max-width: 600px) {
     .bob-janela { right: 0.75rem; left: 0.75rem; width: auto; max-width: none; bottom: calc(0.75rem + var(--bob-fundo, 0px)); }
     .bob-conversa { max-height: 34vh; }
@@ -1151,6 +1153,43 @@
   .fill-field .chips { display: none; }
   .fill-field .btn-pro { background: transparent; border-color: transparent; text-decoration: underline; opacity: 0.8; }
   .fill-field .btn-pro:hover { opacity: 1; background: transparent; }
+
+  /* ─── Passo 2 em duas fases ───
+     "perguntas": só a pergunta actual, o progresso e o botão Seguinte.
+     "afinar": depois das 5 perguntas, aparece o resto (exemplos, índice das
+     secções, opcionais, Pro e "Rever e terminar"). */
+  .perg-progresso { display: flex; gap: 0.45rem; margin: 0 0 1.25rem; }
+  .perg-progresso i { flex: 0 0 2.4rem; height: 0.35rem; border-radius: 3px; background: var(--border-strong); }
+  .perg-progresso i.feito { background: var(--accent); }
+  #screen-2.fase-perguntas .pro-faixa,
+  #screen-2.fase-perguntas .section-progress,
+  #screen-2.fase-perguntas .s3-index,
+  #screen-2.fase-perguntas #sec-00,
+  #screen-2.fase-perguntas .s3-content > .rever-bar,
+  #screen-2.fase-perguntas .afinar-bar,
+  #screen-2.fase-perguntas .afinar-voltar { display: none; }
+  #screen-2.fase-perguntas .s3-body { grid-template-columns: 1fr; max-width: 680px; }
+  #screen-2.fase-perguntas .oblig-list .oblig-block { display: none; }
+  #screen-2.fase-perguntas .oblig-list .oblig-block.atual { display: block; }
+  #screen-2.fase-perguntas .oblig-nav { display: flex; justify-content: space-between; gap: 0.75rem; margin: 1rem 0; }
+  #screen-2.fase-perguntas .oblig-nav button[hidden] { display: none; }
+  #screen-2.fase-afinar .oblig-list .oblig-block,
+  #screen-2.fase-afinar .oblig-nav,
+  #screen-2.fase-afinar .perg-progresso { display: none; }
+  #screen-2.fase-afinar .afinar-voltar { margin-bottom: 1rem; align-self: flex-start; }
+  /* Na fase "afinar", o botão de terminar vem primeiro: tudo o resto é opcional. */
+  #screen-2.fase-afinar .s3-content:not(.modo-opcionais) { display: flex; flex-direction: column; }
+  #screen-2.fase-afinar .s3-content:not(.modo-opcionais) > .afinar-voltar { order: -2; }
+  #screen-2.fase-afinar .s3-content:not(.modo-opcionais) > .rever-bar { order: -1; margin-bottom: 1.5rem; }
+  /* Nas perguntas, cabeçalho compacto para o botão Seguinte caber no ecrã. */
+  #screen-2.fase-perguntas { padding-top: 2rem; }
+  #screen-2.fase-perguntas .screen-title { font-size: 2rem; margin-bottom: 0.4rem; }
+  /* O subtítulo sai nesta fase: a ajuda é dada pelo Bob, pergunta a pergunta. */
+  #screen-2.fase-perguntas .screen-sub { display: none; }
+  #screen-2.fase-perguntas .screen-title { margin-bottom: 1rem; }
+  #screen-2.fase-perguntas .fill-field textarea { min-height: 7.5rem; height: 7.5rem; }
+  #screen-2.fase-perguntas .fill-main { padding: 1.5rem 2rem; }
+  #screen-2.fase-afinar .s3-content.modo-opcionais > .afinar-voltar { display: none; }
 
   /* Telemóvel: uma pergunta essencial de cada vez, sem o índice das 16. */
   .oblig-nav { display: none; }
@@ -1431,8 +1470,8 @@
 <section class="screen" id="screen-2">
   <div class="screen-inner">
     <div class="step-label">Passo 2 de 3</div>
-    <h1 class="screen-title">5 perguntas <em>essenciais</em></h1>
-    <p class="screen-sub">Basta uma ou duas frases em cada resposta. O resto é opcional e pode ficar para depois.</p>
+    <h1 class="screen-title" id="s2Titulo">5 perguntas <em>essenciais</em></h1>
+    <p class="screen-sub" id="s2Sub">Basta uma ou duas frases em cada resposta. O resto é opcional e pode ficar para depois.</p>
 
     <div class="pro-faixa" id="proFaixa">
       <span class="pro-faixa-texto" id="proFaixaTexto">✨ Com o Pro, a IA escreve as respostas a partir do que já foi escrito · 49€</span>
@@ -1464,6 +1503,11 @@
         <div class="rgpd-warn" id="rgpdWarn" style="margin-bottom:1.25rem;">
           <strong>Atenção RGPD:</strong> detectámos o que parece ser um dado pessoal identificável (nome completo, número de cliente, data de nascimento ou similar). Para respeitar a privacidade dos seus clientes, use apenas iniciais + idade — ex: <em>"M.A., 62a"</em>. Este aviso aparece só para si, não bloqueia.
         </div>
+
+        <!-- Fase "perguntas": progresso das 5 essenciais, uma de cada vez. -->
+        <div class="perg-progresso" id="pergProgresso" role="img" aria-label="Pergunta 1 de 5"></div>
+        <!-- Fase "afinar": regresso às 5 perguntas. -->
+        <button type="button" class="btn-ghost afinar-voltar" onclick="irParaPerguntas(0)">← Voltar às perguntas</button>
 
         <div class="oblig-list" id="obligList">
 
@@ -2065,7 +2109,6 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     <div class="bob-onde" id="bobOnde"></div>
     <p id="bobFala"></p>
     <ol class="bob-passos" id="bobPassos"></ol>
-    <p class="bob-nota" id="bobNota"></p>
   </div>
 </aside>
 <button type="button" class="bob-botao" id="bobBotao" aria-label="Abrir o Bob" hidden>B</button>
@@ -2214,6 +2257,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   // ─────────── NAVIGATION ───────────
   function goTo(n) {
     if (n === 3) gerarOutput();
+    if (n === 2 && !aReporHistorico) prepararFase();
     if (n === 5) {
       const urlExistente = sessionStorage.getItem('pl_downloadUrl');
       if (urlExistente) activarBotaoDescarrega();
@@ -2247,13 +2291,15 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       ecra: state.current,
       passo: state.current === 4 ? (passo || 'paywallTiers') : null,
       opc: state.current === 2 && !!(opc && !opc.hidden),
+      fase: state.current === 2 ? fase : null,
+      perg: state.current === 2 && fase === 'perguntas' ? perguntaAtual : null,
     };
   }
   function registarHistorico() {
     if (aReporHistorico) return;
     const nova = vistaAtual();
     const atual = window.history.state;
-    if (atual && atual.ecra === nova.ecra && atual.passo === nova.passo && atual.opc === nova.opc) return;
+    if (atual && atual.ecra === nova.ecra && atual.passo === nova.passo && atual.opc === nova.opc && atual.fase === nova.fase && atual.perg === nova.perg) return;
     try { window.history.pushState(nova, ''); } catch (e) {}
   }
   window.addEventListener('popstate', function (e) {
@@ -2267,8 +2313,12 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
         else showPaywallStep(v.passo);
       }
       if (v.ecra === 2) {
-        if (v.opc) abrirOpcionais(true);
-        else fecharOpcionais(true);
+        if (v.fase === 'perguntas') irParaPerguntas(v.perg || 0);
+        else {
+          irParaAfinar();
+          if (v.opc) abrirOpcionais(true);
+          else fecharOpcionais(true);
+        }
       }
     } finally {
       aReporHistorico = false;
@@ -3509,6 +3559,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   // irAoTopo: true quando é a própria pessoa a mudar de ecrã (botão), false
   // quando um link do índice ou da barra já vai fazer scroll para uma secção.
   function abrirOpcionais(irAoTopo) {
+    aplicarFase('afinar');
     const panel = document.getElementById('opcionais');
     const btn = document.getElementById('btnAfinar');
     const conteudo = panel && panel.closest('.s3-content');
@@ -3537,27 +3588,99 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     if (panel && panel.hasAttribute('hidden')) abrirOpcionais(true);
     else fecharOpcionais(true);
   }
-  // Telemóvel: as 5 perguntas essenciais aparecem uma de cada vez (o CSS só
-  // esconde as outras abaixo de 600px; no computador ficam todas à vista).
+  // ─── Passo 2 em duas fases ───
+  // "perguntas": as 5 essenciais, uma de cada vez, em qualquer largura.
+  // "afinar": o que é opcional (exemplos, restantes secções, Pro) e o botão
+  // "Rever e terminar". Só aparece depois da quinta pergunta.
+  let fase = 'perguntas';
   let perguntaAtual = 0;
+  const S2_TITULO = {
+    perguntas: '5 perguntas <em>essenciais</em>',
+    afinar: 'Quer <em>afinar</em> mais?'
+  };
+  const S2_SUB = {
+    perguntas: 'Basta uma ou duas frases em cada resposta. O resto é opcional e pode ficar para depois.',
+    afinar: 'Tudo o que se segue é opcional.'
+  };
+
+  function blocosDasPerguntas() {
+    return Array.prototype.slice.call(document.querySelectorAll('#obligList .oblig-block'));
+  }
+
+  function numeroDaPerguntaAtual() {
+    const alvo = bobSeccaoDe(blocosDasPerguntas()[perguntaAtual]);
+    return alvo ? alvo.num : null;
+  }
+
+  function aplicarFase(nova) {
+    fase = nova;
+    const ecra = document.getElementById('screen-2');
+    if (!ecra) return;
+    ecra.classList.toggle('fase-perguntas', nova === 'perguntas');
+    ecra.classList.toggle('fase-afinar', nova === 'afinar');
+    const titulo = document.getElementById('s2Titulo');
+    const sub = document.getElementById('s2Sub');
+    if (titulo) titulo.innerHTML = S2_TITULO[nova];
+    if (sub) sub.textContent = S2_SUB[nova];
+  }
+
   function mostrarPergunta(i) {
-    const blocos = document.querySelectorAll('#obligList .oblig-block');
+    const blocos = blocosDasPerguntas();
     if (!blocos.length) return;
     perguntaAtual = Math.max(0, Math.min(blocos.length - 1, i));
     blocos.forEach((b, k) => b.classList.toggle('atual', k === perguntaAtual));
     const ant = document.getElementById('btnPergAnt');
-    const seg = document.getElementById('btnPergSeg');
     if (ant) ant.hidden = perguntaAtual === 0;
-    if (seg) seg.hidden = perguntaAtual === blocos.length - 1;
+    const barra = document.getElementById('pergProgresso');
+    if (barra) {
+      barra.textContent = '';
+      blocos.forEach((b, k) => {
+        const traco = document.createElement('i');
+        if (k <= perguntaAtual) traco.className = 'feito';
+        barra.appendChild(traco);
+      });
+      barra.setAttribute('aria-label', 'Pergunta ' + (perguntaAtual + 1) + ' de ' + blocos.length);
+    }
   }
+
+  function irParaPerguntas(i) {
+    fecharOpcionais(false);
+    aplicarFase('perguntas');
+    mostrarPergunta(i);
+    document.querySelectorAll('.fill-main.em-foco').forEach(b => b.classList.remove('em-foco'));
+    bob.seccao = null;
+    bobActualizar();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    registarHistorico();
+  }
+
+  function irParaAfinar() {
+    aplicarFase('afinar');
+    bobLargarSeccao();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    registarHistorico();
+  }
+
+  // Ao entrar no Passo 2: primeira pergunta por responder; com as 5
+  // respondidas, vai directo à fase "afinar".
+  function prepararFase() {
+    const blocos = blocosDasPerguntas();
+    const porResponder = blocos.findIndex(b => {
+      const campo = b.querySelector('textarea');
+      return !campo || !campo.value.trim();
+    });
+    if (porResponder === -1 && blocos.length) { mostrarPergunta(blocos.length - 1); aplicarFase('afinar'); }
+    else { aplicarFase('perguntas'); mostrarPergunta(Math.max(0, porResponder)); }
+  }
+
   function mudarPergunta(d) {
+    bob.viuRegresso = true;
+    const ultima = perguntaAtual === blocosDasPerguntas().length - 1;
+    if (d > 0 && ultima) { irParaAfinar(); return; }
     mostrarPergunta(perguntaAtual + d);
-    // No telemóvel, o Bob apresenta a pergunta que acabou de aparecer.
-    const atual = document.querySelector('#obligList .oblig-block.atual');
-    const alvo = bobSeccaoDe(atual);
-    if (alvo) { bob.seccao = alvo.num; bobActualizar(); }
-    const lista = document.getElementById('obligList');
-    if (lista) lista.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    bobActualizar();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    registarHistorico();
   }
 
   // Clique numa opcional do índice: abre o ecrã e deixa o link fazer o scroll.
@@ -3573,7 +3696,8 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       fecharOpcionais(false);
       const blocos = Array.prototype.slice.call(document.querySelectorAll('#obligList .oblig-block'));
       const k = blocos.indexOf(alvo);
-      if (k >= 0) mostrarPergunta(k);
+      // Uma das 5 perguntas: volta à fase das perguntas, nessa pergunta.
+      if (k >= 0) { e.preventDefault(); irParaPerguntas(k); }
     }
   });
 
@@ -3931,30 +4055,29 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   // preenchimento, da caixa em que se está a escrever.
   const BOB = {
     ecra1: "Olá. Sou o Bob e acompanho a criação do assistente digital IA, do princípio ao fim. Começamos pela ferramenta de IA onde o assistente vai trabalhar. Quem tiver dúvidas na escolha tem ajuda no primeiro cartão.",
-    preencher: "Vamos criar o assistente digital IA, secção a secção. Começamos pelos exemplos, se os houver. Só cinco secções são obrigatórias. As outras ficam ao seu critério.",
     regresso: 'Bom regresso. Aqui está o que ficou escrito. Altere o que quiser antes de seguir.',
     opcionais: "Agora vem o detalhe, com calma. Todas estas secções são opcionais. Uma secção em branco não faz mal, porque o assistente funciona à mesma.",
     final: "Parabéns, está pronto. O assistente foi criado no estilo indicado. A revisão e a decisão são sempre suas.",
     patamar: "Falta só escolher como continuar. As instruções grátis ficam sempre disponíveis, sem pressa nenhuma.",
     confirmacao: "Obrigado pela confiança. O guia de instalação explica tudo, passo a passo. Bom trabalho com o novo assistente.",
     seccoes: {
-      "00": "Esta caixa mostra ao assistente a sua forma de escrever. É o melhor atalho para um texto com o estilo certo.",
-      "01": "Aqui o assistente fica a saber quem é e para que serve. Tudo o resto parte desta resposta.",
-      "02": "Esta caixa dá um rumo ao assistente. Com ela, o assistente percebe o que deve melhorar no seu dia-a-dia.",
-      "03": "Esta caixa diz ao assistente para quem escreve. Um texto para clientes pede palavras diferentes de um texto para colegas.",
-      "04": "Aqui o assistente fica a conhecer o local de trabalho. Esse retrato ajuda a acertar no vocabulário e na formalidade.",
-      "05": "Esta caixa afina a voz do assistente. O objectivo é que os textos soem a quem os assina.",
+      "00": "Esta caixa mostra ao assistente a sua forma de escrever.",
+      "01": "Aqui o assistente fica a saber quem é e para que serve.",
+      "02": "Esta caixa dá um rumo ao assistente.",
+      "03": "Esta caixa diz ao assistente para quem escreve.",
+      "04": "Aqui o assistente fica a conhecer o local de trabalho.",
+      "05": "Esta caixa afina a voz do assistente.",
       "06": "Aqui ficam escolhidas as palavras do assistente, simples ou técnicas, e as línguas em que escreve.",
-      "07": "Esta caixa dá forma aos textos. Com ela, o assistente sabe se escreve curto ou longo, em lista ou em texto corrido.",
-      "08": "Aqui fica combinado o início de cada conversa. Um bom arranque poupa perguntas a meio do trabalho.",
-      "09": "Esta caixa é a lista de trabalhos do assistente. Quanto mais concreta for, melhor o assistente os executa.",
+      "07": "Esta caixa dá forma aos textos.",
+      "08": "Aqui fica combinado o início de cada conversa.",
+      "09": "Esta caixa é a lista de trabalhos do assistente.",
       "10": "Aqui o assistente fica a saber em que documentos se pode apoiar e quais ficam de fora.",
-      "11": "Esta caixa guarda o que o assistente deve saber de cor. Assim, evita repetir a mesma informação em cada pedido.",
-      "12": "Esta é a caixa da segurança. Aqui ficam as linhas que o assistente nunca atravessa, nem que insistam.",
-      "13": "Esta caixa ensina o assistente a parar a tempo. Perante uma dúvida, o assistente devolve o trabalho em vez de inventar.",
-      "14": "Esta caixa protege as pessoas mencionadas nos textos. Aqui ficam as regras do assistente para os dados pessoais.",
-      "15": "Aqui fica decidida a despedida do assistente. Um bom fecho lembra que a última palavra é sua.",
-      "16": "Aqui fica decidido como o assistente liga uma conversa à seguinte. Nada fica guardado sem a sua confirmação."
+      "11": "Esta caixa guarda o que o assistente deve saber de cor.",
+      "12": "Aqui ficam as linhas que o assistente nunca atravessa, nem que insistam.",
+      "13": "Esta caixa ensina o assistente a parar a tempo.",
+      "14": "Esta caixa protege as pessoas mencionadas nos textos.",
+      "15": "Aqui fica decidida a despedida do assistente.",
+      "16": "Aqui fica decidido como o assistente liga uma conversa à seguinte."
     },
     passos: {
       "00": [
@@ -4039,17 +4162,16 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
             "Indique se o assistente pode propor guardar uma preferência repetida.",
             "Exija a sua confirmação antes de qualquer registo."
       ]
-    },
-    notaObrigatoria: 'Esta caixa é obrigatória. Bastam poucas linhas.',
-    notaOpcional: 'Esta caixa é opcional. Pode ficar em branco.'
+    }
   };
-  const bob = { regressou: false, seccao: null, recolhidoPorMim: false, ultimaFala: '' };
+  const bob = { regressou: false, viuRegresso: false, seccao: null, recolhidoPorMim: false, ultimaFala: '' };
   try { bob.recolhidoPorMim = sessionStorage.getItem('pl_bob_recolhido') === '1'; } catch (e) {}
   // Ecrãs onde a janela taparia o campo: telemóvel e tablet ao alto.
   function bobTelemovel() { return window.matchMedia('(max-width: 900px)').matches; }
 
   function bobRegresso(regressou) {
     bob.regressou = !!regressou;
+    if (!regressou) bob.viuRegresso = false;
     bobActualizar();
   }
 
@@ -4067,20 +4189,30 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     if (ecra === 3) return { fala: BOB.final };
     if (ecra === 4) return { fala: BOB.patamar };
     if (ecra === 5) return { fala: BOB.confirmacao };
-    if (bob.seccao != null) {
-      const sec = SECCOES.find(x => x.num === bob.seccao);
-      const num = numeroFormatado(bob.seccao);
-      return {
-        onde: num + ' · ' + sec.titulo,
-        fala: BOB.seccoes[num],
-        passos: BOB.passos[num],
-        nota: sec.obrigatoria ? BOB.notaObrigatoria : BOB.notaOpcional
-      };
+    // Quem volta com texto guardado ouve primeiro a fala de regresso.
+    if (bob.regressou && !bob.viuRegresso) return { fala: BOB.regresso };
+    // Nas 5 perguntas, o Bob fala sempre da pergunta que está à vista.
+    const num = fase === 'perguntas' ? numeroDaPerguntaAtual() : bob.seccao;
+    if (num != null) {
+      const sec = SECCOES.find(x => x.num === num);
+      const nn = numeroFormatado(num);
+      return { onde: nn + ' · ' + sec.titulo, fala: BOB.seccoes[nn], passos: BOB.passos[nn] };
     }
-    const painel = document.getElementById('opcionais');
-    if (painel && !painel.hasAttribute('hidden')) return { fala: BOB.opcionais };
-    return { fala: bob.regressou ? BOB.regresso : BOB.preencher };
+    return { fala: BOB.opcionais };
   }
+
+  // No preenchimento, em ecrãs estreitos, o Bob fica dentro da página, por
+  // cima da pergunta. Nos outros casos fica fixo no canto.
+  function bobPosicionar() {
+    const janela = document.getElementById('bobJanela');
+    const conteudo = document.querySelector('#screen-2 .s3-content');
+    if (!janela || !conteudo) return;
+    const embutir = bobTelemovel() && state.current === 2;
+    if (embutir && janela.parentNode !== conteudo) conteudo.insertBefore(janela, conteudo.firstChild);
+    if (!embutir && janela.parentNode !== document.body) document.body.insertBefore(janela, document.getElementById('bobBotao'));
+    janela.classList.toggle('bob-embutido', embutir);
+  }
+  window.addEventListener('resize', bobPosicionar);
 
   function bobMostrar(aberto) {
     const janela = document.getElementById('bobJanela');
@@ -4096,6 +4228,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     const janela = document.getElementById('bobJanela');
     // Chamado cedo, durante a reposição do estado: ainda não há tabela.
     if (!janela || typeof SECCOES === 'undefined') return;
+    bobPosicionar();
     const f = bobFalaActual();
     document.getElementById('bobOnde').textContent = f.onde || '';
     document.getElementById('bobFala').textContent = f.fala;
@@ -4106,7 +4239,6 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       li.textContent = passo;
       lista.appendChild(li);
     });
-    document.getElementById('bobNota').textContent = f.nota || '';
     // Fica acima da barra de preço, quando ela está à vista.
     const barra = document.querySelector('.sticky-preco');
     // (offsetParent não serve: é sempre nulo em elementos fixos.)
@@ -4134,8 +4266,11 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     document.querySelectorAll('.fill-main.em-foco').forEach(b => b.classList.remove('em-foco'));
     alvo.bloco.classList.add('em-foco');
     bob.seccao = alvo.num;
-    // No telemóvel a janela taparia o campo e o teclado: recolhe ao escrever.
-    if (bobTelemovel() && ev.target.matches('textarea, input')) {
+    bob.viuRegresso = true;
+    // Em ecrã estreito, a janela fixa taparia o campo e o teclado: recolhe ao
+    // escrever. Embutida na página não tapa nada e fica à vista.
+    const embutido = document.getElementById('bobJanela').classList.contains('bob-embutido');
+    if (bobTelemovel() && !embutido && ev.target.matches('textarea, input')) {
       bobMostrar(false);
       bobActualizar({ aEscrever: true });
       return;
@@ -4264,7 +4399,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   atualizarIndiceProgresso();
   mostrarLinhaGuardado();
   checkObrigatorias();
-  mostrarPergunta(0);
+  prepararFase();
   updateProgress();
   bobActualizar({ inicio: true });
   atualizarStickyPreco();
