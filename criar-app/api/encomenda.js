@@ -47,6 +47,7 @@ const NOMES_PROFISSAO = {
   advogado: 'Advogado',
   arquitecto: 'Arquitecto ou engenheiro',
   professor: 'Professor ou formador',
+  outra: 'Outra profissão',
 };
 
 const NOMES_TAREFA = {
@@ -62,6 +63,8 @@ const NOMES_TAREFA = {
   'planos-aula': 'Planos de aula',
   'avaliacoes': 'Comentários às avaliações dos alunos',
   'encarregados-educacao': 'Comunicações aos encarregados de educação',
+  // Outra profissão: a tarefa é escrita pelo próprio no guia de criação.
+  'tarefa-propria': 'Tarefa definida no guia de criação',
 };
 
 // Tarefas de cada profissão. Os identificadores são os das páginas da montra.
@@ -70,6 +73,7 @@ const TAREFAS = {
   advogado: ['contestacao', 'estado-processo', 'resumo-documentos'],
   arquitecto: ['memoria-descritiva', 'visita-obra', 'honorarios'],
   professor: ['planos-aula', 'avaliacoes', 'encarregados-educacao'],
+  outra: ['tarefa-propria'],
 };
 
 // As mesmas ferramentas do Passo 1 do wizard.
@@ -160,11 +164,13 @@ async function enviarAcessoCampanha(dados) {
   try {
     const { token } = pro.emitirJWTpro('campanha-' + crypto.randomUUID());
     const base = (process.env.PRO_RETURN_BASE || 'https://criar.proteinaludica.com').replace(/\/+$/, '');
-    const ligacao = `${base}/?acesso=${encodeURIComponent(token)}&ferramenta=${dados.ferramenta}`;
+    const ligacao = `${base}/?acesso=${encodeURIComponent(token)}&ferramenta=${dados.ferramenta}${dados.profissao === 'outra' ? '&area=outro' : ''}`;
     const texto = [
       'Bom dia,',
       '',
-      `A encomenda do assistente para «${NOMES_TAREFA[dados.tarefa]}» (${NOMES_PROFISSAO[dados.profissao]}) foi registada na campanha de lançamento da Proteína Lúdica, sem custo.`,
+      dados.profissao === 'outra'
+        ? 'A encomenda do assistente foi registada na campanha de lançamento da Proteína Lúdica, sem custo.'
+        : `A encomenda do assistente para «${NOMES_TAREFA[dados.tarefa]}» (${NOMES_PROFISSAO[dados.profissao]}) foi registada na campanha de lançamento da Proteína Lúdica, sem custo.`,
       '',
       'O guia de criação abre nesta ligação e fica disponível durante 7 dias:',
       ligacao,

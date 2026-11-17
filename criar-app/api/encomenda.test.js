@@ -87,6 +87,14 @@ teste('encomenda válida -> 200, id devolvido, estado por omissão', async () =>
   assert(!('estado' in enviado.supabase), 'o estado fica com o valor por omissão da tabela');
 });
 
+teste('«Outra profissão» é aceite com a tarefa definida no guia', async () => {
+  montarStub();
+  const res = await pedir(com({ profissao: 'outra', tarefa: 'tarefa-propria' }));
+  assert(res.statusCode === 200, 'devia aceitar, foi ' + res.statusCode);
+  const recusa = await pedir(com({ profissao: 'outra', tarefa: 'prazos-fiscais' }));
+  assert(recusa.statusCode === 400, 'tarefa de outra profissão devia ser recusada');
+});
+
 teste('o valor é decidido pelo servidor, mesmo que o cliente envie outro', async () => {
   const enviado = montarStub();
   await pedir(com({ valor_cents: 1, valorCents: 1 }));

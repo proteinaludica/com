@@ -138,6 +138,7 @@
               <option value="advogado">Advogado</option>
               <option value="arquitecto">Arquitecto ou engenheiro</option>
               <option value="professor">Professor ou formador</option>
+              <option value="outra">Outra profissão</option>
             </select>
           </label>
           <label class="campo">Tarefa
@@ -239,7 +240,9 @@
     professor: { nome: 'Professor ou formador', tarefas: [
       ['planos-aula', 'Planos de aula'],
       ['avaliacoes', 'Comentários às avaliações dos alunos'],
-      ['encarregados-educacao', 'Comunicações aos encarregados de educação']] }
+      ['encarregados-educacao', 'Comunicações aos encarregados de educação']] },
+    outra: { nome: 'Outra profissão', tarefas: [
+      ['tarefa-propria', 'Tarefa definida no guia de criação']] }
   };
 
   var $ = function (id) { return document.getElementById(id); };

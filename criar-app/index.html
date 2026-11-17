@@ -1256,6 +1256,12 @@
   .pro-faixa[hidden] { display: none; }
   .pro-faixa-texto { font-size: 1.002rem; line-height: 1.45; color: var(--ink); }
   .pro-faixa-btn { white-space: nowrap; }
+
+  /* Sem acesso: só a porta fica visível. */
+  body.sem-acesso .screen:not(#screen-porta) { display: none !important; }
+  body.sem-acesso .progress, body.sem-acesso .demo-reset, body.sem-acesso .sticky-preco { display: none !important; }
+  .porta-btn { display: inline-block; text-decoration: none; margin-top: 1rem; }
+  .porta-nota { margin-top: 1.5rem; }
 </style>
 </head>
 <body>
@@ -1277,6 +1283,22 @@
     <button class="demo-reset" onclick="resetDemo()">↻ Reiniciar</button>
   </div>
 </header>
+
+<!-- ════════════════════════════════════════════ -->
+<!-- PORTA: sem acesso, o guia não abre           -->
+<!-- ════════════════════════════════════════════ -->
+<!-- O guia de criação só abre a quem encomendou (pagamento ou campanha de
+     lançamento). Sem acesso válido, bootAssistirCampo() mostra este ecrã e
+     esconde os restantes. -->
+<section class="screen" id="screen-porta">
+  <div class="screen-inner">
+    <div class="step-label">Guia de criação</div>
+    <h1 class="screen-title">O guia abre com uma encomenda</h1>
+    <p class="screen-sub">Cada assistente digital IA é feito para uma tarefa. O primeiro custa 49&nbsp;€ e cada assistente seguinte custa 39&nbsp;€, com IVA incluído. Durante a campanha de lançamento, os primeiros 50 são oferecidos.</p>
+    <p><a class="btn-accent porta-btn" href="https://proteinaludica.com/#profissoes">Encomendar um assistente</a></p>
+    <p class="porta-nota">Quem já encomendou abre o guia pela ligação que recebeu por email.</p>
+  </div>
+</section>
 
 <!-- ════════════════════════════════════════════ -->
 <!-- ECRÃ 1: PLATAFORMA                          -->
@@ -1746,7 +1768,7 @@
 <!-- ════════════════════════════════════════════ -->
 <section class="screen" id="screen-3">
   <div class="screen-inner output-inner">
-    <div class="step-label" style="text-align:center">Passo 3 de 3 · Grátis</div>
+    <div class="step-label" style="text-align:center">Passo 3 de 3</div>
     <h1 class="output-title">O assistente digital IA está <em>pronto.</em></h1>
     <p class="output-sub">Copiar o bloco abaixo e colá-lo nas instruções do assistente, na plataforma escolhida.</p>
 
@@ -1815,9 +1837,9 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     <div class="output-guia">
       <h2 class="output-guia-titulo">Precisa de ajuda para instalar?</h2>
       <p class="output-guia-texto">Receber por email o guia de instalação passo a passo, em PDF, feito para a ferramenta escolhida.</p>
-      <button type="button" class="btn-accent" onclick="abrirKit()">Receber o guia · grátis</button>
+      <button type="button" class="btn-accent" onclick="abrirKit()">Receber o guia por email</button>
     </div>
-    <p class="tier-medida output-medida">Precisa de um assistente feito por nós? <a href="#" onclick="abrirMedida(); return false;">Pedir contacto (a partir de 290€)</a></p>
+    <p class="tier-medida output-medida">Precisa de um assistente feito por nós? <a href="#" onclick="abrirMedida(); return false;">Pedir contacto</a></p>
   </div>
 </section>
 
@@ -1830,13 +1852,12 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     <div id="paywallTiers">
       <div class="step-label">Passo final</div>
       <h1 class="screen-title">Como continuar?</h1>
-      <p class="screen-sub">Escolher o patamar que melhor serve a necessidade actual. É sempre possível voltar a este ecrã.</p>
+      <p class="screen-sub">As duas opções estão incluídas na encomenda. É sempre possível voltar a este ecrã.</p>
 
       <div class="tier-grid">
         <button class="tier-card" data-tier="free" onclick="selectTier('free', this)">
-          <div class="tier-title">Grátis</div>
-          <div class="tier-price">0€</div>
-          <div class="tier-desc">As instruções completas do assistente, prontas a copiar e colar. Sem custo.</div>
+          <div class="tier-title">Instruções</div>
+          <div class="tier-desc">As instruções completas do assistente, prontas a copiar e colar.</div>
           <ul class="tier-includes">
             <li>Instruções do assistente</li>
           </ul>
@@ -1844,19 +1865,18 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
         </button>
 
         <button class="tier-card" data-tier="kit" onclick="selectTier('kit', this)">
-          <div class="tier-title">Kit completo</div>
-          <div class="tier-price">19€</div>
-          <div class="tier-desc">As instruções do assistente e o guia de instalação em PDF, feito para a plataforma escolhida.</div>
+          <div class="tier-title">Guia de instalação</div>
+          <div class="tier-desc">As instruções do assistente e o guia de instalação em PDF, feito para a ferramenta escolhida.</div>
           <ul class="tier-includes">
             <li>Instruções do assistente</li>
             <li>Guia de instalação em PDF para <span id="tierPlatformName">a plataforma escolhida</span></li>
           </ul>
-          <div class="tier-cta">Receber o Kit · grátis por tempo limitado</div>
+          <div class="tier-cta">Receber o guia por email</div>
         </button>
 
       </div>
 
-      <p class="tier-medida">Precisa de um assistente feito por nós? <a href="#" onclick="selectTier('medida', null); return false;">Pedir contacto (a partir de 290€)</a></p>
+      <p class="tier-medida">Precisa de um assistente feito por nós? <a href="#" onclick="selectTier('medida', null); return false;">Pedir contacto</a></p>
 
       <!-- Escondido enquanto o Kit for grátis: não há pagamento a reembolsar. -->
     </div>
@@ -1868,7 +1888,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
         <div class="paywall-preview">
           <div class="pdf-mockup">
             <div class="pdf-cover-tag">Kit de assistente digital IA</div>
-            <div class="pdf-cover-title" id="checkoutPreviewTitle">Kit completo</div>
+            <div class="pdf-cover-title" id="checkoutPreviewTitle">Guia de instalação</div>
             <div class="pdf-cover-sub">Configurado para <span id="platformName">plataforma escolhida</span></div>
 
             <div class="pdf-blur-section">
@@ -1896,7 +1916,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
 
         <div class="paywall-form">
           <div class="step-label">Finalizar</div>
-          <h1 class="screen-title" id="checkoutTitle">Kit completo<br><em>19€</em></h1>
+          <h1 class="screen-title" id="checkoutTitle">Guia de instalação</h1>
 
           <div class="paywall-includes">
             <div class="paywall-includes-title">Incluído:</div>
@@ -2293,17 +2313,17 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   // ─────────── PAYWALL: PATAMARES ───────────
   const TIERS = {
     free: {
-      titulo: 'Versão grátis',
-      preco: '0€',
+      titulo: 'Instruções',
+      preco: '',
       inclui: 'Apenas as instruções do assistente'
     },
     kit: {
-      titulo: 'Kit completo',
-      preco: '19€',
+      titulo: 'Guia de instalação',
+      preco: '',
       inclui: 'Instruções do assistente + guia de instalação em PDF',
-      title: 'Kit completo<br><em>grátis</em>',
-      previewTitle: 'Kit completo',
-      price: '19€',
+      title: 'Guia de instalação',
+      previewTitle: 'Guia de instalação',
+      price: '',
       includes: [
         'Instruções do assistente',
         'Guia de instalação em PDF para {plataforma}'
@@ -2323,7 +2343,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     },
     medida: {
       titulo: 'À medida',
-      preco: 'a partir de 290€',
+      preco: 'sob consulta',
       inclui: 'Falar connosco'
     }
   };
@@ -2511,7 +2531,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   // sem escolha ainda — ou com "à medida" — mostra o default (kit).
   const STICKY_ESTADOS = {
     free: {
-      upsell: '✨ Com o Kit, recebe também o guia de instalação · 19€',
+      upsell: '',
       botao: 'Ver Kit →',
       acao: abrirKit
     },
@@ -2521,7 +2541,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       acao: abrirKit
     },
     pro: {
-      upsell: 'Precisa de algo à medida? · a partir de 290€',
+      upsell: 'Precisa de algo à medida?',
       botao: 'Falar connosco →',
       acao: goToMedida
     }
@@ -3018,6 +3038,8 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     outra: ['outro', 'Outra ferramenta']
   };
 
+  let areaCampanha = 'escritorio';
+
   function aplicarAcessoCampanha() {
     let params;
     try { params = new URLSearchParams(window.location.search); } catch (e) { return null; }
@@ -3025,19 +3047,37 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     if (!token) return null;
     try { sessionStorage.setItem('pl_proToken', token); } catch (e) {}
     try { window.history.replaceState(window.history.state, document.title, window.location.pathname); } catch (e) {}
+    // «Outra profissão» traz &area=outro; as quatro profissões da montra ficam
+    // na área de escritório e serviços.
+    areaCampanha = params.get('area') === 'outro' ? 'outro' : 'escritorio';
     return FERRAMENTAS_CAMPANHA[params.get('ferramenta')] || null;
+  }
+
+  function mostrarPorta() {
+    document.body.classList.add('sem-acesso');
+    document.querySelectorAll('.screen').forEach(function (s) { s.classList.remove('active'); });
+    const porta = document.getElementById('screen-porta');
+    if (porta) porta.classList.add('active');
+    window.scrollTo(0, 0);
   }
 
   async function bootAssistirCampo() {
     const ferramentaCampanha = aplicarAcessoCampanha();
     const voltouDoPagamento = await recuperarTokenPro();
     inicializarPro();
+    // Sem encomenda (paga ou de campanha) o guia não abre: fica a porta, com
+    // o caminho para a secção Profissões. A porta é do lado do cliente; o
+    // servidor exige o mesmo acesso para escrever com IA e para enviar o guia.
+    if (state.acesso !== 'pro') {
+      mostrarPorta();
+      return;
+    }
     initAssistirCampo();
     // Vindo do email da campanha: ferramenta já escolhida e área de escritório
     // e serviços (as quatro profissões da campanha); segue para as perguntas.
     if (ferramentaCampanha) {
       selectPlatform(ferramentaCampanha[0], ferramentaCampanha[1]);
-      selectArea('escritorio');
+      selectArea(areaCampanha);
       return;
     }
     // O Pro compra-se durante as perguntas: ao regressar do pagamento (pago

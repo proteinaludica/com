@@ -17,11 +17,10 @@ const { PDFDocument, StandardFonts, rgb } = require('pdf-lib');
 const { emitirJWTdocumento, verificarJWT, configSupabase } = require('./_lib/pro-comum');
 const { incrementarContagem, janelaHoje, obterIp, resumirIp } = require('./assistir-campo');
 
-// Pagamento do Kit completo (19€) adiado. Enquanto estiver `true`, o guia do
-// Kit sai sem prova de pagamento, limitado por IP para o endpoint não servir
-// de canal de envio de email em massa. Quando o checkout do Kit estiver
-// ligado, passar a `false` e o Kit volta a exigir token como o Pro.
-const KIT_PAGAMENTO_ADIADO = true;
+// Guia sem prova de acesso. Esteve ligado enquanto o guia de criação era
+// aberto a todos (limitado por IP). Desde que o guia só abre com encomenda,
+// paga ou de campanha, fica desligado: o envio do guia exige sempre token.
+const KIT_PAGAMENTO_ADIADO = false;
 const LIMITE_KIT_POR_IP = 3; // guias do Kit por IP e por dia (UTC)
 
 const LIMITES = {
