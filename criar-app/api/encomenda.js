@@ -36,9 +36,9 @@ const VALOR_CENTS = 4900;
 // Versão dos termos aceites: a data de "Última actualização" de /termos.
 const VERSAO_TERMOS = '2026-11';
 
-// Campanha de lançamento. Fim às 23:59 de Lisboa (UTC em Novembro).
+// Campanha de lançamento. Fim às 23:59 de Lisboa (UTC em Fevereiro).
 const CAMPANHA = {
-  ate: Date.parse('2026-11-30T23:59:59Z'),
+  ate: Date.parse('2027-02-28T23:59:59Z'),
   limite: 50,
 };
 

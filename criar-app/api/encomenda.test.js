@@ -220,8 +220,8 @@ teste('o email é comparado sem wildcards do ILIKE', async () => {
   });
 });
 
-teste('a data de fim da campanha é 30 de Novembro de 2026', async () => {
-  assert(new Date(FIM_REAL).toISOString() === '2026-11-30T23:59:59.000Z', 'data de fim errada');
+teste('a data de fim da campanha é 28 de Fevereiro de 2027', async () => {
+  assert(new Date(FIM_REAL).toISOString() === '2027-02-28T23:59:59.000Z', 'data de fim errada');
   assert(CAMPANHA.limite === 50, 'limite errado');
 });
 
