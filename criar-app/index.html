@@ -1066,10 +1066,89 @@
   }
   .guardado-limpar:hover { color: var(--red); }
   .oblig-list { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 1.5rem; }
-  /* Bob: guia do preenchimento. Só texto, sem imagem. Abre o ecrã, antes da 00. */
-  .bob-fala { border-left: 2px solid var(--accent); padding: 0.25rem 0 0.25rem 1rem; }
-  .bob-nome { font-family: var(--font-mono); font-size: 1rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.35rem; }
-  .bob-fala p { font-size: 1.0391rem; line-height: 1.55; color: var(--ink); margin: 0; }
+  /* ─── Bob: janela própria, fixa no canto inferior direito ───
+     O Bob ajuda a montar o assistente e fala da caixa em que se está a
+     escrever. Não vive dentro das caixas: as caixas são só para o texto. */
+  .bob-janela {
+    position: fixed; right: 1.25rem; bottom: calc(1.25rem + var(--bob-fundo, 0px)); z-index: 70;
+    width: 340px; max-width: calc(100vw - 2rem);
+    background: var(--surface); border: 1px solid rgba(40,80,24,0.3); border-radius: 16px 16px 4px 16px;
+    box-shadow: 0 10px 30px rgba(13,15,11,0.18); overflow: hidden;
+    font-family: var(--font-body);
+  }
+  .bob-janela[hidden] { display: none; }
+  .bob-topo { display: flex; align-items: center; gap: 0.7rem; padding: 0.7rem 0.8rem 0.7rem 0.9rem; background: var(--accent); color: #FDFBF6; }
+  .bob-cara { flex: none; width: 2.3rem; height: 2.3rem; border-radius: 50%; background: #FDFBF6; color: var(--accent); display: flex; align-items: center; justify-content: center; font-family: var(--font-head); font-size: 1.25rem; line-height: 1; }
+  .bob-quem { flex: 1; min-width: 0; line-height: 1.25; }
+  .bob-quem strong { display: block; font-size: 1.05rem; font-weight: 600; letter-spacing: 0.02em; }
+  .bob-quem span { font-size: 0.85rem; opacity: 0.85; }
+  .bob-recolher { flex: none; width: 2rem; height: 2rem; border-radius: 8px; border: 0; background: rgba(253,251,246,0.14); color: #FDFBF6; font-size: 1.2rem; line-height: 1; cursor: pointer; }
+  .bob-recolher:hover { background: rgba(253,251,246,0.26); }
+  .bob-conversa { padding: 0.9rem 1rem 1rem; max-height: min(70vh, 560px); overflow-y: auto; }
+  .bob-onde { font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.35rem; }
+  .bob-onde:empty { display: none; }
+  .bob-conversa p { margin: 0; font-size: 1.0391rem; line-height: 1.5; color: var(--ink); }
+  .bob-passos { margin: 0.65rem 0 0; padding: 0.65rem 0 0 1.25rem; border-top: 0.5px solid var(--border); font-size: 0.98rem; line-height: 1.45; color: var(--ink); }
+  .bob-passos li { margin: 0 0 0.3rem; padding-left: 0.15rem; }
+  .bob-passos li::marker { color: var(--accent); font-weight: 600; }
+  .bob-passos:empty { display: none; }
+  /* ─── Bob Pro: pedir ao Bob uma proposta para a caixa à vista ─── */
+  .bob-pro { margin-top: 0.85rem; padding-top: 0.85rem; border-top: 0.5px solid var(--border); }
+  .bob-pro[hidden] { display: none; }
+  .bob-pro-titulo { display: flex; align-items: center; gap: 0.45rem; width: 100%; font: inherit; font-weight: 600; font-size: 0.98rem; color: var(--ink); background: #F7F3FB; border: 1px solid #DCCDEE; border-radius: 8px; padding: 0.55rem 0.7rem; cursor: pointer; text-align: left; }
+  .bob-pro-titulo:hover { background: #F0E9F8; }
+  .bob-pro-seta { margin-left: auto; font-size: 1.2rem; line-height: 1; color: #6B3FA0; transition: transform 0.15s; }
+  .bob-pro-titulo[aria-expanded="true"] .bob-pro-seta { transform: rotate(90deg); }
+  .bob-pro-corpo { margin-top: 0.6rem; }
+  .bob-pro-corpo[hidden] { display: none; }
+  .bob-pro-selo { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: #6B3FA0; background: #F0E9F8; border-radius: 4px; padding: 1px 6px; font-weight: 500; }
+  .bob-pro-rotulo { display: block; font-size: 0.92rem; color: var(--muted); margin-bottom: 0.35rem; }
+  .bob-pro-pedido { width: 100%; box-sizing: border-box; font: inherit; font-size: 0.98rem; line-height: 1.4; padding: 0.5rem 0.6rem; border: 1px solid var(--border-strong); border-radius: 8px; background: #fff; resize: vertical; min-height: 3.6rem; }
+  .bob-pro-pedido:focus { outline: none; border-color: var(--accent); }
+  .bob-pro-pedir, .bob-pro-usar { margin-top: 0.5rem; font: inherit; font-size: 0.95rem; font-weight: 600; color: #FDFBF6; background: var(--accent); border: 0; border-radius: 8px; padding: 0.5rem 0.9rem; cursor: pointer; }
+  .bob-pro-pedir[disabled], .bob-pro-outra[disabled] { opacity: 0.55; cursor: default; }
+  .bob-pro-outra { margin-top: 0.5rem; font: inherit; font-size: 0.95rem; color: var(--accent); background: transparent; border: 1px solid var(--accent); border-radius: 8px; padding: 0.45rem 0.85rem; cursor: pointer; }
+  .bob-conversa p.bob-pro-aviso { margin: 0.5rem 0 0; font-size: 0.9rem; line-height: 1.4; color: var(--muted); }
+  .bob-pro-aviso:empty { display: none; }
+  .bob-pro-aviso a { color: #6B3FA0; text-decoration: underline; cursor: pointer; }
+  .bob-conversa p.bob-pro-aviso.erro { color: #B3261E; }
+  .bob-pro-proposta { margin-top: 0.75rem; padding: 0.7rem 0.8rem; background: var(--accent-light); border: 1px solid rgba(40,80,24,0.22); border-radius: 10px; }
+  .bob-pro-proposta[hidden] { display: none; }
+  .bob-pro-sub { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.3rem; }
+  .bob-pro-proposta p { white-space: pre-wrap; }
+  .bob-pro-botoes button { margin-top: 0.55rem; }
+  .bob-pro-contradicao { margin-top: 0.5rem !important; font-size: 0.9rem !important; color: #8A5A00 !important; }
+  .bob-pro-contradicao[hidden] { display: none; }
+  .bob-pro-botoes { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .bob-conversa p.bob-pro-lembrete { margin-top: 0.45rem; font-size: 0.85rem; color: var(--muted); }
+  /* Recolhido: fica só o botão redondo, no mesmo canto. */
+  .bob-botao {
+    position: fixed; right: 1.25rem; bottom: calc(1.25rem + var(--bob-fundo, 0px)); z-index: 70;
+    width: 3.4rem; height: 3.4rem; border-radius: 50%; border: 2px solid #FDFBF6;
+    background: var(--accent); color: #FDFBF6; font-family: var(--font-head); font-size: 1.5rem; line-height: 1;
+    box-shadow: 0 6px 18px rgba(13,15,11,0.25); cursor: pointer;
+  }
+  .bob-botao[hidden] { display: none; }
+  .bob-botao.tem-novidade::after { content: ''; position: absolute; top: 2px; right: 2px; width: 0.8rem; height: 0.8rem; border-radius: 50%; background: #C8A86B; border: 2px solid #FDFBF6; }
+  /* A caixa de que o Bob está a falar. */
+  .fill-main.em-foco { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(40,80,24,0.12); }
+  /* Na caixa fica só a instrução; o Bob dá os passos. A orientação antiga
+     fica no documento, porque orientacaoDaSeccao() a envia à IA do Pro. */
+  .fill-main .fill-guide { display: none; }
+  /* Com o Bob aberto, o conteúdo encosta à esquerda para a janela não
+     tapar as caixas. Em ecrãs muito largos há margem que chegue. */
+  @media (min-width: 901px) and (max-width: 1759px) {
+    body.bob-aberto .screen { padding-right: 372px; }
+  }
+  /* Telemóvel e tablet ao alto, no preenchimento: a janela fixa taparia o
+     campo. O Bob passa a cartão no topo do conteúdo (ver bobPosicionar). */
+  .bob-janela.bob-embutido { position: static; width: auto; max-width: none; margin: 0 0 1.25rem; box-shadow: none; border-radius: 14px; }
+  .bob-janela.bob-embutido .bob-conversa { max-height: none; }
+  @media (max-width: 600px) {
+    .bob-janela { right: 0.75rem; left: 0.75rem; width: auto; max-width: none; bottom: calc(0.75rem + var(--bob-fundo, 0px)); }
+    .bob-conversa { max-height: 34vh; }
+    .bob-botao { right: 0.75rem; bottom: calc(0.75rem + var(--bob-fundo, 0px)); }
+  }
   /* Todas as 16 secções param abaixo da barra fixa. Antes, a regra abaixo
      enumerava só os IDs das opcionais, e as obrigatórias aterravam tapadas. */
   .fill-main { scroll-margin-top: 90px; }
@@ -1103,6 +1182,43 @@
   .fill-field .chips { display: none; }
   .fill-field .btn-pro { background: transparent; border-color: transparent; text-decoration: underline; opacity: 0.8; }
   .fill-field .btn-pro:hover { opacity: 1; background: transparent; }
+
+  /* ─── Passo 2 em duas fases ───
+     "perguntas": só a pergunta actual, o progresso e o botão Seguinte.
+     "afinar": depois das 5 perguntas, aparece o resto (exemplos, índice das
+     secções, opcionais, Pro e "Rever e terminar"). */
+  .perg-progresso { display: flex; gap: 0.45rem; margin: 0 0 1.25rem; }
+  .perg-progresso i { flex: 0 0 2.4rem; height: 0.35rem; border-radius: 3px; background: var(--border-strong); }
+  .perg-progresso i.feito { background: var(--accent); }
+  #screen-2.fase-perguntas .pro-faixa,
+  #screen-2.fase-perguntas .section-progress,
+  #screen-2.fase-perguntas .s3-index,
+  #screen-2.fase-perguntas #sec-00,
+  #screen-2.fase-perguntas .s3-content > .rever-bar,
+  #screen-2.fase-perguntas .afinar-bar,
+  #screen-2.fase-perguntas .afinar-voltar { display: none; }
+  #screen-2.fase-perguntas .s3-body { grid-template-columns: 1fr; max-width: 680px; }
+  #screen-2.fase-perguntas .oblig-list .oblig-block { display: none; }
+  #screen-2.fase-perguntas .oblig-list .oblig-block.atual { display: block; }
+  #screen-2.fase-perguntas .oblig-nav { display: flex; justify-content: space-between; gap: 0.75rem; margin: 1rem 0; }
+  #screen-2.fase-perguntas .oblig-nav button[hidden] { display: none; }
+  #screen-2.fase-afinar .oblig-list .oblig-block,
+  #screen-2.fase-afinar .oblig-nav,
+  #screen-2.fase-afinar .perg-progresso { display: none; }
+  #screen-2.fase-afinar .afinar-voltar { margin-bottom: 1rem; align-self: flex-start; }
+  /* Na fase "afinar", o botão de terminar vem primeiro: tudo o resto é opcional. */
+  #screen-2.fase-afinar .s3-content:not(.modo-opcionais) { display: flex; flex-direction: column; }
+  #screen-2.fase-afinar .s3-content:not(.modo-opcionais) > .afinar-voltar { order: -2; }
+  #screen-2.fase-afinar .s3-content:not(.modo-opcionais) > .rever-bar { order: -1; margin-bottom: 1.5rem; }
+  /* Nas perguntas, cabeçalho compacto para o botão Seguinte caber no ecrã. */
+  #screen-2.fase-perguntas { padding-top: 2rem; }
+  #screen-2.fase-perguntas .screen-title { font-size: 2rem; margin-bottom: 0.4rem; }
+  /* O subtítulo sai nesta fase: a ajuda é dada pelo Bob, pergunta a pergunta. */
+  #screen-2.fase-perguntas .screen-sub { display: none; }
+  #screen-2.fase-perguntas .screen-title { margin-bottom: 1rem; }
+  #screen-2.fase-perguntas .fill-field textarea { min-height: 7.5rem; height: 7.5rem; }
+  #screen-2.fase-perguntas .fill-main { padding: 1.5rem 2rem; }
+  #screen-2.fase-afinar .s3-content.modo-opcionais > .afinar-voltar { display: none; }
 
   /* Telemóvel: uma pergunta essencial de cada vez, sem o índice das 16. */
   .oblig-nav { display: none; }
@@ -1383,11 +1499,11 @@
 <section class="screen" id="screen-2">
   <div class="screen-inner">
     <div class="step-label">Passo 2 de 3</div>
-    <h1 class="screen-title">5 perguntas <em>essenciais</em></h1>
-    <p class="screen-sub">Basta uma ou duas frases em cada resposta. O resto é opcional e pode ficar para depois.</p>
+    <h1 class="screen-title" id="s2Titulo">5 perguntas <em>essenciais</em></h1>
+    <p class="screen-sub" id="s2Sub">Basta uma ou duas frases em cada resposta. O resto é opcional e pode ficar para depois.</p>
 
     <div class="pro-faixa" id="proFaixa">
-      <span class="pro-faixa-texto" id="proFaixaTexto">✨ Com o Pro, a IA escreve as respostas a partir do que já foi escrito · 49€</span>
+      <span class="pro-faixa-texto" id="proFaixaTexto">✨ Com o Pro, o Bob ajuda a responder com IA, a partir do que lhe escrever · 49€</span>
       <button type="button" class="btn-accent pro-faixa-btn" onclick="goToProPricing()">Ver Pro →</button>
     </div>
     <div class="pro-session-chip" id="proSessionChip" hidden>Sessão Pro activa · 3 gerações por campo, por dia</div>
@@ -1417,14 +1533,13 @@
           <strong>Atenção RGPD:</strong> detectámos o que parece ser um dado pessoal identificável (nome completo, número de cliente, data de nascimento ou similar). Para respeitar a privacidade dos seus clientes, use apenas iniciais + idade — ex: <em>"M.A., 62a"</em>. Este aviso aparece só para si, não bloqueia.
         </div>
 
+        <!-- Fase "perguntas": progresso das 5 essenciais, uma de cada vez. -->
+        <div class="perg-progresso" id="pergProgresso" role="img" aria-label="Pergunta 1 de 5"></div>
+        <!-- Fase "afinar": regresso às 5 perguntas. -->
+        <button type="button" class="btn-ghost afinar-voltar" onclick="irParaPerguntas(0)">← Voltar às perguntas</button>
+
         <div class="oblig-list" id="obligList">
 
-          <!-- Bob: abertura do guia. O Bob guia o processo e nunca é o nome
-               do assistente que está a ser criado. -->
-          <div class="bob-fala" id="bobAbertura">
-            <div class="bob-nome">Bob</div>
-            <p>Olá. Sou o Bob. Vamos criar o assistente digital IA, secção a secção. Começamos pelos exemplos, se os houver. Só cinco secções são obrigatórias. As outras ficam ao critério do profissional.</p>
-          </div>
 
           <!-- Secção 00: opcional, vem antes de tudo porque os exemplos orientam o
                resto do preenchimento. Não tem botão Pro: a IA não inventa os
@@ -1435,7 +1550,7 @@
             <div class="fill-title">Exemplos</div>
             <div class="fill-guide">Um exemplo verdadeiro ensina mais ao assistente do que qualquer descrição. O profissional cola textos já escritos por si. Antes de colar, retira os nomes, os contactos e qualquer dado que identifique alguém. Quem não tiver exemplos à mão avança e volta aqui mais tarde.</div>
             <div class="fill-field">
-              <label for="f-exemplos">Antes de começar, o profissional tem dois ou três textos seus que mostrem como gosta de escrever?</label>
+              <label for="f-exemplos">Cole aqui dois ou três textos seus, como emails, relatórios ou resumos.</label>
               <textarea id="f-exemplos" placeholder="ex: Um contabilista cola um email de resposta a um cliente e um resumo de reunião, com os nomes trocados por iniciais." oninput="checkRGPD(this)"></textarea>
               <label class="confirma-dados" for="f-exemplos-confirma">
                 <input type="checkbox" id="f-exemplos-confirma">
@@ -1449,7 +1564,7 @@
             <div class="fill-title">Nome e propósito</div>
             <div class="fill-guide">O profissional escolhe um nome simples e descreve a tarefa principal. O assistente parte sempre de algo que o profissional já produziu, seja um rascunho ou um ditado, e devolve esse material escrito e organizado.</div>
             <div class="fill-field">
-              <label for="f-nome">Como se chama o assistente? Para que serve?</label>
+              <label for="f-nome">Diga como se chama o assistente e para que serve.</label>
               <textarea id="f-nome" placeholder="ex: Assistente de apoio que responde às dúvidas mais frequentes de quem procura o serviço." oninput="checkRGPD(this)"></textarea>
               <div class="chips" aria-label="Sugestões para começar">
                 <span class="chips-label">começar com</span>
@@ -1460,7 +1575,6 @@
               </div>
               <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="1" data-campo="f-nome" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro">✨ Escrever com IA<span class="pro-tip"></span></button>
         </div>
             </div>
           </div>
@@ -1470,7 +1584,7 @@
             <div class="fill-title">Missão</div>
             <div class="fill-guide">O profissional escreve uma frase sobre a mudança que o assistente traz ao seu trabalho.</div>
             <div class="fill-field">
-              <label for="f-missao">Qual é o objectivo maior? O que se pretende melhorar no trabalho do dia-a-dia?</label>
+              <label for="f-missao">Diga o que quer melhorar no seu trabalho do dia-a-dia.</label>
               <textarea id="f-missao" placeholder="ex: Ajudar a preparar a reunião e a esclarecer dúvidas entre contactos." oninput="checkRGPD(this)"></textarea>
               <div class="chips" aria-label="Sugestões para começar">
                 <span class="chips-label">começar com</span>
@@ -1480,7 +1594,6 @@
               </div>
               <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="2" data-campo="f-missao" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro">✨ Escrever com IA<span class="pro-tip"></span></button>
         </div>
             </div>
           </div>
@@ -1490,7 +1603,7 @@
             <div class="fill-title">Limites intransponíveis</div>
             <div class="fill-guide">Esta secção mantém o assistente como ferramenta de organização e nunca de decisão.</div>
             <div class="fill-field">
-              <label for="f-redline">Que linhas o assistente nunca pode atravessar, nem que insistam?</label>
+              <label for="f-redline">Escreva o que o assistente nunca faz.</label>
               <textarea id="f-redline" placeholder="ex: não dá pareceres definitivos, não substitui a análise do profissional, não compromete a empresa." oninput="checkRGPD(this)"></textarea>
               <div class="chips" aria-label="Sugestões para começar">
                 <span class="chips-label">começar com</span>
@@ -1501,7 +1614,6 @@
               </div>
               <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="12" data-campo="f-redline" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro">✨ Escrever com IA<span class="pro-tip"></span></button>
         </div>
             </div>
           </div>
@@ -1511,7 +1623,7 @@
             <div class="fill-title">Situações-limite</div>
             <div class="fill-guide">O profissional define quando o assistente interrompe o trabalho e como lida com lacunas sem inventar factos.</div>
             <div class="fill-field">
-              <label for="f-emerg">Que situações obrigam o assistente a parar e a devolver o trabalho ao profissional? E quando falta informação, o assistente pergunta ou assume e assinala a suposição?</label>
+              <label for="f-emerg">Diga quando o assistente pára e lhe devolve o trabalho.</label>
               <textarea id="f-emerg" placeholder="ex: perante um pedido que exija uma decisão, pára e devolve o trabalho ao profissional. Quando falta um dado, escreve &quot;suposição — confirmar&quot; em vez de inventar." oninput="checkRGPD(this)"></textarea>
               <div class="chips" aria-label="Sugestões para começar">
                 <span class="chips-label">começar com</span>
@@ -1522,7 +1634,6 @@
               </div>
               <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="13" data-campo="f-emerg" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro">✨ Escrever com IA<span class="pro-tip"></span></button>
         </div>
             </div>
           </div>
@@ -1532,7 +1643,7 @@
             <div class="fill-title">Fecho</div>
             <div class="fill-guide">A mensagem de fecho lembra sempre que o profissional revê e decide.</div>
             <div class="fill-field">
-              <label for="f-fecho">Como termina cada interacção?</label>
+              <label for="f-fecho">Escreva como o assistente termina cada resposta.</label>
               <textarea id="f-fecho" placeholder="ex: reforça o passo seguinte e lembra que a decisão final é do profissional." oninput="checkRGPD(this)"></textarea>
               <div class="chips" aria-label="Sugestões para começar">
                 <span class="chips-label">começar com</span>
@@ -1543,7 +1654,6 @@
               </div>
               <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="15" data-campo="f-fecho" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro">✨ Escrever com IA<span class="pro-tip"></span></button>
         </div>
             </div>
           </div>
@@ -1575,11 +1685,10 @@
       <div class="fill-title">Público-alvo</div>
       <div class="fill-guide">O profissional descreve quem vai ler ou usar aquilo que o assistente ajuda a produzir.</div>
       <div class="fill-field">
-        <label for="f-publico">Com quem fala o assistente? Que idade têm essas pessoas, que familiaridade têm com o tema, em que contexto leem?</label>
+        <label for="f-publico">Descreva quem vai ler os textos que o assistente ajuda a preparar.</label>
         <textarea id="f-publico" placeholder="Descreva em 1-2 frases quem recebe estes textos." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="3" data-campo="f-publico" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro">✨ Escrever com IA<span class="pro-tip"></span></button>
         </div>
       </div>
     </div>
@@ -1588,11 +1697,10 @@
       <div class="fill-title">Contexto</div>
       <div class="fill-guide">O contexto ajuda o assistente a escolher o vocabulário e o grau de formalidade adequados.</div>
       <div class="fill-field">
-        <label for="f-contexto">Em que ambiente trabalha o profissional? O que caracteriza esse sítio ou esse sector?</label>
+        <label for="f-contexto">Descreva o sítio ou o sector onde trabalha.</label>
         <textarea id="f-contexto" placeholder="Descreva em 1-2 frases o ambiente onde o profissional actua." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="4" data-campo="f-contexto" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro">✨ Escrever com IA<span class="pro-tip"></span></button>
         </div>
       </div>
     </div>
@@ -1601,11 +1709,10 @@
       <div class="fill-title">Voz e tom</div>
       <div class="fill-guide">O tom pertence ao próprio profissional. O assistente imita esse estilo e não inventa outro.</div>
       <div class="fill-field">
-        <label for="f-tom">O tom é formal ou próximo? É sério ou leve? Que impressão devem deixar os textos?</label>
+        <label for="f-tom">Diga que tom quer nos textos.</label>
         <textarea id="f-tom" placeholder="Descreva em 1-2 frases o tom pretendido." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="5" data-campo="f-tom" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro">✨ Escrever com IA<span class="pro-tip"></span></button>
         </div>
       </div>
     </div>
@@ -1614,11 +1721,10 @@
       <div class="fill-title">Linguagem</div>
       <div class="fill-guide">O profissional define se os textos usam linguagem técnica ou linguagem simples, e indica se alguma vez precisa de outra língua além do português.</div>
       <div class="fill-field">
-        <label for="f-linguagem">Que palavras usa o assistente? Explica os termos técnicos? Recorre a comparações? Escreve sempre em português ou precisa de outra língua?</label>
+        <label for="f-linguagem">Diga que palavras e que línguas o assistente usa.</label>
         <textarea id="f-linguagem" placeholder="Descreva em 1-2 frases o registo de linguagem." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="6" data-campo="f-linguagem" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro">✨ Escrever com IA<span class="pro-tip"></span></button>
         </div>
       </div>
     </div>
@@ -1627,11 +1733,10 @@
       <div class="fill-title">Estilo de resposta</div>
       <div class="fill-guide">O profissional fixa o formato dos textos que recebe de volta e indica as necessidades de acessibilidade.</div>
       <div class="fill-field">
-        <label for="f-estilo">Os textos são longos ou curtos? Vêm em listas ou em texto corrido? Usam emojis? Precisam de frases curtas, fáceis de ler em voz alta? O assistente deve avisar quando um rascunho sai muito mais longo ou muito mais curto do que é habitual?</label>
+        <label for="f-estilo">Descreva o formato dos textos que quer receber.</label>
         <textarea id="f-estilo" placeholder="Descreva o formato-tipo dos textos e eventuais necessidades de acessibilidade." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="7" data-campo="f-estilo" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro">✨ Escrever com IA<span class="pro-tip"></span></button>
         </div>
       </div>
     </div>
@@ -1640,11 +1745,10 @@
       <div class="fill-title">Arranque</div>
       <div class="fill-guide">O profissional define a sequência de arranque. O assistente faz uma pergunta de cada vez.</div>
       <div class="fill-field">
-        <label for="f-onboarding">Como começa a primeira conversa? Que perguntas faz o assistente, e por que ordem?</label>
+        <label for="f-onboarding">Descreva como começa cada conversa com o assistente.</label>
         <textarea id="f-onboarding" placeholder="Descreva a sequência de perguntas do primeiro contacto." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="8" data-campo="f-onboarding" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro">✨ Escrever com IA<span class="pro-tip"></span></button>
         </div>
       </div>
     </div>
@@ -1653,11 +1757,10 @@
       <div class="fill-title">Tarefas específicas</div>
       <div class="fill-guide">O profissional enumera o que o assistente sabe organizar a partir do material que recebe, e diz como o assistente lida com correcções parciais.</div>
       <div class="fill-field">
-        <label for="f-tarefas">Que trabalhos sabe o assistente executar? Se o profissional mudar de ideias a meio, o assistente reescreve tudo ou corrige apenas o trecho indicado? Guarda as versões anteriores do mesmo rascunho?</label>
+        <label for="f-tarefas">Liste os trabalhos que o assistente executa.</label>
         <textarea id="f-tarefas" placeholder="Descreva os fluxos de trabalho e as regras para correcções e versões." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="9" data-campo="f-tarefas" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro">✨ Escrever com IA<span class="pro-tip"></span></button>
         </div>
       </div>
     </div>
@@ -1666,11 +1769,10 @@
       <div class="fill-title">Fontes oficiais</div>
       <div class="fill-guide">O profissional indica os documentos e os modelos que autoriza, e também os que exclui.</div>
       <div class="fill-field">
-        <label for="f-fontes">Em que informação se apoia o assistente? O que nunca cita?</label>
+        <label for="f-fontes">Indique os documentos em que o assistente se apoia.</label>
         <textarea id="f-fontes" placeholder="Descreva as fontes autorizadas e as que estão excluídas." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="10" data-campo="f-fontes" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro">✨ Escrever com IA<span class="pro-tip"></span></button>
         </div>
       </div>
     </div>
@@ -1679,11 +1781,10 @@
       <div class="fill-title">Conhecimento fixo</div>
       <div class="fill-guide">O profissional reúne a informação estável que o assistente deve conhecer de base e indica o que o assistente nunca deve dizer.</div>
       <div class="fill-field">
-        <label for="f-conhecimento">Que informação precisa o assistente de ter sempre presente? Existe algum glossário ou termos próprios? O assistente assina com nome e contacto, ou só nalguns casos? Há dados que mudam com frequência e que deve confirmar em vez de presumir? Há frases que nunca deve usar?</label>
+        <label for="f-conhecimento">Escreva a informação que o assistente deve ter sempre presente.</label>
         <textarea id="f-conhecimento" placeholder="Descreva os dados fixos e as regras para dados variáveis." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="11" data-campo="f-conhecimento" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro">✨ Escrever com IA<span class="pro-tip"></span></button>
         </div>
       </div>
     </div>
@@ -1692,11 +1793,10 @@
       <div class="fill-title">Tratamento de dados</div>
       <div class="fill-guide">O assistente reduz os dados pessoais ao mínimo. Quando detecta dados que identificam alguém, sugere substituí-los.</div>
       <div class="fill-field">
-        <label for="f-dados">Que dados aceita o assistente? Quais recusa, por respeito ao RGPD? Deve confirmar o género de quem é mencionado no texto, em vez de o presumir?</label>
+        <label for="f-dados">Diga que dados pessoais o assistente aceita e quais recusa.</label>
         <textarea id="f-dados" placeholder="Descreva as regras de privacidade e tratamento de dados." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="14" data-campo="f-dados" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro">✨ Escrever com IA<span class="pro-tip"></span></button>
         </div>
       </div>
     </div>
@@ -1705,11 +1805,10 @@
       <div class="fill-title">Continuidade</div>
       <div class="fill-guide">O assistente pode sugerir guardar uma preferência que se repete, mas nunca grava sem aprovação explícita. Nunca aprende sozinho.</div>
       <div class="fill-field">
-        <label for="f-continuidade">Como liga o assistente uma interacção à seguinte? Quando nota um pedido que se repete, pode sugerir guardá-lo como preferência, desde que só grave depois de o profissional confirmar?</label>
+        <label for="f-continuidade">Diga como o assistente liga uma conversa à seguinte.</label>
         <textarea id="f-continuidade" placeholder="Descreva como o assistente mantém continuidade entre sessões." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="16" data-campo="f-continuidade" onclick="toggleExemplo(this)">Ver exemplo</button>
-          <button type="button" class="btn-pro">✨ Escrever com IA<span class="pro-tip"></span></button>
         </div>
       </div>
     </div>
@@ -1883,12 +1982,12 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
 
             <div class="pdf-footer-mark">Proteína Lúdica · 2026</div>
           </div>
-          <!-- Pro: mostra o que o Pro faz (a IA escreve um campo), não o PDF. -->
+          <!-- Pro: mostra o que o Pro faz (o Bob propõe a resposta de uma caixa), não o PDF. -->
           <div class="pro-mockup" id="proPreview" hidden>
             <div class="pro-mockup-tag">Pro · escrita assistida por IA</div>
             <div class="pro-mockup-campo">Missão</div>
             <div class="pro-mockup-antes">ajudar doentes com dúvidas</div>
-            <div class="pro-mockup-seta">✨ Escrever com IA</div>
+            <div class="pro-mockup-seta">✨ O Bob propõe a resposta</div>
             <div class="pro-mockup-depois">Ajudar quem procura o consultório do Dr. Silva a esclarecer dúvidas frequentes sobre marcações e preparação para exames, com respostas claras e sem dar diagnósticos.</div>
           </div>
           <div class="preview-caption" id="previewCaption">↑ Preview · PDF completo após confirmação</div>
@@ -2012,6 +2111,42 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
 <!-- ════════════════════════════════════════════ -->
 <!-- MODAL: 3 perguntas                          -->
 <!-- ════════════════════════════════════════════ -->
+<!-- Bob: janela de ajuda à montagem. O texto é escrito por bobActualizar(). -->
+<aside class="bob-janela" id="bobJanela" aria-label="Bob, ajuda a montar o assistente" hidden>
+  <div class="bob-topo">
+    <span class="bob-cara" aria-hidden="true">B</span>
+    <div class="bob-quem"><strong>Bob</strong><span>ajuda a montar o assistente</span></div>
+    <button type="button" class="bob-recolher" id="bobRecolher" aria-label="Recolher o Bob">–</button>
+  </div>
+  <div class="bob-conversa">
+    <div class="bob-onde" id="bobOnde" aria-live="polite"></div>
+    <p id="bobFala" aria-live="polite"></p>
+    <ol class="bob-passos" id="bobPassos"></ol>
+    <!-- Bob Pro: a pessoa escreve ao Bob e ele propõe a resposta da caixa.
+         Escrito por bobProDesenhar(). Some na secção 00 e fora das caixas. -->
+    <div class="bob-pro" id="bobPro" hidden>
+      <button type="button" class="bob-pro-titulo" id="bobProAbrir" aria-expanded="false" aria-controls="bobProCorpo">Responder com a ajuda do Bob <span class="bob-pro-selo">Pro</span><span class="bob-pro-seta" aria-hidden="true">›</span></button>
+      <div class="bob-pro-corpo" id="bobProCorpo" hidden>
+      <label class="bob-pro-rotulo" for="bobPedido">Escreva ao Bob, por palavras suas, o que quer dizer nesta caixa.</label>
+      <textarea id="bobPedido" class="bob-pro-pedido" rows="3" maxlength="1500"></textarea>
+      <button type="button" class="bob-pro-pedir" id="bobPedir">Pedir proposta</button>
+      <p class="bob-pro-aviso" id="bobProAviso"></p>
+      <div class="bob-pro-proposta" id="bobProposta" hidden>
+        <div class="bob-pro-sub">Proposta do Bob</div>
+        <p id="bobPropostaTexto"></p>
+        <p class="bob-pro-contradicao" id="bobProContradicao" hidden></p>
+        <div class="bob-pro-botoes">
+          <button type="button" class="bob-pro-usar" id="bobUsar">Usar esta resposta</button>
+          <button type="button" class="bob-pro-outra" id="bobOutra">Pedir outra</button>
+        </div>
+        <p class="bob-pro-lembrete">Reveja a proposta antes de a usar. A decisão é sua.</p>
+      </div>
+      </div>
+    </div>
+  </div>
+</aside>
+<button type="button" class="bob-botao" id="bobBotao" aria-label="Abrir o Bob" hidden>B</button>
+
 <div class="modal-overlay" id="quizModal" onclick="if(event.target===this) closeQuizModal()">
   <div class="modal">
     <div class="modal-title">Deixa-nos uma recomendação</div>
@@ -2156,6 +2291,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   // ─────────── NAVIGATION ───────────
   function goTo(n) {
     if (n === 3) gerarOutput();
+    if (n === 2 && !aReporHistorico) prepararFase();
     if (n === 5) {
       const urlExistente = sessionStorage.getItem('pl_downloadUrl');
       if (urlExistente) activarBotaoDescarrega();
@@ -2170,6 +2306,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     if (n !== 4 && state.patamar === 'pro' && state.acesso !== 'pro') state.patamar = null;
     updateProgress();
     atualizarStickyPreco();
+    bobActualizar();
     window.scrollTo({ top: 0, behavior: 'smooth' });
     registarHistorico();
   }
@@ -2188,13 +2325,15 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       ecra: state.current,
       passo: state.current === 4 ? (passo || 'paywallTiers') : null,
       opc: state.current === 2 && !!(opc && !opc.hidden),
+      fase: state.current === 2 ? fase : null,
+      perg: state.current === 2 && fase === 'perguntas' ? perguntaAtual : null,
     };
   }
   function registarHistorico() {
     if (aReporHistorico) return;
     const nova = vistaAtual();
     const atual = window.history.state;
-    if (atual && atual.ecra === nova.ecra && atual.passo === nova.passo && atual.opc === nova.opc) return;
+    if (atual && atual.ecra === nova.ecra && atual.passo === nova.passo && atual.opc === nova.opc && atual.fase === nova.fase && atual.perg === nova.perg) return;
     try { window.history.pushState(nova, ''); } catch (e) {}
   }
   window.addEventListener('popstate', function (e) {
@@ -2208,8 +2347,12 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
         else showPaywallStep(v.passo);
       }
       if (v.ecra === 2) {
-        if (v.opc) abrirOpcionais(true);
-        else fecharOpcionais(true);
+        if (v.fase === 'perguntas') irParaPerguntas(v.perg || 0);
+        else {
+          irParaAfinar();
+          if (v.opc) abrirOpcionais(true);
+          else fecharOpcionais(true);
+        }
       }
     } finally {
       aReporHistorico = false;
@@ -2746,6 +2889,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   function aplicarAcesso() {
     atualizarProChip();
     atualizarStickyPreco();
+    if (typeof bobProDesenhar === 'function') bobProDesenhar();
   }
 
   // Descartar a sessão Pro no cliente (após 401 sessao_expirada ou exp local).
@@ -2933,6 +3077,9 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     }
   }
 
+  // Os botões "Escrever com IA" saíram das caixas: a ajuda Pro passou para a
+  // janela do Bob (ver bobProPedir). Sem botões, as duas funções abaixo não
+  // encontram nada e não fazem nada; ficam para não partir o arranque.
   // O texto da dica dos 16 botões Pro vinha escrito à mão no HTML, com o preço
   // repetido em cada um — e o onclick inline "goToProPricing()" era morto:
   // initAssistirCampo() substitui-o sempre. Passa a sair de TIERS, num sítio só.
@@ -3217,6 +3364,8 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   }
 
   function resetDemo() {
+    bob.regressou = false;
+    bobLargarSeccao();
     state.current = 1;
     state.platform = null;
     state.platformLabel = null;
@@ -3448,6 +3597,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   // irAoTopo: true quando é a própria pessoa a mudar de ecrã (botão), false
   // quando um link do índice ou da barra já vai fazer scroll para uma secção.
   function abrirOpcionais(irAoTopo) {
+    aplicarFase('afinar');
     const panel = document.getElementById('opcionais');
     const btn = document.getElementById('btnAfinar');
     const conteudo = panel && panel.closest('.s3-content');
@@ -3456,6 +3606,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     if (conteudo) conteudo.classList.add('modo-opcionais');
     if (btn) { btn.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); }
     if (irAoTopo && conteudo) conteudo.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    bobLargarSeccao();
     registarHistorico();
   }
   function fecharOpcionais(irAoTopo) {
@@ -3466,6 +3617,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     panel.setAttribute('hidden', '');
     if (conteudo) conteudo.classList.remove('modo-opcionais');
     if (btn) { btn.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); }
+    bobLargarSeccao();
     if (irAoTopo && conteudo) conteudo.scrollIntoView({ behavior: 'smooth', block: 'start' });
     registarHistorico();
   }
@@ -3474,23 +3626,100 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     if (panel && panel.hasAttribute('hidden')) abrirOpcionais(true);
     else fecharOpcionais(true);
   }
-  // Telemóvel: as 5 perguntas essenciais aparecem uma de cada vez (o CSS só
-  // esconde as outras abaixo de 600px; no computador ficam todas à vista).
+  // ─── Passo 2 em duas fases ───
+  // "perguntas": as 5 essenciais, uma de cada vez, em qualquer largura.
+  // "afinar": o que é opcional (exemplos, restantes secções, Pro) e o botão
+  // "Rever e terminar". Só aparece depois da quinta pergunta.
+  let fase = 'perguntas';
   let perguntaAtual = 0;
+  const S2_TITULO = {
+    perguntas: '5 perguntas <em>essenciais</em>',
+    afinar: 'Quer <em>afinar</em> mais?'
+  };
+  const S2_SUB = {
+    perguntas: 'Basta uma ou duas frases em cada resposta. O resto é opcional e pode ficar para depois.',
+    afinar: 'Tudo o que se segue é opcional.'
+  };
+
+  function blocosDasPerguntas() {
+    return Array.prototype.slice.call(document.querySelectorAll('#obligList .oblig-block'));
+  }
+
+  function numeroDaPerguntaAtual() {
+    const alvo = bobSeccaoDe(blocosDasPerguntas()[perguntaAtual]);
+    return alvo ? alvo.num : null;
+  }
+
+  function aplicarFase(nova) {
+    fase = nova;
+    if (typeof bobPosicionar === 'function') bobPosicionar();
+    const ecra = document.getElementById('screen-2');
+    if (!ecra) return;
+    ecra.classList.toggle('fase-perguntas', nova === 'perguntas');
+    ecra.classList.toggle('fase-afinar', nova === 'afinar');
+    const titulo = document.getElementById('s2Titulo');
+    const sub = document.getElementById('s2Sub');
+    if (titulo) titulo.innerHTML = S2_TITULO[nova];
+    if (sub) sub.textContent = S2_SUB[nova];
+  }
+
   function mostrarPergunta(i) {
-    const blocos = document.querySelectorAll('#obligList .oblig-block');
+    const blocos = blocosDasPerguntas();
     if (!blocos.length) return;
     perguntaAtual = Math.max(0, Math.min(blocos.length - 1, i));
     blocos.forEach((b, k) => b.classList.toggle('atual', k === perguntaAtual));
     const ant = document.getElementById('btnPergAnt');
-    const seg = document.getElementById('btnPergSeg');
     if (ant) ant.hidden = perguntaAtual === 0;
-    if (seg) seg.hidden = perguntaAtual === blocos.length - 1;
+    const barra = document.getElementById('pergProgresso');
+    if (barra) {
+      barra.textContent = '';
+      blocos.forEach((b, k) => {
+        const traco = document.createElement('i');
+        if (k <= perguntaAtual) traco.className = 'feito';
+        barra.appendChild(traco);
+      });
+      barra.setAttribute('aria-label', 'Pergunta ' + (perguntaAtual + 1) + ' de ' + blocos.length);
+    }
   }
+
+  function irParaPerguntas(i) {
+    fecharOpcionais(false);
+    aplicarFase('perguntas');
+    mostrarPergunta(i);
+    document.querySelectorAll('.fill-main.em-foco').forEach(b => b.classList.remove('em-foco'));
+    bob.seccao = null;
+    bobActualizar();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    registarHistorico();
+  }
+
+  function irParaAfinar() {
+    aplicarFase('afinar');
+    bobLargarSeccao();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    registarHistorico();
+  }
+
+  // Ao entrar no Passo 2: primeira pergunta por responder; com as 5
+  // respondidas, vai directo à fase "afinar".
+  function prepararFase() {
+    const blocos = blocosDasPerguntas();
+    const porResponder = blocos.findIndex(b => {
+      const campo = b.querySelector('textarea');
+      return !campo || !campo.value.trim();
+    });
+    if (porResponder === -1 && blocos.length) { mostrarPergunta(blocos.length - 1); aplicarFase('afinar'); }
+    else { aplicarFase('perguntas'); mostrarPergunta(Math.max(0, porResponder)); }
+  }
+
   function mudarPergunta(d) {
+    bob.viuRegresso = true;
+    const ultima = perguntaAtual === blocosDasPerguntas().length - 1;
+    if (d > 0 && ultima) { irParaAfinar(); return; }
     mostrarPergunta(perguntaAtual + d);
-    const lista = document.getElementById('obligList');
-    if (lista) lista.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    bobActualizar();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    registarHistorico();
   }
 
   // Clique numa opcional do índice: abre o ecrã e deixa o link fazer o scroll.
@@ -3506,7 +3735,8 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       fecharOpcionais(false);
       const blocos = Array.prototype.slice.call(document.querySelectorAll('#obligList .oblig-block'));
       const k = blocos.indexOf(alvo);
-      if (k >= 0) mostrarPergunta(k);
+      // Uma das 5 perguntas: volta à fase das perguntas, nessa pergunta.
+      if (k >= 0) { e.preventDefault(); irParaPerguntas(k); }
     }
   });
 
@@ -3817,6 +4047,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     if (!confirm('Apagar tudo o que está guardado neste computador? As 16 secções ficam vazias e não é possível recuperar.')) return;
     try { localStorage.removeItem(CHAVE_GUARDA); } catch (e) {}
     limparCamposEMarcas();
+    bobRegresso(false);
     state.patamar = null;
     checkObrigatorias();
     atualizarBotoesExemplo();
@@ -3855,7 +4086,407 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       const el = document.getElementById(id);
       if (el && 'value' in el) reporValor(el, campos[id]);
     });
+    bobRegresso(Object.keys(campos).length > 0);
   }
+
+  // ─── Bob Pro: a pessoa escreve ao Bob e ele propõe a resposta da caixa ───
+  // Um pedido por caixa: escreve-se ao Bob, ele devolve uma proposta, e pode
+  // pedir-se outra. Usa o mesmo /api/assistir-campo do antigo "Escrever com IA"
+  // (mesmos limites e a mesma geração grátis), com o texto da pessoa em
+  // "pedido" e, em "Pedir outra", a proposta anterior em "anterior".
+  // Cada caixa guarda o seu pedido e a sua proposta, enquanto a página estiver aberta.
+  // A ajuda Pro começa fechada, para o Bob ficar compacto; abre com um toque.
+  const bobPro = { porSeccao: {}, aEscrever: false, aberto: false };
+
+  function bobProDaSeccao(num) {
+    if (!bobPro.porSeccao[num]) bobPro.porSeccao[num] = { pedido: '', proposta: '', contradicao: '' };
+    return bobPro.porSeccao[num];
+  }
+
+  // A secção de que o Bob está a falar (a pergunta à vista ou a caixa activa).
+  function bobProSeccao() {
+    if (state.current !== 2) return null;
+    const num = fase === 'perguntas' ? numeroDaPerguntaAtual() : bob.seccao;
+    // A 00 (exemplos) não tem ajuda da IA: os exemplos são textos da pessoa.
+    return num ? num : null;
+  }
+
+  function bobProAviso(html, erro) {
+    const el = document.getElementById('bobProAviso');
+    if (!el) return;
+    el.innerHTML = html || '';
+    el.classList.toggle('erro', !!erro);
+  }
+
+  function bobProAvisoInicial() {
+    if (state.acesso === 'pro') return '';
+    if (podeGerarIA()) return 'Uma proposta grátis. As seguintes fazem parte do Pro · ' + TIERS.pro.preco + '.';
+    return 'A ajuda do Bob para escrever faz parte do Pro · ' + TIERS.pro.preco + '. <a onclick="goToProPricing()">Ver Pro →</a>';
+  }
+
+  function bobProDesenhar() {
+    const caixa = document.getElementById('bobPro');
+    if (!caixa) return;
+    const num = bobProSeccao();
+    caixa.hidden = num == null;
+    if (num == null) return;
+    const dados = bobProDaSeccao(num);
+    // Uma caixa com proposta ou pedido abre a ajuda sozinha.
+    const aberto = bobPro.aberto || !!dados.proposta || bobPro.aEscrever;
+    document.getElementById('bobProCorpo').hidden = !aberto;
+    document.getElementById('bobProAbrir').setAttribute('aria-expanded', aberto ? 'true' : 'false');
+    const pedido = document.getElementById('bobPedido');
+    if (pedido && document.activeElement !== pedido) pedido.value = dados.pedido;
+    const bloqueado = !podeGerarIA();
+    document.getElementById('bobPedir').disabled = bobPro.aEscrever || bloqueado;
+    document.getElementById('bobOutra').disabled = bobPro.aEscrever || bloqueado;
+    if (!bobPro.aEscrever) bobProAviso(bobProAvisoInicial(), false);
+    const proposta = document.getElementById('bobProposta');
+    proposta.hidden = !dados.proposta;
+    document.getElementById('bobPropostaTexto').textContent = dados.proposta;
+    const contra = document.getElementById('bobProContradicao');
+    contra.hidden = !dados.contradicao;
+    contra.textContent = dados.contradicao ? 'Possível contradição: ' + dados.contradicao : '';
+  }
+
+  async function bobProPedir(outra) {
+    const num = bobProSeccao();
+    if (num == null || bobPro.aEscrever || !podeGerarIA()) return;
+    const sec = SECCOES.find(x => x.num === num);
+    const meta = metaDoCampo(sec.campo);
+    const dados = bobProDaSeccao(num);
+    dados.pedido = (document.getElementById('bobPedido').value || '').trim();
+
+    bobPro.aEscrever = true;
+    bobProDesenhar();
+    bobProAviso('O Bob está a escrever…', false);
+
+    const body = {
+      familia: meta.familia,
+      campo: sec.campo,
+      rotulo: meta.rotulo,
+      orientacao: meta.orientacao,
+      maxPalavras: meta.maxPalavras,
+      profissao: 'profissional',
+      campos: collectCampos(sec.campo),
+      sessao: getSessao(),
+      pedido: dados.pedido,
+      anterior: outra ? dados.proposta : ''
+    };
+
+    try {
+      const resultado = await chamarAssistirCampo(body, true);
+      dados.proposta = resultado.texto || '';
+      dados.contradicao = resultado.contradicao || '';
+      if (state.acesso !== 'pro') {
+        try { sessionStorage.setItem('pl_freeUsed', '1'); } catch (e) {}
+      }
+      bobPro.aEscrever = false;
+      bobProDesenhar();
+      // Mostra a proposta, mesmo que a janela tenha de deslocar.
+      const caixaProposta = document.getElementById('bobProposta');
+      if (caixaProposta && caixaProposta.scrollIntoView) caixaProposta.scrollIntoView({ block: 'nearest' });
+    } catch (err) {
+      bobPro.aEscrever = false;
+      bobProDesenhar();
+      if (err && err.status === 401 && err.codigo === 'sessao_expirada') {
+        limparPro();
+        bobProDesenhar();
+        bobProAviso('A sessão Pro terminou. <a onclick="goToProPricing()">Recuperar acesso →</a>', true);
+      } else if (err && err.status === 429) {
+        bobProAviso(state.acesso === 'pro'
+          ? 'O Bob já escreveu hoje todas as propostas permitidas para esta caixa.'
+          : bobProAvisoInicial(), true);
+      } else {
+        bobProAviso('Não foi possível escrever a proposta. Tente de novo.', true);
+      }
+    }
+  }
+
+  // Passa a proposta para a caixa. O texto fica editável, como qualquer outro.
+  function bobProUsar() {
+    const num = bobProSeccao();
+    if (num == null) return;
+    const dados = bobProDaSeccao(num);
+    const sec = SECCOES.find(x => x.num === num);
+    const campo = document.getElementById(sec.campo);
+    if (!campo || !dados.proposta) return;
+    campo.value = dados.proposta;
+    campo.dispatchEvent(new Event('input', { bubbles: true }));
+    if (dados.contradicao) mostrarContradicao(sec.campo, dados.contradicao);
+    else esconderContradicao(sec.campo);
+    bobProAviso('A resposta está na caixa. Altere o que quiser.', false);
+  }
+
+  document.addEventListener('click', ev => {
+    if (ev.target.closest('#bobProAbrir')) {
+      const num = bobProSeccao();
+      const temProposta = num != null && !!bobProDaSeccao(num).proposta;
+      // Com proposta à vista, fechar também a esconde nesta caixa.
+      if (bobPro.aberto || temProposta) {
+        bobPro.aberto = false;
+        if (temProposta) bobProDaSeccao(num).proposta = '';
+      } else {
+        bobPro.aberto = true;
+      }
+      bobProDesenhar();
+      if (bobPro.aberto) { const t = document.getElementById('bobPedido'); if (t) t.focus(); }
+    } else if (ev.target.closest('#bobPedir')) bobProPedir(false);
+    else if (ev.target.closest('#bobOutra')) bobProPedir(true);
+    else if (ev.target.closest('#bobUsar')) bobProUsar();
+  });
+  document.addEventListener('input', ev => {
+    if (ev.target.id !== 'bobPedido') return;
+    const num = bobProSeccao();
+    if (num != null) bobProDaSeccao(num).pedido = ev.target.value;
+  });
+
+  // ─── Bob: ajuda a montar o assistente ───
+  // Uma só janela para o wizard todo. A fala depende do ecrã e, no
+  // preenchimento, da caixa em que se está a escrever.
+  const BOB = {
+    ecra1: "Olá. Sou o Bob e acompanho a criação do assistente digital IA, do princípio ao fim. Começamos pela ferramenta de IA onde o assistente vai trabalhar. Quem tiver dúvidas na escolha tem ajuda no primeiro cartão.",
+    regresso: 'Bom regresso. Aqui está o que ficou escrito. Altere o que quiser antes de seguir.',
+    opcionais: "Agora vem o detalhe, com calma. Todas estas secções são opcionais. Uma secção em branco não faz mal, porque o assistente funciona à mesma.",
+    final: "Parabéns, está pronto. O assistente foi criado no estilo indicado. A revisão e a decisão são sempre suas.",
+    patamar: "Falta só escolher como continuar. As instruções grátis ficam sempre disponíveis, sem pressa nenhuma.",
+    confirmacao: "Obrigado pela confiança. O guia de instalação explica tudo, passo a passo. Bom trabalho com o novo assistente.",
+    seccoes: {
+      "00": "Esta caixa mostra ao assistente a sua forma de escrever.",
+      "01": "Aqui o assistente fica a saber quem é e para que serve.",
+      "02": "Esta caixa dá um rumo ao assistente.",
+      "03": "Esta caixa diz ao assistente para quem escreve.",
+      "04": "Aqui o assistente fica a conhecer o local de trabalho.",
+      "05": "Esta caixa afina a voz do assistente.",
+      "06": "Aqui ficam escolhidas as palavras do assistente, simples ou técnicas, e as línguas em que escreve.",
+      "07": "Esta caixa dá forma aos textos.",
+      "08": "Aqui fica combinado o início de cada conversa.",
+      "09": "Esta caixa é a lista de trabalhos do assistente.",
+      "10": "Aqui o assistente fica a saber em que documentos se pode apoiar e quais ficam de fora.",
+      "11": "Esta caixa guarda o que o assistente deve saber de cor.",
+      "12": "Aqui ficam as linhas que o assistente nunca atravessa, nem que insistam.",
+      "13": "Esta caixa ensina o assistente a parar a tempo.",
+      "14": "Esta caixa protege as pessoas mencionadas nos textos.",
+      "15": "Aqui fica decidida a despedida do assistente.",
+      "16": "Aqui fica decidido como o assistente liga uma conversa à seguinte."
+    },
+    passos: {
+      "00": [
+            "Escolha dois ou três textos já escritos por si.",
+            "Retire os nomes, os contactos e os dados que identificam alguém.",
+            "Cole os textos, separados por uma linha em branco."
+      ],
+      "01": [
+            "Escolha um nome simples.",
+            "Descreva a tarefa principal numa frase.",
+            "Indique o material de que o assistente parte, como notas, rascunhos ou ditados."
+      ],
+      "02": [
+            "Pense na tarefa que lhe ocupa mais tempo.",
+            "Escreva numa frase o que muda com o assistente."
+      ],
+      "03": [
+            "Indique quem lê os textos.",
+            "Diga se essas pessoas conhecem os termos técnicos.",
+            "Acrescente a idade ou o contexto de leitura, se fizer diferença."
+      ],
+      "04": [
+            "Diga onde trabalha e em que sector.",
+            "Indique o que distingue esse ambiente."
+      ],
+      "05": [
+            "Escolha entre um tom formal e um tom próximo.",
+            "Escolha entre um tom sério e um tom leve.",
+            "Resuma o tom em duas ou três palavras."
+      ],
+      "06": [
+            "Escolha entre linguagem simples e linguagem técnica.",
+            "Diga se o assistente explica os termos técnicos.",
+            "Indique outra língua, se precisar dela."
+      ],
+      "07": [
+            "Diga se quer textos curtos ou longos.",
+            "Escolha entre listas e texto corrido.",
+            "Indique as suas necessidades de leitura, como frases curtas."
+      ],
+      "08": [
+            "Liste as perguntas que o assistente faz no início.",
+            "Ponha as perguntas pela ordem certa.",
+            "Peça ao assistente uma pergunta de cada vez."
+      ],
+      "09": [
+            "Escreva cada trabalho numa linha.",
+            "Diga de que material parte cada trabalho.",
+            "Indique se o assistente corrige só o trecho pedido ou reescreve tudo."
+      ],
+      "10": [
+            "Liste os documentos e os modelos que autoriza.",
+            "Liste os documentos que ficam de fora.",
+            "Diga se o assistente pode usar fontes externas."
+      ],
+      "11": [
+            "Reúna os dados estáveis, como contactos, modelos e termos próprios.",
+            "Assinale os dados que mudam e que o assistente deve confirmar.",
+            "Liste as frases que o assistente nunca usa."
+      ],
+      "12": [
+            "Comece cada linha pela palavra \"Nunca\".",
+            "Inclua a regra de que a decisão é sempre sua.",
+            "Acrescente os limites próprios da sua profissão."
+      ],
+      "13": [
+            "Liste os pedidos que exigem uma decisão sua.",
+            "Diga o que o assistente faz quando falta informação.",
+            "Escolha o aviso que o assistente escreve nesses casos."
+      ],
+      "14": [
+            "Indique os dados que o assistente aceita, como iniciais.",
+            "Indique os dados que o assistente recusa, como nomes completos.",
+            "Diga o que o assistente faz quando esses dados aparecem."
+      ],
+      "15": [
+            "Escreva a frase final do assistente.",
+            "Inclua o lembrete para rever o texto antes de o usar."
+      ],
+      "16": [
+            "Diga se o assistente pergunta o que retomar da próxima vez.",
+            "Indique se o assistente pode propor guardar uma preferência repetida.",
+            "Exija a sua confirmação antes de qualquer registo."
+      ]
+    }
+  };
+  const bob = { regressou: false, viuRegresso: false, seccao: null, recolhidoPorMim: false, ultimaFala: '' };
+  try { bob.recolhidoPorMim = sessionStorage.getItem('pl_bob_recolhido') === '1'; } catch (e) {}
+  // Ecrãs onde a janela taparia o campo: telemóvel e tablet ao alto.
+  function bobTelemovel() { return window.matchMedia('(max-width: 900px)').matches; }
+
+  function bobRegresso(regressou) {
+    bob.regressou = !!regressou;
+    if (!regressou) bob.viuRegresso = false;
+    bobActualizar();
+  }
+
+  // Deixa de falar de uma caixa em particular (mudança de ecrã ou de painel).
+  function bobLargarSeccao() {
+    bob.seccao = null;
+    document.querySelectorAll('.fill-main.em-foco').forEach(b => b.classList.remove('em-foco'));
+    bobActualizar();
+  }
+
+  // Escolhe a fala para o sítio onde a pessoa está.
+  function bobFalaActual() {
+    const ecra = state.current || 1;
+    if (ecra === 1) return { fala: BOB.ecra1 };
+    if (ecra === 3) return { fala: BOB.final };
+    if (ecra === 4) return { fala: BOB.patamar };
+    if (ecra === 5) return { fala: BOB.confirmacao };
+    // Quem volta com texto guardado ouve primeiro a fala de regresso.
+    if (bob.regressou && !bob.viuRegresso) return { fala: BOB.regresso };
+    // Nas 5 perguntas, o Bob fala sempre da pergunta que está à vista.
+    const num = fase === 'perguntas' ? numeroDaPerguntaAtual() : bob.seccao;
+    if (num != null) {
+      const sec = SECCOES.find(x => x.num === num);
+      const nn = numeroFormatado(num);
+      return { onde: nn + ' · ' + sec.titulo, fala: BOB.seccoes[nn], passos: BOB.passos[nn] };
+    }
+    return { fala: BOB.opcionais };
+  }
+
+  // No preenchimento, em ecrãs estreitos, o Bob fica dentro da página, por
+  // cima da pergunta. Nos outros casos fica fixo no canto.
+  function bobPosicionar() {
+    const janela = document.getElementById('bobJanela');
+    const conteudo = document.querySelector('#screen-2 .s3-content');
+    if (!janela || !conteudo) return;
+    const embutir = bobTelemovel() && state.current === 2;
+    // Nas perguntas, o Bob vem a seguir à pergunta e antes do Seguinte: lê-se
+    // primeiro a pergunta e depois a ajuda. Na fase "afinar", fica no topo.
+    const nav = document.querySelector('#screen-2 .oblig-nav');
+    const antesDe = fase === 'perguntas' && nav ? nav : conteudo.firstChild;
+    const pai = antesDe === nav ? nav.parentNode : conteudo;
+    if (embutir && (janela.parentNode !== pai || janela.nextSibling !== antesDe)) pai.insertBefore(janela, antesDe);
+    if (!embutir && janela.parentNode !== document.body) document.body.insertBefore(janela, document.getElementById('bobBotao'));
+    janela.classList.toggle('bob-embutido', embutir);
+  }
+  window.addEventListener('resize', bobPosicionar);
+
+  function bobMostrar(aberto) {
+    const janela = document.getElementById('bobJanela');
+    const botao = document.getElementById('bobBotao');
+    if (!janela || !botao) return;
+    janela.hidden = !aberto;
+    botao.hidden = aberto;
+    document.body.classList.toggle('bob-aberto', aberto);
+    if (aberto) botao.classList.remove('tem-novidade');
+  }
+
+  function bobActualizar(opcoes) {
+    const janela = document.getElementById('bobJanela');
+    // Chamado cedo, durante a reposição do estado: ainda não há tabela.
+    if (!janela || typeof SECCOES === 'undefined') return;
+    bobPosicionar();
+    const f = bobFalaActual();
+    document.getElementById('bobOnde').textContent = f.onde || '';
+    bobProDesenhar();
+    document.getElementById('bobFala').textContent = f.fala;
+    const lista = document.getElementById('bobPassos');
+    lista.textContent = '';
+    (f.passos || []).forEach(passo => {
+      const li = document.createElement('li');
+      li.textContent = passo;
+      lista.appendChild(li);
+    });
+    // Fica acima da barra de preço, quando ela está à vista.
+    const barra = document.querySelector('.sticky-preco');
+    // (offsetParent não serve: é sempre nulo em elementos fixos.)
+    const alturaBarra = barra && barra.getClientRects().length ? barra.getBoundingClientRect().height : 0;
+    document.documentElement.style.setProperty('--bob-fundo', Math.round(alturaBarra) + 'px');
+
+    const mudou = f.fala !== bob.ultimaFala;
+    bob.ultimaFala = f.fala;
+    if (opcoes && opcoes.inicio) { bobMostrar(!bob.recolhidoPorMim); return; }
+    if (!janela.hidden || !mudou) return;
+    // Quem recolheu o Bob à mão decide quando o volta a abrir.
+    if (!bob.recolhidoPorMim && !(opcoes && opcoes.aEscrever)) bobMostrar(true);
+    else document.getElementById('bobBotao').classList.add('tem-novidade');
+  }
+
+  function bobSeccaoDe(el) {
+    const bloco = el && el.closest ? el.closest('.fill-main') : null;
+    const m = bloco && /^sec-(\d\d)$/.exec(bloco.id);
+    return m ? { num: parseInt(m[1], 10), bloco: bloco } : null;
+  }
+
+  document.addEventListener('focusin', ev => {
+    if (ev.target.closest && ev.target.closest('#bobJanela')) return;
+    const alvo = bobSeccaoDe(ev.target);
+    if (!alvo) return;
+    document.querySelectorAll('.fill-main.em-foco').forEach(b => b.classList.remove('em-foco'));
+    alvo.bloco.classList.add('em-foco');
+    bob.seccao = alvo.num;
+    bob.viuRegresso = true;
+    // Em ecrã estreito, a janela fixa taparia o campo e o teclado: recolhe ao
+    // escrever. Embutida na página não tapa nada e fica à vista.
+    const embutido = document.getElementById('bobJanela').classList.contains('bob-embutido');
+    if (bobTelemovel() && !embutido && ev.target.matches('textarea, input')) {
+      bobMostrar(false);
+      bobActualizar({ aEscrever: true });
+      return;
+    }
+    bobActualizar();
+  });
+
+  document.addEventListener('click', ev => {
+    if (ev.target.closest('#bobRecolher')) {
+      bob.recolhidoPorMim = true;
+      try { sessionStorage.setItem('pl_bob_recolhido', '1'); } catch (e) {}
+      bobMostrar(false);
+    } else if (ev.target.closest('#bobBotao')) {
+      bob.recolhidoPorMim = false;
+      try { sessionStorage.removeItem('pl_bob_recolhido'); } catch (e) {}
+      bobMostrar(true);
+    }
+  });
 
   // Decide, uma vez e explicitamente, o que se repõe no arranque.
   //
@@ -3924,6 +4555,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     }
     // As opcionais têm ecrã próprio: o texto reposto fica lá guardado, sem
     // tirar a pessoa das obrigatórias ao voltar ao assistente.
+    bobRegresso(!!(dados.campos && Object.keys(dados.campos).length));
   }
 
   // Repor um valor por código tem de passar pelo mesmo caminho que escrever à
@@ -3965,8 +4597,9 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   atualizarIndiceProgresso();
   mostrarLinhaGuardado();
   checkObrigatorias();
-  mostrarPergunta(0);
+  prepararFase();
   updateProgress();
+  bobActualizar({ inicio: true });
   atualizarStickyPreco();
   try { window.history.replaceState(vistaAtual(), ''); } catch (e) {}
 </script>
