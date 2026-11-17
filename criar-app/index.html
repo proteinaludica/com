@@ -1070,6 +1070,10 @@
   .bob-fala { border-left: 2px solid var(--accent); padding: 0.25rem 0 0.25rem 1rem; }
   .bob-nome { font-family: var(--font-mono); font-size: 1rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.35rem; }
   .bob-fala p { font-size: 1.0391rem; line-height: 1.55; color: var(--ink); margin: 0; }
+  /* Fora da lista das obrigatórias, o bloco precisa de margem própria. */
+  .bob-fala.bob-solto { margin: 0 0 1.5rem; }
+  /* Ecrãs centrados (final e confirmação): bloco estreito, texto à esquerda. */
+  .bob-fala.bob-centro { max-width: 720px; margin: 0 auto 1.5rem; text-align: left; }
   /* Todas as 16 secções param abaixo da barra fixa. Antes, a regra abaixo
      enumerava só os IDs das opcionais, e as obrigatórias aterravam tapadas. */
   .fill-main { scroll-margin-top: 90px; }
@@ -1285,6 +1289,11 @@
   <div class="screen-inner">
     <div class="step-label">Passo 1 de 3</div>
     <h1 class="screen-title">Que ferramenta de IA já usa?</h1>
+    <!-- Bob: apresenta-se aqui, no primeiro ecrã. -->
+    <div class="bob-fala bob-solto">
+      <div class="bob-nome">Bob</div>
+      <p>Olá. Sou o Bob e acompanho a criação do assistente digital IA, do princípio ao fim. Começamos pela ferramenta de IA onde o assistente vai trabalhar. Quem tiver dúvidas na escolha tem ajuda no primeiro cartão.</p>
+    </div>
 
     <button class="platform-card platform-card-solo platform-naosei" onclick="openQuizModal()">
       <div style="display:flex; align-items:center; gap:1rem;">
@@ -1419,11 +1428,12 @@
 
         <div class="oblig-list" id="obligList">
 
-          <!-- Bob: abertura do guia. O Bob guia o processo e nunca é o nome
-               do assistente que está a ser criado. -->
+          <!-- Bob: abertura do preenchimento. O Bob guia o processo e nunca é
+               o nome do assistente que está a ser criado. Quando há texto
+               guardado de uma visita anterior, bobRegresso() troca a fala. -->
           <div class="bob-fala" id="bobAbertura">
             <div class="bob-nome">Bob</div>
-            <p>Olá. Sou o Bob. Vamos criar o assistente digital IA, secção a secção. Começamos pelos exemplos, se os houver. Só cinco secções são obrigatórias. As outras ficam ao critério do profissional.</p>
+            <p id="bobTextoPreencher">Vamos criar o assistente digital IA, secção a secção. Começamos pelos exemplos, se os houver. Só cinco secções são obrigatórias. As outras ficam ao critério do profissional.</p>
           </div>
 
           <!-- Secção 00: opcional, vem antes de tudo porque os exemplos orientam o
@@ -1569,6 +1579,10 @@
 
     <div class="opcionais" id="opcionais" hidden>
       <button type="button" class="btn-ghost opc-voltar" onclick="fecharOpcionais(true)">← Voltar</button>
+      <div class="bob-fala bob-solto">
+        <div class="bob-nome">Bob</div>
+        <p>Agora vem o detalhe, com calma. Todas estas secções são opcionais. Uma secção em branco não faz mal, porque o assistente funciona à mesma.</p>
+      </div>
       <div class="opc-note" id="opcNote"></div>
 
     <div class="fill-main" id="sec-03">
@@ -1749,6 +1763,10 @@
     <div class="step-label" style="text-align:center">Passo 3 de 3 · Grátis</div>
     <h1 class="output-title">O assistente digital IA está <em>pronto.</em></h1>
     <p class="output-sub">Copiar o bloco abaixo e colá-lo nas instruções do assistente, na plataforma escolhida.</p>
+    <div class="bob-fala bob-centro">
+      <div class="bob-nome">Bob</div>
+      <p>Parabéns, está pronto. O assistente foi criado no estilo indicado. O profissional revê e decide sempre.</p>
+    </div>
 
     <div class="code-box">
       <div class="code-box-header">
@@ -1831,6 +1849,10 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       <div class="step-label">Passo final</div>
       <h1 class="screen-title">Como continuar?</h1>
       <p class="screen-sub">Escolher o patamar que melhor serve a necessidade actual. É sempre possível voltar a este ecrã.</p>
+      <div class="bob-fala bob-solto">
+        <div class="bob-nome">Bob</div>
+        <p>Falta só escolher como continuar. As instruções grátis ficam sempre disponíveis, sem pressa nenhuma.</p>
+      </div>
 
       <div class="tier-grid">
         <button class="tier-card" data-tier="free" onclick="selectTier('free', this)">
@@ -1990,6 +2012,10 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   <div class="screen-inner success-inner">
     <div class="success-check"></div>
     <h1 class="success-title" id="successTitle">Pagamento <em>confirmado.</em></h1>
+    <div class="bob-fala bob-centro">
+      <div class="bob-nome">Bob</div>
+      <p>Obrigado pela confiança. O guia de instalação explica tudo, passo a passo. Bom trabalho com o novo assistente.</p>
+    </div>
     <p class="success-text">
       O guia de instalação foi enviado para <span class="success-email" id="successEmail">o email indicado</span>.<br>
       Também pode ser descarregado já:
@@ -3217,6 +3243,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   }
 
   function resetDemo() {
+    bobRegresso(false);
     state.current = 1;
     state.platform = null;
     state.platformLabel = null;
@@ -3817,6 +3844,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     if (!confirm('Apagar tudo o que está guardado neste computador? As 16 secções ficam vazias e não é possível recuperar.')) return;
     try { localStorage.removeItem(CHAVE_GUARDA); } catch (e) {}
     limparCamposEMarcas();
+    bobRegresso(false);
     state.patamar = null;
     checkObrigatorias();
     atualizarBotoesExemplo();
@@ -3855,6 +3883,16 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       const el = document.getElementById(id);
       if (el && 'value' in el) reporValor(el, campos[id]);
     });
+    bobRegresso(Object.keys(campos).length > 0);
+  }
+
+  // Bob no ecrã de preenchimento: fala de abertura, ou de regresso quando há
+  // texto reposto de uma visita anterior.
+  const BOB_ABERTURA = 'Vamos criar o assistente digital IA, secção a secção. Começamos pelos exemplos, se os houver. Só cinco secções são obrigatórias. As outras ficam ao critério do profissional.';
+  const BOB_REGRESSO = 'Bom regresso. Aqui está o que ficou escrito. O profissional altera o que quiser antes de seguir.';
+  function bobRegresso(regressou) {
+    const el = document.getElementById('bobTextoPreencher');
+    if (el) el.textContent = regressou ? BOB_REGRESSO : BOB_ABERTURA;
   }
 
   // Decide, uma vez e explicitamente, o que se repõe no arranque.
@@ -3924,6 +3962,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     }
     // As opcionais têm ecrã próprio: o texto reposto fica lá guardado, sem
     // tirar a pessoa das obrigatórias ao voltar ao assistente.
+    bobRegresso(!!(dados.campos && Object.keys(dados.campos).length));
   }
 
   // Repor um valor por código tem de passar pelo mesmo caminho que escrever à
