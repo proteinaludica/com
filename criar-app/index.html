@@ -1066,10 +1066,16 @@
   }
   .guardado-limpar:hover { color: var(--red); }
   .oblig-list { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 1.5rem; }
-  /* Bob: guia do preenchimento. Só texto, sem imagem. Abre o ecrã, antes da 00. */
-  .bob-fala { border-left: 2px solid var(--accent); padding: 0.25rem 0 0.25rem 1rem; }
-  .bob-nome { font-family: var(--font-mono); font-size: 1rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.35rem; }
+  /* Bob: guia do wizard. Cartão com fundo próprio e distintivo redondo, para
+     se distinguir de relance das caixas de preenchimento. Sem imagem. */
+  .bob-fala { display: flex; align-items: flex-start; gap: 0.85rem; background: var(--accent-light); border: 1px solid rgba(40,80,24,0.22); border-radius: 12px 12px 12px 3px; padding: 0.9rem 1.1rem; }
+  .bob-cara { flex: none; width: 2.4rem; height: 2.4rem; border-radius: 50%; background: var(--accent); color: #FDFBF6; display: flex; align-items: center; justify-content: center; font-family: var(--font-head); font-size: 1.25rem; line-height: 1; }
+  .bob-corpo { min-width: 0; flex: 1; }
+  .bob-nome { font-family: var(--font-mono); font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 0.15rem; }
   .bob-fala p { font-size: 1.0391rem; line-height: 1.55; color: var(--ink); margin: 0; }
+  /* Dentro de cada secção: versão compacta, antes da linha de ajuda. */
+  .bob-fala.bob-mini { padding: 0.65rem 0.85rem; gap: 0.7rem; margin: 0.6rem 0 1rem; }
+  .bob-mini .bob-cara { width: 1.9rem; height: 1.9rem; font-size: 1rem; }
   /* Fora da lista das obrigatórias, o bloco precisa de margem própria. */
   .bob-fala.bob-solto { margin: 0 0 1.5rem; }
   /* Ecrãs centrados (final e confirmação): bloco estreito, texto à esquerda. */
@@ -1290,10 +1296,7 @@
     <div class="step-label">Passo 1 de 3</div>
     <h1 class="screen-title">Que ferramenta de IA já usa?</h1>
     <!-- Bob: apresenta-se aqui, no primeiro ecrã. -->
-    <div class="bob-fala bob-solto">
-      <div class="bob-nome">Bob</div>
-      <p>Olá. Sou o Bob e acompanho a criação do assistente digital IA, do princípio ao fim. Começamos pela ferramenta de IA onde o assistente vai trabalhar. Quem tiver dúvidas na escolha tem ajuda no primeiro cartão.</p>
-    </div>
+    <div class="bob-fala bob-solto"><span class="bob-cara" aria-hidden="true">B</span><div class="bob-corpo"><div class="bob-nome">Bob</div><p>Olá. Sou o Bob e acompanho a criação do assistente digital IA, do princípio ao fim. Começamos pela ferramenta de IA onde o assistente vai trabalhar. Quem tiver dúvidas na escolha tem ajuda no primeiro cartão.</p></div></div>
 
     <button class="platform-card platform-card-solo platform-naosei" onclick="openQuizModal()">
       <div style="display:flex; align-items:center; gap:1rem;">
@@ -1431,10 +1434,7 @@
           <!-- Bob: abertura do preenchimento. O Bob guia o processo e nunca é
                o nome do assistente que está a ser criado. Quando há texto
                guardado de uma visita anterior, bobRegresso() troca a fala. -->
-          <div class="bob-fala" id="bobAbertura">
-            <div class="bob-nome">Bob</div>
-            <p id="bobTextoPreencher">Vamos criar o assistente digital IA, secção a secção. Começamos pelos exemplos, se os houver. Só cinco secções são obrigatórias. As outras ficam ao critério do profissional.</p>
-          </div>
+          <div class="bob-fala" id="bobAbertura"><span class="bob-cara" aria-hidden="true">B</span><div class="bob-corpo"><div class="bob-nome">Bob</div><p id="bobTextoPreencher">Vamos criar o assistente digital IA, secção a secção. Começamos pelos exemplos, se os houver. Só cinco secções são obrigatórias. As outras ficam ao critério do profissional.</p></div></div>
 
           <!-- Secção 00: opcional, vem antes de tudo porque os exemplos orientam o
                resto do preenchimento. Não tem botão Pro: a IA não inventa os
@@ -1443,6 +1443,7 @@
           <div class="fill-main" id="sec-00">
             <div class="oblig-tag">Opcional</div>
             <div class="fill-title">Exemplos</div>
+            <div class="bob-fala bob-mini"><span class="bob-cara" aria-hidden="true">B</span><div class="bob-corpo"><div class="bob-nome">Bob</div><p>Esta caixa mostra ao assistente como o profissional escreve. É o melhor atalho para um texto com o estilo certo.</p></div></div>
             <div class="fill-guide">Um exemplo verdadeiro ensina mais ao assistente do que qualquer descrição. O profissional cola textos já escritos por si. Antes de colar, retira os nomes, os contactos e qualquer dado que identifique alguém. Quem não tiver exemplos à mão avança e volta aqui mais tarde.</div>
             <div class="fill-field">
               <label for="f-exemplos">Antes de começar, o profissional tem dois ou três textos seus que mostrem como gosta de escrever?</label>
@@ -1457,6 +1458,7 @@
           <div class="fill-main oblig-block" id="sec-01">
             <div class="oblig-tag">Pergunta 1 de 5</div>
             <div class="fill-title">Nome e propósito</div>
+            <div class="bob-fala bob-mini"><span class="bob-cara" aria-hidden="true">B</span><div class="bob-corpo"><div class="bob-nome">Bob</div><p>Aqui o assistente fica a saber quem é e para que serve. Tudo o resto parte desta resposta.</p></div></div>
             <div class="fill-guide">O profissional escolhe um nome simples e descreve a tarefa principal. O assistente parte sempre de algo que o profissional já produziu, seja um rascunho ou um ditado, e devolve esse material escrito e organizado.</div>
             <div class="fill-field">
               <label for="f-nome">Como se chama o assistente? Para que serve?</label>
@@ -1478,6 +1480,7 @@
           <div class="fill-main oblig-block" id="sec-02">
             <div class="oblig-tag">Pergunta 2 de 5</div>
             <div class="fill-title">Missão</div>
+            <div class="bob-fala bob-mini"><span class="bob-cara" aria-hidden="true">B</span><div class="bob-corpo"><div class="bob-nome">Bob</div><p>Esta caixa dá um rumo ao assistente. Com ela, o assistente percebe o que deve melhorar no dia-a-dia do profissional.</p></div></div>
             <div class="fill-guide">O profissional escreve uma frase sobre a mudança que o assistente traz ao seu trabalho.</div>
             <div class="fill-field">
               <label for="f-missao">Qual é o objectivo maior? O que se pretende melhorar no trabalho do dia-a-dia?</label>
@@ -1498,6 +1501,7 @@
           <div class="fill-main oblig-block" id="sec-12">
             <div class="oblig-tag">Pergunta 3 de 5</div>
             <div class="fill-title">Limites intransponíveis</div>
+            <div class="bob-fala bob-mini"><span class="bob-cara" aria-hidden="true">B</span><div class="bob-corpo"><div class="bob-nome">Bob</div><p>Esta é a caixa da segurança. Aqui ficam as linhas que o assistente nunca atravessa, nem que insistam.</p></div></div>
             <div class="fill-guide">Esta secção mantém o assistente como ferramenta de organização e nunca de decisão.</div>
             <div class="fill-field">
               <label for="f-redline">Que linhas o assistente nunca pode atravessar, nem que insistam?</label>
@@ -1519,6 +1523,7 @@
           <div class="fill-main oblig-block" id="sec-13">
             <div class="oblig-tag">Pergunta 4 de 5</div>
             <div class="fill-title">Situações-limite</div>
+            <div class="bob-fala bob-mini"><span class="bob-cara" aria-hidden="true">B</span><div class="bob-corpo"><div class="bob-nome">Bob</div><p>Esta caixa ensina o assistente a parar a tempo. Perante uma dúvida, o assistente devolve o trabalho em vez de inventar.</p></div></div>
             <div class="fill-guide">O profissional define quando o assistente interrompe o trabalho e como lida com lacunas sem inventar factos.</div>
             <div class="fill-field">
               <label for="f-emerg">Que situações obrigam o assistente a parar e a devolver o trabalho ao profissional? E quando falta informação, o assistente pergunta ou assume e assinala a suposição?</label>
@@ -1540,6 +1545,7 @@
           <div class="fill-main oblig-block" id="sec-15">
             <div class="oblig-tag">Pergunta 5 de 5</div>
             <div class="fill-title">Fecho</div>
+            <div class="bob-fala bob-mini"><span class="bob-cara" aria-hidden="true">B</span><div class="bob-corpo"><div class="bob-nome">Bob</div><p>Aqui fica decidida a despedida do assistente. Um bom fecho lembra que a última palavra é do profissional.</p></div></div>
             <div class="fill-guide">A mensagem de fecho lembra sempre que o profissional revê e decide.</div>
             <div class="fill-field">
               <label for="f-fecho">Como termina cada interacção?</label>
@@ -1579,14 +1585,12 @@
 
     <div class="opcionais" id="opcionais" hidden>
       <button type="button" class="btn-ghost opc-voltar" onclick="fecharOpcionais(true)">← Voltar</button>
-      <div class="bob-fala bob-solto">
-        <div class="bob-nome">Bob</div>
-        <p>Agora vem o detalhe, com calma. Todas estas secções são opcionais. Uma secção em branco não faz mal, porque o assistente funciona à mesma.</p>
-      </div>
+      <div class="bob-fala bob-solto"><span class="bob-cara" aria-hidden="true">B</span><div class="bob-corpo"><div class="bob-nome">Bob</div><p>Agora vem o detalhe, com calma. Todas estas secções são opcionais. Uma secção em branco não faz mal, porque o assistente funciona à mesma.</p></div></div>
       <div class="opc-note" id="opcNote"></div>
 
     <div class="fill-main" id="sec-03">
       <div class="fill-title">Público-alvo</div>
+      <div class="bob-fala bob-mini"><span class="bob-cara" aria-hidden="true">B</span><div class="bob-corpo"><div class="bob-nome">Bob</div><p>Esta caixa diz ao assistente para quem escreve. Um texto para clientes pede palavras diferentes de um texto para colegas.</p></div></div>
       <div class="fill-guide">O profissional descreve quem vai ler ou usar aquilo que o assistente ajuda a produzir.</div>
       <div class="fill-field">
         <label for="f-publico">Com quem fala o assistente? Que idade têm essas pessoas, que familiaridade têm com o tema, em que contexto leem?</label>
@@ -1600,6 +1604,7 @@
 
     <div class="fill-main" id="sec-04">
       <div class="fill-title">Contexto</div>
+      <div class="bob-fala bob-mini"><span class="bob-cara" aria-hidden="true">B</span><div class="bob-corpo"><div class="bob-nome">Bob</div><p>Aqui o assistente fica a conhecer o local de trabalho. Esse retrato ajuda a acertar no vocabulário e na formalidade.</p></div></div>
       <div class="fill-guide">O contexto ajuda o assistente a escolher o vocabulário e o grau de formalidade adequados.</div>
       <div class="fill-field">
         <label for="f-contexto">Em que ambiente trabalha o profissional? O que caracteriza esse sítio ou esse sector?</label>
@@ -1613,6 +1618,7 @@
 
     <div class="fill-main" id="sec-05">
       <div class="fill-title">Voz e tom</div>
+      <div class="bob-fala bob-mini"><span class="bob-cara" aria-hidden="true">B</span><div class="bob-corpo"><div class="bob-nome">Bob</div><p>Esta caixa afina a voz do assistente. O objectivo é que os textos soem ao profissional que os assina.</p></div></div>
       <div class="fill-guide">O tom pertence ao próprio profissional. O assistente imita esse estilo e não inventa outro.</div>
       <div class="fill-field">
         <label for="f-tom">O tom é formal ou próximo? É sério ou leve? Que impressão devem deixar os textos?</label>
@@ -1626,6 +1632,7 @@
 
     <div class="fill-main" id="sec-06">
       <div class="fill-title">Linguagem</div>
+      <div class="bob-fala bob-mini"><span class="bob-cara" aria-hidden="true">B</span><div class="bob-corpo"><div class="bob-nome">Bob</div><p>Aqui ficam escolhidas as palavras do assistente, simples ou técnicas, e as línguas em que escreve.</p></div></div>
       <div class="fill-guide">O profissional define se os textos usam linguagem técnica ou linguagem simples, e indica se alguma vez precisa de outra língua além do português.</div>
       <div class="fill-field">
         <label for="f-linguagem">Que palavras usa o assistente? Explica os termos técnicos? Recorre a comparações? Escreve sempre em português ou precisa de outra língua?</label>
@@ -1639,6 +1646,7 @@
 
     <div class="fill-main" id="sec-07">
       <div class="fill-title">Estilo de resposta</div>
+      <div class="bob-fala bob-mini"><span class="bob-cara" aria-hidden="true">B</span><div class="bob-corpo"><div class="bob-nome">Bob</div><p>Esta caixa dá forma aos textos. Com ela, o assistente sabe se escreve curto ou longo, em lista ou em texto corrido.</p></div></div>
       <div class="fill-guide">O profissional fixa o formato dos textos que recebe de volta e indica as necessidades de acessibilidade.</div>
       <div class="fill-field">
         <label for="f-estilo">Os textos são longos ou curtos? Vêm em listas ou em texto corrido? Usam emojis? Precisam de frases curtas, fáceis de ler em voz alta? O assistente deve avisar quando um rascunho sai muito mais longo ou muito mais curto do que é habitual?</label>
@@ -1652,6 +1660,7 @@
 
     <div class="fill-main" id="sec-08">
       <div class="fill-title">Arranque</div>
+      <div class="bob-fala bob-mini"><span class="bob-cara" aria-hidden="true">B</span><div class="bob-corpo"><div class="bob-nome">Bob</div><p>Aqui fica combinado o início de cada conversa. Um bom arranque poupa perguntas a meio do trabalho.</p></div></div>
       <div class="fill-guide">O profissional define a sequência de arranque. O assistente faz uma pergunta de cada vez.</div>
       <div class="fill-field">
         <label for="f-onboarding">Como começa a primeira conversa? Que perguntas faz o assistente, e por que ordem?</label>
@@ -1665,6 +1674,7 @@
 
     <div class="fill-main" id="sec-09">
       <div class="fill-title">Tarefas específicas</div>
+      <div class="bob-fala bob-mini"><span class="bob-cara" aria-hidden="true">B</span><div class="bob-corpo"><div class="bob-nome">Bob</div><p>Esta caixa é a lista de trabalhos do assistente. Quanto mais concreta for, melhor o assistente os executa.</p></div></div>
       <div class="fill-guide">O profissional enumera o que o assistente sabe organizar a partir do material que recebe, e diz como o assistente lida com correcções parciais.</div>
       <div class="fill-field">
         <label for="f-tarefas">Que trabalhos sabe o assistente executar? Se o profissional mudar de ideias a meio, o assistente reescreve tudo ou corrige apenas o trecho indicado? Guarda as versões anteriores do mesmo rascunho?</label>
@@ -1678,6 +1688,7 @@
 
     <div class="fill-main" id="sec-10">
       <div class="fill-title">Fontes oficiais</div>
+      <div class="bob-fala bob-mini"><span class="bob-cara" aria-hidden="true">B</span><div class="bob-corpo"><div class="bob-nome">Bob</div><p>Aqui o assistente fica a saber em que documentos se pode apoiar e quais ficam de fora.</p></div></div>
       <div class="fill-guide">O profissional indica os documentos e os modelos que autoriza, e também os que exclui.</div>
       <div class="fill-field">
         <label for="f-fontes">Em que informação se apoia o assistente? O que nunca cita?</label>
@@ -1691,6 +1702,7 @@
 
     <div class="fill-main" id="sec-11">
       <div class="fill-title">Conhecimento fixo</div>
+      <div class="bob-fala bob-mini"><span class="bob-cara" aria-hidden="true">B</span><div class="bob-corpo"><div class="bob-nome">Bob</div><p>Esta caixa guarda o que o assistente deve saber de cor. Assim, o profissional não repete a mesma informação em cada pedido.</p></div></div>
       <div class="fill-guide">O profissional reúne a informação estável que o assistente deve conhecer de base e indica o que o assistente nunca deve dizer.</div>
       <div class="fill-field">
         <label for="f-conhecimento">Que informação precisa o assistente de ter sempre presente? Existe algum glossário ou termos próprios? O assistente assina com nome e contacto, ou só nalguns casos? Há dados que mudam com frequência e que deve confirmar em vez de presumir? Há frases que nunca deve usar?</label>
@@ -1704,6 +1716,7 @@
 
     <div class="fill-main" id="sec-14">
       <div class="fill-title">Tratamento de dados</div>
+      <div class="bob-fala bob-mini"><span class="bob-cara" aria-hidden="true">B</span><div class="bob-corpo"><div class="bob-nome">Bob</div><p>Esta caixa protege as pessoas mencionadas nos textos. Aqui ficam as regras do assistente para os dados pessoais.</p></div></div>
       <div class="fill-guide">O assistente reduz os dados pessoais ao mínimo. Quando detecta dados que identificam alguém, sugere substituí-los.</div>
       <div class="fill-field">
         <label for="f-dados">Que dados aceita o assistente? Quais recusa, por respeito ao RGPD? Deve confirmar o género de quem é mencionado no texto, em vez de o presumir?</label>
@@ -1717,6 +1730,7 @@
 
     <div class="fill-main" id="sec-16">
       <div class="fill-title">Continuidade</div>
+      <div class="bob-fala bob-mini"><span class="bob-cara" aria-hidden="true">B</span><div class="bob-corpo"><div class="bob-nome">Bob</div><p>Aqui fica decidido como o assistente liga uma conversa à seguinte. Nada fica guardado sem o profissional confirmar.</p></div></div>
       <div class="fill-guide">O assistente pode sugerir guardar uma preferência que se repete, mas nunca grava sem aprovação explícita. Nunca aprende sozinho.</div>
       <div class="fill-field">
         <label for="f-continuidade">Como liga o assistente uma interacção à seguinte? Quando nota um pedido que se repete, pode sugerir guardá-lo como preferência, desde que só grave depois de o profissional confirmar?</label>
@@ -1763,10 +1777,7 @@
     <div class="step-label" style="text-align:center">Passo 3 de 3 · Grátis</div>
     <h1 class="output-title">O assistente digital IA está <em>pronto.</em></h1>
     <p class="output-sub">Copiar o bloco abaixo e colá-lo nas instruções do assistente, na plataforma escolhida.</p>
-    <div class="bob-fala bob-centro">
-      <div class="bob-nome">Bob</div>
-      <p>Parabéns, está pronto. O assistente foi criado no estilo indicado. O profissional revê e decide sempre.</p>
-    </div>
+    <div class="bob-fala bob-centro"><span class="bob-cara" aria-hidden="true">B</span><div class="bob-corpo"><div class="bob-nome">Bob</div><p>Parabéns, está pronto. O assistente foi criado no estilo indicado. O profissional revê e decide sempre.</p></div></div>
 
     <div class="code-box">
       <div class="code-box-header">
@@ -1849,10 +1860,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       <div class="step-label">Passo final</div>
       <h1 class="screen-title">Como continuar?</h1>
       <p class="screen-sub">Escolher o patamar que melhor serve a necessidade actual. É sempre possível voltar a este ecrã.</p>
-      <div class="bob-fala bob-solto">
-        <div class="bob-nome">Bob</div>
-        <p>Falta só escolher como continuar. As instruções grátis ficam sempre disponíveis, sem pressa nenhuma.</p>
-      </div>
+      <div class="bob-fala bob-solto"><span class="bob-cara" aria-hidden="true">B</span><div class="bob-corpo"><div class="bob-nome">Bob</div><p>Falta só escolher como continuar. As instruções grátis ficam sempre disponíveis, sem pressa nenhuma.</p></div></div>
 
       <div class="tier-grid">
         <button class="tier-card" data-tier="free" onclick="selectTier('free', this)">
@@ -2012,10 +2020,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   <div class="screen-inner success-inner">
     <div class="success-check"></div>
     <h1 class="success-title" id="successTitle">Pagamento <em>confirmado.</em></h1>
-    <div class="bob-fala bob-centro">
-      <div class="bob-nome">Bob</div>
-      <p>Obrigado pela confiança. O guia de instalação explica tudo, passo a passo. Bom trabalho com o novo assistente.</p>
-    </div>
+    <div class="bob-fala bob-centro"><span class="bob-cara" aria-hidden="true">B</span><div class="bob-corpo"><div class="bob-nome">Bob</div><p>Obrigado pela confiança. O guia de instalação explica tudo, passo a passo. Bom trabalho com o novo assistente.</p></div></div>
     <p class="success-text">
       O guia de instalação foi enviado para <span class="success-email" id="successEmail">o email indicado</span>.<br>
       Também pode ser descarregado já:
