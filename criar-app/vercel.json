@@ -14,6 +14,11 @@
       "source": "/montra/:profissao(contabilista|advogado|arquitecto|professor)",
       "destination": "https://proteinaludica.com/montra/:profissao",
       "permanent": true
+    },
+    {
+      "source": "/montra/encomenda",
+      "destination": "/",
+      "permanent": false
     }
   ],
   "rewrites": [
