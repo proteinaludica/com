@@ -1088,8 +1088,12 @@
   .bob-onde { font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.35rem; }
   .bob-onde:empty { display: none; }
   .bob-conversa p { margin: 0; font-size: 1.0391rem; line-height: 1.5; color: var(--ink); }
-  .bob-conversa p.bob-como { margin-top: 0.6rem; padding-top: 0.6rem; border-top: 0.5px solid var(--border); font-size: 0.95rem; color: var(--muted); }
-  .bob-conversa p.bob-como:empty { display: none; }
+  .bob-passos { margin: 0.65rem 0 0; padding: 0.65rem 0 0 1.25rem; border-top: 0.5px solid var(--border); font-size: 0.98rem; line-height: 1.45; color: var(--ink); }
+  .bob-passos li { margin: 0 0 0.3rem; padding-left: 0.15rem; }
+  .bob-passos li::marker { color: var(--accent); font-weight: 600; }
+  .bob-passos:empty { display: none; }
+  .bob-conversa p.bob-nota { margin-top: 0.5rem; font-size: 0.9rem; color: var(--muted); }
+  .bob-conversa p.bob-nota:empty { display: none; }
   /* Recolhido: fica só o botão redondo, no mesmo canto. */
   .bob-botao {
     position: fixed; right: 1.25rem; bottom: calc(1.25rem + var(--bob-fundo, 0px)); z-index: 70;
@@ -1101,8 +1105,8 @@
   .bob-botao.tem-novidade::after { content: ''; position: absolute; top: 2px; right: 2px; width: 0.8rem; height: 0.8rem; border-radius: 50%; background: #C8A86B; border: 2px solid #FDFBF6; }
   /* A caixa de que o Bob está a falar. */
   .fill-main.em-foco { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(40,80,24,0.12); }
-  /* A orientação de cada secção passa a ser dita pelo Bob. O texto fica no
-     documento, porque orientacaoDaSeccao() o envia à IA do Pro. */
+  /* Na caixa fica só a instrução; o Bob dá os passos. A orientação antiga
+     fica no documento, porque orientacaoDaSeccao() a envia à IA do Pro. */
   .fill-main .fill-guide { display: none; }
   /* Com o Bob aberto, o conteúdo encosta à esquerda para a janela não
      tapar as caixas. Em ecrãs muito largos há margem que chegue. */
@@ -1473,7 +1477,7 @@
             <div class="fill-title">Exemplos</div>
             <div class="fill-guide">Um exemplo verdadeiro ensina mais ao assistente do que qualquer descrição. O profissional cola textos já escritos por si. Antes de colar, retira os nomes, os contactos e qualquer dado que identifique alguém. Quem não tiver exemplos à mão avança e volta aqui mais tarde.</div>
             <div class="fill-field">
-              <label for="f-exemplos">Antes de começar, o profissional tem dois ou três textos seus que mostrem como gosta de escrever?</label>
+              <label for="f-exemplos">Cole aqui dois ou três textos seus, como emails, relatórios ou resumos.</label>
               <textarea id="f-exemplos" placeholder="ex: Um contabilista cola um email de resposta a um cliente e um resumo de reunião, com os nomes trocados por iniciais." oninput="checkRGPD(this)"></textarea>
               <label class="confirma-dados" for="f-exemplos-confirma">
                 <input type="checkbox" id="f-exemplos-confirma">
@@ -1487,7 +1491,7 @@
             <div class="fill-title">Nome e propósito</div>
             <div class="fill-guide">O profissional escolhe um nome simples e descreve a tarefa principal. O assistente parte sempre de algo que o profissional já produziu, seja um rascunho ou um ditado, e devolve esse material escrito e organizado.</div>
             <div class="fill-field">
-              <label for="f-nome">Como se chama o assistente? Para que serve?</label>
+              <label for="f-nome">Diga como se chama o assistente e para que serve.</label>
               <textarea id="f-nome" placeholder="ex: Assistente de apoio que responde às dúvidas mais frequentes de quem procura o serviço." oninput="checkRGPD(this)"></textarea>
               <div class="chips" aria-label="Sugestões para começar">
                 <span class="chips-label">começar com</span>
@@ -1508,7 +1512,7 @@
             <div class="fill-title">Missão</div>
             <div class="fill-guide">O profissional escreve uma frase sobre a mudança que o assistente traz ao seu trabalho.</div>
             <div class="fill-field">
-              <label for="f-missao">Qual é o objectivo maior? O que se pretende melhorar no trabalho do dia-a-dia?</label>
+              <label for="f-missao">Diga o que quer melhorar no seu trabalho do dia-a-dia.</label>
               <textarea id="f-missao" placeholder="ex: Ajudar a preparar a reunião e a esclarecer dúvidas entre contactos." oninput="checkRGPD(this)"></textarea>
               <div class="chips" aria-label="Sugestões para começar">
                 <span class="chips-label">começar com</span>
@@ -1528,7 +1532,7 @@
             <div class="fill-title">Limites intransponíveis</div>
             <div class="fill-guide">Esta secção mantém o assistente como ferramenta de organização e nunca de decisão.</div>
             <div class="fill-field">
-              <label for="f-redline">Que linhas o assistente nunca pode atravessar, nem que insistam?</label>
+              <label for="f-redline">Escreva o que o assistente nunca faz.</label>
               <textarea id="f-redline" placeholder="ex: não dá pareceres definitivos, não substitui a análise do profissional, não compromete a empresa." oninput="checkRGPD(this)"></textarea>
               <div class="chips" aria-label="Sugestões para começar">
                 <span class="chips-label">começar com</span>
@@ -1549,7 +1553,7 @@
             <div class="fill-title">Situações-limite</div>
             <div class="fill-guide">O profissional define quando o assistente interrompe o trabalho e como lida com lacunas sem inventar factos.</div>
             <div class="fill-field">
-              <label for="f-emerg">Que situações obrigam o assistente a parar e a devolver o trabalho ao profissional? E quando falta informação, o assistente pergunta ou assume e assinala a suposição?</label>
+              <label for="f-emerg">Diga quando o assistente pára e lhe devolve o trabalho.</label>
               <textarea id="f-emerg" placeholder="ex: perante um pedido que exija uma decisão, pára e devolve o trabalho ao profissional. Quando falta um dado, escreve &quot;suposição — confirmar&quot; em vez de inventar." oninput="checkRGPD(this)"></textarea>
               <div class="chips" aria-label="Sugestões para começar">
                 <span class="chips-label">começar com</span>
@@ -1570,7 +1574,7 @@
             <div class="fill-title">Fecho</div>
             <div class="fill-guide">A mensagem de fecho lembra sempre que o profissional revê e decide.</div>
             <div class="fill-field">
-              <label for="f-fecho">Como termina cada interacção?</label>
+              <label for="f-fecho">Escreva como o assistente termina cada resposta.</label>
               <textarea id="f-fecho" placeholder="ex: reforça o passo seguinte e lembra que a decisão final é do profissional." oninput="checkRGPD(this)"></textarea>
               <div class="chips" aria-label="Sugestões para começar">
                 <span class="chips-label">começar com</span>
@@ -1613,7 +1617,7 @@
       <div class="fill-title">Público-alvo</div>
       <div class="fill-guide">O profissional descreve quem vai ler ou usar aquilo que o assistente ajuda a produzir.</div>
       <div class="fill-field">
-        <label for="f-publico">Com quem fala o assistente? Que idade têm essas pessoas, que familiaridade têm com o tema, em que contexto leem?</label>
+        <label for="f-publico">Descreva quem vai ler os textos que o assistente ajuda a preparar.</label>
         <textarea id="f-publico" placeholder="Descreva em 1-2 frases quem recebe estes textos." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="3" data-campo="f-publico" onclick="toggleExemplo(this)">Ver exemplo</button>
@@ -1626,7 +1630,7 @@
       <div class="fill-title">Contexto</div>
       <div class="fill-guide">O contexto ajuda o assistente a escolher o vocabulário e o grau de formalidade adequados.</div>
       <div class="fill-field">
-        <label for="f-contexto">Em que ambiente trabalha o profissional? O que caracteriza esse sítio ou esse sector?</label>
+        <label for="f-contexto">Descreva o sítio ou o sector onde trabalha.</label>
         <textarea id="f-contexto" placeholder="Descreva em 1-2 frases o ambiente onde o profissional actua." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="4" data-campo="f-contexto" onclick="toggleExemplo(this)">Ver exemplo</button>
@@ -1639,7 +1643,7 @@
       <div class="fill-title">Voz e tom</div>
       <div class="fill-guide">O tom pertence ao próprio profissional. O assistente imita esse estilo e não inventa outro.</div>
       <div class="fill-field">
-        <label for="f-tom">O tom é formal ou próximo? É sério ou leve? Que impressão devem deixar os textos?</label>
+        <label for="f-tom">Diga que tom quer nos textos.</label>
         <textarea id="f-tom" placeholder="Descreva em 1-2 frases o tom pretendido." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="5" data-campo="f-tom" onclick="toggleExemplo(this)">Ver exemplo</button>
@@ -1652,7 +1656,7 @@
       <div class="fill-title">Linguagem</div>
       <div class="fill-guide">O profissional define se os textos usam linguagem técnica ou linguagem simples, e indica se alguma vez precisa de outra língua além do português.</div>
       <div class="fill-field">
-        <label for="f-linguagem">Que palavras usa o assistente? Explica os termos técnicos? Recorre a comparações? Escreve sempre em português ou precisa de outra língua?</label>
+        <label for="f-linguagem">Diga que palavras e que línguas o assistente usa.</label>
         <textarea id="f-linguagem" placeholder="Descreva em 1-2 frases o registo de linguagem." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="6" data-campo="f-linguagem" onclick="toggleExemplo(this)">Ver exemplo</button>
@@ -1665,7 +1669,7 @@
       <div class="fill-title">Estilo de resposta</div>
       <div class="fill-guide">O profissional fixa o formato dos textos que recebe de volta e indica as necessidades de acessibilidade.</div>
       <div class="fill-field">
-        <label for="f-estilo">Os textos são longos ou curtos? Vêm em listas ou em texto corrido? Usam emojis? Precisam de frases curtas, fáceis de ler em voz alta? O assistente deve avisar quando um rascunho sai muito mais longo ou muito mais curto do que é habitual?</label>
+        <label for="f-estilo">Descreva o formato dos textos que quer receber.</label>
         <textarea id="f-estilo" placeholder="Descreva o formato-tipo dos textos e eventuais necessidades de acessibilidade." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="7" data-campo="f-estilo" onclick="toggleExemplo(this)">Ver exemplo</button>
@@ -1678,7 +1682,7 @@
       <div class="fill-title">Arranque</div>
       <div class="fill-guide">O profissional define a sequência de arranque. O assistente faz uma pergunta de cada vez.</div>
       <div class="fill-field">
-        <label for="f-onboarding">Como começa a primeira conversa? Que perguntas faz o assistente, e por que ordem?</label>
+        <label for="f-onboarding">Descreva como começa cada conversa com o assistente.</label>
         <textarea id="f-onboarding" placeholder="Descreva a sequência de perguntas do primeiro contacto." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="8" data-campo="f-onboarding" onclick="toggleExemplo(this)">Ver exemplo</button>
@@ -1691,7 +1695,7 @@
       <div class="fill-title">Tarefas específicas</div>
       <div class="fill-guide">O profissional enumera o que o assistente sabe organizar a partir do material que recebe, e diz como o assistente lida com correcções parciais.</div>
       <div class="fill-field">
-        <label for="f-tarefas">Que trabalhos sabe o assistente executar? Se o profissional mudar de ideias a meio, o assistente reescreve tudo ou corrige apenas o trecho indicado? Guarda as versões anteriores do mesmo rascunho?</label>
+        <label for="f-tarefas">Liste os trabalhos que o assistente executa.</label>
         <textarea id="f-tarefas" placeholder="Descreva os fluxos de trabalho e as regras para correcções e versões." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="9" data-campo="f-tarefas" onclick="toggleExemplo(this)">Ver exemplo</button>
@@ -1704,7 +1708,7 @@
       <div class="fill-title">Fontes oficiais</div>
       <div class="fill-guide">O profissional indica os documentos e os modelos que autoriza, e também os que exclui.</div>
       <div class="fill-field">
-        <label for="f-fontes">Em que informação se apoia o assistente? O que nunca cita?</label>
+        <label for="f-fontes">Indique os documentos em que o assistente se apoia.</label>
         <textarea id="f-fontes" placeholder="Descreva as fontes autorizadas e as que estão excluídas." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="10" data-campo="f-fontes" onclick="toggleExemplo(this)">Ver exemplo</button>
@@ -1717,7 +1721,7 @@
       <div class="fill-title">Conhecimento fixo</div>
       <div class="fill-guide">O profissional reúne a informação estável que o assistente deve conhecer de base e indica o que o assistente nunca deve dizer.</div>
       <div class="fill-field">
-        <label for="f-conhecimento">Que informação precisa o assistente de ter sempre presente? Existe algum glossário ou termos próprios? O assistente assina com nome e contacto, ou só nalguns casos? Há dados que mudam com frequência e que deve confirmar em vez de presumir? Há frases que nunca deve usar?</label>
+        <label for="f-conhecimento">Escreva a informação que o assistente deve ter sempre presente.</label>
         <textarea id="f-conhecimento" placeholder="Descreva os dados fixos e as regras para dados variáveis." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="11" data-campo="f-conhecimento" onclick="toggleExemplo(this)">Ver exemplo</button>
@@ -1730,7 +1734,7 @@
       <div class="fill-title">Tratamento de dados</div>
       <div class="fill-guide">O assistente reduz os dados pessoais ao mínimo. Quando detecta dados que identificam alguém, sugere substituí-los.</div>
       <div class="fill-field">
-        <label for="f-dados">Que dados aceita o assistente? Quais recusa, por respeito ao RGPD? Deve confirmar o género de quem é mencionado no texto, em vez de o presumir?</label>
+        <label for="f-dados">Diga que dados pessoais o assistente aceita e quais recusa.</label>
         <textarea id="f-dados" placeholder="Descreva as regras de privacidade e tratamento de dados." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="14" data-campo="f-dados" onclick="toggleExemplo(this)">Ver exemplo</button>
@@ -1743,7 +1747,7 @@
       <div class="fill-title">Continuidade</div>
       <div class="fill-guide">O assistente pode sugerir guardar uma preferência que se repete, mas nunca grava sem aprovação explícita. Nunca aprende sozinho.</div>
       <div class="fill-field">
-        <label for="f-continuidade">Como liga o assistente uma interacção à seguinte? Quando nota um pedido que se repete, pode sugerir guardá-lo como preferência, desde que só grave depois de o profissional confirmar?</label>
+        <label for="f-continuidade">Diga como o assistente liga uma conversa à seguinte.</label>
         <textarea id="f-continuidade" placeholder="Descreva como o assistente mantém continuidade entre sessões." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="16" data-campo="f-continuidade" onclick="toggleExemplo(this)">Ver exemplo</button>
@@ -2060,7 +2064,8 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   <div class="bob-conversa" aria-live="polite">
     <div class="bob-onde" id="bobOnde"></div>
     <p id="bobFala"></p>
-    <p class="bob-como" id="bobComo"></p>
+    <ol class="bob-passos" id="bobPassos"></ol>
+    <p class="bob-nota" id="bobNota"></p>
   </div>
 </aside>
 <button type="button" class="bob-botao" id="bobBotao" aria-label="Abrir o Bob" hidden>B</button>
@@ -3926,31 +3931,117 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   // preenchimento, da caixa em que se está a escrever.
   const BOB = {
     ecra1: "Olá. Sou o Bob e acompanho a criação do assistente digital IA, do princípio ao fim. Começamos pela ferramenta de IA onde o assistente vai trabalhar. Quem tiver dúvidas na escolha tem ajuda no primeiro cartão.",
-    preencher: "Vamos criar o assistente digital IA, secção a secção. Começamos pelos exemplos, se os houver. Só cinco secções são obrigatórias. As outras ficam ao critério do profissional.",
-    regresso: 'Bom regresso. Aqui está o que ficou escrito. O profissional altera o que quiser antes de seguir.',
+    preencher: "Vamos criar o assistente digital IA, secção a secção. Começamos pelos exemplos, se os houver. Só cinco secções são obrigatórias. As outras ficam ao seu critério.",
+    regresso: 'Bom regresso. Aqui está o que ficou escrito. Altere o que quiser antes de seguir.',
     opcionais: "Agora vem o detalhe, com calma. Todas estas secções são opcionais. Uma secção em branco não faz mal, porque o assistente funciona à mesma.",
-    final: "Parabéns, está pronto. O assistente foi criado no estilo indicado. O profissional revê e decide sempre.",
+    final: "Parabéns, está pronto. O assistente foi criado no estilo indicado. A revisão e a decisão são sempre suas.",
     patamar: "Falta só escolher como continuar. As instruções grátis ficam sempre disponíveis, sem pressa nenhuma.",
     confirmacao: "Obrigado pela confiança. O guia de instalação explica tudo, passo a passo. Bom trabalho com o novo assistente.",
     seccoes: {
-      "00": "Esta caixa mostra ao assistente como o profissional escreve. É o melhor atalho para um texto com o estilo certo.",
+      "00": "Esta caixa mostra ao assistente a sua forma de escrever. É o melhor atalho para um texto com o estilo certo.",
       "01": "Aqui o assistente fica a saber quem é e para que serve. Tudo o resto parte desta resposta.",
-      "02": "Esta caixa dá um rumo ao assistente. Com ela, o assistente percebe o que deve melhorar no dia-a-dia do profissional.",
+      "02": "Esta caixa dá um rumo ao assistente. Com ela, o assistente percebe o que deve melhorar no seu dia-a-dia.",
       "03": "Esta caixa diz ao assistente para quem escreve. Um texto para clientes pede palavras diferentes de um texto para colegas.",
       "04": "Aqui o assistente fica a conhecer o local de trabalho. Esse retrato ajuda a acertar no vocabulário e na formalidade.",
-      "05": "Esta caixa afina a voz do assistente. O objectivo é que os textos soem ao profissional que os assina.",
+      "05": "Esta caixa afina a voz do assistente. O objectivo é que os textos soem a quem os assina.",
       "06": "Aqui ficam escolhidas as palavras do assistente, simples ou técnicas, e as línguas em que escreve.",
       "07": "Esta caixa dá forma aos textos. Com ela, o assistente sabe se escreve curto ou longo, em lista ou em texto corrido.",
       "08": "Aqui fica combinado o início de cada conversa. Um bom arranque poupa perguntas a meio do trabalho.",
       "09": "Esta caixa é a lista de trabalhos do assistente. Quanto mais concreta for, melhor o assistente os executa.",
       "10": "Aqui o assistente fica a saber em que documentos se pode apoiar e quais ficam de fora.",
-      "11": "Esta caixa guarda o que o assistente deve saber de cor. Assim, o profissional não repete a mesma informação em cada pedido.",
+      "11": "Esta caixa guarda o que o assistente deve saber de cor. Assim, evita repetir a mesma informação em cada pedido.",
       "12": "Esta é a caixa da segurança. Aqui ficam as linhas que o assistente nunca atravessa, nem que insistam.",
       "13": "Esta caixa ensina o assistente a parar a tempo. Perante uma dúvida, o assistente devolve o trabalho em vez de inventar.",
       "14": "Esta caixa protege as pessoas mencionadas nos textos. Aqui ficam as regras do assistente para os dados pessoais.",
-      "15": "Aqui fica decidida a despedida do assistente. Um bom fecho lembra que a última palavra é do profissional.",
-      "16": "Aqui fica decidido como o assistente liga uma conversa à seguinte. Nada fica guardado sem o profissional confirmar."
-    }
+      "15": "Aqui fica decidida a despedida do assistente. Um bom fecho lembra que a última palavra é sua.",
+      "16": "Aqui fica decidido como o assistente liga uma conversa à seguinte. Nada fica guardado sem a sua confirmação."
+    },
+    passos: {
+      "00": [
+            "Escolha dois ou três textos já escritos por si.",
+            "Retire os nomes, os contactos e os dados que identificam alguém.",
+            "Cole os textos, separados por uma linha em branco."
+      ],
+      "01": [
+            "Escolha um nome simples.",
+            "Descreva a tarefa principal numa frase.",
+            "Indique o material de que o assistente parte, como notas, rascunhos ou ditados."
+      ],
+      "02": [
+            "Pense na tarefa que lhe ocupa mais tempo.",
+            "Escreva numa frase o que muda com o assistente."
+      ],
+      "03": [
+            "Indique quem lê os textos.",
+            "Diga se essas pessoas conhecem os termos técnicos.",
+            "Acrescente a idade ou o contexto de leitura, se fizer diferença."
+      ],
+      "04": [
+            "Diga onde trabalha e em que sector.",
+            "Indique o que distingue esse ambiente."
+      ],
+      "05": [
+            "Escolha entre um tom formal e um tom próximo.",
+            "Escolha entre um tom sério e um tom leve.",
+            "Resuma o tom em duas ou três palavras."
+      ],
+      "06": [
+            "Escolha entre linguagem simples e linguagem técnica.",
+            "Diga se o assistente explica os termos técnicos.",
+            "Indique outra língua, se precisar dela."
+      ],
+      "07": [
+            "Diga se quer textos curtos ou longos.",
+            "Escolha entre listas e texto corrido.",
+            "Indique as suas necessidades de leitura, como frases curtas."
+      ],
+      "08": [
+            "Liste as perguntas que o assistente faz no início.",
+            "Ponha as perguntas pela ordem certa.",
+            "Peça ao assistente uma pergunta de cada vez."
+      ],
+      "09": [
+            "Escreva cada trabalho numa linha.",
+            "Diga de que material parte cada trabalho.",
+            "Indique se o assistente corrige só o trecho pedido ou reescreve tudo."
+      ],
+      "10": [
+            "Liste os documentos e os modelos que autoriza.",
+            "Liste os documentos que ficam de fora.",
+            "Diga se o assistente pode usar fontes externas."
+      ],
+      "11": [
+            "Reúna os dados estáveis, como contactos, modelos e termos próprios.",
+            "Assinale os dados que mudam e que o assistente deve confirmar.",
+            "Liste as frases que o assistente nunca usa."
+      ],
+      "12": [
+            "Comece cada linha pela palavra \"Nunca\".",
+            "Inclua a regra de que a decisão é sempre sua.",
+            "Acrescente os limites próprios da sua profissão."
+      ],
+      "13": [
+            "Liste os pedidos que exigem uma decisão sua.",
+            "Diga o que o assistente faz quando falta informação.",
+            "Escolha o aviso que o assistente escreve nesses casos."
+      ],
+      "14": [
+            "Indique os dados que o assistente aceita, como iniciais.",
+            "Indique os dados que o assistente recusa, como nomes completos.",
+            "Diga o que o assistente faz quando esses dados aparecem."
+      ],
+      "15": [
+            "Escreva a frase final do assistente.",
+            "Inclua o lembrete para rever o texto antes de o usar."
+      ],
+      "16": [
+            "Diga se o assistente pergunta o que retomar da próxima vez.",
+            "Indique se o assistente pode propor guardar uma preferência repetida.",
+            "Exija a sua confirmação antes de qualquer registo."
+      ]
+    },
+    notaObrigatoria: 'Esta caixa é obrigatória. Bastam poucas linhas.',
+    notaOpcional: 'Esta caixa é opcional. Pode ficar em branco.'
   };
   const bob = { regressou: false, seccao: null, recolhidoPorMim: false, ultimaFala: '' };
   try { bob.recolhidoPorMim = sessionStorage.getItem('pl_bob_recolhido') === '1'; } catch (e) {}
@@ -3979,7 +4070,12 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     if (bob.seccao != null) {
       const sec = SECCOES.find(x => x.num === bob.seccao);
       const num = numeroFormatado(bob.seccao);
-      return { onde: num + ' · ' + sec.titulo, fala: BOB.seccoes[num], como: orientacaoDaSeccao(sec) };
+      return {
+        onde: num + ' · ' + sec.titulo,
+        fala: BOB.seccoes[num],
+        passos: BOB.passos[num],
+        nota: sec.obrigatoria ? BOB.notaObrigatoria : BOB.notaOpcional
+      };
     }
     const painel = document.getElementById('opcionais');
     if (painel && !painel.hasAttribute('hidden')) return { fala: BOB.opcionais };
@@ -4003,7 +4099,14 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     const f = bobFalaActual();
     document.getElementById('bobOnde').textContent = f.onde || '';
     document.getElementById('bobFala').textContent = f.fala;
-    document.getElementById('bobComo').textContent = f.como || '';
+    const lista = document.getElementById('bobPassos');
+    lista.textContent = '';
+    (f.passos || []).forEach(passo => {
+      const li = document.createElement('li');
+      li.textContent = passo;
+      lista.appendChild(li);
+    });
+    document.getElementById('bobNota').textContent = f.nota || '';
     // Fica acima da barra de preço, quando ela está à vista.
     const barra = document.querySelector('.sticky-preco');
     // (offsetParent não serve: é sempre nulo em elementos fixos.)
