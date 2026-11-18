@@ -1187,6 +1187,9 @@
      "perguntas": só a pergunta actual, o progresso e o botão Seguinte.
      "afinar": depois das 5 perguntas, aparece o resto (exemplos, índice das
      secções, opcionais, Pro e "Rever e terminar"). */
+  .aviso-saude { margin: 0 0 1.25rem; padding: 0.7rem 0.9rem; max-width: 680px; font-size: 0.98rem; line-height: 1.5; color: var(--ink); background: var(--surface); border: 1px solid var(--border-strong); border-left: 3px solid var(--accent); border-radius: 8px; }
+  .aviso-saude[hidden] { display: none; }
+  .aviso-saude a { color: var(--accent); font-weight: 600; white-space: nowrap; }
   .perg-progresso { display: flex; gap: 0.45rem; margin: 0 0 1.25rem; }
   .perg-progresso i { flex: 0 0 2.4rem; height: 0.35rem; border-radius: 3px; background: var(--border-strong); }
   .perg-progresso i.feito { background: var(--accent); }
@@ -1471,7 +1474,7 @@
       <div class="area-grid">
         <button class="area-card" id="area-saude" onclick="selectArea('saude')">
           <div class="area-name">Saúde</div>
-          <div class="area-desc">Consultórios, clínicas, terapias e cuidados continuados.</div>
+          <div class="area-desc">Consultórios e clínicas: marcações, avisos e atendimento.</div>
         </button>
 
         <button class="area-card" id="area-escritorio" onclick="selectArea('escritorio')">
@@ -1501,6 +1504,9 @@
     <div class="step-label">Passo 2 de 3</div>
     <h1 class="screen-title" id="s2Titulo">5 perguntas <em>essenciais</em></h1>
     <p class="screen-sub" id="s2Sub">Basta uma ou duas frases em cada resposta. O resto é opcional e pode ficar para depois.</p>
+    <!-- Só na área Saúde: o wizard trata do atendimento e da parte
+         administrativa; o registo clínico fica para o catálogo de saúde. -->
+    <p class="aviso-saude" id="avisoSaude" hidden>Este assistente trata do atendimento e da parte administrativa. Para o registo clínico das consultas, o catálogo de saúde tem assistentes prontos. <a href="https://proteinaludica.com/catalogo" target="_blank" rel="noopener">Ver o catálogo de saúde →</a></p>
 
     <div class="pro-faixa" id="proFaixa">
       <span class="pro-faixa-texto" id="proFaixaTexto">✨ Com o Pro, o Bob ajuda a responder com IA, a partir do que lhe escrever · 49€</span>
@@ -2410,8 +2416,15 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   }
 
   // ─────────── ÁREA PROFISSIONAL ───────────
+  // Na área Saúde, o Passo 2 lembra que o registo clínico é do catálogo.
+  function atualizarAvisoSaude() {
+    const aviso = document.getElementById('avisoSaude');
+    if (aviso) aviso.hidden = state.area !== 'saude';
+  }
+
   function selectArea(id) {
     state.area = id;
+    atualizarAvisoSaude();
     document.querySelectorAll('.area-card').forEach(c => c.classList.remove('selected'));
     const alvo = document.getElementById('area-' + id);
     if (alvo) alvo.classList.add('selected');
@@ -3374,6 +3387,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     state.platformLabel = null;
     state.patamar = null;
     state.area = null;
+    if (typeof atualizarAvisoSaude === 'function') atualizarAvisoSaude();
     state.quiz = { 1: null, 2: null, 3: null };
 
     limparCamposEMarcas();
@@ -4533,6 +4547,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
 
     if (dados.area && window.PL_EXEMPLOS && window.PL_EXEMPLOS.rotulos[dados.area]) {
       state.area = dados.area;
+      if (typeof atualizarAvisoSaude === 'function') atualizarAvisoSaude();
       const cartao = document.getElementById('area-' + dados.area);
       if (cartao) cartao.classList.add('selected');
       const bloco = document.getElementById('blocoArea');
