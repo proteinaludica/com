@@ -1506,7 +1506,7 @@
       <span class="pro-faixa-texto" id="proFaixaTexto">✨ Com o Pro, o Bob ajuda a responder com IA, a partir do que lhe escrever · 49€</span>
       <button type="button" class="btn-accent pro-faixa-btn" onclick="goToProPricing()">Ver Pro →</button>
     </div>
-    <div class="pro-session-chip" id="proSessionChip" hidden>Sessão Pro activa · 3 gerações por campo, por dia</div>
+    <div class="pro-session-chip" id="proSessionChip" hidden>Sessão Pro activa · o Bob propõe até 3 respostas por caixa, por dia</div>
 
     <div class="section-progress-wrap">
       <div class="section-progress">
@@ -1982,13 +1982,16 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
 
             <div class="pdf-footer-mark">Proteína Lúdica · 2026</div>
           </div>
-          <!-- Pro: mostra o que o Pro faz (o Bob propõe a resposta de uma caixa), não o PDF. -->
+          <!-- Pro: mostra o que o Pro faz (o Bob propõe a resposta de uma caixa),
+               não o PDF. Exemplo genérico (contabilidade): esta maquete aparece
+               a toda a gente, seja qual for a área escolhida, e o wizard não usa
+               linguagem clínica. -->
           <div class="pro-mockup" id="proPreview" hidden>
-            <div class="pro-mockup-tag">Pro · escrita assistida por IA</div>
+            <div class="pro-mockup-tag">Pro · resposta com a ajuda do Bob</div>
             <div class="pro-mockup-campo">Missão</div>
-            <div class="pro-mockup-antes">ajudar doentes com dúvidas</div>
+            <div class="pro-mockup-antes">poupar tempo nas respostas a clientes sobre prazos e documentos</div>
             <div class="pro-mockup-seta">✨ O Bob propõe a resposta</div>
-            <div class="pro-mockup-depois">Ajudar quem procura o consultório do Dr. Silva a esclarecer dúvidas frequentes sobre marcações e preparação para exames, com respostas claras e sem dar diagnósticos.</div>
+            <div class="pro-mockup-depois">Poupar tempo ao gabinete do Dr. Silva nas respostas aos clientes. O assistente organiza as dúvidas sobre prazos fiscais e documentos em falta, e o Dr. Silva revê e decide cada resposta.</div>
           </div>
           <div class="preview-caption" id="previewCaption">↑ Preview · PDF completo após confirmação</div>
         </div>
@@ -2455,13 +2458,13 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     pro: {
       titulo: 'Pro',
       preco: '49€',
-      inclui: 'A IA escreve cada campo a partir das respostas já dadas',
+      inclui: 'O Bob ajuda a responder com IA, a partir do que lhe escrever',
       title: 'Pro<br><em>49€</em>',
       previewTitle: 'Pro',
       price: '49€',
       includes: [
         'Tudo do Kit completo',
-        'Escrita assistida por IA nas 16 secções'
+        'Ajuda do Bob para responder com IA: até 3 propostas por caixa, por dia'
       ]
     },
     medida: {
@@ -2496,17 +2499,17 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     const t = TIERS[tier];
     document.getElementById('checkoutTitle').innerHTML = t.title;
     document.getElementById('checkoutPreviewTitle').textContent = t.previewTitle;
-    // O Pro vende a escrita por IA; o Kit vende o guia em PDF.
+    // O Pro vende a ajuda do Bob para responder com IA; o Kit vende o guia em PDF.
     const ehPro = tier === 'pro';
     const pdf = document.querySelector('#paywallCheckout .pdf-mockup');
     if (pdf) pdf.hidden = ehPro;
     const proPreview = document.getElementById('proPreview');
     if (proPreview) proPreview.hidden = !ehPro;
     document.getElementById('previewCaption').textContent = ehPro
-      ? '↑ Exemplo · a IA escreve a partir do que já foi escrito'
+      ? '↑ Exemplo · o Bob propõe a resposta a partir do que lhe escrever'
       : '↑ Preview · PDF completo após confirmação';
     document.getElementById('paywallNote').textContent = ehPro
-      ? 'Depois do pagamento, o assistente volta às perguntas com a escrita por IA activa. O guia de instalação segue por email no fim.'
+      ? 'Depois do pagamento, as perguntas voltam a abrir com a ajuda do Bob activa. O guia de instalação segue por email no fim.'
       : 'O PDF com o passo-a-passo de instalação é enviado por email após a confirmação.';
     document.getElementById('checkoutIncludes').innerHTML =
       t.includes.map(i => '<li>' + i.replace('{plataforma}', nomePlataforma()) + '</li>').join('');
@@ -3084,7 +3087,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   // repetido em cada um — e o onclick inline "goToProPricing()" era morto:
   // initAssistirCampo() substitui-o sempre. Passa a sair de TIERS, num sítio só.
   function escreverDicasPro() {
-    const texto = 'A IA escreve este campo a partir do que já foi preenchido · Pro ' + TIERS.pro.preco;
+    const texto = 'O Bob ajuda a responder com IA · Pro ' + TIERS.pro.preco;
     document.querySelectorAll('.btn-pro .pro-tip').forEach(el => { el.textContent = texto; });
   }
 
