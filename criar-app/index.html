@@ -1172,6 +1172,11 @@
   .oblig-tag { display: inline-block; font-family: var(--font-mono); font-size: 1rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); background: var(--accent-light); padding: 2px 8px; border-radius: 3px; margin-bottom: 0.6rem; }
   /* Fase 2: recolher opcionais */
   .afinar-bar { margin: 0.5rem 0 1.5rem; }
+  .opc-bloco { margin: 2rem 0 0.75rem; padding-top: 1rem; border-top: 0.5px solid var(--border-strong); }
+  .opc-bloco-titulo { font-family: var(--font-display, inherit); font-size: 1.4844rem; font-weight: 500; margin: 0 0 0.25rem; }
+  .opc-bloco-texto { margin: 0; font-size: 1.0391rem; line-height: 1.5; color: var(--ink2); }
+  .s3-index-grupo { font-size: 0.9rem; font-weight: 600; color: var(--ink); margin: 0.75rem 0 0.25rem; padding: 0 8px; }
+  .s3-index-grupo:first-child { margin-top: 0; }
   .btn-afinar { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; background: var(--bg2); border: 0.5px dashed var(--border-strong); border-radius: 8px; padding: 0.9rem 1.25rem; cursor: pointer; font-family: var(--font-body); font-size: 1.0391rem; color: var(--ink); transition: all 0.2s; }
   .btn-afinar:hover { border-color: var(--accent); background: var(--accent-light); }
   .afinar-left { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
@@ -1704,6 +1709,11 @@
       <button type="button" class="btn-ghost opc-voltar" onclick="fecharOpcionais(true)">← Voltar</button>
       <div class="opc-note" id="opcNote"></div>
 
+    <div class="opc-bloco">
+      <h3 class="opc-bloco-titulo">Contexto</h3>
+      <p class="opc-bloco-texto">Diga para quem o assistente trabalha e em que situação.</p>
+    </div>
+
     <div class="fill-main" id="sec-03">
       <div class="fill-title">Público-alvo</div>
       <div class="fill-guide">O campo descreve quem vai ler ou usar os textos que o assistente ajuda a preparar.</div>
@@ -1726,6 +1736,76 @@
           <button type="button" class="btn-example js-exemplo" data-seccao="4" data-campo="f-contexto" onclick="toggleExemplo(this)">Ver exemplo</button>
         </div>
       </div>
+    </div>
+
+    <div class="fill-main" id="sec-10">
+      <div class="fill-title">Fontes oficiais</div>
+      <div class="fill-guide">O campo indica os documentos e os modelos autorizados, e também os excluídos.</div>
+      <div class="fill-field">
+        <label for="f-fontes">Indique os documentos em que o assistente se apoia.</label>
+        <textarea id="f-fontes" placeholder="ex: Usa só os documentos que lhe entrego e os sítios oficiais. Não usa fóruns nem redes sociais." oninput="checkRGPD(this)"></textarea>
+        <div class="field-actions">
+          <button type="button" class="btn-example js-exemplo" data-seccao="10" data-campo="f-fontes" onclick="toggleExemplo(this)">Ver exemplo</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="fill-main" id="sec-11">
+      <div class="fill-title">Conhecimento fixo</div>
+      <div class="fill-guide">O campo reúne a informação estável que o assistente conhece de base e indica o que o assistente nunca diz.</div>
+      <div class="fill-field">
+        <label for="f-conhecimento">Escreva a informação que o assistente deve ter sempre presente.</label>
+        <textarea id="f-conhecimento" placeholder="ex: A morada, o horário e os prazos habituais. Pergunta antes de usar valores que mudam." oninput="checkRGPD(this)"></textarea>
+        <div class="field-actions">
+          <button type="button" class="btn-example js-exemplo" data-seccao="11" data-campo="f-conhecimento" onclick="toggleExemplo(this)">Ver exemplo</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="opc-bloco">
+      <h3 class="opc-bloco-titulo">Tarefa</h3>
+      <p class="opc-bloco-texto">Diga o que o assistente faz, do primeiro contacto ao fim do trabalho.</p>
+    </div>
+
+    <div class="fill-main" id="sec-08">
+      <div class="fill-title">Arranque</div>
+      <div class="fill-guide">O campo define a sequência de arranque. O assistente faz uma pergunta de cada vez.</div>
+      <div class="fill-field">
+        <label for="f-onboarding">Descreva como começa cada conversa com o assistente.</label>
+        <textarea id="f-onboarding" placeholder="ex: Pergunta primeiro o nome e o assunto. Faz uma pergunta de cada vez." oninput="checkRGPD(this)"></textarea>
+        <div class="field-actions">
+          <button type="button" class="btn-example js-exemplo" data-seccao="8" data-campo="f-onboarding" onclick="toggleExemplo(this)">Ver exemplo</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="fill-main" id="sec-09">
+      <div class="fill-title">Tarefas específicas</div>
+      <div class="fill-guide">O campo enumera o que o assistente organiza a partir do material que recebe, e diz como trata as correcções parciais.</div>
+      <div class="fill-field">
+        <label for="f-tarefas">Liste os trabalhos que o assistente executa.</label>
+        <textarea id="f-tarefas" placeholder="ex: Redige o pedido de documentos. Prepara o resumo diário do que está por tratar." oninput="checkRGPD(this)"></textarea>
+        <div class="field-actions">
+          <button type="button" class="btn-example js-exemplo" data-seccao="9" data-campo="f-tarefas" onclick="toggleExemplo(this)">Ver exemplo</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="fill-main" id="sec-16">
+      <div class="fill-title">Continuidade</div>
+      <div class="fill-guide">O assistente pode propor guardar uma preferência que se repete, mas nunca grava sem confirmação explícita. Nunca aprende sozinho.</div>
+      <div class="fill-field">
+        <label for="f-continuidade">Diga como o assistente liga uma conversa à seguinte.</label>
+        <textarea id="f-continuidade" placeholder="ex: Ao retomar uma conversa, resume numa linha o que ficou pendente." oninput="checkRGPD(this)"></textarea>
+        <div class="field-actions">
+          <button type="button" class="btn-example js-exemplo" data-seccao="16" data-campo="f-continuidade" onclick="toggleExemplo(this)">Ver exemplo</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="opc-bloco">
+      <h3 class="opc-bloco-titulo">Formato</h3>
+      <p class="opc-bloco-texto">Diga como o assistente escreve e entrega o trabalho.</p>
     </div>
 
     <div class="fill-main" id="sec-05">
@@ -1797,52 +1877,9 @@
       </div>
     </div>
 
-    <div class="fill-main" id="sec-08">
-      <div class="fill-title">Arranque</div>
-      <div class="fill-guide">O campo define a sequência de arranque. O assistente faz uma pergunta de cada vez.</div>
-      <div class="fill-field">
-        <label for="f-onboarding">Descreva como começa cada conversa com o assistente.</label>
-        <textarea id="f-onboarding" placeholder="ex: Pergunta primeiro o nome e o assunto. Faz uma pergunta de cada vez." oninput="checkRGPD(this)"></textarea>
-        <div class="field-actions">
-          <button type="button" class="btn-example js-exemplo" data-seccao="8" data-campo="f-onboarding" onclick="toggleExemplo(this)">Ver exemplo</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="fill-main" id="sec-09">
-      <div class="fill-title">Tarefas específicas</div>
-      <div class="fill-guide">O campo enumera o que o assistente organiza a partir do material que recebe, e diz como trata as correcções parciais.</div>
-      <div class="fill-field">
-        <label for="f-tarefas">Liste os trabalhos que o assistente executa.</label>
-        <textarea id="f-tarefas" placeholder="ex: Redige o pedido de documentos. Prepara o resumo diário do que está por tratar." oninput="checkRGPD(this)"></textarea>
-        <div class="field-actions">
-          <button type="button" class="btn-example js-exemplo" data-seccao="9" data-campo="f-tarefas" onclick="toggleExemplo(this)">Ver exemplo</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="fill-main" id="sec-10">
-      <div class="fill-title">Fontes oficiais</div>
-      <div class="fill-guide">O campo indica os documentos e os modelos autorizados, e também os excluídos.</div>
-      <div class="fill-field">
-        <label for="f-fontes">Indique os documentos em que o assistente se apoia.</label>
-        <textarea id="f-fontes" placeholder="ex: Usa só os documentos que lhe entrego e os sítios oficiais. Não usa fóruns nem redes sociais." oninput="checkRGPD(this)"></textarea>
-        <div class="field-actions">
-          <button type="button" class="btn-example js-exemplo" data-seccao="10" data-campo="f-fontes" onclick="toggleExemplo(this)">Ver exemplo</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="fill-main" id="sec-11">
-      <div class="fill-title">Conhecimento fixo</div>
-      <div class="fill-guide">O campo reúne a informação estável que o assistente conhece de base e indica o que o assistente nunca diz.</div>
-      <div class="fill-field">
-        <label for="f-conhecimento">Escreva a informação que o assistente deve ter sempre presente.</label>
-        <textarea id="f-conhecimento" placeholder="ex: A morada, o horário e os prazos habituais. Pergunta antes de usar valores que mudam." oninput="checkRGPD(this)"></textarea>
-        <div class="field-actions">
-          <button type="button" class="btn-example js-exemplo" data-seccao="11" data-campo="f-conhecimento" onclick="toggleExemplo(this)">Ver exemplo</button>
-        </div>
-      </div>
+    <div class="opc-bloco">
+      <h3 class="opc-bloco-titulo">Verificação</h3>
+      <p class="opc-bloco-texto">Diga o que o assistente confirma antes de devolver o trabalho. Os limites já ficaram nas perguntas essenciais.</p>
     </div>
 
     <div class="fill-main" id="sec-14">
@@ -1853,18 +1890,6 @@
         <textarea id="f-dados" placeholder="ex: Aceita nome, contacto e assunto. Recusa senhas, dados bancários e números de identificação." oninput="checkRGPD(this)"></textarea>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="14" data-campo="f-dados" onclick="toggleExemplo(this)">Ver exemplo</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="fill-main" id="sec-16">
-      <div class="fill-title">Continuidade</div>
-      <div class="fill-guide">O assistente pode propor guardar uma preferência que se repete, mas nunca grava sem confirmação explícita. Nunca aprende sozinho.</div>
-      <div class="fill-field">
-        <label for="f-continuidade">Diga como o assistente liga uma conversa à seguinte.</label>
-        <textarea id="f-continuidade" placeholder="ex: Ao retomar uma conversa, resume numa linha o que ficou pendente." oninput="checkRGPD(this)"></textarea>
-        <div class="field-actions">
-          <button type="button" class="btn-example js-exemplo" data-seccao="16" data-campo="f-continuidade" onclick="toggleExemplo(this)">Ver exemplo</button>
         </div>
       </div>
     </div>
@@ -3828,7 +3853,30 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     const lista = document.getElementById('s3IndexList');
     if (!lista || lista.dataset.pronto === '1') return;
     lista.textContent = '';
-    SECCOES.forEach(sec => {
+    // O índice agrupa as secções pelos quatro blocos do guia. A ordem dos
+    // números dentro de cada bloco segue BLOCOS_INDICE; o conteúdo não muda.
+    const BLOCOS_INDICE = [
+      { titulo: 'Contexto', nums: [1, 3, 4, 10, 11] },
+      { titulo: 'Tarefa', nums: [2, 8, 9, 16] },
+      { titulo: 'Formato', nums: [0, 5, 6, 7, 15] },
+      { titulo: 'Verificação', nums: [12, 13, 14] },
+    ];
+    const ordenadas = [];
+    BLOCOS_INDICE.forEach(bloco => {
+      bloco.nums.forEach((n, i) => {
+        const sec = SECCOES.find(x => x.num === n);
+        if (sec) ordenadas.push({ sec: sec, grupo: i === 0 ? bloco.titulo : null });
+      });
+    });
+    // Rede de segurança: uma secção nova fora dos blocos entra no fim.
+    SECCOES.forEach(sec => { if (!ordenadas.some(o => o.sec === sec)) ordenadas.push({ sec: sec, grupo: null }); });
+    ordenadas.forEach(({ sec, grupo }) => {
+      if (grupo) {
+        const titulo = document.createElement('div');
+        titulo.className = 's3-index-grupo';
+        titulo.textContent = grupo;
+        lista.appendChild(titulo);
+      }
       const a = document.createElement('a');
       a.className = 's3-index-item' + (sec.obrigatoria ? ' is-oblig' : '');
       a.href = '#sec-' + numeroFormatado(sec.num);
