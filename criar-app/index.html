@@ -1463,7 +1463,7 @@
           <div class="platform-badge b-other">?</div>
           <div>
             <div class="platform-name">Outra ferramenta</div>
-            <div class="platform-desc">É devolvido um bloco universal, que funciona em qualquer assistente de IA. Basta colá-lo no campo de instruções da plataforma escolhida.</div>
+            <div class="platform-desc">É devolvido um bloco universal, que funciona em qualquer assistente de IA. Basta colá-lo no campo de instruções da ferramenta escolhida.</div>
           </div>
         </div>
       </button>
@@ -1858,7 +1858,7 @@
   <div class="screen-inner output-inner">
     <div class="step-label" style="text-align:center">Passo 3 de 3 · Grátis</div>
     <h1 class="output-title">O assistente digital IA está <em>pronto.</em></h1>
-    <p class="output-sub">Copiar o bloco abaixo e colá-lo nas instruções do assistente, na plataforma escolhida.</p>
+    <p class="output-sub">Copie o bloco abaixo e cole-o nas instruções do assistente, na ferramenta escolhida.</p>
 
     <div class="code-box">
       <div class="code-box-header">
@@ -1914,7 +1914,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       </div>
       <div class="code-content" id="exemplosContent"></div>
     </div>
-    <p class="output-exemplos-nota" id="exemplosNota" hidden>Os exemplos ficam fora das instruções, para não ultrapassarem o limite da ferramenta. Descarregar o ficheiro e carregá-lo no conhecimento do assistente.</p>
+    <p class="output-exemplos-nota" id="exemplosNota" hidden>Os exemplos ficam fora das instruções, para não ultrapassarem o limite da ferramenta. Descarregue o ficheiro e carregue-o no conhecimento do assistente.</p>
 
     <!-- Quantas das 16 secções entraram no bloco acima. -->
     <p class="output-onde" id="outputOnde"></p>
@@ -1924,7 +1924,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
          as instruções. O ecrã "Como continuar?" deixa de estar no caminho. -->
     <div class="output-guia">
       <h2 class="output-guia-titulo">Precisa de ajuda para instalar?</h2>
-      <p class="output-guia-texto">Receber por email o guia de instalação passo a passo, em PDF, feito para a ferramenta escolhida.</p>
+      <p class="output-guia-texto">Receba por email o guia de instalação passo a passo, em PDF, feito para a ferramenta escolhida.</p>
       <button type="button" class="btn-accent" onclick="abrirKit()">Receber o guia · grátis</button>
     </div>
     <p class="tier-medida output-medida">Precisa de um assistente feito por nós? <a href="#" onclick="abrirMedida(); return false;">Pedir contacto (a partir de 290€)</a></p>
@@ -1940,7 +1940,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     <div id="paywallTiers">
       <div class="step-label">Passo final</div>
       <h1 class="screen-title">Como continuar?</h1>
-      <p class="screen-sub">Escolher o patamar que melhor serve a necessidade actual. É sempre possível voltar a este ecrã.</p>
+      <p class="screen-sub">Escolha o patamar que melhor serve a necessidade actual. Pode voltar a este ecrã quando quiser.</p>
 
       <div class="tier-grid">
         <button class="tier-card" data-tier="free" onclick="selectTier('free', this)">
@@ -1956,10 +1956,10 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
         <button class="tier-card" data-tier="kit" onclick="selectTier('kit', this)">
           <div class="tier-title">Kit completo</div>
           <div class="tier-price">19€</div>
-          <div class="tier-desc">As instruções do assistente e o guia de instalação em PDF, feito para a plataforma escolhida.</div>
+          <div class="tier-desc">As instruções do assistente e o guia de instalação em PDF, feito para a ferramenta escolhida.</div>
           <ul class="tier-includes">
             <li>Instruções do assistente</li>
-            <li>Guia de instalação em PDF para <span id="tierPlatformName">a plataforma escolhida</span></li>
+            <li>Guia de instalação em PDF para <span id="tierPlatformName">a ferramenta escolhida</span></li>
           </ul>
           <div class="tier-cta">Receber o Kit · grátis por tempo limitado</div>
         </button>
@@ -1979,7 +1979,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
           <div class="pdf-mockup">
             <div class="pdf-cover-tag">Kit de assistente digital IA</div>
             <div class="pdf-cover-title" id="checkoutPreviewTitle">Kit completo</div>
-            <div class="pdf-cover-sub">Configurado para <span id="platformName">plataforma escolhida</span></div>
+            <div class="pdf-cover-sub">Configurado para <span id="platformName">ferramenta escolhida</span></div>
 
             <div class="pdf-blur-section">
               <div class="pdf-section-head">Guia de instalação</div>
@@ -2015,7 +2015,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
             <div class="paywall-includes-title">Incluído:</div>
             <ul id="checkoutIncludes">
               <li>Instruções do assistente</li>
-              <li>PDF com o passo-a-passo de instalação na plataforma escolhida</li>
+              <li>PDF com o passo a passo de instalação na ferramenta escolhida</li>
             </ul>
           </div>
 
@@ -2441,7 +2441,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   // Nome da plataforma escolhida no Passo 1, para injectar nos textos de venda.
   // Sem escolha feita, devolve uma formulação neutra que encaixa nas frases.
   function nomePlataforma() {
-    return state.platformLabel || 'a plataforma escolhida';
+    return state.platformLabel || 'a ferramenta escolhida';
   }
 
   // Todos os sítios que mencionam a plataforma passam pela mesma fonte,
