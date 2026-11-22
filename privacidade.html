@@ -253,6 +253,7 @@
       <li>O <strong>assistente gerado</strong>, quando se compra o kit: email, ferramenta escolhida, nome do assistente, missão e o texto completo da configuração. Fica ligado ao identificador da ligação de descarga, que é o que permite voltar a descarregar o guia e retomar a criação.</li>
       <li>As <strong>encomendas da montra por profissão</strong>: nome, email, NIF quando indicado, profissão, tarefa, ferramenta escolhida, a aceitação dos Termos e da renúncia ao direito de livre resolução, valor e estado da encomenda.</li>
       <li>As <strong>compras do RetiroAssist</strong>: referência, email, valor e o identificador da ligação de descarga. Guarda ainda as oito respostas do perfil que personalizam o assistente: nome, local de partida, companhia, orçamento, tipos de viagem, transporte, o que evitar e necessidades.</li>
+      <li>As <strong>compras do Natal IA 2026</strong>: referência, email, valor, a hora da renúncia à livre resolução e o identificador da ligação. Guarda ainda as quatro respostas que personalizam o assistente: primeiro nome, pessoas da casa (primeiro nome e idade aproximada), concelho e orçamento.</li>
       <li>Os <strong>pedidos de assistente à medida</strong>: nome, email, telemóvel quando indicado e ferramenta pretendida.</li>
       <li>Os <strong>pagamentos confirmados</strong>: provedor, referência, email, valor e data.</li>
       <li>Os <strong>contadores de utilização</strong> descritos em 2.4.</li>
@@ -265,13 +266,13 @@
     <p>Esse registo é um contador por dia, não um histórico: guarda quantas propostas foram pedidas, nunca o que foi escrito nem o texto devolvido. O endereço IP <strong>não é guardado</strong>: entra num resumo irreversível, calculado com um segredo que só o servidor conhece e com a data do dia misturada, do qual não é possível voltar ao endereço de origem. Os contadores são apagados automaticamente ao fim de 7 dias.</p>
 
     <h3><span class="sub">2.5</span> Resend — envio de emails</h3>
-    <p>Os emails que a Proteína Lúdica envia saem através da Resend: a mensagem do formulário de contacto, o aviso de um pedido à medida, o guia de instalação, o acesso de uma encomenda e a ligação de descarga do RetiroAssist.</p>
+    <p>Os emails que a Proteína Lúdica envia saem através da Resend: a mensagem do formulário de contacto, o aviso de um pedido à medida, o guia de instalação, o acesso de uma encomenda, a ligação de descarga do RetiroAssist e a ligação do Natal IA 2026.</p>
     <div class="cartao">
       <p>Resend: guarda os emails enviados por período padrão. A política de privacidade da Resend está em <a class="quebra" href="https://resend.com/privacy" target="_blank" rel="noopener">https://resend.com/privacy</a></p>
     </div>
 
     <h3><span class="sub">2.6</span> Stripe e IfthenPay — pagamentos</h3>
-    <p>O acesso Pro do formulário de criação paga-se por cartão (Stripe) ou por MB WAY (IfthenPay). O RetiroAssist paga-se por cartão (Stripe). O pagamento é feito sempre nas páginas do próprio provedor. Os dados do cartão nunca passam pelos servidores da Proteína Lúdica nem são visíveis para a Proteína Lúdica. De volta chega apenas a confirmação: provedor, referência da operação, valor e o email indicado ao pagar.</p>
+    <p>O acesso Pro do formulário de criação paga-se por cartão (Stripe) ou por MB WAY (IfthenPay). O RetiroAssist paga-se por cartão (Stripe). O Natal IA 2026 paga-se por cartão (Stripe). O pagamento é feito sempre nas páginas do próprio provedor. Os dados do cartão nunca passam pelos servidores da Proteína Lúdica nem são visíveis para a Proteína Lúdica. De volta chega apenas a confirmação: provedor, referência da operação, valor e o email indicado ao pagar.</p>
 
     <h3><span class="sub">2.7</span> Tipos de letra</h3>
     <p>Os tipos de letra estão alojados no próprio sítio. Ao abrir uma página, o browser não faz nenhum pedido aos servidores da Google nem de outro fornecedor de tipos de letra.</p>
@@ -297,6 +298,7 @@
     <p>O pedido de assistente à medida recolhe o nome, o email, o telemóvel quando indicado e a ferramenta pretendida, e fica registado na base de dados descrita em 2.3 para acompanhamento do pedido.</p>
     <p>A encomenda de um assistente na montra por profissão recolhe o nome, o email, o NIF quando indicado, a tarefa e a ferramenta. Estes dados servem para preparar e entregar o assistente e para emitir a factura.</p>
     <p>O perfil do RetiroAssist recolhe as oito respostas que personalizam o assistente. No campo das necessidades, basta indicar o que importa para a viagem, sem pormenores de saúde.</p>
+    <p>O Natal IA 2026 pede só o primeiro nome e a idade aproximada de cada pessoa da casa. Não pede datas de nascimento, moradas nem dados de saúde.</p>
   </section>
 
   <!-- ─── 05 ─── -->
@@ -310,6 +312,7 @@
       <li><span class="rotulo">Acesso pago</span><span class="valor">Apagado 7 dias depois de expirar.</span></li>
       <li><span class="rotulo">Encomendas da montra</span><span class="valor">Por pagar: apagadas ao fim de 30 dias. Da campanha de lançamento: apagadas ao fim de 90 dias. Pagas: conservadas 10 anos, por obrigação fiscal.</span></li>
       <li><span class="rotulo">Perfil do RetiroAssist</span><span class="valor">A ligação de descarga é válida 30 dias. As respostas do perfil são apagadas 7 dias depois de a ligação expirar.</span></li>
+      <li><span class="rotulo">Respostas do Natal IA 2026</span><span class="valor">A ligação serve até 6 de Janeiro de 2027 ou até 30 dias depois da compra, o que for mais tardio. As respostas são apagadas 30 dias depois. A compra fica registada para efeitos contabilísticos.</span></li>
       <li><span class="rotulo">Contadores de utilização</span><span class="valor">Apagados ao fim de 7 dias.</span></li>
       <li><span class="rotulo">Registo de pagamentos</span><span class="valor">Conservado pelo prazo exigido pelas obrigações fiscais e contabilísticas. É a única coisa que não se apaga por rotina, e é por obrigação legal, não por conveniência.</span></li>
       <li><span class="rotulo">Mensagens de contacto e pedidos à medida</span><span class="valor">Enquanto durar o assunto e o seguimento que dele resultar. Depois disso, apagados.</span></li>
