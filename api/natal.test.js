@@ -1,4 +1,4 @@
-// Testes da venda do Natal IA 2026 — sem rede, sem Supabase, sem Stripe.
+// Testes da venda do Natal IA — sem rede, sem Supabase, sem Stripe.
 // Correr: node --test api/natal.test.js
 //
 // Cobrem o que se pode verificar sem infra: o token (o que dá acesso aos
@@ -571,7 +571,7 @@ test('descarregar sem respostas guardadas dá 409; com respostas dá o ficheiro'
     const res = respostaFalsa();
     await dados({ method: 'GET', url, headers: {} }, res);
     assert.strictEqual(res.codigo, 200);
-    assert.match(res.cabecalhos['Content-Disposition'], /natal-ia-2026-gemini-instrucoes\.md/);
+    assert.match(res.cabecalhos['Content-Disposition'], /natal-ia-gemini-instrucoes\.md/);
     assert.ok(String(res.corpo).includes('Marta'));
   });
 });
@@ -631,6 +631,6 @@ test('o email de uma oferta não diz que houve pagamento', () => {
     dataCompra: '1 de Dezembro de 2026', versaoTermos: '2026-11-29',
     renunciaData: '1 de Dezembro de 2026', renunciaHora: '14:05' });
   const t = p.confirmacao.join('\n');
-  assert.match(t, /Recebeu o Natal IA 2026 sem custo, numa oferta de lançamento, a 1 de Dezembro de 2026\./);
+  assert.match(t, /Recebeu o Natal IA sem custo, numa oferta de lançamento, a 1 de Dezembro de 2026\./);
   assert.ok(!/Pagou/.test(t));
 });

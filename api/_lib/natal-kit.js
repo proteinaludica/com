@@ -1,4 +1,4 @@
-// Conteúdo e regras do Natal IA 2026 — o que quem paga 19€ recebe.
+// Conteúdo e regras do Natal IA — o que quem paga 19€ recebe.
 //
 // NÃO é um endpoint. É `require`-d por _lib/natal.js e pelos endpoints
 // api/natal-*.js. Os três textos do assistente estão em _lib/natal-textos.js;
@@ -26,11 +26,11 @@ const VERSAO = '1';
 
 // Data dos Termos aceites no momento da compra (como VERSAO_TERMOS em
 // criar-app/api/encomenda.js). Fica POR-DEFINIR até haver a versão dos Termos
-// com o parágrafo do Natal IA 2026, aprovada pelo advogado.
+// com o parágrafo do Natal IA, aprovada pelo advogado.
 const VERSAO_TERMOS = 'POR-DEFINIR';
 
 const PRODUTO = 'natal2026';
-const NOME = 'Natal IA 2026';
+const NOME = 'Natal IA';
 
 // Limites de caracteres de cada ferramenta (contados em caracteres, não em
 // bytes). O objecto é mutável de propósito: os testes baixam o limite para
@@ -197,7 +197,7 @@ function comporTextos(dados, licenca) {
 
 // ─────────────────────────────── Email ───────────────────────────────
 
-const EMAIL_ASSUNTO = 'O seu Natal IA 2026: faltam quatro perguntas';
+const EMAIL_ASSUNTO = 'O seu Natal IA: faltam quatro perguntas';
 
 // Parágrafos antes e depois da ligação. `data` é o fim do prazo, por extenso.
 // `confirmacao` confirma o contrato e a renúncia à livre resolução em suporte
@@ -207,9 +207,9 @@ const EMAIL_ASSUNTO = 'O seu Natal IA 2026: faltam quatro perguntas';
 function emailPartes({ licenca, data, valor, oferta, dataCompra, versaoTermos, renunciaData, renunciaHora }) {
   const confirmacao = [
     'Este email confirma a sua compra.',
-    'Comprou o Natal IA 2026, um assistente digital IA com licença pessoal.',
+    'Comprou o Natal IA, um assistente digital IA com licença pessoal.',
     oferta
-      ? 'Recebeu o Natal IA 2026 sem custo, numa oferta de lançamento, a ' + dataCompra + '.'
+      ? 'Recebeu o Natal IA sem custo, numa oferta de lançamento, a ' + dataCompra + '.'
       : 'Pagou ' + valor + ' a ' + dataCompra + '.',
     'Aceitou os Termos de venda na versão de ' + versaoTermos + '.',
   ];

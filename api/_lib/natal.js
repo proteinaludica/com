@@ -1,4 +1,4 @@
-// Módulo comum à venda do Natal IA 2026 — 19€, pagamento único, sem subscrição.
+// Módulo comum à venda do Natal IA — 19€, pagamento único, sem subscrição.
 //
 // NÃO é um endpoint: não exporta handler. É `require`-d por
 // natal-comprar.js / natal-webhook.js / natal-token.js / natal-dados.js, no
