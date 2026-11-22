@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/icon-512.png" type="image/png" sizes="512x512">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<title>Configurar o Natal IA 2026</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<link rel="stylesheet" href="/styles/fontes.css">
+<link rel="stylesheet" href="/styles/acessibilidade.css">
+<link rel="stylesheet" href="/styles/marca.css">
+<style>
+  :root{
+    --fundo:#141A10;
+    --fundo-2:#1A2214;
+    --cartao-a:#1B2315;
+    --cartao-b:#161C11;
+    --musgo:#9BB37B;
+    --musgo-claro:#A9C287;
+    --ocre:#CEB27C;
+    --texto:#E9EDE3;
+    --texto-2:#B9C2AD;
+    --texto-3:#A7AE99;
+    --linha:rgba(143,170,107,.14);
+    --linha-2:rgba(143,170,107,.35);
+    --largura:1040px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation:none!important;transition:none!important}
+  }
+  body{
+    background:var(--fundo);
+    color:var(--texto);
+    font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;
+    font-size:1.1875rem;line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-weight:600;line-height:1.15;letter-spacing:0}
+  a{color:var(--musgo-claro)}
+  a:focus-visible,button:focus-visible{outline:3px solid var(--ocre);outline-offset:3px;border-radius:4px}
+  .contentor{max-width:var(--largura);margin:0 auto;padding:0 20px}
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky;top:0;z-index:20;
+    background:rgba(20,26,16,.92);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--linha);
+  }
+  .barra{display:flex;align-items:center;justify-content:space-between;height:56px}
+  .marca{font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-weight:600;font-size:1.1875rem;color:var(--texto);text-decoration:none}
+  .marca span{color:var(--musgo)}
+  nav ul{display:flex;gap:24px;list-style:none;align-items:center}
+  nav a{color:var(--texto-2);text-decoration:none;font-size:1.0034rem;transition:color .15s ease}
+  nav a:hover,nav a[aria-current="page"]{color:var(--texto)}
+  nav a[aria-current="page"]{font-weight:600}
+  .nav-cta{
+    background:var(--musgo);color:var(--fundo)!important;
+    padding:8px 16px;border-radius:999px;font-weight:600;
+    transition:background .15s ease;
+  }
+  .nav-cta:hover{background:var(--musgo-claro)}
+  .so-desktop{display:none}
+  .menu-btn{
+    display:flex;flex-direction:column;gap:4px;justify-content:center;
+    background:none;border:0;padding:12px 8px;cursor:pointer;min-height:44px;
+  }
+  .menu-btn span{width:17px;height:1.5px;background:var(--texto);display:block;border-radius:2px;transition:transform .2s ease,opacity .2s ease}
+  .menu-btn[aria-expanded="true"] span:first-child{transform:translateY(5.5px) rotate(45deg)}
+  .menu-btn[aria-expanded="true"] span:last-child{transform:translateY(-5.5px) rotate(-45deg)}
+  #menu-movel{border-top:1px solid var(--linha);padding:10px 20px 18px}
+  #menu-movel a{
+    display:block;padding:13px 4px;color:var(--texto-2);text-decoration:none;
+    font-size:1.1519rem;border-bottom:1px solid var(--linha);
+  }
+  #menu-movel a:hover{color:var(--texto)}
+  #menu-movel a[aria-current="page"]{color:var(--texto);font-weight:600}
+  #menu-movel .nav-cta{
+    margin-top:14px;text-align:center;border-bottom:0;
+    padding:13px 16px;font-size:1.1281rem;
+  }
+  @media (min-width:761px){
+    .barra{height:60px}
+    .marca{font-size:1.2588rem}
+    .so-desktop{display:flex}
+    .menu-btn,#menu-movel{display:none}
+  }
+
+  /* ---------- Topo ---------- */
+  .topo{
+    padding:72px 0 44px;text-align:center;
+    background:radial-gradient(680px 340px at 50% -12%, rgba(143,170,107,.13), transparent 65%);
+  }
+  .topo h1{font-size:clamp(2.071rem,6.5vw,2.5rem);line-height:1.1;margin:0 auto 14px}
+  .topo p{color:var(--texto-2);max-width:52ch;margin:0 auto;font-size:clamp(1.1519rem,2vw,1.2231rem)}
+  @media (min-width:761px){ .topo{padding:96px 0 64px} .topo h1{margin-bottom:16px} }
+
+  /* ---------- Grelha de assistentes ---------- */
+  .assistentes{padding:20px 0 60px}
+  .grelha{display:flex;flex-direction:column;gap:14px}
+  .cartao{
+    position:relative;
+    background:linear-gradient(180deg,var(--cartao-a),var(--cartao-b));
+    border:1px solid rgba(143,170,107,.16);
+    border-radius:16px;
+    padding:24px 22px;
+    display:flex;flex-direction:column;gap:10px;
+    transition:border-color .15s ease,transform .15s ease;
+  }
+  .cartao:hover{border-color:rgba(143,170,107,.45);transform:translateY(-1px)}
+  .cartao h3{font-size:1.3716rem;margin-top:4px}
+  .cartao p{color:var(--texto-2);font-size:1.0747rem;flex:1}
+  .cartao .ligacao{
+    font-weight:600;text-decoration:none;font-size:1.0747rem;
+    padding:5px 0;transition:color .15s ease;
+  }
+  .cartao .ligacao:hover{color:var(--ocre)}
+  /* O cartão inteiro é clicável: a ligação estende-se por cima dele.
+     Continua a existir uma só ligação para teclado e leitores de ecrã. */
+  .cartao .ligacao::after{content:"";position:absolute;inset:0;border-radius:16px}
+  .cartao:hover .ligacao{color:var(--ocre)}
+  .cartao:has(.ligacao:focus-visible){outline:2px solid var(--ocre);outline-offset:3px}
+  .cartao:has(.ligacao:focus-visible) .ligacao{outline:none}
+  .estado{
+    align-self:flex-start;display:flex;align-items:center;gap:7px;
+    font-size:1rem;letter-spacing:.06em;text-transform:uppercase;font-weight:600;
+    padding:4px 11px;border-radius:999px;
+  }
+  .estado .ponto{width:5px;height:5px;border-radius:999px;background:var(--musgo)}
+  .estado-disp{background:rgba(143,170,107,.14);color:var(--musgo-claro)}
+  .estado-breve{background:rgba(200,168,107,.12);color:var(--ocre)}
+  .estado-breve .ponto{background:transparent;border:1px solid var(--ocre)}
+  .cartao-breve{background:transparent;border-style:dashed;border-color:rgba(200,168,107,.35)}
+  .cartao-breve:hover{transform:none;border-color:rgba(200,168,107,.35)}
+  .linha-cabeca{margin-bottom:18px}
+  .linha-cabeca h2{font-size:clamp(1.534rem,4vw,1.816rem);margin-bottom:6px}
+  .linha-cabeca p{color:var(--texto-2);font-size:1.1281rem;max-width:60ch}
+  .cartao .preco{color:var(--texto-3);font-size:1.0094rem}
+  .linha-final{color:var(--texto-3);font-size:1rem;margin-top:20px;text-align:center}
+  .cta-proprio{padding:24px 0 72px;text-align:center}
+  .cta-proprio h2{font-size:clamp(1.631rem,4.5vw,1.989rem);margin-bottom:10px}
+  .cta-proprio p{color:var(--texto-2);max-width:46ch;margin:0 auto 22px;font-size:1.1281rem}
+  .btn-criar{display:inline-block;background:var(--musgo);color:var(--fundo);text-decoration:none;font-weight:600;font-size:1.1638rem;padding:13px 26px;border-radius:999px;transition:background .15s ease}
+  .btn-criar:hover{background:var(--musgo-claro)}
+  @media (min-width:761px){
+    .assistentes{padding:24px 0 80px}
+    .grelha{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .cartao{padding:28px 26px;gap:11px}
+    .cartao h3{font-size:1.4844rem;margin-top:6px}
+    .cartao p{font-size:1.1162rem}
+    .linha-final{font-size:1.0034rem;margin-top:22px}
+  }
+  footer .legal a{color:var(--texto-2);text-decoration:none}
+  footer .legal a:hover{color:var(--texto)}
+
+  [hidden]{display:none!important}
+
+  /* ---------- Página dos assistentes pessoais ---------- */
+  .seccao{padding:0 0 56px}
+  .principio{border-left:3px solid var(--musgo);padding:2px 0 2px 20px;max-width:640px;margin:0 auto 56px}
+  .principio p{font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-weight:500;font-size:clamp(1.3063rem,3vw,1.534rem);line-height:1.45;color:var(--texto)}
+  .cartao-fixo:hover{transform:none;border-color:rgba(143,170,107,.16)}
+  .cartao .meta{display:flex;flex-wrap:wrap;gap:6px 20px;color:var(--texto-3);font-size:1.0094rem}
+  .seccao-cabeca{margin-bottom:18px}
+  .seccao-cabeca h2{font-size:clamp(1.534rem,4vw,1.816rem);margin-bottom:6px}
+  .seccao-cabeca p{color:var(--texto-2);font-size:1.1281rem;max-width:60ch}
+  .demo{display:flex;flex-direction:column;gap:14px}
+  .rotulo{font-size:1rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--texto-3)}
+  .cartao .pedido{font-size:1.2112rem;line-height:1.6;color:var(--texto)}
+  .cartao .nota{color:var(--texto-3);font-size:1rem}
+  .resposta .criterios{color:var(--texto);font-size:1.0925rem}
+  .resposta .ordem{color:var(--texto-2);font-size:1.045rem}
+  .opcoes{list-style:none;margin-top:6px}
+  .opcao{display:grid;grid-template-columns:28px 1fr;gap:12px;padding:16px 0;border-top:1px solid var(--linha)}
+  .opcao:last-child{border-bottom:1px solid var(--linha)}
+  .opcao .num{font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-weight:600;color:var(--musgo)}
+  .opcao div{display:flex;flex-direction:column;gap:3px;font-size:1.0688rem;color:var(--texto-2)}
+  .opcao .nome{font-weight:600;font-size:1.1638rem;color:var(--texto)}
+  .opcao .custo{color:var(--texto)}
+  .opcao .fonte{font-size:1rem;color:var(--texto-3)}
+  .fecho{font-weight:600;color:var(--texto);font-size:1.1281rem;margin-top:4px}
+  .compra{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px}
+  .compra span{color:var(--texto-2);font-size:1.0925rem}
+  .estado-compra{color:var(--ocre);font-size:1.0925rem;margin-top:12px}
+  .btn-criar[aria-busy="true"]{opacity:.7;cursor:progress}
+  @media (min-width:761px){
+    .seccao{padding-bottom:72px}
+    .demo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.55fr);gap:18px;align-items:start}
+  }
+
+  /* ---------- Questionário ---------- */
+  .form{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+  .campo{display:flex;flex-direction:column;gap:6px}
+  .campo label,.campo legend{font-weight:600;font-size:1.1281rem;color:var(--texto)}
+  .campo .num{color:var(--musgo);font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;margin-right:6px}
+  .campo .ajuda{color:var(--texto-3);font-size:1rem}
+  .campo input[type=text]{
+    background:var(--fundo-2);border:1px solid var(--linha-2);border-radius:10px;
+    color:var(--texto);font:inherit;font-size:1.1281rem;padding:11px 13px;width:100%;
+  }
+  .campo input[type=text]:focus{outline:3px solid var(--ocre);outline-offset:1px;border-color:transparent}
+  .campo[data-erro] input[type=text]{border-color:var(--ocre)}
+  fieldset.campo{border:0}
+  .opcoes-tipo{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+  .opcoes-tipo label{
+    display:flex;align-items:center;gap:7px;font-weight:500;font-size:1.0688rem;color:var(--texto-2);
+    border:1px solid var(--linha-2);border-radius:999px;padding:7px 13px;cursor:pointer;
+  }
+  .opcoes-tipo input{accent-color:var(--musgo)}
+  .nota-dados{color:var(--texto-3);font-size:1rem;border-top:1px solid var(--linha);padding-top:16px}
+  .accoes{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px}
+  .btn-criar{border:0;cursor:pointer;font-family:inherit}
+  .btn-criar[disabled]{opacity:.6;cursor:progress}
+  .mensagem{color:var(--ocre);font-size:1.0925rem}
+  .pronto{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+  .ensaio{border:1px solid var(--linha);border-radius:10px;padding:18px 20px;display:flex;flex-direction:column;gap:10px}
+  .ensaio h3{font-size:1.25rem;margin:0}
+  .ensaio p{color:var(--texto-2);margin:0}
+  .ensaio ol{margin:0;padding-left:1.4rem;display:flex;flex-direction:column;gap:10px;color:var(--texto)}
+  .ensaio ol span{display:block;color:var(--texto-2)}
+  .resumo{list-style:none;display:flex;flex-direction:column;gap:6px;font-size:1.0925rem;color:var(--texto-2)}
+  .resumo b{color:var(--texto);font-weight:600}
+  .ligacao-sec{background:none;border:0;color:var(--musgo-claro);font:inherit;font-size:1.0925rem;text-decoration:underline;cursor:pointer;padding:0;align-self:flex-start}
+
+  /* ---------- Natal IA 2026 ---------- */
+  .campo select{
+    background:var(--fundo-2);border:1px solid var(--linha-2);border-radius:10px;
+    color:var(--texto);font:inherit;font-size:1.1281rem;padding:11px 13px;width:100%;
+  }
+  .campo select:focus{outline:3px solid var(--ocre);outline-offset:1px;border-color:transparent}
+  .campo[data-erro] select{border-color:var(--ocre)}
+  #pessoas{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+  .pessoa{display:grid;grid-template-columns:minmax(0,1fr) 92px 44px;gap:8px;align-items:center}
+  .pessoa input[type=text]{min-width:0}
+  .btn-sec{
+    background:none;border:1px solid var(--linha-2);color:var(--texto);border-radius:999px;
+    font:inherit;font-size:1.0925rem;font-weight:600;padding:9px 18px;cursor:pointer;
+  }
+  .btn-sec:hover{border-color:var(--musgo)}
+  .btn-sec[disabled]{opacity:.5;cursor:not-allowed}
+  .btn-x{
+    background:none;border:1px solid var(--linha-2);color:var(--texto-2);border-radius:10px;
+    width:44px;height:44px;font:inherit;font-size:1.25rem;cursor:pointer;
+  }
+  .btn-x:hover{border-color:var(--ocre);color:var(--ocre)}
+  .entrega{border:1px solid var(--linha);border-radius:10px;padding:18px 20px;display:flex;flex-direction:column;gap:10px}
+  .entrega h3{font-size:1.25rem;margin:0}
+  .entrega p{color:var(--texto-2);margin:0}
+  .entrega .cx{color:var(--texto-3);font-size:1rem}
+  .estado-copia{color:var(--musgo-claro);font-size:1.0925rem;min-height:1.6em}
+  code.licenca{font-family:Consolas,'Courier New',monospace;color:var(--texto);background:var(--fundo-2);padding:2px 8px;border-radius:6px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="contentor barra">
+    <a class="marca" href="/"><img class="marca-logo" src="/logo-marca.png" alt="" width="44" height="44">Proteína <span>Lúdica</span></a>
+    <nav class="so-desktop" aria-label="Navegação principal">
+      <ul>
+        <li><a href="/catalogo">Assistentes prontos</a></li>
+        <li><a href="/#quem-somos">Quem somos</a></li>
+        <li><a href="/#faq">Perguntas frequentes</a></li>
+        <li><a class="nav-cta" href="https://criar.proteinaludica.com">Criar o meu assistente</a></li>
+      </ul>
+    </nav>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu-movel" aria-label="Menu">
+      <span></span><span></span>
+    </button>
+  </div>
+  <nav id="menu-movel" hidden aria-label="Navegação principal">
+    <a href="/catalogo">Assistentes prontos</a>
+    <a href="/#quem-somos">Quem somos</a>
+    <a href="/#faq">Perguntas frequentes</a>
+    <a class="nav-cta" href="https://criar.proteinaludica.com">Criar o meu assistente</a>
+  </nav>
+</header>
+
+<main>
+
+<section class="topo">
+  <div class="contentor">
+    <h1>Configurar o Natal IA 2026</h1>
+    <p>Quatro perguntas configuram o assistente para si. As respostas ficam escritas no próprio assistente, por isso as conversas começam sem repetir o essencial.</p>
+  </div>
+</section>
+
+<div class="contentor" style="padding-bottom:72px">
+
+  <p id="estado" class="mensagem" style="text-align:center">A abrir as perguntas…</p>
+
+  <form id="questionario" class="form" novalidate hidden>
+      <div class="campo" data-campo="nome">
+        <label for="c-nome"><span class="num">1.</span>Primeiro nome de quem vai usar o assistente</label>
+        <input type="text" id="c-nome" name="nome" maxlength="12" autocomplete="off" autocapitalize="words" required>
+        <span class="ajuda">Até 12 letras. Por exemplo: Marta.</span>
+      </div>
+      <fieldset class="campo" data-campo="pessoas">
+        <legend><span class="num">2.</span>Quem passa o Natal consigo (opcional)</legend>
+        <span class="ajuda">Primeiro nome e idade aproximada de cada pessoa, até 12 pessoas. Não escreva apelidos, datas de nascimento nem moradas.</span>
+        <div id="pessoas"></div>
+        <button type="button" id="mais" class="btn-sec" style="align-self:flex-start;margin-top:6px">Acrescentar pessoa</button>
+      </fieldset>
+      <div class="campo" data-campo="local">
+        <label for="c-local"><span class="num">3.</span>Concelho onde passa o Natal</label>
+        <select id="c-local" name="local" required>
+          <option value="">Escolha o concelho</option>
+        </select>
+      </div>
+      <div class="campo" data-campo="orcamento">
+        <label for="c-orcamento"><span class="num">4.</span>Orçamento do Natal, em euros</label>
+        <input type="text" id="c-orcamento" name="orcamento" inputmode="numeric" maxlength="5" autocomplete="off" required>
+        <span class="ajuda">Para todo o mês. Por exemplo: 600.</span>
+      </div>
+      <p class="nota-dados">As respostas servem só para montar estes textos. Ficam guardadas até <span id="prazo-form"></span> e são apagadas 30 dias depois. Gravações ainda disponíveis: <span id="restantes">10</span>.</p>
+      <div class="accoes">
+        <button type="submit" id="gravar" class="btn-criar">Gerar o meu Natal IA 2026</button>
+        <p id="erro" class="mensagem" role="alert" hidden></p>
+      </div>
+  </form>
+
+  <section id="pronto" class="pronto" hidden>
+    <h2 style="font-size:clamp(1.534rem,4vw,1.816rem)">O Natal IA 2026 está pronto</h2>
+    <p style="color:var(--texto-2)">Licença pessoal <code id="licenca" class="licenca"></code>. Pode mudar as respostas até <span id="prazo-pronto"></span>.</p>
+    <ul id="resumo" class="resumo"></ul>
+
+    <div class="entrega">
+      <h3>ChatGPT, Claude ou Copilot</h3>
+      <p>Um só texto, com as instruções completas. Cole-o no campo das instruções da ferramenta escolhida.</p>
+      <div class="accoes">
+        <button type="button" class="btn-criar" data-copiar="completa">Copiar o texto</button>
+        <a class="ligacao-sec" data-baixar="completa" href="#">Descarregar o ficheiro</a>
+      </div>
+      <p class="cx" id="cx-completa"></p>
+    </div>
+
+    <div class="entrega">
+      <h3>Gemini</h3>
+      <p>Dois ficheiros. Crie um Gem, cole as instruções no campo das instruções e carregue o ficheiro de conhecimento.</p>
+      <div class="accoes">
+        <button type="button" class="btn-criar" data-copiar="gem">Copiar as instruções</button>
+        <a class="ligacao-sec" data-baixar="gem" href="#">Descarregar as instruções</a>
+        <a class="ligacao-sec" data-baixar="conhecimento" href="#">Descarregar o ficheiro de conhecimento</a>
+      </div>
+      <p class="cx" id="cx-gem"></p>
+    </div>
+
+    <p id="copia" class="estado-copia" role="status"></p>
+
+    <div class="ensaio">
+      <h3>Experimente antes do primeiro dia</h3>
+      <p>Depois de colar o texto na ferramenta escolhida, faça este teste de cinco mensagens. Escreva cada mensagem sozinha, uma de cada vez. Demora cinco minutos.</p>
+      <ol>
+        <li>Escreva: Olá<span>O que deve acontecer: o assistente cumprimenta pelo nome, apresenta-se em poucas linhas e pergunta em que dia estamos. A resposta acaba em "A seguir:".</span></li>
+        <li>Escreva: Hoje é 5 de Dezembro.<span>O que deve acontecer: o assistente organiza o mês a partir dessa data e põe as idas ao supermercado no calendário. Se a ferramenta criar o ficheiro .ics, cada ida traz um alarme na véspera.</span></li>
+        <li>Escreva: Que promoções há esta semana?<span>O que deve acontecer: se a ferramenta pesquisar na internet, cada promoção traz loja, preço, validade e fonte. Se não pesquisar, o assistente pede que cole o folheto e não inventa nada.</span></li>
+        <li>Escreva: Quanto tempo deixo o peru a descongelar?<span>O que deve acontecer: o assistente não dá horas. Remete para o rótulo e para a receita.</span></li>
+        <li>Escreva: como estamos?<span>O que deve acontecer: o assistente devolve três listas, Já está, Falta esta semana e Ficou para trás, e oferece o RESUMO DO NATAL.</span></li>
+      </ol>
+      <p>Se o assistente falhar um dos testes, confirme que colou o texto inteiro no campo das instruções. Se alguma resposta estiver errada, use "Corrigir as respostas".</p>
+    </div>
+    <div class="accoes">
+      <button type="button" id="corrigir" class="ligacao-sec" hidden>Corrigir as respostas</button>
+    </div>
+  </section>
+
+</div>
+
+</main>
+
+<footer style="border-top:1px solid var(--linha);padding:32px 0 40px;color:var(--texto-2);font-size:1rem;text-align:center">
+  <div class="contentor">
+    <p class="aviso" style="max-width:70ch;margin:0 auto 10px">Não substituem aconselhamento profissional de nenhuma área.</p>
+    <p class="legal" style="color:var(--texto-3)">© 2026 Proteína Lúdica, Lda. · NIF 514411520 · Região Autónoma da Madeira, Portugal · <a href="/privacidade">Política de privacidade</a> · <a href="/termos">Termos</a></p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var btn = document.querySelector('.menu-btn');
+  var menu = document.getElementById('menu-movel');
+  if(!btn || !menu) return;
+  function fechar(){ btn.setAttribute('aria-expanded','false'); menu.hidden = true; }
+  btn.addEventListener('click', function(){
+    var aberto = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!aberto));
+    menu.hidden = aberto;
+  });
+  menu.addEventListener('click', function(e){ if(e.target.closest('a')) fechar(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') fechar(); });
+  window.addEventListener('resize', function(){ if(window.innerWidth > 760) fechar(); });
+})();
+</script>
+<script>
+(function () {
+  var token = new URLSearchParams(location.search).get('t');
+  var estado = document.getElementById('estado');
+  var form = document.getElementById('questionario');
+  var pronto = document.getElementById('pronto');
+  var erro = document.getElementById('erro');
+  var gravar = document.getElementById('gravar');
+  var corrigir = document.getElementById('corrigir');
+  var listaPessoas = document.getElementById('pessoas');
+  var botaoMais = document.getElementById('mais');
+  var selLocal = document.getElementById('c-local');
+  var copia = document.getElementById('copia');
+
+  var restantes = 0;
+  var maxPessoas = 12;
+  var textos = null;      // { completa:{texto,caracteres,limite}, gem:{...}, conhecimento:{...} }
+  var licenca = '';
+
+  if (!token) {
+    estado.textContent = 'Falta a ligação. Use a ligação recebida por email.';
+    return;
+  }
+
+  function api(url, opcoes) {
+    return fetch(url, opcoes).then(function (r) {
+      return r.json().then(function (d) { return { status: r.status, dados: d }; });
+    });
+  }
+
+  function urlDados(extra) {
+    return '/api/natal-dados?t=' + encodeURIComponent(token) + (extra || '');
+  }
+
+  // ---------- pessoas ----------
+  function novaLinha(nome, idade) {
+    var n = listaPessoas.children.length + 1;
+    var linha = document.createElement('div');
+    linha.className = 'pessoa';
+
+    var inNome = document.createElement('input');
+    inNome.type = 'text';
+    inNome.maxLength = 12;
+    inNome.autocomplete = 'off';
+    inNome.setAttribute('autocapitalize', 'words');
+    inNome.setAttribute('aria-label', 'Primeiro nome da pessoa ' + n);
+    inNome.placeholder = 'Nome';
+    inNome.value = nome || '';
+
+    var inIdade = document.createElement('input');
+    inIdade.type = 'text';
+    inIdade.inputMode = 'numeric';
+    inIdade.maxLength = 3;
+    inIdade.autocomplete = 'off';
+    inIdade.setAttribute('aria-label', 'Idade aproximada da pessoa ' + n);
+    inIdade.placeholder = 'Idade';
+    inIdade.value = (idade === undefined || idade === null) ? '' : String(idade);
+
+    var tirar = document.createElement('button');
+    tirar.type = 'button';
+    tirar.className = 'btn-x';
+    tirar.setAttribute('aria-label', 'Tirar a pessoa ' + n);
+    tirar.textContent = '×';
+    tirar.addEventListener('click', function () {
+      listaPessoas.removeChild(linha);
+      renumerar();
+    });
+
+    linha.appendChild(inNome);
+    linha.appendChild(inIdade);
+    linha.appendChild(tirar);
+    listaPessoas.appendChild(linha);
+    renumerar();
+    return inNome;
+  }
+
+  function renumerar() {
+    Array.prototype.forEach.call(listaPessoas.children, function (linha, i) {
+      var campos = linha.querySelectorAll('input');
+      campos[0].setAttribute('aria-label', 'Primeiro nome da pessoa ' + (i + 1));
+      campos[1].setAttribute('aria-label', 'Idade aproximada da pessoa ' + (i + 1));
+      linha.querySelector('button').setAttribute('aria-label', 'Tirar a pessoa ' + (i + 1));
+    });
+    botaoMais.disabled = listaPessoas.children.length >= maxPessoas;
+  }
+
+  botaoMais.addEventListener('click', function () {
+    if (listaPessoas.children.length >= maxPessoas) return;
+    novaLinha('', '').focus();
+  });
+
+  // ---------- respostas ----------
+  function respostas() {
+    var pessoas = [];
+    Array.prototype.forEach.call(listaPessoas.children, function (linha) {
+      var campos = linha.querySelectorAll('input');
+      pessoas.push({ nome: campos[0].value.trim(), idade: campos[1].value.trim() });
+    });
+    return {
+      nome: form.elements.nome.value.trim(),
+      pessoas: pessoas,
+      local: selLocal.value,
+      orcamento: form.elements.orcamento.value.trim()
+    };
+  }
+
+  function preencher(d) {
+    form.elements.nome.value = d.nome || '';
+    listaPessoas.textContent = '';
+    (d.pessoas || []).forEach(function (p) { novaLinha(p.nome, p.idade); });
+    renumerar();
+    selLocal.value = d.local || '';
+    form.elements.orcamento.value = d.orcamento ? String(d.orcamento) : '';
+  }
+
+  function marcarErro(campo, mensagem) {
+    form.querySelectorAll('[data-erro]').forEach(function (el) { el.removeAttribute('data-erro'); });
+    if (campo) {
+      var el = form.querySelector('[data-campo="' + campo + '"]');
+      if (el) {
+        el.setAttribute('data-erro', '');
+        var alvo = el.querySelector('input, select');
+        if (alvo) alvo.focus();
+      }
+    }
+    erro.textContent = mensagem;
+    erro.hidden = false;
+  }
+
+  // ---------- ecrãs ----------
+  function mostrarForm() {
+    document.getElementById('restantes').textContent = String(restantes);
+    pronto.hidden = true;
+    estado.hidden = true;
+    form.hidden = false;
+  }
+
+  function mostrarPronto(d) {
+    document.getElementById('licenca').textContent = licenca;
+    var lista = document.getElementById('resumo');
+    lista.textContent = '';
+    function linha(rotulo, valor) {
+      var li = document.createElement('li');
+      var b = document.createElement('b');
+      b.textContent = rotulo + ': ';
+      li.appendChild(b);
+      li.appendChild(document.createTextNode(valor));
+      lista.appendChild(li);
+    }
+    linha('Nome', d.nome);
+    var quem = (d.pessoas || []).map(function (p) { return p.nome + ', ' + p.idade; }).join('; ');
+    linha('Quem passa o Natal consigo', quem || 'Nada indicado.');
+    linha('Concelho', d.local);
+    linha('Orçamento', d.orcamento + ' euros');
+
+    ['completa', 'gem'].forEach(function (f) {
+      var t = textos && textos[f];
+      document.getElementById('cx-' + f).textContent = t
+        ? t.caracteres + ' de ' + t.limite + ' caracteres permitidos.' : '';
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-baixar]'), function (a) {
+      a.href = urlDados('&textos=1&f=' + a.getAttribute('data-baixar') + '&baixar=1');
+    });
+    corrigir.hidden = restantes <= 0;
+    copia.textContent = '';
+    form.hidden = true;
+    estado.hidden = true;
+    pronto.hidden = false;
+  }
+
+  // ---------- copiar ----------
+  function copiarTexto(texto) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(texto);
+    }
+    return new Promise(function (ok, falhou) {
+      var ta = document.createElement('textarea');
+      ta.value = texto;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      var feito = false;
+      try { feito = document.execCommand('copy'); } catch (e) { feito = false; }
+      document.body.removeChild(ta);
+      if (feito) ok(); else falhou(new Error('copiar'));
+    });
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-copiar]'), function (b) {
+    b.addEventListener('click', function () {
+      var t = textos && textos[b.getAttribute('data-copiar')];
+      if (!t) { copia.textContent = 'Não foi possível copiar. Use o ficheiro descarregado.'; return; }
+      copiarTexto(t.texto).then(function () {
+        copia.textContent = 'Copiado. Cole agora na ferramenta escolhida.';
+      }, function () {
+        copia.textContent = 'Não foi possível copiar. Use o ficheiro descarregado.';
+      });
+    });
+  });
+
+  // ---------- arranque ----------
+  function carregarTextos(d) {
+    return api(urlDados('&textos=1')).then(function (r) {
+      if (r.status === 200 && r.dados.ok) { textos = r.dados.textos; return true; }
+      estado.hidden = false;
+      estado.textContent = (r.dados && r.dados.error) || 'Não foi possível montar os textos.';
+      return false;
+    });
+  }
+
+  api(urlDados()).then(function (r) {
+    if (r.status !== 200 || !r.dados.ok) {
+      var msg = (r.dados && r.dados.error) || 'Não foi possível abrir as perguntas.';
+      estado.textContent = msg;
+      return;
+    }
+    var d = r.dados;
+    licenca = d.licenca;
+    restantes = Math.max(0, d.maxGravacoes - d.gravacoes);
+    maxPessoas = d.limites.pessoas;
+    document.getElementById('prazo-form').textContent = d.prazoPorExtenso;
+    document.getElementById('prazo-pronto').textContent = d.prazoPorExtenso;
+    d.concelhos.forEach(function (c) {
+      var o = document.createElement('option');
+      o.value = c;
+      o.textContent = c;
+      selLocal.appendChild(o);
+    });
+    if (d.dados) {
+      preencher(d.dados);
+      carregarTextos(d).then(function (ok) { if (ok) mostrarPronto(d.dados); });
+    } else {
+      mostrarForm();
+    }
+  }).catch(function () {
+    estado.textContent = 'Não foi possível abrir as perguntas. Tente de novo.';
+  });
+
+  corrigir.addEventListener('click', mostrarForm);
+
+  form.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    erro.hidden = true;
+    var r = respostas();
+
+    if (!r.nome) { marcarErro('nome', 'Falta responder à pergunta 1.'); return; }
+    for (var i = 0; i < r.pessoas.length; i++) {
+      if (!r.pessoas[i].nome || r.pessoas[i].idade === '') {
+        marcarErro('pessoas', 'Escreva o nome e a idade de cada pessoa, ou tire a linha que não precisa.');
+        return;
+      }
+    }
+    if (!r.local) { marcarErro('local', 'Falta responder à pergunta 3.'); return; }
+    if (!r.orcamento) { marcarErro('orcamento', 'Falta responder à pergunta 4.'); return; }
+
+    gravar.disabled = true;
+    api('/api/natal-dados', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({ t: token, dados: r })
+    })
+      .then(function (resp) {
+        gravar.disabled = false;
+        if (resp.status === 200 && resp.dados.ok) {
+          textos = resp.dados.textos;
+          licenca = resp.dados.licenca;
+          restantes = Math.max(0, resp.dados.maxGravacoes - resp.dados.gravacoes);
+          // Mostra o que o servidor aceitou, com o orçamento já como número.
+          mostrarPronto({
+            nome: r.nome,
+            pessoas: r.pessoas.map(function (p) { return { nome: p.nome, idade: Number(p.idade) }; }),
+            local: r.local,
+            orcamento: Number(r.orcamento)
+          });
+          return;
+        }
+        // A mensagem vem do servidor — a página não a inventa.
+        var campo = resp.dados && resp.dados.campo;
+        if (resp.dados && resp.dados.codigo === 'limite') campo = 'pessoas';
+        marcarErro(campo, (resp.dados && resp.dados.error) || 'Não foi possível gravar.');
+      })
+      .catch(function () {
+        gravar.disabled = false;
+        marcarErro(null, 'Não foi possível gravar. Tente de novo.');
+      });
+  });
+})();
+</script>
+</body>
+</html>
