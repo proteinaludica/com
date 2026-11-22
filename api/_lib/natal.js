@@ -71,6 +71,14 @@ function dataPorExtenso(data) {
   return get('day') + ' de ' + MESES[get('month') - 1] + ' de ' + get('year');
 }
 
+// Uma sessão da Stripe dá direito a entrega se foi paga, ou se um código de
+// oferta a deixou a 0 € (a Stripe marca-a então 'no_payment_required').
+function sessaoEntregavel(sessao) {
+  if (!sessao) return false;
+  if (sessao.payment_status === 'paid') return true;
+  return sessao.payment_status === 'no_payment_required' && sessao.amount_total === 0;
+}
+
 // "14:05", na hora da Madeira.
 function horaPorExtenso(data) {
   return new Intl.DateTimeFormat('en-GB', {
@@ -314,6 +322,7 @@ module.exports = {
   apagamentoEm,
   dataPorExtenso,
   horaPorExtenso,
+  sessaoEntregavel,
   valorPorExtenso,
   emitirToken,
   estadoToken,

@@ -66,6 +66,10 @@ module.exports = async (req, res) => {
   const params = new URLSearchParams();
   params.set('mode', 'payment');
   params.set('payment_method_types[0]', 'card');
+  // Códigos de oferta criados no painel da Stripe (cupões). Com 100 % de
+  // desconto, a Stripe não pede cartão e a sessão chega com
+  // payment_status 'no_payment_required' (ver natal.sessaoEntregavel).
+  params.set('allow_promotion_codes', 'true');
   params.set('line_items[0][quantity]', '1');
   params.set('line_items[0][price_data][currency]', natal.MOEDA);
   params.set('line_items[0][price_data][unit_amount]', String(natal.PRECO_CENTS));
