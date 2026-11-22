@@ -500,6 +500,11 @@
     transition: all 0.2s;
   }
   .code-copy-btn:hover { background: rgba(165,212,142,0.15); }
+  @media (max-width: 600px) {
+    .code-box-header { gap: 0.75rem; }
+    .code-box-label { font-size: 0.875rem; letter-spacing: 0; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .code-copy-btn { white-space: nowrap; flex-shrink: 0; }
+  }
   .code-copy-btn.copied { color: #8FAA6B; }
   .code-content {
     max-height: 320px;
@@ -4409,19 +4414,34 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     return { fala: BOB.opcionais };
   }
 
-  // No preenchimento, em ecrãs estreitos, o Bob fica dentro da página, por
-  // cima da pergunta. Nos outros casos fica fixo no canto.
+  // Em ecrãs estreitos, o Bob fica dentro da página, em todos os ecrãs: a
+  // janela fixa taparia o conteúdo. No computador fica fixo no canto.
+  // Ecrã 2: a seguir à pergunta (fase "perguntas") ou no topo (fase "afinar").
+  // Outros ecrãs: a seguir ao título e ao subtítulo visíveis.
+  function bobAncora() {
+    if (state.current === 2) {
+      const conteudo = document.querySelector('#screen-2 .s3-content');
+      if (!conteudo) return null;
+      const nav = document.querySelector('#screen-2 .oblig-nav');
+      if (fase === 'perguntas' && nav) return { pai: nav.parentNode, antesDe: nav };
+      return { pai: conteudo, antesDe: conteudo.firstChild };
+    }
+    const ecra = document.getElementById('screen-' + state.current);
+    if (!ecra) return null;
+    const titulo = Array.prototype.find.call(ecra.querySelectorAll('h1'), h => h.getClientRects().length);
+    if (!titulo) return null;
+    let depois = titulo;
+    const seg = titulo.nextElementSibling;
+    if (seg && seg.tagName === 'P') depois = seg;
+    return { pai: depois.parentNode, antesDe: depois.nextSibling };
+  }
+
   function bobPosicionar() {
     const janela = document.getElementById('bobJanela');
-    const conteudo = document.querySelector('#screen-2 .s3-content');
-    if (!janela || !conteudo) return;
-    const embutir = bobTelemovel() && state.current === 2;
-    // Nas perguntas, o Bob vem a seguir à pergunta e antes do Seguinte: lê-se
-    // primeiro a pergunta e depois a ajuda. Na fase "afinar", fica no topo.
-    const nav = document.querySelector('#screen-2 .oblig-nav');
-    const antesDe = fase === 'perguntas' && nav ? nav : conteudo.firstChild;
-    const pai = antesDe === nav ? nav.parentNode : conteudo;
-    if (embutir && (janela.parentNode !== pai || janela.nextSibling !== antesDe)) pai.insertBefore(janela, antesDe);
+    if (!janela) return;
+    const ancora = bobTelemovel() ? bobAncora() : null;
+    const embutir = !!ancora;
+    if (embutir && (janela.parentNode !== ancora.pai || janela.nextSibling !== ancora.antesDe)) ancora.pai.insertBefore(janela, ancora.antesDe);
     if (!embutir && janela.parentNode !== document.body) document.body.insertBefore(janela, document.getElementById('bobBotao'));
     janela.classList.toggle('bob-embutido', embutir);
   }
