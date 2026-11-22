@@ -453,6 +453,12 @@
   .pro-mockup-seta { font-family: var(--font-mono); font-size: 1rem; color: #6B3FA0; margin: 0.6rem 0; text-align: center; }
   .pro-mockup-depois { font-size: 1.002rem; line-height: 1.5; color: var(--ink); background: var(--surface); border: 0.5px solid #D9C7EC; border-radius: 6px; padding: 0.75rem; }
   .form-check[hidden], .trust-row[hidden] { display: none; }
+  .opcoes { margin: 0.6rem 0 0; display: flex; flex-direction: column; gap: 0.55rem; }
+  .opcoes-ajuda { margin: 0; font-size: 0.95rem; line-height: 1.4; color: var(--ink2); }
+  .opcoes-grupo { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+  .opcoes-rotulo { flex-basis: 100%; font-size: 0.9rem; color: var(--ink2); }
+  .opcao { font: inherit; font-size: 0.95rem; padding: 6px 12px; border-radius: 999px; border: 0.5px solid var(--accent); background: transparent; color: var(--ink); cursor: pointer; }
+  .opcao[aria-pressed="true"] { background: var(--accent); color: var(--bg, #fff); }
   .output-ensaio { margin: 2rem auto 0; max-width: 640px; padding: 1.25rem 1.5rem; background: var(--surface); border: 0.5px solid var(--accent); border-radius: 10px; text-align: left; }
   .output-ensaio-titulo { font-family: var(--font-display, inherit); font-size: 1.4844rem; font-weight: 500; margin: 0 0 0.4rem; text-align: center; }
   .output-ensaio-texto { font-size: 1.0391rem; line-height: 1.5; color: var(--ink2); margin: 0 0 1rem; }
@@ -1728,6 +1734,22 @@
       <div class="fill-field">
         <label for="f-tom">Diga que tom quer nos textos.</label>
         <textarea id="f-tom" placeholder="ex: Cordial e directo. Trata por senhor ou senhora e nunca dramatiza um atraso." oninput="checkRGPD(this)"></textarea>
+          <div class="opcoes" data-campo="f-tom">
+            <p class="opcoes-ajuda">Toque numa opção para a juntar à caixa. Depois pode alterar ou acrescentar o texto.</p>
+            <div class="opcoes-grupo" role="group" aria-label="Tratamento">
+              <span class="opcoes-rotulo">Tratamento</span>
+              <button type="button" class="opcao" aria-pressed="false" data-frase="Trata por senhor ou senhora." onclick="escolherOpcao(this)">Por senhor ou senhora</button>
+              <button type="button" class="opcao" aria-pressed="false" data-frase="Trata pelo nome próprio." onclick="escolherOpcao(this)">Pelo nome próprio</button>
+              <button type="button" class="opcao" aria-pressed="false" data-frase="Trata por tu." onclick="escolherOpcao(this)">Por tu</button>
+            </div>
+            <div class="opcoes-grupo" role="group" aria-label="Tom">
+              <span class="opcoes-rotulo">Tom</span>
+              <button type="button" class="opcao" aria-pressed="false" data-frase="Usa um tom cordial." onclick="escolherOpcao(this)">Cordial</button>
+              <button type="button" class="opcao" aria-pressed="false" data-frase="Usa um tom directo." onclick="escolherOpcao(this)">Directo</button>
+              <button type="button" class="opcao" aria-pressed="false" data-frase="Usa um tom caloroso." onclick="escolherOpcao(this)">Caloroso</button>
+              <button type="button" class="opcao" aria-pressed="false" data-frase="Usa um tom formal." onclick="escolherOpcao(this)">Formal</button>
+            </div>
+          </div>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="5" data-campo="f-tom" onclick="toggleExemplo(this)">Ver exemplo</button>
         </div>
@@ -1752,6 +1774,23 @@
       <div class="fill-field">
         <label for="f-estilo">Descreva o formato dos textos que quer receber.</label>
         <textarea id="f-estilo" placeholder="ex: Respostas de três a seis linhas. O que falta vai em lista, um item por linha." oninput="checkRGPD(this)"></textarea>
+          <div class="opcoes" data-campo="f-estilo">
+            <p class="opcoes-ajuda">Toque numa opção para a juntar à caixa. Depois pode alterar ou acrescentar o texto.</p>
+            <div class="opcoes-grupo" role="group" aria-label="Extensão">
+              <span class="opcoes-rotulo">Extensão</span>
+              <button type="button" class="opcao" aria-pressed="false" data-frase="Responde em três a seis linhas." onclick="escolherOpcao(this)">Curta</button>
+              <button type="button" class="opcao" aria-pressed="false" data-frase="Responde de forma completa e trata todos os pontos do pedido." onclick="escolherOpcao(this)">Completa</button>
+            </div>
+            <div class="opcoes-grupo" role="group" aria-label="Forma">
+              <span class="opcoes-rotulo">Forma</span>
+              <button type="button" class="opcao" aria-pressed="false" data-frase="Apresenta os passos e o que falta em lista, um item por linha." onclick="escolherOpcao(this)">Em lista</button>
+              <button type="button" class="opcao" aria-pressed="false" data-frase="Escreve em parágrafos curtos, sem listas." onclick="escolherOpcao(this)">Em parágrafos</button>
+            </div>
+            <div class="opcoes-grupo" role="group" aria-label="Fim da resposta">
+              <span class="opcoes-rotulo">Fim da resposta</span>
+              <button type="button" class="opcao" aria-pressed="false" data-frase="Termina sempre com o passo seguinte." onclick="escolherOpcao(this)">Passo seguinte</button>
+            </div>
+          </div>
         <div class="field-actions">
           <button type="button" class="btn-example js-exemplo" data-seccao="7" data-campo="f-estilo" onclick="toggleExemplo(this)">Ver exemplo</button>
         </div>
@@ -3982,6 +4021,32 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     });
   }
 
+  // Opções das secções 05 e 07: cada botão junta uma frase à caixa.
+  // Uma opção por grupo; tocar na escolhida retira-a. O texto escrito à mão
+  // fica sempre como estava.
+  function escolherOpcao(btn) {
+    const bloco = btn.closest('.opcoes');
+    const grupo = btn.closest('.opcoes-grupo');
+    const el = bloco && document.getElementById(bloco.dataset.campo);
+    if (!el || !grupo) return;
+    let texto = temExemploAtivo(el.id) ? '' : el.value;
+    const jaEscolhida = texto.indexOf(btn.dataset.frase) !== -1;
+    grupo.querySelectorAll('.opcao').forEach(b => { texto = texto.split(b.dataset.frase).join(''); });
+    texto = texto.replace(/[ \t]{2,}/g, ' ').replace(/ +\n/g, '\n').trim();
+    if (!jaEscolhida) texto = texto ? texto + ' ' + btn.dataset.frase : btn.dataset.frase;
+    reporValor(el, texto);
+  }
+
+  function marcarOpcoes() {
+    document.querySelectorAll('.opcoes').forEach(bloco => {
+      const el = document.getElementById(bloco.dataset.campo);
+      const valor = el && !temExemploAtivo(el.id) ? el.value : '';
+      bloco.querySelectorAll('.opcao').forEach(b => {
+        b.setAttribute('aria-pressed', valor.indexOf(b.dataset.frase) !== -1 ? 'true' : 'false');
+      });
+    });
+  }
+
   function toggleExemplo(btn) {
     const campo = btn.dataset.campo;
     const el = document.getElementById(campo);
@@ -4636,6 +4701,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     }
     atualizarBotoesExemplo();
     atualizarIndiceProgresso();
+    marcarOpcoes();
     agendarGuardar();
   }
 
