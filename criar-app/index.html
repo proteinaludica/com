@@ -453,6 +453,12 @@
   .pro-mockup-seta { font-family: var(--font-mono); font-size: 1rem; color: #6B3FA0; margin: 0.6rem 0; text-align: center; }
   .pro-mockup-depois { font-size: 1.002rem; line-height: 1.5; color: var(--ink); background: var(--surface); border: 0.5px solid #D9C7EC; border-radius: 6px; padding: 0.75rem; }
   .form-check[hidden], .trust-row[hidden] { display: none; }
+  .output-ensaio { margin: 2rem auto 0; max-width: 640px; padding: 1.25rem 1.5rem; background: var(--surface); border: 0.5px solid var(--accent); border-radius: 10px; text-align: left; }
+  .output-ensaio-titulo { font-family: var(--font-display, inherit); font-size: 1.4844rem; font-weight: 500; margin: 0 0 0.4rem; text-align: center; }
+  .output-ensaio-texto { font-size: 1.0391rem; line-height: 1.5; color: var(--ink2); margin: 0 0 1rem; }
+  .output-ensaio-lista { margin: 0 0 1rem; padding-left: 1.4rem; font-size: 1.0391rem; line-height: 1.5; color: var(--ink); }
+  .output-ensaio-lista li { margin: 0 0 0.75rem; }
+  .output-ensaio-lista span { display: block; color: var(--ink2); }
   .output-guia { margin: 2rem auto 0; max-width: 640px; padding: 1.25rem 1.5rem; background: var(--surface); border: 0.5px solid var(--accent); border-radius: 10px; text-align: center; }
   .output-guia-titulo { font-family: var(--font-display, inherit); font-size: 1.4844rem; font-weight: 500; margin: 0 0 0.4rem; }
   .output-guia-texto { font-size: 1.0391rem; line-height: 1.5; color: var(--ink2); margin: 0 0 1rem; }
@@ -1919,6 +1925,19 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     <!-- Quantas das 16 secções entraram no bloco acima. -->
     <p class="output-onde" id="outputOnde"></p>
     <p class="output-conta" id="outputConta"></p>
+
+    <!-- Ensaio final: três mensagens para confirmar, na ferramenta escolhida,
+         que o assistente se comporta como as instruções mandam. -->
+    <div class="output-ensaio">
+      <h2 class="output-ensaio-titulo">Experimente antes de usar</h2>
+      <p class="output-ensaio-texto">Depois de colar as instruções, faça este teste de três mensagens na ferramenta escolhida. Demora dois minutos.</p>
+      <ol class="output-ensaio-lista">
+        <li>Escreva: Olá<span>O que deve acontecer: o assistente cumprimenta e diz para que serve.</span></li>
+        <li>Escreva um pedido do trabalho habitual, com o material que costuma entregar.<span>O que deve acontecer: o assistente parte desse material e devolve-o organizado. Quando falta um dado, assinala-o e não o inventa.</span></li>
+        <li>Peça uma coisa que escreveu nos limites do assistente.<span>O que deve acontecer: o assistente recusa e explica porquê numa frase.</span></li>
+      </ol>
+      <p class="output-ensaio-texto">Se o assistente falhar um dos testes, corrija a secção correspondente e volte a colar as instruções.</p>
+    </div>
 
     <!-- O guia de instalação oferece-se aqui, onde a pessoa acabou de receber
          as instruções. O ecrã "Como continuar?" deixa de estar no caminho. -->
