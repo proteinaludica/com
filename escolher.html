@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/icon-512.png" type="image/png" sizes="512x512">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<!-- Fora dos índices de pesquisa até a montra estar completa (com pagamento). -->
+<meta name="robots" content="noindex, nofollow">
+<title>Criar o meu assistente — Proteína Lúdica</title>
+<meta name="description" content="Escolher a tarefa do assistente digital IA: tarefas prontas por profissão, com exemplo, ou um assistente novo feito no guia passo a passo.">
+<link rel="stylesheet" href="/styles/fontes.css">
+<link rel="stylesheet" href="/styles/acessibilidade.css">
+<link rel="stylesheet" href="/styles/marca.css">
+<!-- Página de escolha. "Criar o meu assistente" chega aqui. Primeiro as
+     tarefas da montra, por profissão. No fim, "Outra tarefa" abre o guia
+     passo a passo em criar.proteinaludica.com. Estática. -->
+<style>
+  :root{
+    --fundo-escuro:#141A10;
+    --musgo:#9BB37B;
+    --ocre:#CEB27C;
+    --creme:#F4F1E8;
+    --branco:#FFFFFF;
+    --texto:#141A10;
+    --texto-2:#3D4535;
+    --texto-sobre-escuro:#DCE5CC;
+    --musgo-escuro:#465533;
+    --ocre-rotulo:#624D23;
+    --aviso-fundo:#F7EFDC;
+    --aviso-texto:#3D3420;
+    --linha:#E2DCCB;
+    --titulo:Arial, 'Helvetica Neue', Helvetica, sans-serif;
+    --corpo:Arial, 'Helvetica Neue', Helvetica, sans-serif;
+    --mono:'Geist Mono', ui-monospace, monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--creme);color:var(--texto);font-family:var(--corpo)}
+  a{color:var(--texto)}
+  a:hover{color:var(--musgo-escuro)}
+  h1,h2{margin:0}
+  p{margin:0}
+  .contentor{max-width:1120px;margin:0 auto}
+
+  /* Cabeçalho */
+  .cabecalho{background:var(--fundo-escuro);padding:20px 24px}
+  .cabecalho .contentor{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
+  .marca{font-family:var(--titulo);font-size:1.607rem;font-weight:600;color:var(--creme);text-decoration:none}
+  .marca:hover{color:var(--creme)}
+  .voltar{display:inline-flex;align-items:center;min-height:44px;color:var(--texto-sobre-escuro);text-decoration:none;font-size:1.1133rem}
+  .voltar:hover{color:var(--musgo)}
+
+  /* Abertura */
+  .abertura{padding:56px 24px 32px}
+  .abertura .contentor{display:flex;flex-direction:column;gap:16px}
+  .sobretitulo{font-size:1.0391rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--musgo-escuro)}
+  .abertura h1{font-family:var(--titulo);font-weight:600;font-size:clamp(2.2445rem,4.5vw,3.25rem);line-height:1.1}
+  .abertura .entrada{font-size:1.4102rem;line-height:1.55;color:var(--texto-2);max-width:700px}
+
+  /* Tarefas */
+  .tarefas{padding:0 24px 48px}
+  .tarefas .contentor{display:flex;flex-direction:column;gap:28px}
+  .tarefa{display:flex;flex-direction:column;gap:20px;padding:28px;background:var(--branco);border:1px solid var(--linha);border-radius:12px}
+  .tarefa-topo{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
+  .tarefa h2{font-family:var(--titulo);font-size:1.8383rem;font-weight:600}
+  .encomendar{display:inline-flex;align-items:center;min-height:48px;padding:0 22px;border-radius:8px;background:var(--fundo-escuro);color:var(--creme);font-weight:600;text-decoration:none}
+  .encomendar:hover{background:var(--musgo-escuro);color:var(--creme)}
+  .exemplo{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+  .antes,.depois{display:flex;flex-direction:column;gap:10px;padding:20px;border-radius:10px}
+  .antes{background:var(--creme)}
+  .depois{border:1px solid var(--musgo)}
+  .rotulo{font-size:1rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+  .antes .rotulo{color:var(--ocre-rotulo)}
+  .depois .rotulo{color:var(--musgo-escuro)}
+  .antes p{font-family:var(--mono);font-size:1.1133rem;line-height:1.6;color:var(--texto-2)}
+  .depois p{font-size:1.1875rem;line-height:1.6}
+  .aviso{padding:14px 18px;background:var(--aviso-fundo);border-radius:8px;font-size:1.1133rem;line-height:1.55;color:var(--aviso-texto)}
+
+  /* Fecho */
+  .fecho{padding:0 24px 72px}
+  .fecho .contentor{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:32px;background:var(--fundo-escuro);color:var(--creme);border-radius:16px}
+  .fecho p{font-size:1.2617rem;line-height:1.55;color:var(--texto-sobre-escuro);flex:1 1 360px}
+  .outras{display:inline-flex;align-items:center;min-height:48px;padding:0 22px;border-radius:8px;background:var(--musgo);color:var(--fundo-escuro);font-weight:600;text-decoration:none}
+  .outras:hover{background:var(--ocre);color:var(--fundo-escuro)}
+
+  @media (max-width:600px){
+    .cabecalho{padding-left:16px;padding-right:16px}
+    .abertura{padding:40px 16px 24px}
+    .tarefas{padding:0 16px 40px}
+    .tarefa{padding:20px}
+    .exemplo{grid-template-columns:1fr}
+    .fecho{padding:0 16px 56px}
+    .fecho .contentor{padding:24px}
+  }
+  /* Escolha */
+  .profs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+  .prof{display:flex;flex-direction:column;gap:14px;padding:28px;background:var(--branco);border:1px solid var(--linha);border-radius:12px}
+  .prof h2{font-family:var(--titulo);font-size:1.6rem;font-weight:600}
+  .prof ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:1.1875rem;line-height:1.5;color:var(--texto-2)}
+  .prof .encomendar{align-self:flex-start;margin-top:auto}
+  .outra h2{font-family:var(--titulo);font-size:1.8383rem;font-weight:600;color:var(--creme);flex:1 1 100%}
+  @media (max-width:760px){.profs{grid-template-columns:1fr}.prof{padding:20px}}
+</style>
+</head>
+<body>
+
+<header class="cabecalho">
+  <div class="contentor">
+    <a class="marca" href="/"><img class="marca-logo" src="/logo-marca.png" alt="" width="44" height="44">Proteína Lúdica</a>
+    <a class="voltar" href="/">Voltar ao início</a>
+  </div>
+</header>
+
+<main>
+
+<section class="abertura">
+  <div class="contentor">
+    <p class="sobretitulo">Criar o meu assistente</p>
+    <h1>Escolher a tarefa</h1>
+    <p class="entrada">Cada assistente faz uma tarefa. As tarefas abaixo já têm exemplo e assistente pronto a preencher. Quando a tarefa não está na lista, o guia passo a passo cria um assistente novo.</p>
+  </div>
+</section>
+
+<section class="tarefas">
+  <div class="contentor profs">
+    <article class="prof">
+      <h2>Contabilista</h2>
+      <ul>
+        <li>Cartas a clientes sobre prazos fiscais</li>
+        <li>Resumo mensal das contas do cliente</li>
+        <li>Respostas a dúvidas frequentes</li>
+      </ul>
+      <a class="encomendar" href="/montra/contabilista">Ver exemplo e encomendar</a>
+    </article>
+    <article class="prof">
+      <h2>Advogado</h2>
+      <ul>
+        <li>Primeira versão de contestação</li>
+        <li>Cartas a clientes sobre o estado do processo</li>
+        <li>Resumo de documentos recebidos</li>
+      </ul>
+      <a class="encomendar" href="/montra/advogado">Ver exemplo e encomendar</a>
+    </article>
+    <article class="prof">
+      <h2>Arquitecto ou engenheiro</h2>
+      <ul>
+        <li>Memória descritiva</li>
+        <li>Relatório de visita à obra</li>
+        <li>Propostas de honorários</li>
+      </ul>
+      <a class="encomendar" href="/montra/arquitecto">Ver exemplo e encomendar</a>
+    </article>
+    <article class="prof">
+      <h2>Professor ou formador</h2>
+      <ul>
+        <li>Planos de aula</li>
+        <li>Comentários às avaliações dos alunos</li>
+        <li>Comunicações aos encarregados de educação</li>
+      </ul>
+      <a class="encomendar" href="/montra/professor">Ver exemplo e encomendar</a>
+    </article>
+  </div>
+</section>
+
+<section class="fecho outra">
+  <div class="contentor">
+    <h2>Outra tarefa</h2>
+    <p>O guia passo a passo serve qualquer tarefa, de qualquer profissão. O profissional determina o que o assistente faz. O assistente recebe, organiza, assinala e devolve. Primeiro assistente: 49 euros. Cada assistente seguinte: 39 euros. IVA incluído.</p>
+    <a class="outras" href="https://criar.proteinaludica.com">Abrir o guia</a>
+  </div>
+</section>
+
+</main>
+
+</body>
+</html>
