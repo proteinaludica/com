@@ -71,6 +71,22 @@ function dataPorExtenso(data) {
   return get('day') + ' de ' + MESES[get('month') - 1] + ' de ' + get('year');
 }
 
+// "14:05", na hora da Madeira.
+function horaPorExtenso(data) {
+  return new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Atlantic/Madeira', hour: '2-digit', minute: '2-digit', hour12: false,
+  }).format(new Date(data));
+}
+
+// 1900 → "19,00 €".
+function valorPorExtenso(cents) {
+  const n = Number(cents);
+  if (!Number.isFinite(n)) return null;
+  const euros = Math.floor(n / 100);
+  const resto = String(Math.abs(n % 100)).padStart(2, '0');
+  return euros + ',' + resto + ' €';
+}
+
 // ─────────────────────────────── token ───────────────────────────────
 
 function codificar(obj) {
@@ -297,6 +313,8 @@ module.exports = {
   prazoAlteracoes,
   apagamentoEm,
   dataPorExtenso,
+  horaPorExtenso,
+  valorPorExtenso,
   emitirToken,
   estadoToken,
   verificarToken,

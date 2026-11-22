@@ -41,23 +41,35 @@ function escaparHtml(s) {
     .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
-async function enviarEmail({ email, url, licenca, expira }) {
+async function enviarEmail({ email, url, licenca, expira, valorCents, compradoEm, versaoTermos, renunciaEm }) {
   const chave = process.env.RESEND_API_KEY;
   const remetente = process.env.NATAL_FROM || process.env.RETIROASSIST_FROM;
   if (!chave || !remetente) {
     throw new Error('RESEND_API_KEY ou NATAL_FROM/RETIROASSIST_FROM em falta.');
   }
 
-  const partes = kit.emailPartes({ licenca, data: natal.dataPorExtenso(expira) });
+  const renuncia = renunciaEm && !isNaN(new Date(renunciaEm)) ? renunciaEm : null;
+  const partes = kit.emailPartes({
+    licenca,
+    data: natal.dataPorExtenso(expira),
+    valor: natal.valorPorExtenso(valorCents),
+    dataCompra: natal.dataPorExtenso(compradoEm),
+    versaoTermos: versaoTermos || kit.VERSAO_TERMOS,
+    renunciaData: renuncia ? natal.dataPorExtenso(renuncia) : null,
+    renunciaHora: renuncia ? natal.horaPorExtenso(renuncia) : null,
+  });
   const antes = partes.antes.map((p) => '<p>' + escaparHtml(p) + '</p>').join('\n');
+  const confirmacao = '<p>' + partes.confirmacao.map(escaparHtml).join('<br>') + '</p>';
   const depois = partes.depois.map((p) => '<p style="color:#645c50;font-size:13px">' + escaparHtml(p) + '</p>').join('\n');
   const html =
     '<div style="font-family:system-ui,sans-serif;font-size:15px;line-height:1.6;color:#201e1d">' +
     antes +
     '<p><a href="' + escaparHtml(url) + '">Responder às quatro perguntas</a></p>' +
+    confirmacao +
     depois +
     '</div>';
-  const texto = partes.antes.join('\n\n') + '\n\n' + url + '\n\n' + partes.depois.join('\n\n');
+  const texto = partes.antes.join('\n\n') + '\n\n' + url + '\n\n' +
+    partes.confirmacao.join('\n') + '\n\n' + partes.depois.join('\n\n');
 
   const resp = await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -144,16 +156,20 @@ module.exports = async (req, res) => {
     return res.status(500).json({ ok: false, error: 'Serviço indisponível.' });
   }
 
+  const valorCents = sessao.amount_total != null ? sessao.amount_total : natal.PRECO_CENTS;
+  const compradoEm = sessao.created ? new Date(sessao.created * 1000) : new Date();
+  const versaoTermos = sessao.metadata.versao_termos || null;
+
   try {
     // 1) Registo idempotente. Repetido pela Stripe, devolve o mesmo token.
     const emitido = await natal.registarCompra(cfg, {
       referencia: sessao.id,
       email,
-      valorCents: sessao.amount_total != null ? sessao.amount_total : natal.PRECO_CENTS,
+      valorCents,
       moeda: sessao.currency || natal.MOEDA,
-      compradoEm: sessao.created ? new Date(sessao.created * 1000) : new Date(),
+      compradoEm,
       renunciaEm,
-      versaoTermos: sessao.metadata.versao_termos || null,
+      versaoTermos,
     });
 
     // 2) Email com a ligação. Se falhar, devolve 500 e a Stripe repete: o
@@ -165,6 +181,10 @@ module.exports = async (req, res) => {
       url,
       licenca: natal.licencaDe(emitido.jti),
       expira: emitido.expira,
+      valorCents,
+      compradoEm,
+      versaoTermos,
+      renunciaEm,
     });
   } catch (err) {
     console.error('Falha a entregar o Natal IA 2026:', err && err.message);
