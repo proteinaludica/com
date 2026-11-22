@@ -213,7 +213,7 @@
 <main class="wrap">
   <span class="etiqueta">Documento legal</span>
   <h1>Política de Privacidade</h1>
-  <p class="data-topo">Em vigor desde 2 de Novembro de 2026</p>
+  <p class="data-topo">Em vigor desde 22 de Novembro de 2026</p>
 
   <p class="abertura">Esta página descreve o que acontece aos dados de quem usa o sítio <strong>proteinaludica.com</strong> e o formulário de criação em <strong>criar.proteinaludica.com</strong>: o que é recolhido, para onde vai, quanto tempo fica e como se apaga. Descreve o que existe hoje, não intenções.</p>
 
@@ -234,41 +234,44 @@
   <section class="seccao">
     <span class="numero">02</span>
     <h2>O que sai do dispositivo, e para onde vai</h2>
-    <p>Há três momentos em que sai informação do dispositivo de quem usa o sítio: o envio do formulário de contacto, o pedido de ajuda a preencher um campo do formulário de criação, e a compra. Fora destes momentos, o que se escreve no formulário de criação fica no próprio browser. A secção 03 explica como.</p>
+    <p>Sai informação do dispositivo de quem usa o sítio em cinco momentos: o envio do formulário de contacto, o pedido de um assistente à medida, o pedido de uma proposta ao Bob no formulário de criação, a encomenda de um assistente na montra por profissão e a compra. Fora destes momentos, o que se escreve no formulário de criação fica no próprio browser. A secção 03 explica como.</p>
     <p>Cada fornecedor abaixo trata dados apenas por conta da Proteína Lúdica, ao abrigo do contrato de tratamento de dados de cada um.</p>
 
     <h3><span class="sub">2.1</span> Vercel — alojamento</h3>
     <p>As páginas e as funções que respondem aos formulários correm na Vercel. As funções do formulário de criação estão fixadas na região de Dublin, na Irlanda. Como qualquer alojamento, a Vercel gera registos técnicos dos pedidos — data, endereço IP e página pedida — usados para manter o serviço a funcionar e detectar abusos.</p>
 
-    <h3><span class="sub">2.2</span> Anthropic — o texto sugerido</h3>
-    <p>Quando se pede ajuda a preencher um campo do formulário de criação, o texto já escrito nos campos anteriores é enviado para a API da Anthropic, que devolve a sugestão. É a única situação em que esse conteúdo sai para um modelo de IA, e só acontece a pedido.</p>
+    <h3><span class="sub">2.2</span> Anthropic — as propostas do Bob</h3>
+    <p>Quando se pede ao Bob uma proposta para uma caixa do formulário de criação, seguem para a API da Anthropic o pedido escrito ao Bob e o texto já escrito nos outros campos. A Anthropic devolve a proposta. É a única situação em que esse conteúdo sai para um modelo de IA, e só acontece a pedido.</p>
     <div class="cartao">
-      <p>O conteúdo não é retido pela Anthropic, excepto dados que os sistemas de segurança identifiquem como problemáticos, que podem ficar até 2 anos.</p>
+      <p>A Anthropic apaga automaticamente os pedidos e as respostas até 30 dias depois de os receber. Quando os sistemas de segurança da Anthropic assinalam um pedido como contrário às regras de utilização, o conteúdo pode ficar até 2 anos. A Anthropic não usa estes pedidos para treinar modelos.</p>
     </div>
     <p>O bloco de instruções enviado com cada pedido proíbe expressamente que o texto devolvido reproduza dados pessoais presentes no contexto — nomes completos, NIF, moradas, números de telefone, endereços de correio electrónico ou números de utente.</p>
 
     <h3><span class="sub">2.3</span> Supabase — a base de dados</h3>
-    <p>A base de dados está alojada na Irlanda, dentro da União Europeia, e só é acedida pelo servidor — nunca directamente pelo browser. Guarda três coisas:</p>
+    <p>A base de dados está alojada na Irlanda, dentro da União Europeia, e só é acedida pelo servidor — nunca directamente pelo browser. Guarda o seguinte:</p>
     <ul>
-      <li>O <strong>assistente gerado</strong>, quando se compra o kit: email, plataforma escolhida, nome do assistente, missão e o texto completo da configuração. Fica ligado ao identificador da ligação de descarga, que é o que permite voltar a descarregar o guia e retomar a criação.</li>
+      <li>O <strong>assistente gerado</strong>, quando se compra o kit: email, ferramenta escolhida, nome do assistente, missão e o texto completo da configuração. Fica ligado ao identificador da ligação de descarga, que é o que permite voltar a descarregar o guia e retomar a criação.</li>
+      <li>As <strong>encomendas da montra por profissão</strong>: nome, email, NIF quando indicado, profissão, tarefa, ferramenta escolhida, a aceitação dos Termos e da renúncia ao direito de livre resolução, valor e estado da encomenda.</li>
+      <li>As <strong>compras do RetiroAssist</strong>: referência, email, valor e o identificador da ligação de descarga. Guarda ainda as oito respostas do perfil que personalizam o assistente: nome, local de partida, companhia, orçamento, tipos de viagem, transporte, o que evitar e necessidades.</li>
+      <li>Os <strong>pedidos de assistente à medida</strong>: nome, email, telemóvel quando indicado e ferramenta pretendida.</li>
       <li>Os <strong>pagamentos confirmados</strong>: provedor, referência, email, valor e data.</li>
       <li>Os <strong>contadores de utilização</strong> descritos em 2.4.</li>
     </ul>
 
     <h3><span class="sub">2.4</span> Registo de utilizações</h3>
     <div class="cartao">
-      <p>Para controlar o limite de utilizações grátis, registamos cada uso do formulário.</p>
+      <p>Para controlar o limite de propostas do Bob, regista-se cada pedido.</p>
     </div>
-    <p>Esse registo é um contador por dia, não um histórico: guarda quantas vezes foi pedida ajuda, nunca o que foi escrito nem o texto devolvido. O endereço IP <strong>não é guardado</strong>: entra num resumo irreversível, calculado com um segredo que só o servidor conhece e com a data do dia misturada, do qual não é possível voltar ao endereço de origem. Os contadores são apagados automaticamente ao fim de 7 dias.</p>
+    <p>Esse registo é um contador por dia, não um histórico: guarda quantas propostas foram pedidas, nunca o que foi escrito nem o texto devolvido. O endereço IP <strong>não é guardado</strong>: entra num resumo irreversível, calculado com um segredo que só o servidor conhece e com a data do dia misturada, do qual não é possível voltar ao endereço de origem. Os contadores são apagados automaticamente ao fim de 7 dias.</p>
 
     <h3><span class="sub">2.5</span> Resend — envio de emails</h3>
-    <p>Os emails que a Proteína Lúdica envia — a mensagem do formulário de contacto e o guia de instalação — saem através da Resend.</p>
+    <p>Os emails que a Proteína Lúdica envia saem através da Resend: a mensagem do formulário de contacto, o aviso de um pedido à medida, o guia de instalação, o acesso de uma encomenda e a ligação de descarga do RetiroAssist.</p>
     <div class="cartao">
       <p>Resend: guarda os emails enviados por período padrão. A política de privacidade da Resend está em <a class="quebra" href="https://resend.com/privacy" target="_blank" rel="noopener">https://resend.com/privacy</a></p>
     </div>
 
     <h3><span class="sub">2.6</span> Stripe e IfthenPay — pagamentos</h3>
-    <p>O pagamento é feito por cartão (Stripe) ou por MB WAY (IfthenPay), sempre nas páginas do próprio provedor. Os dados do cartão nunca passam pelos servidores da Proteína Lúdica nem são visíveis para a Proteína Lúdica. De volta chega apenas a confirmação: provedor, referência da operação, valor e o email indicado ao pagar.</p>
+    <p>O acesso Pro do formulário de criação paga-se por cartão (Stripe) ou por MB WAY (IfthenPay). O RetiroAssist paga-se por cartão (Stripe). O pagamento é feito sempre nas páginas do próprio provedor. Os dados do cartão nunca passam pelos servidores da Proteína Lúdica nem são visíveis para a Proteína Lúdica. De volta chega apenas a confirmação: provedor, referência da operação, valor e o email indicado ao pagar.</p>
 
     <h3><span class="sub">2.7</span> Tipos de letra</h3>
     <p>Os tipos de letra estão alojados no próprio sítio. Ao abrir uma página, o browser não faz nenhum pedido aos servidores da Google nem de outro fornecedor de tipos de letra.</p>
@@ -282,7 +285,7 @@
     <span class="numero">03</span>
     <h2>O que fica só neste dispositivo</h2>
     <p>Enquanto se preenche o formulário de criação, o rascunho é guardado no armazenamento do próprio browser, não num servidor. Fecha-se a página, volta-se mais tarde e o rascunho continua lá. O botão de recomeçar apaga-o, tal como a limpeza dos dados do browser.</p>
-    <p>Guarda-se ainda, enquanto durar a sessão do browser, um identificador aleatório da sessão. Serve para contar as utilizações grátis e para associar um pagamento à sessão que o iniciou; desaparece ao fechar o separador.</p>
+    <p>Guarda-se ainda, enquanto durar a sessão do browser, um identificador aleatório da sessão. Serve para contar as propostas grátis e para associar um pagamento à sessão que o iniciou. Na mesma sessão ficam o acesso Pro, quando existe, e a ligação de descarga do guia. Tudo isto desaparece ao fechar o separador.</p>
     <p>O sítio <strong>não usa cookies</strong>, não tem ferramentas de estatística ou de analítica, não faz publicidade e não constrói perfis de quem o visita.</p>
   </section>
 
@@ -291,21 +294,25 @@
     <span class="numero">04</span>
     <h2>Formulário de contacto</h2>
     <p>O formulário de contacto do sítio recolhe o nome, o email, o assunto de interesse e a mensagem, mais a autorização expressa para responder. Estes dados servem <strong>apenas para responder ao contacto</strong> e dar seguimento ao que for pedido. Não são vendidos, não são cedidos a terceiros para fins comerciais e não alimentam nenhuma lista de divulgação.</p>
-    <p>O pedido de assistente à medida recolhe o nome, o email e a plataforma pretendida, e fica registado na base de dados descrita em 2.3 para acompanhamento do pedido.</p>
+    <p>O pedido de assistente à medida recolhe o nome, o email, o telemóvel quando indicado e a ferramenta pretendida, e fica registado na base de dados descrita em 2.3 para acompanhamento do pedido.</p>
+    <p>A encomenda de um assistente na montra por profissão recolhe o nome, o email, o NIF quando indicado, a tarefa e a ferramenta. Estes dados servem para preparar e entregar o assistente e para emitir a factura.</p>
+    <p>O perfil do RetiroAssist recolhe as oito respostas que personalizam o assistente. No campo das necessidades, basta indicar o que importa para a viagem, sem pormenores de saúde.</p>
   </section>
 
   <!-- ─── 05 ─── -->
   <section class="seccao">
     <span class="numero">05</span>
     <h2>Quanto tempo fica cada coisa</h2>
-    <p>Os apagamentos abaixo estão automatizados na própria base de dados e correm todos os dias, sem depender de ninguém se lembrar.</p>
+    <p>Os apagamentos com prazo fixo estão automatizados na própria base de dados e correm todos os dias, sem depender de ninguém se lembrar.</p>
     <ul class="ficha">
       <li><span class="rotulo">Rascunho no browser</span><span class="valor">Até quem o escreveu o apagar, ou limpar os dados do browser.</span></li>
       <li><span class="rotulo">Assistente gerado</span><span class="valor">A ligação de descarga é válida 30 dias. O registo é apagado 7 dias depois de a ligação expirar — na prática, 37 dias depois da compra.</span></li>
       <li><span class="rotulo">Acesso pago</span><span class="valor">Apagado 7 dias depois de expirar.</span></li>
+      <li><span class="rotulo">Encomendas da montra</span><span class="valor">Por pagar: apagadas ao fim de 30 dias. Da campanha de lançamento: apagadas ao fim de 90 dias. Pagas: conservadas 10 anos, por obrigação fiscal.</span></li>
+      <li><span class="rotulo">Perfil do RetiroAssist</span><span class="valor">A ligação de descarga é válida 30 dias. As respostas do perfil são apagadas 7 dias depois de a ligação expirar.</span></li>
       <li><span class="rotulo">Contadores de utilização</span><span class="valor">Apagados ao fim de 7 dias.</span></li>
       <li><span class="rotulo">Registo de pagamentos</span><span class="valor">Conservado pelo prazo exigido pelas obrigações fiscais e contabilísticas. É a única coisa que não se apaga por rotina, e é por obrigação legal, não por conveniência.</span></li>
-      <li><span class="rotulo">Mensagens de contacto</span><span class="valor">Enquanto durar o assunto e o seguimento que dele resultar. Depois disso, apagadas.</span></li>
+      <li><span class="rotulo">Mensagens de contacto e pedidos à medida</span><span class="valor">Enquanto durar o assunto e o seguimento que dele resultar. Depois disso, apagados.</span></li>
     </ul>
   </section>
 
@@ -323,7 +330,7 @@
     <span class="numero">07</span>
     <h2>Com que fundamento</h2>
     <ul>
-      <li><strong>Execução do contrato</strong> (artigo 6.º, n.º 1, alínea b, do RGPD) — criar e entregar o assistente, processar o pagamento e dar acesso ao guia.</li>
+      <li><strong>Execução do contrato</strong> (artigo 6.º, n.º 1, alínea b, do RGPD) — criar e entregar o assistente, tratar uma encomenda ou um pedido à medida, processar o pagamento e dar acesso ao guia.</li>
       <li><strong>Consentimento</strong> (alínea a) — o formulário de contacto, que só é enviado com autorização expressa. O consentimento pode ser retirado a qualquer momento, sem que isso afecte o que já foi tratado antes.</li>
       <li><strong>Interesse legítimo</strong> (alínea f) — manter o serviço de pé e proteger o limite de utilizações grátis contra abuso, com o mínimo de informação possível, como descrito em 2.4.</li>
       <li><strong>Obrigação legal</strong> (alínea c) — conservar os registos dos pagamentos pelo prazo fiscal.</li>
@@ -362,7 +369,7 @@
 </main>
 
 <footer>
-  <p class="versao">Última actualização: 2 de Novembro de 2026 · v1.1</p>
+  <p class="versao">Última actualização: 22 de Novembro de 2026 · v1.2</p>
   <p class="legal">© 2026 Proteína Lúdica, Lda. · NIF 514411520 · Região Autónoma da Madeira, Portugal · <a href="/">Início</a> · <a href="/conformidade">Conformidade</a> · <a href="/termos">Termos</a> · <a href="mailto:info@proteinaludica.com">info@proteinaludica.com</a></p>
 </footer>
 
