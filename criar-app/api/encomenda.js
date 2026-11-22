@@ -34,7 +34,7 @@ const pro = require('./_lib/pro-comum');
 const VALOR_CENTS = 4900;
 
 // Versão dos termos aceites: a data de "Última actualização" de /termos.
-const VERSAO_TERMOS = '2026-11';
+const VERSAO_TERMOS = '2026-11-22';
 
 // Campanha de lançamento. Fim às 23:59 de Lisboa (UTC em Novembro).
 const CAMPANHA = {
