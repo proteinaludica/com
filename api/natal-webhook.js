@@ -53,6 +53,7 @@ async function enviarEmail({ email, url, licenca, expira, valorCents, compradoEm
     licenca,
     data: natal.dataPorExtenso(expira),
     valor: natal.valorPorExtenso(valorCents),
+    oferta: Number(valorCents) === 0,
     dataCompra: natal.dataPorExtenso(compradoEm),
     versaoTermos: versaoTermos || kit.VERSAO_TERMOS,
     renunciaData: renuncia ? natal.dataPorExtenso(renuncia) : null,
@@ -127,7 +128,7 @@ module.exports = async (req, res) => {
     return res.status(200).json({ ok: true, ignorado: true });
   }
   const sessao = evento.data && evento.data.object;
-  if (!sessao || sessao.payment_status !== 'paid') {
+  if (!natal.sessaoEntregavel(sessao)) {
     return res.status(200).json({ ok: true, ignorado: true });
   }
   // Só as compras do Natal IA 2026.

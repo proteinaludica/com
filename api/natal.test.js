@@ -382,6 +382,7 @@ test('com a renúncia marcada, a sessão da Stripe leva o preço, o produto e a 
     const c = enviado.corpo;
     assert.strictEqual(c.get('line_items[0][price_data][unit_amount]'), '1900');
     assert.strictEqual(c.get('payment_method_types[0]'), 'card');
+    assert.strictEqual(c.get('allow_promotion_codes'), 'true');
     assert.strictEqual(c.get('metadata[produto]'), 'natal2026');
     assert.ok(c.get('metadata[renuncia_em]'));
     assert.match(c.get('success_url'), /\/natal-obrigado\?s=\{CHECKOUT_SESSION_ID\}$/);
@@ -615,4 +616,21 @@ test('valor e hora formatados em português, na hora da Madeira', () => {
   assert.equal(natal.valorPorExtenso(2905), '29,05 €');
   assert.equal(natal.horaPorExtenso('2026-12-01T14:05:00Z'), '14:05');
   assert.equal(natal.horaPorExtenso('2026-07-01T14:05:00Z'), '15:05');
+});
+
+test('as compras a 0 € com código de oferta têm entrega; as não pagas não', () => {
+  assert.strictEqual(natal.sessaoEntregavel({ payment_status: 'paid', amount_total: 1900 }), true);
+  assert.strictEqual(natal.sessaoEntregavel({ payment_status: 'no_payment_required', amount_total: 0 }), true);
+  assert.strictEqual(natal.sessaoEntregavel({ payment_status: 'no_payment_required', amount_total: 1900 }), false);
+  assert.strictEqual(natal.sessaoEntregavel({ payment_status: 'unpaid', amount_total: 1900 }), false);
+  assert.strictEqual(natal.sessaoEntregavel(null), false);
+});
+
+test('o email de uma oferta não diz que houve pagamento', () => {
+  const p = kit.emailPartes({ licenca: 'X', data: '6 de Janeiro de 2027', valor: '0,00 €', oferta: true,
+    dataCompra: '1 de Dezembro de 2026', versaoTermos: '2026-11-29',
+    renunciaData: '1 de Dezembro de 2026', renunciaHora: '14:05' });
+  const t = p.confirmacao.join('\n');
+  assert.match(t, /Recebeu o Natal IA 2026 sem custo, numa oferta de lançamento, a 1 de Dezembro de 2026\./);
+  assert.ok(!/Pagou/.test(t));
 });

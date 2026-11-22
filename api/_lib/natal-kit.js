@@ -204,11 +204,13 @@ const EMAIL_ASSUNTO = 'O seu Natal IA 2026: faltam quatro perguntas';
 // duradouro (DL 24/2014, art. 17.º, al. m)). Os campos chegam já formatados.
 // Sem hora de renúncia, as frases da renúncia não aparecem: o email não afirma
 // uma declaração que não ficou registada.
-function emailPartes({ licenca, data, valor, dataCompra, versaoTermos, renunciaData, renunciaHora }) {
+function emailPartes({ licenca, data, valor, oferta, dataCompra, versaoTermos, renunciaData, renunciaHora }) {
   const confirmacao = [
     'Este email confirma a sua compra.',
     'Comprou o Natal IA 2026, um assistente digital IA com licença pessoal.',
-    'Pagou ' + valor + ' a ' + dataCompra + '.',
+    oferta
+      ? 'Recebeu o Natal IA 2026 sem custo, numa oferta de lançamento, a ' + dataCompra + '.'
+      : 'Pagou ' + valor + ' a ' + dataCompra + '.',
     'Aceitou os Termos de venda na versão de ' + versaoTermos + '.',
   ];
   if (renunciaData && renunciaHora) {
