@@ -43,26 +43,26 @@ const GUIAS = {
     passos: [
       {
         heading: 'Passo 1 — Aceder',
-        texto: 'Em claude.ai, na barra lateral esquerda, clicar em "Projects". Depois em "Create Project".',
+        texto: 'Em claude.ai, na barra lateral esquerda, clique em "Projects" e depois em "Create Project".',
       },
       {
-        heading: 'Passo 2 — Campo "Nome do Projeto"',
-        texto: 'Copiar e colar:',
+        heading: 'Passo 2 — Campo "Nome do Projecto"',
+        texto: 'Copie e cole:',
         copiar: 'nome_assistente',
       },
       {
         heading: 'Passo 3 — Campo "Descrição" (opcional, logo abaixo do nome)',
-        texto: 'Copiar e colar:',
+        texto: 'Copie e cole:',
         copiar: 'missao',
       },
       {
         heading: 'Passo 4 — Campo "Instruções" (botão "+" junto a "Instruções")',
-        texto: 'Copiar e colar o texto completo abaixo:',
+        texto: 'Copie e cole o texto completo abaixo:',
         copiar: 'prompt_completo',
       },
       {
         heading: 'Nota — personalização de conta (opcional)',
-        texto: 'Se quiser que parte destas instruções (por exemplo, o tom de voz) se aplique também fora deste Projeto, pode colar essa parte em Definições > Perfil > Instruções de conta. Não é obrigatório.',
+        texto: 'Para que parte destas instruções (por exemplo, o tom de voz) valha também fora deste Projecto, cole essa parte em Definições > Perfil > Instruções de conta. Este passo não é obrigatório.',
       },
     ],
   },
@@ -71,26 +71,26 @@ const GUIAS = {
     passos: [
       {
         heading: 'Passo 1 — Aceder',
-        texto: 'Em gemini.google.com, na barra lateral esquerda, "Veja alguns Gems" > "Novo Gem".',
+        texto: 'Em gemini.google.com, na barra lateral esquerda, clique em "Veja alguns Gems" e depois em "Novo Gem".',
       },
       {
         heading: 'Passo 2 — Campo "Nome"',
-        texto: 'Copiar e colar:',
+        texto: 'Copie e cole:',
         copiar: 'nome_assistente',
       },
       {
         heading: 'Passo 3 — Campo "Descrição"',
-        texto: 'Copiar e colar:',
+        texto: 'Copie e cole:',
         copiar: 'missao',
       },
       {
         heading: 'Passo 4 — Campo "Instruções"',
-        texto: 'Copiar e colar o texto completo abaixo, depois clicar em "Salvar":',
+        texto: 'Copie o texto completo abaixo, cole-o no campo e clique no botão de gravar ("Guardar" ou "Salvar", conforme o idioma da conta):',
         copiar: 'prompt_completo',
       },
       {
         heading: 'Nota — "Experiência pessoal" (opcional)',
-        texto: 'Se quiser que o Gemini mantenha o mesmo tom fora deste Gem, pode colar parte das instruções em Definições e ajuda > Experiência pessoal > "As suas instruções para o Gemini" — não se aplica dentro de Gems, só fora deles. Exige conta Google pessoal.',
+        texto: 'Para que o Gemini mantenha o mesmo tom fora deste Gem, cole parte das instruções em Definições e ajuda > Experiência pessoal > "As suas instruções para o Gemini". Esta opção só vale fora dos Gems e exige uma conta Google pessoal.',
       },
     ],
   },
@@ -99,26 +99,26 @@ const GUIAS = {
     passos: [
       {
         heading: 'Passo 1 — Aceder',
-        texto: 'Em chatgpt.com, "Explorar GPTs" > "Criar" > aba "Configure".',
+        texto: 'Em chatgpt.com, clique em "Explorar GPTs", depois em "Criar" e abra o separador "Configure".',
       },
       {
         heading: 'Passo 2 — Campo "Name"',
-        texto: 'Copiar e colar:',
+        texto: 'Copie e cole:',
         copiar: 'nome_assistente',
       },
       {
         heading: 'Passo 3 — Campo "Description"',
-        texto: 'Copiar e colar:',
+        texto: 'Copie e cole:',
         copiar: 'missao',
       },
       {
         heading: 'Passo 4 — Campo "Instructions"',
-        texto: 'Copiar e colar o texto completo abaixo:',
+        texto: 'Copie e cole o texto completo abaixo:',
         copiar: 'prompt_completo',
       },
       {
         heading: 'Nota — "Custom Instructions" da conta (opcional)',
-        texto: 'Se quiser manter o mesmo tom fora deste GPT, pode colar parte das instruções em Definições > Personalização > "Custom Instructions" — disponível mesmo na versão gratuita. Criar um GPT dedicado exige conta paga (Plus ou superior).',
+        texto: 'Para manter o mesmo tom fora deste GPT, cole parte das instruções em Definições > Personalização > "Custom Instructions". Esta opção existe também na versão gratuita. Criar um GPT próprio exige uma conta paga (Plus ou superior).',
       },
     ],
   },
@@ -131,7 +131,7 @@ const GUIA_FALLBACK = {
   passos: [
     {
       heading: null,
-      texto: 'Copie o texto abaixo e cole na área de instruções/prompt do sistema da sua plataforma:',
+      texto: 'Copie o texto abaixo e cole-o no campo de instruções do assistente, na ferramenta escolhida:',
       copiar: 'prompt_completo',
     },
   ],
@@ -148,19 +148,19 @@ const MARCA_EXEMPLOS = 'O ficheiro de exemplos, carregado no conhecimento do ass
 const PASSO_EXEMPLOS = {
   claude: {
     heading: 'Passo 5 — Conhecimento do Projecto (ficheiro de exemplos)',
-    texto: 'Na página do Projecto, em "Project knowledge", carregar o ficheiro exemplos.txt descarregado no fim do preenchimento.',
+    texto: 'Na página do Projecto, em "Project knowledge", carregue o ficheiro exemplos.txt descarregado no fim do preenchimento.',
   },
   gemini: {
     heading: 'Passo 5 — Conhecimento do Gem (ficheiro de exemplos)',
-    texto: 'No mesmo ecrã, em "Conhecimento", carregar o ficheiro exemplos.txt descarregado no fim do preenchimento. Depois voltar a gravar.',
+    texto: 'No mesmo ecrã, em "Conhecimento", carregue o ficheiro exemplos.txt descarregado no fim do preenchimento. Depois grave de novo.',
   },
   gpt: {
     heading: 'Passo 5 — Campo "Knowledge" (ficheiro de exemplos)',
-    texto: 'Em "Knowledge", clicar em "Upload files" e carregar o ficheiro exemplos.txt descarregado no fim do preenchimento.',
+    texto: 'Em "Knowledge", clique em "Upload files" e carregue o ficheiro exemplos.txt descarregado no fim do preenchimento.',
   },
   fallback: {
     heading: null,
-    texto: 'Se a ferramenta aceitar ficheiros de conhecimento, carregar também o ficheiro exemplos.txt descarregado no fim do preenchimento.',
+    texto: 'Se a ferramenta aceitar ficheiros de conhecimento, carregue também o ficheiro exemplos.txt descarregado no fim do preenchimento.',
   },
 };
 
@@ -605,7 +605,7 @@ module.exports = async (req, res) => {
     const email = cortar(body.email, LIMITES.email);
 
     if (!nome_assistente || !prompt_completo) {
-      return res.status(400).json({ ok: false, error: 'Indique pelo menos o nome do assistente e o prompt completo.' });
+      return res.status(400).json({ ok: false, error: 'Indique pelo menos o nome do assistente e as instruções completas.' });
     }
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return res.status(400).json({ ok: false, error: 'O email não parece válido.' });
@@ -675,7 +675,7 @@ module.exports = async (req, res) => {
         from: from,
         to: [email],
         subject: 'O guia de instalação do assistente digital IA · Proteína Lúdica',
-        text: 'Obrigado pela confiança.\n\nEm anexo segue o guia de instalação do assistente digital IA, com os passos a seguir na plataforma escolhida.\n\nO guia foi preparado para ser seguido do princípio ao fim, sem conhecimentos de informática. Basta abrir o PDF e avançar passo a passo.\n\nPara qualquer dúvida, basta responder a esta mensagem ou escrever para info@proteinaludica.com.\n\nProteína Lúdica, Lda.',
+        text: 'Obrigado pela confiança.\n\nEm anexo segue o guia de instalação do assistente digital IA, com os passos a seguir na ferramenta escolhida.\n\nO guia foi preparado para ser seguido do princípio ao fim, sem conhecimentos de informática. Basta abrir o PDF e avançar passo a passo.\n\nPara qualquer dúvida, basta responder a esta mensagem ou escrever para info@proteinaludica.com.\n\nProteína Lúdica, Lda.',
         attachments: [
           {
             filename: nomeFicheiro,
