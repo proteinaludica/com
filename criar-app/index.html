@@ -4557,6 +4557,15 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       if (!conteudo) return null;
       const nav = document.querySelector('#screen-2 .oblig-nav');
       if (fase === 'perguntas' && nav) return { pai: nav.parentNode, antesDe: nav };
+      // Fase "afinar": a seguir à caixa onde se tocou. No topo, ficaria longe
+      // da vista quando a caixa está mais abaixo no painel.
+      const caixa = bob.seccao != null ? document.querySelector('#screen-2 .fill-main.em-foco') : null;
+      if (caixa) {
+        const janela = document.getElementById('bobJanela');
+        let depois = caixa.nextSibling;
+        if (depois === janela) depois = janela.nextSibling;
+        return { pai: caixa.parentNode, antesDe: depois };
+      }
       return { pai: conteudo, antesDe: conteudo.firstChild };
     }
     const ecra = document.getElementById('screen-' + state.current);
@@ -4574,7 +4583,16 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     if (!janela) return;
     const ancora = bobTelemovel() ? bobAncora() : null;
     const embutir = !!ancora;
-    if (embutir && (janela.parentNode !== ancora.pai || janela.nextSibling !== ancora.antesDe)) ancora.pai.insertBefore(janela, ancora.antesDe);
+    if (embutir && (janela.parentNode !== ancora.pai || janela.nextSibling !== ancora.antesDe)) {
+      // A caixa onde se está a escrever não pode saltar quando o Bob muda de sítio.
+      const caixa = state.current === 2 && fase === 'afinar' ? document.querySelector('#screen-2 .fill-main.em-foco') : null;
+      const antes = caixa ? caixa.getBoundingClientRect().top : null;
+      ancora.pai.insertBefore(janela, ancora.antesDe);
+      if (caixa) {
+        const desvio = caixa.getBoundingClientRect().top - antes;
+        if (desvio) window.scrollBy({ top: desvio, behavior: 'instant' });
+      }
+    }
     if (!embutir && janela.parentNode !== document.body) document.body.insertBefore(janela, document.getElementById('bobBotao'));
     janela.classList.toggle('bob-embutido', embutir);
   }
