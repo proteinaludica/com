@@ -1520,7 +1520,7 @@
         <div class="section-pbar"><div class="section-pbar-fill"></div></div>
       </div>
       <div class="guardado-linha" id="guardadoLinha" hidden>
-        <span>Guardado neste computador</span>
+        <span>Guardado neste dispositivo</span>
         <span aria-hidden="true">·</span>
         <button type="button" class="guardado-limpar" onclick="limparTudoGuardado()">Limpar tudo</button>
       </div>
@@ -4061,7 +4061,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   }
 
   function limparTudoGuardado() {
-    if (!confirm('Apagar tudo o que está guardado neste computador? As 16 secções ficam vazias e não é possível recuperar.')) return;
+    if (!confirm('Apagar tudo o que está guardado neste dispositivo? As 16 secções ficam vazias e não é possível recuperar.')) return;
     try { localStorage.removeItem(CHAVE_GUARDA); } catch (e) {}
     limparCamposEMarcas();
     bobRegresso(false);
@@ -4522,9 +4522,9 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
 
     if (retoma && guardadoTemTexto) {
       const usarRetoma = confirm(
-        'Há um rascunho guardado neste computador e uma ligação de retoma.\n\n' +
+        'Há um rascunho guardado neste dispositivo e uma ligação de retoma.\n\n' +
         'OK — usar a ligação de retoma (substitui o que está guardado).\n' +
-        'Cancelar — manter o rascunho deste computador.'
+        'Cancelar — manter o rascunho deste dispositivo.'
       );
       if (usarRetoma) {
         aplicarCampos(retoma);
