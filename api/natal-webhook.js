@@ -1,7 +1,7 @@
 // Função serverless (Vercel) — POST /api/natal-webhook
 //
 // Recebe os eventos da Stripe e, em checkout.session.completed com pagamento
-// concluído, regista a compra do Natal IA 2026 e envia por email (Resend) a
+// concluído, regista a compra do Natal IA e envia por email (Resend) a
 // ligação para as quatro perguntas. Os textos só são montados depois, na
 // página, com as respostas de quem comprou. É a ÚNICA fonte de entrega.
 //
@@ -131,7 +131,7 @@ module.exports = async (req, res) => {
   if (!natal.sessaoEntregavel(sessao)) {
     return res.status(200).json({ ok: true, ignorado: true });
   }
-  // Só as compras do Natal IA 2026.
+  // Só as compras do Natal IA.
   if (!sessao.metadata || sessao.metadata.produto !== kit.PRODUTO) {
     return res.status(200).json({ ok: true, ignorado: true });
   }
@@ -141,13 +141,13 @@ module.exports = async (req, res) => {
   if (!email) {
     // Sem email não há entrega possível. 200 para a Stripe não repetir em vão;
     // fica registado para se ir buscar a compra à mão.
-    console.error('Natal IA 2026: compra sem email, sessão', sessao.id);
+    console.error('Natal IA: compra sem email, sessão', sessao.id);
     return res.status(200).json({ ok: true, ignorado: true, motivo: 'sem_email' });
   }
 
   const renunciaEm = sessao.metadata.renuncia_em || null;
   if (!renunciaEm) {
-    console.error('Natal IA 2026: compra sem hora da renúncia, sessão', sessao.id);
+    console.error('Natal IA: compra sem hora da renúncia, sessão', sessao.id);
   }
 
   const cfg = natal.configSupabase();
@@ -188,7 +188,7 @@ module.exports = async (req, res) => {
       renunciaEm,
     });
   } catch (err) {
-    console.error('Falha a entregar o Natal IA 2026:', err && err.message);
+    console.error('Falha a entregar o Natal IA:', err && err.message);
     return res.status(500).json({ ok: false, error: 'Não foi possível concluir a entrega.' });
   }
 

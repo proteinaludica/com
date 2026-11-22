@@ -1,6 +1,6 @@
 // Função serverless (Vercel) — POST /api/natal-comprar
 //
-// Cria a sessão de pagamento do Natal IA 2026 (19€, pagamento único) e devolve
+// Cria a sessão de pagamento do Natal IA (19€, pagamento único) e devolve
 // a URL para onde o browser é redirigido. NÃO entrega nada: a entrega só
 // acontece depois de a Stripe confirmar, em /api/natal-webhook. Quem compra
 // nunca dita o preço nem se auto-atribui a compra.
@@ -41,10 +41,10 @@ module.exports = async (req, res) => {
   // Trava de segurança: sem aprovação não se cobra. Vem antes de tudo — a
   // Stripe nem chega a ser contactada.
   if (!kit.estaAprovado()) {
-    console.error('Natal IA 2026: compra pedida com a venda por aprovar.');
+    console.error('Natal IA: compra pedida com a venda por aprovar.');
     return res.status(503).json({
       ok: false,
-      error: 'A venda do Natal IA 2026 ainda não está aberta.',
+      error: 'A venda do Natal IA ainda não está aberta.',
     });
   }
 
@@ -76,7 +76,7 @@ module.exports = async (req, res) => {
   params.set('line_items[0][price_data][product_data][name]', kit.NOME + ' · assistente digital IA');
   // A Stripe recolhe o email no checkout; volta em customer_details.email.
   params.set('success_url', base + '/natal-obrigado?s={CHECKOUT_SESSION_ID}');
-  params.set('cancel_url', base + '/natal-ia-2026');
+  params.set('cancel_url', base + '/natal-ia');
   params.set('metadata[produto]', kit.PRODUTO);
   params.set('metadata[versao_kit]', kit.VERSAO);
   params.set('metadata[versao_termos]', kit.VERSAO_TERMOS);

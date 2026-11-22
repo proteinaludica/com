@@ -24,9 +24,9 @@ const natal = require('./_lib/natal');
 const kit = require('./_lib/natal-kit');
 
 const FICHEIROS = {
-  completa: 'natal-ia-2026-instrucoes-completas.md',
-  gem: 'natal-ia-2026-gemini-instrucoes.md',
-  conhecimento: 'natal-ia-2026-calendario-e-listas.md',
+  completa: 'natal-ia-instrucoes-completas.md',
+  gem: 'natal-ia-gemini-instrucoes.md',
+  conhecimento: 'natal-ia-calendario-e-listas.md',
 };
 
 const NOMES_FICHEIROS = {
@@ -128,7 +128,7 @@ module.exports = async (req, res) => {
     }
     const composto = kit.comporTextos(compra.dados, licenca);
     if (!composto.ok) {
-      console.error('Natal IA 2026: textos gravados já não cabem:', composto.codigo, composto.ficheiro);
+      console.error('Natal IA: textos gravados já não cabem:', composto.codigo, composto.ficheiro);
       return res.status(500).json({ ok: false, error: 'Não foi possível montar os textos.' });
     }
 
@@ -192,7 +192,7 @@ module.exports = async (req, res) => {
           ' passar o limite em ' + composto.excesso + ' caracteres. Reduza o número de pessoas ou os nomes.',
       });
     }
-    console.error('Natal IA 2026: marcador por preencher em', composto.ficheiro);
+    console.error('Natal IA: marcador por preencher em', composto.ficheiro);
     return res.status(500).json({ ok: false, error: 'Não foi possível montar os textos.' });
   }
 
