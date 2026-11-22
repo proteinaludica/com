@@ -16,7 +16,12 @@
   "plataforma", "apoio à decisão", "especialista" (substantivo), "avatar" (é termo interno).
 - Permitido: "assistente digital IA especializado".
 - Demo outputs: sempre "Dr. Silva", nunca nome real do fundador.
-- 3ª pessoa singular impessoal — nunca "você"/"tu".
+- Tratamento de quem lê: imperativo na 3.ª pessoa ("faça", "escreva", "diga").
+  Nunca "você", "tu" nem "o senhor".
+- Wizard e frente genérica: nunca "o profissional". Usar "cada um" ou "quem o usa".
+- Exemplos das caixas e propostas do Bob Pro: o assistente na 3.ª pessoa e quem
+  preenche na 1.ª ("devolve-me o trabalho", "a decisão é minha").
+- A montra por profissão e o catálogo de saúde mantêm "o profissional".
 
 ## Infra (não inventar/assumir)
 - DNS: Squarespace (NÃO Cloudflare, NÃO Google Cloud DNS).
