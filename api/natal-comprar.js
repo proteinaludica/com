@@ -76,7 +76,7 @@ module.exports = async (req, res) => {
   params.set('line_items[0][price_data][product_data][name]', kit.NOME + ' · assistente digital IA');
   // A Stripe recolhe o email no checkout; volta em customer_details.email.
   params.set('success_url', base + '/natal-obrigado?s={CHECKOUT_SESSION_ID}');
-  params.set('cancel_url', base + '/assistentes-pessoais');
+  params.set('cancel_url', base + '/natal-ia-2026');
   params.set('metadata[produto]', kit.PRODUTO);
   params.set('metadata[versao_kit]', kit.VERSAO);
   params.set('metadata[versao_termos]', kit.VERSAO_TERMOS);
