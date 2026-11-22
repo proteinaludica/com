@@ -6,3 +6,6 @@ CLAUDE.md
 README.md
 # criar-app/ é publicado pelo projecto "criar" (Root Directory próprio).
 criar-app/
+# Testes: correm com node --test e não são páginas nem funções. Sem esta linha,
+# a Vercel conta cada api/*.test.js como função e o plano Hobby só aceita 12.
+api/*.test.js
