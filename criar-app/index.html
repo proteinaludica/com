@@ -1521,7 +1521,7 @@
 
     <div class="section-progress-wrap">
       <div class="section-progress">
-        <div class="section-counter">Secção <strong id="currentSec">1</strong> de 16</div>
+        <div class="section-counter"><strong id="contaEscritas">0</strong> de 16 preenchidas</div>
         <div class="section-pbar"><div class="section-pbar-fill"></div></div>
       </div>
       <div class="guardado-linha" id="guardadoLinha" hidden>
@@ -3817,16 +3817,17 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   // aparecem no DOM por 01, 02, 12, 13, 15 e só depois 03..11, 14, 16, pelo
   // que a posição de leitura salta. A barra mostra progresso real
   // (atualizarBarraProgresso), que só cresce com o que fica escrito.
-  function setSecaoAtual(num) {
-    const label = document.getElementById('currentSec');
-    if (label) label.textContent = num === 0 ? '00' : num;
-  }
+  // O contador mostra quantas das 16 secções já têm texto, como a barra.
+  // A 00 (Exemplos) conta à parte e fica fora do número.
+  function setSecaoAtual(num) {}
 
   function atualizarBarraProgresso() {
     const fill = document.querySelector('.section-pbar-fill');
     if (!fill) return;
-    const escritas = SECCOES.filter(sec => valorUtilizador(sec.campo).trim() !== '').length;
-    fill.style.width = (escritas / TOTAL_SECOES * 100) + '%';
+    const escritas = SECCOES.filter(sec => sec.num > 0 && valorUtilizador(sec.campo).trim() !== '').length;
+    fill.style.width = (escritas / 16 * 100) + '%';
+    const conta = document.getElementById('contaEscritas');
+    if (conta) conta.textContent = escritas;
   }
   let _contadorInit = false;
   // Enquanto um clique no índice faz scroll suave até à secção, o observer
