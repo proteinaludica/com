@@ -12,6 +12,11 @@
       "source": "/montra",
       "destination": "/#profissoes",
       "permanent": false
+    },
+    {
+      "source": "/escolher",
+      "destination": "/catalogo",
+      "permanent": false
     }
   ]
 }
