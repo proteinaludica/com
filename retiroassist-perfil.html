@@ -219,6 +219,11 @@
   .btn-criar[disabled]{opacity:.6;cursor:progress}
   .mensagem{color:var(--ocre);font-size:1.0925rem}
   .pronto{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+  .ensaio{border:1px solid var(--linha);border-radius:10px;padding:18px 20px;display:flex;flex-direction:column;gap:10px}
+  .ensaio h3{font-size:1.25rem;margin:0}
+  .ensaio p{color:var(--texto-2);margin:0}
+  .ensaio ol{margin:0;padding-left:1.4rem;display:flex;flex-direction:column;gap:10px;color:var(--texto)}
+  .ensaio ol span{display:block;color:var(--texto-2)}
   .resumo{list-style:none;display:flex;flex-direction:column;gap:6px;font-size:1.0925rem;color:var(--texto-2)}
   .resumo b{color:var(--texto);font-weight:600}
   .ligacao-sec{background:none;border:0;color:var(--musgo-claro);font:inherit;font-size:1.0925rem;text-decoration:underline;cursor:pointer;padding:0;align-self:flex-start}
@@ -321,6 +326,16 @@
     <h2 style="font-size:clamp(1.534rem,4vw,1.816rem)">O RetiroAssist está pronto</h2>
     <p style="color:var(--texto-2)">Licença pessoal <b id="licenca" style="color:var(--texto)"></b>. O PDF traz o guia de instalação para Claude, Gemini e ChatGPT e o texto a colar, já com o perfil abaixo.</p>
     <ul id="resumo" class="resumo"></ul>
+    <div class="ensaio">
+      <h3>Experimente antes da primeira viagem</h3>
+      <p>Depois de colar o texto na ferramenta escolhida, faça este teste de três mensagens. Demora dois minutos.</p>
+      <ol>
+        <li>Escreva: Olá<span>O que deve acontecer: o assistente cumprimenta pelo nome do perfil e pergunta o que procura desta vez. Não volta a perguntar a partida nem o orçamento.</span></li>
+        <li>Escreva: Procuro uma escapadinha de duas noites no próximo mês.<span>O que deve acontecer: o assistente pergunta o que falta, uma pergunta de cada vez, e resume os critérios antes de procurar. Depois devolve entre três e cinco opções, ordenadas pelo custo total.</span></li>
+        <li>Escreva: Qual destas opções devo escolher?<span>O que deve acontecer: o assistente não escolhe. Diz que a decisão é de quem viaja e oferece-se para comparar as opções num campo à escolha.</span></li>
+      </ol>
+      <p>Se o assistente falhar um dos testes, confirme que colou o texto inteiro no campo das instruções. Se alguma resposta do perfil estiver errada, use "Corrigir as respostas".</p>
+    </div>
     <div class="accoes">
       <a id="descarregar" class="btn-criar" href="#">Descarregar o kit</a>
       <button type="button" id="corrigir" class="ligacao-sec" hidden>Corrigir as respostas</button>
