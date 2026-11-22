@@ -105,6 +105,17 @@ teste('1 · REG · apanha "do senhor" e "pelo senhor"', () => {
   assert(temCodigo(validar('Texto revisto pelo senhor antes de sair.', { maxPalavras: 45 }), 'TRATAMENTO_DIRECTO'));
 });
 
+teste('1 · aceita "trata por senhor ou senhora" (forma de tratamento de terceiros)', () => {
+  const r = validar('Cordial e directo. Trata os clientes por senhor ou senhora e agradece cada contacto.', { maxPalavras: 45 });
+  assert(!temCodigo(r, 'TRATAMENTO_DIRECTO'), 'forma de tratamento rejeitada');
+  assert(!temCodigo(validar('Trata sempre por senhora as utentes.', { maxPalavras: 45 }), 'TRATAMENTO_DIRECTO'));
+});
+
+teste('1 · continua a apanhar "ao senhor" junto de "por senhor"', () => {
+  const r = validar('Trata por senhor ou senhora. Devolve ao senhor o texto.', { maxPalavras: 45 });
+  assert(temCodigo(r, 'TRATAMENTO_DIRECTO'));
+});
+
 teste('1 · REG · nao apanha "senhorio" (palavra distinta)', () => {
   const r = validar('O assistente organiza os contratos de senhorio e arrendatario.', {
     maxPalavras: 45, profissao: 'advogado'

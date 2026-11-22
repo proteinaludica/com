@@ -46,6 +46,12 @@ const TRATAMENTO_DIRECTO = [
   'vossa excelencia', 'vossa excelência', 'v. exa', 'v. ex.a'
 ];
 
+// "Trata por senhor ou senhora" descreve como o assistente se dirige a
+// terceiros (clientes, utentes). Nao e tratamento directo de quem le, por
+// isso sai do texto antes da verificacao. "ao senhor", "do senhor" e
+// "pelo senhor" continuam a ser apanhados.
+const RE_FORMA_DE_TRATAMENTO = /\bpor\s+(senhor|senhora)(\s+ou\s+(senhor|senhora))?\b/g;
+
 // "pode" e "consegue" sao 3a pessoa legitima quando tem sujeito explicito
 // ("o profissional pode"). So sao erro quando abrem frase ou surgem sem sujeito.
 // Regex: inicio de texto ou depois de pontuacao final, seguido de "pode/consegue".
@@ -67,8 +73,9 @@ function verificarSegundaPessoa(texto) {
     }
   }
 
+  const semFormaDeTratamento = t.replace(RE_FORMA_DE_TRATAMENTO, ' ');
   for (const tr of TRATAMENTO_DIRECTO) {
-    if (rePalavra(tr).test(t)) {
+    if (rePalavra(tr).test(semFormaDeTratamento)) {
       erros.push({ criterio: 1, codigo: 'TRATAMENTO_DIRECTO', detalhe: tr });
     }
   }
