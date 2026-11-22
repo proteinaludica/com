@@ -200,13 +200,32 @@ function comporTextos(dados, licenca) {
 const EMAIL_ASSUNTO = 'O seu Natal IA 2026: faltam quatro perguntas';
 
 // Parágrafos antes e depois da ligação. `data` é o fim do prazo, por extenso.
-function emailPartes({ licenca, data }) {
+// `confirmacao` confirma o contrato e a renúncia à livre resolução em suporte
+// duradouro (DL 24/2014, art. 17.º, al. m)). Os campos chegam já formatados.
+// Sem hora de renúncia, as frases da renúncia não aparecem: o email não afirma
+// uma declaração que não ficou registada.
+function emailPartes({ licenca, data, valor, dataCompra, versaoTermos, renunciaData, renunciaHora }) {
+  const confirmacao = [
+    'Este email confirma a sua compra.',
+    'Comprou o Natal IA 2026, um assistente digital IA com licença pessoal.',
+    'Pagou ' + valor + ' a ' + dataCompra + '.',
+    'Aceitou os Termos de venda na versão de ' + versaoTermos + '.',
+  ];
+  if (renunciaData && renunciaHora) {
+    confirmacao.push(
+      'Antes de pagar, pediu para receber o assistente de imediato.',
+      'Declarou também que sabia que, por isso, perdia o direito de livre resolução de 14 dias.',
+      'Esta declaração ficou registada a ' + renunciaData + ', às ' + renunciaHora + '.'
+    );
+  }
+  confirmacao.push('Guarde este email como comprovativo.');
   return {
     antes: [
       'Obrigado pela compra.',
       'Código de licença: ' + licenca,
       'Abra a ligação abaixo para responder a quatro perguntas curtas e receber o assistente pronto a usar. A ligação serve também para mudar os dados até ' + data + '.',
     ],
+    confirmacao,
     depois: [
       'Esta ligação é pessoal. Não a partilhe.',
       'Proteína Lúdica, Lda. · NIF 514411520 · Madeira',

@@ -579,9 +579,40 @@ test('descarregar sem respostas guardadas dá 409; com respostas dá o ficheiro'
 
 test('o email diz que faltam perguntas e não que o assistente está pronto', () => {
   assert.match(kit.EMAIL_ASSUNTO, /faltam quatro perguntas/);
-  const p = kit.emailPartes({ licenca: 'NATAL26-ABC123', data: '6 de Janeiro de 2027' });
-  const t = p.antes.concat(p.depois).join('\n');
+  const p = kit.emailPartes({ licenca: 'NATAL26-ABC123', data: '6 de Janeiro de 2027',
+    valor: '19,00 €', dataCompra: '1 de Dezembro de 2026', versaoTermos: '2026-11-29',
+    renunciaData: '1 de Dezembro de 2026', renunciaHora: '14:05' });
+  const t = p.antes.concat(p.confirmacao, p.depois).join('\n');
   assert.match(t, /NATAL26-ABC123/);
   assert.match(t, /6 de Janeiro de 2027/);
   assert.ok(!/\bvocê\b/i.test(t));
+});
+
+test('o email confirma o contrato e a renúncia em suporte duradouro', () => {
+  const p = kit.emailPartes({ licenca: 'NATAL26-ABC123', data: '6 de Janeiro de 2027',
+    valor: '19,00 €', dataCompra: '1 de Dezembro de 2026', versaoTermos: '2026-11-29',
+    renunciaData: '1 de Dezembro de 2026', renunciaHora: '14:05' });
+  const t = p.confirmacao.join('\n');
+  assert.match(t, /Este email confirma a sua compra\./);
+  assert.match(t, /Pagou 19,00 € a 1 de Dezembro de 2026\./);
+  assert.match(t, /versão de 2026-11-29\./);
+  assert.match(t, /perdia o direito de livre resolução de 14 dias/);
+  assert.match(t, /registada a 1 de Dezembro de 2026, às 14:05\./);
+  assert.match(t, /Guarde este email como comprovativo\./);
+});
+
+test('sem hora de renúncia, o email não afirma a renúncia', () => {
+  const p = kit.emailPartes({ licenca: 'X', data: '6 de Janeiro de 2027',
+    valor: '19,00 €', dataCompra: '1 de Dezembro de 2026', versaoTermos: '2026-11-29',
+    renunciaData: null, renunciaHora: null });
+  const t = p.confirmacao.join('\n');
+  assert.ok(!/livre resolução/.test(t));
+  assert.match(t, /Este email confirma a sua compra\./);
+});
+
+test('valor e hora formatados em português, na hora da Madeira', () => {
+  assert.equal(natal.valorPorExtenso(1900), '19,00 €');
+  assert.equal(natal.valorPorExtenso(2905), '29,05 €');
+  assert.equal(natal.horaPorExtenso('2026-12-01T14:05:00Z'), '14:05');
+  assert.equal(natal.horaPorExtenso('2026-07-01T14:05:00Z'), '15:05');
 });
