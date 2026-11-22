@@ -5,9 +5,11 @@
 -- ANTES de abrir a venda. Esta migração NÃO é corrida automaticamente por
 -- nenhum processo do repo.
 --
--- ⏳ POR APLICAR. Depois de aplicar, verificar contra a própria base de dados
---    (information_schema.columns, pg_constraint, pg_class.relrowsecurity e
---    cron.job) e só então escrever aqui "JÁ APLICADA em <data>".
+-- ✅ JÁ APLICADA em 22 Nov 2026. Verificada na base de dados: 14 colunas,
+--    restrições pkey e UNIQUE em referencia e token_jti, RLS activo sem
+--    políticas, cron.job apagar_natal_dados_expirados em '47 3 * * *'.
+--    Nota: às 03:47 corre também o apagar_historico_cron. Mexem em tabelas
+--    diferentes, por isso não há conflito.
 --
 -- Numeração: continua a série partilhada com criar-app/api/migrations, que já
 -- vai na 010.
@@ -78,8 +80,8 @@ alter table public.natal_compras enable row level security;
 -- compra fica (contabilidade); só a coluna `dados` sai.
 --
 -- Requer o pg_cron, já ligado pela migração 004 no mesmo projecto.
--- 03:47 UTC, todos os dias. (03:37 é do apagar_limites_antigos e 03:57 do
--- apagar_retiroassist_perfis_expirados.)
+-- 03:47 UTC, todos os dias. (03:37 é do apagar_limites_antigos, 03:47 também
+-- do apagar_historico_cron e 03:57 do apagar_retiroassist_perfis_expirados.)
 
 select cron.schedule(
   'apagar_natal_dados_expirados',
