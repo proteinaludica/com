@@ -1415,7 +1415,7 @@
         <div class="platform-badge b-other">?</div>
         <div>
           <div class="platform-name">Ainda não uso nenhuma, ou não sei qual escolher</div>
-          <div class="platform-desc">Responder a 3 perguntas e receber uma recomendação.</div>
+          <div class="platform-desc">Responda a 3 perguntas e receba uma recomendação.</div>
         </div>
       </div>
     </button>
@@ -2761,12 +2761,12 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     // O servidor volta a validar; isto é só para não gastar uma ida ao
     // servidor num engano óbvio, e para o cursor ficar no campo em falta.
     if (!nome) {
-      alert('Indicar o nome.');
+      alert('Indique o nome.');
       campoNome.focus();
       return;
     }
     if (!email) {
-      alert('Indicar o email.');
+      alert('Indique o email.');
       campoEmail.focus();
       return;
     }
@@ -3233,7 +3233,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
         }, 2000);
       });
     } catch(e) {
-      btn.textContent = 'Seleccionar texto manual';
+      btn.textContent = 'Seleccione o texto à mão';
     }
   }
 
@@ -3261,7 +3261,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     const campo = document.getElementById('f-email');
     const email = campo && campo.value ? campo.value.trim() : '';
     if (!email) {
-      alert('Indicar o email para entrega.');
+      alert('Indique o email para entrega.');
       if (campo) campo.focus();
       return '';
     }
@@ -3482,22 +3482,22 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   // ChatGPT, Claude e Gemini seguem o Passo 1 dos guias em PDF (api/gerar-pdf-instalacao.js).
   // O passo-a-passo completo continua a ser o guia do Kit.
   const ONDE_COLAR = {
-    gpt: 'No ChatGPT: em chatgpt.com, abrir "Explorar GPTs", depois "Criar" e o separador "Configure". Colar no campo "Instructions".',
-    claude: 'No Claude: em claude.ai, abrir "Projects" e depois "Create Project". Colar no campo "Instruções".',
-    gemini: 'No Gemini: em gemini.google.com, abrir "Gems" e depois "Novo Gem". Colar no campo "Instruções".',
+    gpt: 'No ChatGPT: em chatgpt.com, abra "Explorar GPTs", depois "Criar" e o separador "Configure". Cole no campo "Instructions".',
+    claude: 'No Claude: em claude.ai, abra "Projects" e depois "Create Project". Cole no campo "Instruções".',
+    gemini: 'No Gemini: em gemini.google.com, abra "Gems" e depois "Novo Gem". Cole no campo "Instruções".',
     // Copilot, Perplexity e Mistral: segundo a documentação oficial de cada um
     // (Microsoft Learn "Agent Builder", Perplexity Help Center "What are
     // Projects?", Mistral docs "Le Chat · Agents"). No Perplexity, os Spaces
     // passaram a chamar-se Projects e as instruções vão nas definições.
-    copilot: 'No Copilot: na aplicação Microsoft 365 Copilot, abrir "Agents", depois "New agent" e o separador "Configure". Colar no campo "Instructions".',
-    perplexity: 'No Perplexity: em perplexity.ai, abrir "Projects" e depois "New project". Depois de criado o projecto, colar no campo das instruções, nas definições.',
-    mistral: 'No Mistral: em chat.mistral.ai, abrir "Agents" e depois "Create Agent". Colar no campo "Instructions".',
+    copilot: 'No Copilot: na aplicação Microsoft 365 Copilot, abra "Agents", depois "New agent" e o separador "Configure". Cole no campo "Instructions".',
+    perplexity: 'No Perplexity: em perplexity.ai, abra "Projects" e depois "New project". Depois de criar o projecto, cole o texto no campo das instruções, nas definições.',
+    mistral: 'No Mistral: em chat.mistral.ai, abra "Agents" e depois "Create Agent". Cole no campo "Instructions".',
   };
   function escreverOndeColar() {
     const el = document.getElementById('outputOnde');
     if (!el) return;
     el.textContent = ONDE_COLAR[state.platform]
-      || 'Colar no campo de instruções do assistente, na ferramenta escolhida. O guia de instalação do Kit mostra cada passo.';
+      || 'Cole o texto no campo de instruções do assistente, na ferramenta escolhida. O guia de instalação do Kit mostra cada passo.';
   }
 
   // ─── Ecrã 3: ficheiro de exemplos e aviso de tamanho ───
@@ -3532,9 +3532,9 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     if (!el) return;
     const limite = LIMITE_INSTRUCOES[state.platform];
     if (!limite || n <= limite) { el.hidden = true; el.textContent = ''; return; }
-    el.textContent = 'O texto tem ' + n.toLocaleString('pt-PT') + ' caracteres. O '
-      + (state.platformLabel || 'a ferramenta') + ' aceita cerca de '
-      + limite.toLocaleString('pt-PT') + ' nas instruções. Encurtar as secções opcionais antes de colar.';
+    el.textContent = 'O texto tem ' + n.toLocaleString('pt-PT') + ' caracteres. '
+      + (state.platformLabel ? 'O ' + state.platformLabel : 'A ferramenta') + ' aceita cerca de '
+      + limite.toLocaleString('pt-PT') + ' nas instruções. Encurte as secções opcionais antes de colar.';
     el.hidden = false;
   }
 
@@ -3550,7 +3550,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
         }, 2000);
       });
     } catch (e) {
-      btn.textContent = 'Seleccionar texto manual';
+      btn.textContent = 'Seleccione o texto à mão';
     }
   }
 
@@ -3609,7 +3609,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     if (conta) {
       const n = incluidas.length;
       conta.innerHTML = (n === 1 ? 'Foi incluída 1 resposta.' : 'Foram incluídas ' + n + ' respostas.')
-        + ' <a onclick="goTo(2)">Voltar atrás para acrescentar mais detalhe.</a>';
+        + ' <a onclick="goTo(2)">Volte atrás para acrescentar mais detalhe.</a>';
     }
   }
 
@@ -3955,7 +3955,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
         btn.disabled = true;
         btn.title = state.area
           ? 'Exemplo ainda por escrever para esta área.'
-          : 'Escolher primeiro a área de trabalho, no Passo 1.';
+          : 'Escolha primeiro a área de trabalho, no Passo 1.';
       } else {
         btn.disabled = false;
         btn.title = '';
