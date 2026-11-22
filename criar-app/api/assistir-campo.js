@@ -145,6 +145,7 @@ REGRAS DE ESCRITA
 - Português europeu. Descrever o assistente na terceira pessoa, no presente do indicativo: "organiza", "devolve", "pára".
 - Referir a pessoa que usa o assistente na primeira pessoa, como quem escreve o próprio texto: "devolve-me o trabalho", "a minha análise", "a decisão final é minha".
 - Proibido: "tu", "você", "o senhor", "a senhora", "pode", "clique", "consegue", verbos na segunda pessoa.
+- Permitido descrever como o assistente trata outras pessoas: "trata os clientes por senhor ou senhora".
 - Sem markdown, sem títulos, sem aspas a envolver o texto, sem preâmbulo, sem comentário final.
 - Sem superlativos e sem linguagem de marketing: nada de "excelente", "único", "líder", "garantido", "100%".
 - Respeitar o máximo de palavras indicado adiante. Contar antes de responder.
