@@ -9,8 +9,8 @@
 // │ pelo AMÁLIA e obriga a subir VERSAO em natal-kit.js.                     │
 // └──────────────────────────────────────────────────────────────────────────┘
 //
-// Origem: natal-ia-2026-chatgpt.md (completa), natal-ia-2026-gemini-instrucoes.md
-// (Gem, até 4000 caracteres) e natal-ia-2026-calendario-e-listas.md (ficheiro de
+// Origem: natal-ia-chatgpt.md (completa), natal-ia-gemini-instrucoes.md
+// (Gem, até 4000 caracteres) e natal-ia-calendario-e-listas.md (ficheiro de
 // conhecimento do Gem, sem campos).
 'use strict';
 
