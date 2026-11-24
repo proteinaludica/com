@@ -1,0 +1,47 @@
+/* Natal IA: camada de Natal sobre a Laurissilva.
+   Segue o sistema de design «Natal IA · Sistema de design».
+   Carregado depois do estilo da página, só nas páginas do Natal IA. */
+
+:root{
+  --texto:#F2EEE4;
+  --bago:#C23B31;
+  --bago-escuro:#A93229;
+  --bago-texto:#EE8A7C;
+  --sobre-bago:#FFF7EC;
+  --dourado:#E3BC6A;
+  --brilho-dourado:rgba(227,188,106,.14);
+  --brilho-folha:rgba(155,179,123,.14);
+}
+
+/* Foco dourado em tudo o que recebe teclado. */
+a:focus-visible,button:focus-visible{outline-color:var(--dourado)}
+.campo input[type=text]:focus,.campo select:focus{outline-color:var(--dourado)}
+
+/* Topo: halo dourado e estrela por cima do título. */
+.topo{background:
+  radial-gradient(520px 260px at 50% -10%, var(--brilho-dourado), transparent 70%),
+  radial-gradient(680px 340px at 50% -12%, rgba(143,170,107,.13), transparent 65%)}
+.estrela-topo{display:block;width:26px;height:26px;margin:0 auto 14px;fill:var(--dourado);filter:drop-shadow(0 0 10px rgba(227,188,106,.45))}
+
+/* Grinalda: louro, bagas de azevinho e estrelas. Decoração sem animação. */
+.grinalda{display:block;width:100%;height:28px;margin:0 0 40px}
+.grinalda .ramo{fill:none;stroke:var(--musgo);stroke-width:1.5}
+.grinalda .folha{fill:var(--musgo)}
+.grinalda .baga{fill:var(--bago)}
+.grinalda .estrela{fill:var(--dourado)}
+
+/* Cartão festivo: fita de três cores no topo. */
+.cartao-festivo{position:relative;border-color:rgba(155,179,123,.40)}
+.cartao-festivo::before{content:"";position:absolute;left:22px;right:22px;top:-1px;height:3px;border-radius:0 0 3px 3px;
+  background:linear-gradient(90deg,var(--musgo) 0 40%,var(--bago) 40% 60%,var(--dourado) 60%)}
+
+/* Mensagens de estado em dourado. */
+.estado-compra,.mensagem{color:var(--dourado)}
+
+/* Números dos testes em círculo verde. */
+.ensaio ol{list-style:none;padding-left:0;counter-reset:teste}
+.ensaio ol li{counter-increment:teste;display:grid;grid-template-columns:40px 1fr;column-gap:12px}
+.ensaio ol li::before{content:counter(teste);grid-row:1 / span 2;display:grid;place-items:center;width:32px;height:32px;border-radius:999px;
+  background:var(--brilho-folha);color:var(--musgo-claro);font-weight:600}
+
+.opcoes-tipo input,.renuncia input{accent-color:var(--bago)}
