@@ -35,12 +35,6 @@ function lerRawBody(req) {
   });
 }
 
-function escaparHtml(s) {
-  return String(s == null ? '' : s)
-    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-}
-
 async function enviarEmail({ email, url, licenca, expira, valorCents, compradoEm, versaoTermos, renunciaEm }) {
   const chave = process.env.RESEND_API_KEY;
   const remetente = process.env.NATAL_FROM || process.env.RETIROASSIST_FROM;
@@ -59,16 +53,7 @@ async function enviarEmail({ email, url, licenca, expira, valorCents, compradoEm
     renunciaData: renuncia ? natal.dataPorExtenso(renuncia) : null,
     renunciaHora: renuncia ? natal.horaPorExtenso(renuncia) : null,
   });
-  const antes = partes.antes.map((p) => '<p>' + escaparHtml(p) + '</p>').join('\n');
-  const confirmacao = '<p>' + partes.confirmacao.map(escaparHtml).join('<br>') + '</p>';
-  const depois = partes.depois.map((p) => '<p style="color:#645c50;font-size:13px">' + escaparHtml(p) + '</p>').join('\n');
-  const html =
-    '<div style="font-family:system-ui,sans-serif;font-size:15px;line-height:1.6;color:#201e1d">' +
-    antes +
-    '<p><a href="' + escaparHtml(url) + '">Responder às quatro perguntas</a></p>' +
-    confirmacao +
-    depois +
-    '</div>';
+  const html = kit.emailHtml(partes, url);
   const texto = partes.antes.join('\n\n') + '\n\n' + url + '\n\n' +
     partes.confirmacao.join('\n') + '\n\n' + partes.depois.join('\n\n');
 

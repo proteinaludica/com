@@ -634,3 +634,26 @@ test('o email de uma oferta não diz que houve pagamento', () => {
   assert.match(t, /Recebeu o Natal IA sem custo, numa oferta de lançamento, a 1 de Dezembro de 2026\./);
   assert.ok(!/Pagou/.test(t));
 });
+
+test('o HTML do email traz a ligação, os textos e o botão de Natal', () => {
+  const p = kit.emailPartes({ licenca: 'NATAL26-ABC123', data: '6 de Janeiro de 2027',
+    valor: '19,00 €', dataCompra: '1 de Dezembro de 2026', versaoTermos: '2026-11-29',
+    renunciaData: '1 de Dezembro de 2026', renunciaHora: '14:05' });
+  const url = 'https://proteinaludica.com/natal-personalizar?t=a&b=<x>';
+  const h = kit.emailHtml(p, url);
+  assert.ok(h.includes('href="https://proteinaludica.com/natal-personalizar?t=a&amp;b=&lt;x&gt;"'));
+  assert.ok(!h.includes('<x>'));
+  assert.match(h, /Responder às quatro perguntas/);
+  assert.match(h, /NATAL26-ABC123/);
+  assert.match(h, /Guarde este email como comprovativo\./);
+  assert.match(h, /#A3291F/);
+  assert.ok(!/<style/i.test(h));
+});
+
+test('o HTML do email escapa texto vindo dos dados', () => {
+  const p = { antes: ['<script>x</script>'], confirmacao: ['a & b'], depois: ['"c"'] };
+  const h = kit.emailHtml(p, 'https://exemplo.pt');
+  assert.ok(!h.includes('<script>'));
+  assert.ok(h.includes('&lt;script&gt;'));
+  assert.ok(h.includes('a &amp; b'));
+});
