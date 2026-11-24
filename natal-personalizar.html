@@ -257,6 +257,7 @@
   .estado-copia{color:var(--musgo-claro);font-size:1.0925rem;min-height:1.6em}
   code.licenca{font-family:Consolas,'Courier New',monospace;color:var(--texto);background:var(--fundo-2);padding:2px 8px;border-radius:6px}
 </style>
+<link rel="stylesheet" href="/styles/natal.css">
 </head>
 <body>
 
@@ -287,12 +288,14 @@
 
 <section class="topo">
   <div class="contentor">
+    <svg class="estrela-topo" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1l2.9 7.1L22 9l-5.5 4.9L18.2 22 12 18.1 5.8 22l1.7-8.1L2 9l7.1-.9z"/></svg>
     <h1>Configurar o Natal IA</h1>
     <p>Quatro perguntas configuram o assistente para si. As respostas ficam escritas no próprio assistente, por isso as conversas começam sem repetir o essencial.</p>
   </div>
 </section>
 
 <div class="contentor" style="padding-bottom:72px">
+  <svg class="grinalda" viewBox="0 0 960 28" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><path class="ramo" d="M0 14 Q 240 4 480 14 T 960 14"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(22 14.0) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(38 14.0) rotate(30)"/><circle class="baga" cx="27" cy="16.0" r="3"/><circle class="baga" cx="33" cy="17.0" r="3"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(82 17.5) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(98 17.5) rotate(30)"/><path class="estrela" d="M0 -9 L2.6 -2.8 L9 -2.8 L3.8 1.2 L5.6 8 L0 4 L-5.6 8 L-3.8 1.2 L-9 -2.8 L-2.6 -2.8Z" transform="translate(150 17.5)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(202 14.0) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(218 14.0) rotate(30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(262 10.5) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(278 10.5) rotate(30)"/><circle class="baga" cx="267" cy="12.5" r="3"/><circle class="baga" cx="273" cy="13.5" r="3"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(322 10.6) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(338 10.6) rotate(30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(382 14.1) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(398 14.1) rotate(30)"/><circle class="baga" cx="387" cy="16.1" r="3"/><circle class="baga" cx="393" cy="17.1" r="3"/><path class="estrela" d="M0 -9 L2.6 -2.8 L9 -2.8 L3.8 1.2 L5.6 8 L0 4 L-5.6 8 L-3.8 1.2 L-9 -2.8 L-2.6 -2.8Z" transform="translate(450 17.5)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(502 17.4) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(518 17.4) rotate(30)"/><circle class="baga" cx="507" cy="19.4" r="3"/><circle class="baga" cx="513" cy="20.4" r="3"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(562 13.9) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(578 13.9) rotate(30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(622 10.5) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(638 10.5) rotate(30)"/><circle class="baga" cx="627" cy="12.5" r="3"/><circle class="baga" cx="633" cy="13.5" r="3"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(682 10.6) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(698 10.6) rotate(30)"/><path class="estrela" d="M0 -9 L2.6 -2.8 L9 -2.8 L3.8 1.2 L5.6 8 L0 4 L-5.6 8 L-3.8 1.2 L-9 -2.8 L-2.6 -2.8Z" transform="translate(750 14.1)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(802 17.5) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(818 17.5) rotate(30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(862 17.4) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(878 17.4) rotate(30)"/><circle class="baga" cx="867" cy="19.4" r="3"/><circle class="baga" cx="873" cy="20.4" r="3"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(922 13.8) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(938 13.8) rotate(30)"/></svg>
 
   <p id="estado" class="mensagem" style="text-align:center">A abrir as perguntas…</p>
 
@@ -331,7 +334,7 @@
     <p style="color:var(--texto-2)">Licença pessoal <code id="licenca" class="licenca"></code>. Pode mudar as respostas até <span id="prazo-pronto"></span>.</p>
     <ul id="resumo" class="resumo"></ul>
 
-    <div class="entrega">
+    <div class="entrega cartao-festivo">
       <h3>ChatGPT, Claude ou Copilot</h3>
       <p>Um só texto, com as instruções completas. Cole-o no campo das instruções da ferramenta escolhida.</p>
       <div class="accoes">
@@ -341,7 +344,7 @@
       <p class="cx" id="cx-completa"></p>
     </div>
 
-    <div class="entrega">
+    <div class="entrega cartao-festivo">
       <h3>Gemini</h3>
       <p>Dois ficheiros. Crie um Gem, cole as instruções no campo das instruções e carregue o ficheiro de conhecimento.</p>
       <div class="accoes">
@@ -354,7 +357,7 @@
 
     <p id="copia" class="estado-copia" role="status"></p>
 
-    <div class="ensaio">
+    <div class="ensaio cartao-festivo">
       <h3>Experimente antes do primeiro dia</h3>
       <p>Depois de colar o texto na ferramenta escolhida, faça este teste de cinco mensagens. Escreva cada mensagem sozinha, uma de cada vez. Demora cinco minutos.</p>
       <ol>
