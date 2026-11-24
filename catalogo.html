@@ -184,6 +184,12 @@
   .saude-aviso{padding:0 0 40px}
   .saude-aviso .contentor > div{border:1px solid var(--linha-2);border-radius:16px;padding:22px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px}
   .saude-aviso p{color:var(--texto-2);font-size:1.1281rem;flex:1 1 320px}
+  /* Natal IA: fita de Natal só neste cartão (sistema de design «Natal IA»). */
+  .cartao-natal{border-color:rgba(155,179,123,.40)}
+  .cartao-natal::before{content:"";position:absolute;left:22px;right:22px;top:-1px;height:3px;border-radius:0 0 3px 3px;
+    background:linear-gradient(90deg,#9BB37B 0 40%,#C23B31 40% 60%,#E3BC6A 60%)}
+  .cartao-natal h3{display:flex;align-items:center;gap:8px}
+  .cartao-natal .estrela-natal{width:18px;height:18px;flex:0 0 18px;fill:#E3BC6A}
 </style>
 </head>
 <body>
@@ -239,9 +245,9 @@
         <span class="preco">19&nbsp;€ · pagamento único</span>
         <a class="ligacao" href="/assistentes-pessoais">Ver o RetiroAssist →</a>
       </article>
-      <article class="cartao">
+      <article class="cartao cartao-natal">
         <div class="cartao-topo"><span class="estado estado-breve"><span class="ponto" aria-hidden="true"></span>Em preparação</span><span class="etiqueta">Momento da casa</span></div>
-        <h3>Natal IA</h3>
+        <h3>Natal IA<svg class="estrela-natal" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1l2.9 7.1L22 9l-5.5 4.9L18.2 22 12 18.1 5.8 22l1.7-8.1L2 9l7.1-.9z"/></svg></h3>
         <p>De 1 de Dezembro ao Dia de Reis. Recebe o que a casa decide sobre presentes, visitas, compras e contas, organiza o calendário e devolve o que falta esta semana, sem escolher por ninguém. Edição para a Madeira.</p>
         <span class="preco">19&nbsp;€ · pagamento único</span>
         <a class="ligacao" href="/natal-ia">Ver o Natal IA →</a>
