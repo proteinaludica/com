@@ -35,12 +35,20 @@
     --musgo:#9BB37B;
     --musgo-claro:#A9C287;
     --ocre:#CEB27C;
-    --texto:#E9EDE3;
+    --texto:#F2EEE4;
     --texto-2:#B9C2AD;
     --texto-3:#A7AE99;
     --linha:rgba(143,170,107,.14);
     --linha-2:rgba(143,170,107,.35);
     --largura:1040px;
+    /* Natal: sistema de design «Natal IA» */
+    --bago:#C23B31;
+    --bago-escuro:#A93229;
+    --bago-texto:#EE8A7C;
+    --sobre-bago:#FFF7EC;
+    --dourado:#E3BC6A;
+    --brilho-dourado:rgba(227,188,106,.14);
+    --brilho-folha:rgba(155,179,123,.14);
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -57,7 +65,7 @@
   }
   h1,h2,h3{font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-weight:600;line-height:1.15;letter-spacing:0}
   a{color:var(--musgo-claro)}
-  a:focus-visible,button:focus-visible{outline:3px solid var(--ocre);outline-offset:3px;border-radius:4px}
+  a:focus-visible,button:focus-visible{outline:3px solid var(--dourado);outline-offset:3px;border-radius:4px}
   .contentor{max-width:var(--largura);margin:0 auto;padding:0 20px}
 
   /* ---------- Header ---------- */
@@ -217,6 +225,37 @@
     .seccao{padding-bottom:72px}
     .demo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.55fr);gap:18px;align-items:start}
   }
+
+  /* ---------- Natal: decoração ---------- */
+  .topo{background:
+    radial-gradient(520px 260px at 50% -10%, var(--brilho-dourado), transparent 70%),
+    radial-gradient(680px 340px at 50% -12%, rgba(143,170,107,.13), transparent 65%)}
+  .topo .estrela-topo{display:block;width:26px;height:26px;margin:0 auto 14px;fill:var(--dourado);filter:drop-shadow(0 0 10px rgba(227,188,106,.45))}
+  .grinalda{display:block;width:100%;height:28px;margin:0 0 40px}
+  .grinalda .ramo{fill:none;stroke:var(--musgo);stroke-width:1.5}
+  .grinalda .folha{fill:var(--musgo)}
+  .grinalda .baga{fill:var(--bago)}
+  .grinalda .estrela{fill:var(--dourado)}
+  .cartao-festivo{border-color:rgba(155,179,123,.40)}
+  .cartao-festivo::before{content:"";position:absolute;left:22px;right:22px;top:-1px;height:3px;border-radius:0 0 3px 3px;
+    background:linear-gradient(90deg,var(--musgo) 0 40%,var(--bago) 40% 60%,var(--dourado) 60%)}
+  .estado-breve{background:var(--brilho-dourado);color:var(--dourado)}
+  .estado-breve .ponto{border-color:var(--dourado)}
+  .passos{list-style:none;margin:4px 0 0;counter-reset:passo;gap:0}
+  .passos li{counter-increment:passo;display:grid;grid-template-columns:40px 1fr;gap:12px;align-items:start;padding:12px 0;border-top:1px solid var(--linha)}
+  .passos li:last-child{border-bottom:1px solid var(--linha)}
+  .passos li::before{content:counter(passo);display:grid;place-items:center;width:32px;height:32px;border-radius:999px;
+    background:var(--brilho-folha);color:var(--musgo-claro);font-weight:600}
+  .lista-natal h4{display:flex;align-items:center;gap:8px}
+  .lista-natal h4 svg{width:16px;height:16px;flex:0 0 16px}
+  .bloco-feito h4{color:var(--musgo-claro)}
+  .bloco-falta h4{color:var(--dourado)}
+  .bloco-atras h4{color:var(--bago-texto)}
+  .lista-natal .seguir strong{color:var(--musgo-claro)}
+  .btn-compra{background:var(--bago);color:var(--sobre-bago)}
+  .btn-compra:hover{background:var(--bago-escuro)}
+  .btn-compra .estrela-btn{width:14px;height:14px;fill:currentColor;margin-right:8px;vertical-align:-1px}
+  .renuncia input{accent-color:var(--bago)}
 </style>
 </head>
 <body>
@@ -248,19 +287,21 @@
 
 <section class="topo">
   <div class="contentor">
+    <svg class="estrela-topo" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1l2.9 7.1L22 9l-5.5 4.9L18.2 22 12 18.1 5.8 22l1.7-8.1L2 9l7.1-.9z"/></svg>
     <h1>Natal IA</h1>
     <p>De 1 de Dezembro ao Dia de Reis. Recebe o que a casa decide sobre presentes, visitas, compras e contas, organiza o calendário e devolve o que falta esta semana, sem escolher por ninguém. Edição para a Madeira.</p>
   </div>
 </section>
 
 <div class="contentor">
+  <svg class="grinalda" viewBox="0 0 960 28" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><path class="ramo" d="M0 14 Q 240 4 480 14 T 960 14"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(22 14.0) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(38 14.0) rotate(30)"/><circle class="baga" cx="27" cy="16.0" r="3"/><circle class="baga" cx="33" cy="17.0" r="3"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(82 17.5) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(98 17.5) rotate(30)"/><path class="estrela" d="M0 -9 L2.6 -2.8 L9 -2.8 L3.8 1.2 L5.6 8 L0 4 L-5.6 8 L-3.8 1.2 L-9 -2.8 L-2.6 -2.8Z" transform="translate(150 17.5)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(202 14.0) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(218 14.0) rotate(30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(262 10.5) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(278 10.5) rotate(30)"/><circle class="baga" cx="267" cy="12.5" r="3"/><circle class="baga" cx="273" cy="13.5" r="3"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(322 10.6) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(338 10.6) rotate(30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(382 14.1) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(398 14.1) rotate(30)"/><circle class="baga" cx="387" cy="16.1" r="3"/><circle class="baga" cx="393" cy="17.1" r="3"/><path class="estrela" d="M0 -9 L2.6 -2.8 L9 -2.8 L3.8 1.2 L5.6 8 L0 4 L-5.6 8 L-3.8 1.2 L-9 -2.8 L-2.6 -2.8Z" transform="translate(450 17.5)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(502 17.4) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(518 17.4) rotate(30)"/><circle class="baga" cx="507" cy="19.4" r="3"/><circle class="baga" cx="513" cy="20.4" r="3"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(562 13.9) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(578 13.9) rotate(30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(622 10.5) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(638 10.5) rotate(30)"/><circle class="baga" cx="627" cy="12.5" r="3"/><circle class="baga" cx="633" cy="13.5" r="3"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(682 10.6) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(698 10.6) rotate(30)"/><path class="estrela" d="M0 -9 L2.6 -2.8 L9 -2.8 L3.8 1.2 L5.6 8 L0 4 L-5.6 8 L-3.8 1.2 L-9 -2.8 L-2.6 -2.8Z" transform="translate(750 14.1)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(802 17.5) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(818 17.5) rotate(30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(862 17.4) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(878 17.4) rotate(30)"/><circle class="baga" cx="867" cy="19.4" r="3"/><circle class="baga" cx="873" cy="20.4" r="3"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(922 13.8) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(938 13.8) rotate(30)"/></svg>
   <section class="principio" aria-label="Princípio da secção">
     <p>Cada um determina. A IA organiza e dá forma. Cada um revê e decide. Nada nasce da máquina sozinha.</p>
   </section>
 
 
   <section class="seccao" id="natal" aria-label="Estado e preço">
-    <article class="cartao cartao-fixo" style="max-width:640px">
+    <article class="cartao cartao-fixo cartao-festivo" style="max-width:640px">
       <span class="estado estado-breve" id="natal-estado"><span class="ponto" aria-hidden="true"></span>Em preparação</span>
       <div class="meta">
         <span>19&nbsp;€ · pagamento único</span>
@@ -297,40 +338,41 @@
       <div class="cartao cartao-fixo resposta">
         <span class="rotulo">Resposta do assistente digital IA</span>
         <div class="lista-natal">
-          <div>
-            <h4>Já está:</h4>
+          <div class="bloco-feito">
+            <h4><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2"/></svg>Já está:</h4>
             <ul>
               <li>A árvore foi montada a 1 de Dezembro.</li>
               <li>Os presentes do Rui e da Inês estão comprados.</li>
             </ul>
           </div>
-          <div>
-            <h4>Falta esta semana:</h4>
+          <div class="bloco-falta">
+            <h4><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 4.5V8l2.5 1.5" fill="none" stroke="currentColor" stroke-width="2"/></svg>Falta esta semana:</h4>
             <ul>
               <li>Encomendar o bolo de mel até 9 de Dezembro.</li>
               <li>Confirmar quem dorme no quarto de hóspedes na Consoada.</li>
             </ul>
           </div>
-          <div>
-            <h4>Ficou para trás:</h4>
+          <div class="bloco-atras">
+            <h4><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 2l6.5 12h-13z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M8 6.5v3.5M8 11.5v1" stroke="currentColor" stroke-width="2"/></svg>Ficou para trás:</h4>
             <ul>
               <li>Escrever os cartões de boas festas, previstos para 3 de Dezembro.</li>
             </ul>
           </div>
-          <p class="seguir">A seguir: marcar no calendário a ida ao supermercado de 12 de Dezembro, com alarme na véspera.</p>
+          <p class="seguir"><strong>A seguir:</strong> marcar no calendário a ida ao supermercado de 12 de Dezembro, com alarme na véspera.</p>
         </div>
         <p class="fecho">Lista pronta a rever. A decisão é da casa.</p>
       </div>
     </div>
   </section>
 
+  <svg class="grinalda" viewBox="0 0 960 28" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><path class="ramo" d="M0 14 Q 240 4 480 14 T 960 14"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(22 14.0) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(38 14.0) rotate(30)"/><circle class="baga" cx="27" cy="16.0" r="3"/><circle class="baga" cx="33" cy="17.0" r="3"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(82 17.5) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(98 17.5) rotate(30)"/><path class="estrela" d="M0 -9 L2.6 -2.8 L9 -2.8 L3.8 1.2 L5.6 8 L0 4 L-5.6 8 L-3.8 1.2 L-9 -2.8 L-2.6 -2.8Z" transform="translate(150 17.5)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(202 14.0) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(218 14.0) rotate(30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(262 10.5) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(278 10.5) rotate(30)"/><circle class="baga" cx="267" cy="12.5" r="3"/><circle class="baga" cx="273" cy="13.5" r="3"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(322 10.6) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(338 10.6) rotate(30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(382 14.1) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(398 14.1) rotate(30)"/><circle class="baga" cx="387" cy="16.1" r="3"/><circle class="baga" cx="393" cy="17.1" r="3"/><path class="estrela" d="M0 -9 L2.6 -2.8 L9 -2.8 L3.8 1.2 L5.6 8 L0 4 L-5.6 8 L-3.8 1.2 L-9 -2.8 L-2.6 -2.8Z" transform="translate(450 17.5)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(502 17.4) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(518 17.4) rotate(30)"/><circle class="baga" cx="507" cy="19.4" r="3"/><circle class="baga" cx="513" cy="20.4" r="3"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(562 13.9) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(578 13.9) rotate(30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(622 10.5) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(638 10.5) rotate(30)"/><circle class="baga" cx="627" cy="12.5" r="3"/><circle class="baga" cx="633" cy="13.5" r="3"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(682 10.6) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(698 10.6) rotate(30)"/><path class="estrela" d="M0 -9 L2.6 -2.8 L9 -2.8 L3.8 1.2 L5.6 8 L0 4 L-5.6 8 L-3.8 1.2 L-9 -2.8 L-2.6 -2.8Z" transform="translate(750 14.1)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(802 17.5) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(818 17.5) rotate(30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(862 17.4) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(878 17.4) rotate(30)"/><circle class="baga" cx="867" cy="19.4" r="3"/><circle class="baga" cx="873" cy="20.4" r="3"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(922 13.8) rotate(-30)"/><ellipse class="folha" rx="9" ry="3.6" transform="translate(938 13.8) rotate(30)"/></svg>
   <section class="seccao">
     <label class="renuncia">
       <input type="checkbox" id="natal-renuncia">
       <span>Peço para receber o Natal IA de imediato. Sei que, por isso, perco o direito de livre resolução de 14 dias. (<a href="/termos">Termos de venda</a>)</span>
     </label>
     <div class="compra">
-      <a id="natal-comprar" class="btn-criar" href="#natal">Comprar o Natal IA · 19&nbsp;€</a>
+      <a id="natal-comprar" class="btn-criar btn-compra" href="#natal"><svg class="estrela-btn" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1l2.9 7.1L22 9l-5.5 4.9L18.2 22 12 18.1 5.8 22l1.7-8.1L2 9l7.1-.9z"/></svg>Comprar o Natal IA · 19&nbsp;€</a>
       <span>Pagamento único. Sem subscrição.</span>
     </div>
     <p id="natal-comprar-estado" class="estado-compra" role="status" hidden></p>
