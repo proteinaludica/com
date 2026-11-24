@@ -45,3 +45,27 @@ a:focus-visible,button:focus-visible{outline-color:var(--dourado)}
   background:var(--brilho-folha);color:var(--musgo-claro);font-weight:600}
 
 .opcoes-tipo input,.renuncia input{accent-color:var(--bago)}
+
+/* Selo «Em preparação» em dourado. */
+.estado-breve{background:var(--brilho-dourado);color:var(--dourado)}
+.estado-breve .ponto{border-color:var(--dourado)}
+
+/* Passos de «Como funciona» com número em círculo. */
+.passos{list-style:none;margin:4px 0 0;counter-reset:passo;gap:0}
+.passos li{counter-increment:passo;display:grid;grid-template-columns:40px 1fr;gap:12px;align-items:start;padding:12px 0;border-top:1px solid var(--linha)}
+.passos li:last-child{border-bottom:1px solid var(--linha)}
+.passos li::before{content:counter(passo);display:grid;place-items:center;width:32px;height:32px;border-radius:999px;
+  background:var(--brilho-folha);color:var(--musgo-claro);font-weight:600}
+
+/* Três listas de «como estamos?»: cor e ícone próprios. */
+.lista-natal h4{display:flex;align-items:center;gap:8px}
+.lista-natal h4 svg{width:16px;height:16px;flex:0 0 16px}
+.bloco-feito h4{color:var(--musgo-claro)}
+.bloco-falta h4{color:var(--dourado)}
+.bloco-atras h4{color:var(--bago-texto)}
+.lista-natal .seguir strong{color:var(--musgo-claro)}
+
+/* Botão de compra: o único vermelho da página. */
+.btn-compra{background:var(--bago);color:var(--sobre-bago)}
+.btn-compra:hover{background:var(--bago-escuro)}
+.btn-compra .estrela-btn{width:14px;height:14px;fill:currentColor;margin-right:8px;vertical-align:-1px}
