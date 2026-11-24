@@ -235,6 +235,52 @@ function emailPartes({ licenca, data, valor, oferta, dataCompra, versaoTermos, r
   };
 }
 
+// HTML do email, com o design de Natal (tema claro «Dia de Reis» do sistema
+// de design). Estilos em linha e tabelas, porque os clientes de email ignoram
+// folhas de estilo. Os textos vêm de emailPartes; aqui só se desenha.
+const EMAIL_CORES = {
+  fundo: '#F3EDE0', cartao: '#FBF7EF', texto: '#1F2719', texto2: '#4A5440',
+  texto3: '#5E6654', linha: '#DED6C4', bago: '#A3291F', sobreBago: '#FFF7EC',
+};
+const EMAIL_LOGO = 'https://proteinaludica.com/logo-marca.png';
+
+function escaparEmail(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+function emailHtml(partes, url) {
+  const c = EMAIL_CORES;
+  const fonte = 'Arial,Helvetica,sans-serif';
+  const p = (t, estilo) => '<p style="margin:0 0 14px;' + (estilo || '') + '">' + escaparEmail(t) + '</p>';
+  const antes = partes.antes.map((t) => p(t)).join('');
+  const confirmacao = '<p style="margin:0;color:' + c.texto2 + ';font-size:14px;line-height:1.6">' +
+    partes.confirmacao.map(escaparEmail).join('<br>') + '</p>';
+  const depois = partes.depois.map((t) => p(t, 'color:' + c.texto3 + ';font-size:13px;margin:0 0 6px')).join('');
+  const botao =
+    '<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:4px 0 20px"><tr>' +
+    '<td style="background:' + c.bago + ';border-radius:999px">' +
+    '<a href="' + escaparEmail(url) + '" style="display:inline-block;padding:13px 24px;font-family:' + fonte +
+    ';font-size:16px;font-weight:bold;color:' + c.sobreBago + ';text-decoration:none;border-radius:999px">' +
+    'Responder às quatro perguntas</a></td></tr></table>';
+  return (
+    '<!DOCTYPE html><html lang="pt-PT"><head><meta charset="utf-8">' +
+    '<meta name="viewport" content="width=device-width,initial-scale=1"><title>' + escaparEmail(EMAIL_ASSUNTO) + '</title></head>' +
+    '<body style="margin:0;padding:0;background:' + c.fundo + '">' +
+    '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:' + c.fundo + '"><tr><td align="center" style="padding:24px 12px">' +
+    '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:560px;background:' + c.cartao +
+    ';border:1px solid ' + c.linha + ';border-radius:12px;font-family:' + fonte + ';font-size:16px;line-height:1.6;color:' + c.texto + '">' +
+    '<tr><td style="padding:16px 24px;border-bottom:3px solid ' + c.bago + '">' +
+    '<img src="' + EMAIL_LOGO + '" width="32" height="32" alt="" style="vertical-align:middle;border-radius:7px;margin-right:10px">' +
+    '<span style="vertical-align:middle;font-weight:bold">Proteína Lúdica</span></td></tr>' +
+    '<tr><td style="padding:22px 24px 6px">' + antes + botao + '</td></tr>' +
+    '<tr><td style="padding:14px 24px 18px;border-top:1px solid ' + c.linha + '">' + confirmacao + '</td></tr>' +
+    '<tr><td style="padding:14px 24px;border-top:1px solid ' + c.linha + '">' + depois + '</td></tr>' +
+    '</table></td></tr></table></body></html>'
+  );
+}
+
 function estaAprovado() {
   return APROVADO === true;
 }
@@ -257,5 +303,6 @@ module.exports = {
   comporTextos,
   EMAIL_ASSUNTO,
   emailPartes,
+  emailHtml,
   estaAprovado,
 };
