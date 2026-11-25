@@ -1,0 +1,56 @@
+/* Tokens da Proteína Lúdica: fonte única de cores e letras.
+   Ainda nenhuma página carrega este ficheiro. Serve de referência para
+   alinhar as páginas uma a uma, sem mudar o aspecto actual.
+   Os valores do tema Noite são os que o Natal IA usa em produção. */
+
+:root {
+  --font-corpo: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  /* Só na caixa de entrega do assistente pronto a copiar. */
+  --font-mono: "Geist Mono", ui-monospace, Menlo, monospace;
+  --letra-min: 1rem;        /* 16 px: nada abaixo disto */
+  --letra-corpo: 1.1875rem; /* 19 px */
+  --letra-h3: 1.5rem;       /* 24 px */
+  --letra-h2: 1.8125rem;    /* 29 px */
+  --letra-h1: 2.5rem;       /* 40 px */
+  --toque-min: 44px;
+  --raio-cartao: 16px;
+}
+
+/* Páginas web, catálogo, configuradores e entregas. */
+[data-theme="noite"] {
+  --fundo: #141a10;
+  --fundo-2: #1a2214;
+  --cartao-a: #1b2315;
+  --cartao-b: #161c11;
+  --linha: rgba(155, 179, 123, .16);
+  --linha-2: rgba(155, 179, 123, .40);
+  --texto: #f2eee4;
+  --texto-2: #bfc6b1;
+  --texto-3: #a7ae99;
+  --folha: #9bb37b;
+  --folha-clara: #afc78e;
+  --brilho-folha: rgba(155, 179, 123, .14);
+  --bago: #c23b31;
+  --bago-escuro: #a93229;
+  --bago-texto: #ee8a7c;
+  --sobre-bago: #fff7ec;
+  --dourado: #e3bc6a;
+  --brilho-dourado: rgba(227, 188, 106, .14);
+  --sombra-luz: 0 0 18px 15px rgba(227, 188, 106, .35);
+}
+
+/* Emails transaccionais e resumos de entrega (largura máxima 600 px). */
+[data-theme="dia"] {
+  --fundo: #fbf7ef;
+  --fundo-2: #f3ede0;
+  --cartao-a: #fffdf8;
+  --linha: rgba(62, 90, 41, .16);
+  --texto: #1f2719;
+  --texto-2: #4a5440;
+  --texto-3: #5e6654;
+  --folha: #3e5a29;
+  --bago: #a3291f;
+  --sobre-bago: #fff7ec;
+  --dourado: #7e5a10;
+  --brilho-dourado: rgba(126, 90, 16, .10);
+}
