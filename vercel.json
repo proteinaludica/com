@@ -13,7 +13,7 @@
     },
     {
       "source": "/montra",
-      "destination": "/#profissoes",
+      "destination": "/catalogo#trabalho",
       "permanent": false
     },
     {
