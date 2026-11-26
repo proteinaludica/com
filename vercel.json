@@ -13,13 +13,18 @@
     },
     {
       "source": "/montra",
-      "destination": "/trabalho#escritorio",
+      "destination": "/catalogo#escritorio",
       "permanent": false
     },
     {
       "source": "/escolher",
       "destination": "/catalogo",
       "permanent": false
+    },
+    {
+      "source": "/trabalho",
+      "destination": "/catalogo#escritorio",
+      "permanent": true
     }
   ]
 }
