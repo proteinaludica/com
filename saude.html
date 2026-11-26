@@ -6,7 +6,7 @@
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" href="/icon-512.png" type="image/png" sizes="512x512">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<title>Assistentes digitais IA para profissionais de saúde · Proteína Lúdica</title>
+<title>Assistentes digitais IA para a saúde · Proteína Lúdica</title>
 <meta name="description" content="Assistentes digitais IA especializados para profissionais de saúde. Organização documental: a decisão clínica é sempre do profissional.">
 <link rel="canonical" href="https://proteinaludica.com/saude">
 <meta property="og:type" content="website">
@@ -162,6 +162,10 @@
   .linha-cabeca h2{font-size:clamp(1.534rem,4vw,1.816rem);margin-bottom:6px}
   .linha-cabeca p{color:var(--texto-2);font-size:1.1281rem;max-width:60ch}
   .cartao .preco{color:var(--texto-3);font-size:1.0094rem}
+  .atalhos{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:26px}
+  .atalhos a{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border:1px solid var(--linha-2);border-radius:999px;color:var(--texto);font-size:1.0391rem}
+  .atalhos a:hover{border-color:var(--musgo-claro)}
+  .assistentes{scroll-margin-top:72px}
   .linha-final{color:var(--texto-3);font-size:1rem;margin-top:20px;text-align:center}
   .cta-proprio{padding:24px 0 72px;text-align:center}
   .cta-proprio h2{font-size:clamp(1.631rem,4.5vw,1.989rem);margin-bottom:10px}
@@ -209,24 +213,22 @@
 
 <section class="topo">
   <div class="contentor">
-    <h1>Assistentes para profissionais de saúde</h1>
-    <p>O profissional determina. A IA organiza e dá forma. O profissional revê e decide. Nada nasce da máquina sozinha.</p>
+    <h1>Assistentes digitais IA para a saúde</h1>
+    <p>Para quem trabalha na saúde e para o público em geral. A IA organiza e dá forma. A decisão é sempre do profissional.</p>
+    <nav class="atalhos" aria-label="Grupos desta página">
+      <a href="#profissional">Para o profissional</a>
+      <a href="#publico">Para o público</a>
+    </nav>
   </div>
 </section>
 
-<section class="assistentes" aria-labelledby="linha-saude">
+<section class="assistentes" id="profissional" aria-labelledby="titulo-profissional">
   <div class="contentor">
     <div class="linha-cabeca">
-      <h2 id="linha-saude">Assistentes disponíveis e em preparação</h2>
-      <p>Cada assistente tem página própria, com demonstração e período de experiência gratuito.</p>
+      <h2 id="titulo-profissional">Para o profissional de saúde</h2>
+      <p>Organização documental para quem trabalha na saúde. Os assistentes não diagnosticam nem sugerem tratamentos. A decisão clínica é sempre do profissional.</p>
     </div>
     <div class="grelha">
-      <article class="cartao">
-        <span class="estado estado-disp"><span class="ponto" aria-hidden="true"></span>Disponível (Beta)</span>
-        <h3>Dr. Família IA</h3>
-        <p>Assistente digital IA especializado em Medicina Geral e Familiar, para o utente entre as consultas: rastreios, vacinas e dúvidas. Organização documental. Não fornece diagnósticos nem sugestão terapêutica.</p>
-        <a class="ligacao" href="https://familia.proteinaludica.com">Ver o Dr. Família IA →</a>
-      </article>
       <article class="cartao">
         <span class="estado estado-disp"><span class="ponto" aria-hidden="true"></span>Disponível</span>
         <h3>Dr. Escriba IA</h3>
@@ -247,10 +249,62 @@
       <article class="cartao cartao-breve">
         <span class="estado estado-breve"><span class="ponto" aria-hidden="true"></span>Em desenvolvimento</span>
         <h3>Dra. Sombra IA</h3>
-        <p>Relatórios de radiologia mamária estruturados a partir das notas do radiologista: mamografia, ecografia, ressonância magnética e procedimentos guiados por imagem, no formato BI-RADS. Organização documental. A classificação é sempre do radiologista.</p>
+        <p>Relatórios de radiologia mamária estruturados a partir das notas do radiologista, no formato BI-RADS. Organização documental. A classificação é sempre do radiologista.</p>
+      </article>
+      <article class="cartao cartao-breve">
+        <span class="estado estado-breve"><span class="ponto" aria-hidden="true"></span>Em preparação</span>
+        <h3>Enfermagem</h3>
+        <p>Registos de enfermagem e orientações escritas ao utente.</p>
+      </article>
+      <article class="cartao cartao-breve">
+        <span class="estado estado-breve"><span class="ponto" aria-hidden="true"></span>Em preparação</span>
+        <h3>Nutrição</h3>
+        <p>Registos de consulta e planos alimentares escritos ao utente.</p>
+      </article>
+      <article class="cartao cartao-breve">
+        <span class="estado estado-breve"><span class="ponto" aria-hidden="true"></span>Em preparação</span>
+        <h3>Psicologia</h3>
+        <p>Notas de sessão e relatórios estruturados.</p>
+      </article>
+      <article class="cartao cartao-breve">
+        <span class="estado estado-breve"><span class="ponto" aria-hidden="true"></span>Em preparação</span>
+        <h3>Fisiologia do Exercício</h3>
+        <p>Registos de avaliação e planos de exercício escritos ao utente.</p>
       </article>
     </div>
     <p class="linha-final">Mais especialidades a caminho.</p>
+  </div>
+</section>
+
+<section class="assistentes" id="publico" aria-labelledby="titulo-publico">
+  <div class="contentor">
+    <div class="linha-cabeca">
+      <h2 id="titulo-publico">Para o público em geral</h2>
+      <p>Os assistentes organizam informação entre as consultas. Não diagnosticam, não sugerem tratamentos e não substituem o profissional de saúde.</p>
+    </div>
+    <div class="grelha">
+      <article class="cartao">
+        <span class="estado estado-disp"><span class="ponto" aria-hidden="true"></span>Disponível (Beta)</span>
+        <h3>Dr. Família IA</h3>
+        <p>Para o utente entre as consultas: rastreios, vacinas e dúvidas. Organização documental. Não fornece diagnósticos nem sugestão terapêutica.</p>
+        <a class="ligacao" href="https://familia.proteinaludica.com">Ver o Dr. Família IA →</a>
+      </article>
+      <article class="cartao cartao-breve">
+        <span class="estado estado-breve"><span class="ponto" aria-hidden="true"></span>Em preparação</span>
+        <h3>Dr. Nutrição IA</h3>
+        <p>Organiza a informação sobre alimentação entre as consultas. Não faz planos alimentares nem substitui o nutricionista.</p>
+      </article>
+      <article class="cartao cartao-breve">
+        <span class="estado estado-breve"><span class="ponto" aria-hidden="true"></span>Em desenvolvimento</span>
+        <h3>Enf IA</h3>
+        <p>Organiza os cuidados e as orientações escritas pela equipa de enfermagem. Não substitui o enfermeiro.</p>
+      </article>
+      <article class="cartao cartao-breve">
+        <span class="estado estado-breve"><span class="ponto" aria-hidden="true"></span>Em preparação</span>
+        <h3>Dr. Psicologia IA</h3>
+        <p>Organiza registos pessoais entre as sessões. Não faz avaliação psicológica nem substitui o psicólogo.</p>
+      </article>
+    </div>
   </div>
 </section>
 

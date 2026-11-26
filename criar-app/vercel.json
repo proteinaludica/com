@@ -7,7 +7,7 @@
   "redirects": [
     {
       "source": "/montra",
-      "destination": "https://proteinaludica.com/trabalho#escritorio",
+      "destination": "https://proteinaludica.com/catalogo#escritorio",
       "permanent": true
     },
     {
