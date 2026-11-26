@@ -181,9 +181,6 @@
   .cartao-topo{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
   .etiqueta{font-size:1rem;color:var(--texto-3)}
   .grupo{scroll-margin-top:72px}
-  .saude-aviso{padding:0 0 40px}
-  .saude-aviso .contentor > div{border:1px solid var(--linha-2);border-radius:16px;padding:22px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px}
-  .saude-aviso p{color:var(--texto-2);font-size:1.1281rem;flex:1 1 320px}
   /* Natal IA: fita de Natal só neste cartão (sistema de design «Natal IA»). */
   .cartao-natal{border-color:rgba(155,179,123,.40)}
   .cartao-natal::before{content:"";position:absolute;left:22px;right:22px;top:-1px;height:3px;border-radius:0 0 3px 3px;
@@ -305,11 +302,70 @@
   </div>
 </section>
 
-<section class="saude-aviso">
+<section class="assistentes grupo" id="saude" aria-labelledby="titulo-saude">
   <div class="contentor">
-    <div>
-      <p>Os assistentes para profissionais de saúde têm página própria.</p>
-      <a class="btn-criar" href="/saude">Ver os assistentes de saúde</a>
+    <div class="linha-cabeca">
+      <h2 id="titulo-saude">Saúde</h2>
+      <p>Organização documental para profissionais de saúde. Os assistentes não diagnosticam nem sugerem tratamentos. A decisão clínica é sempre do profissional.</p>
+    </div>
+    <div class="grelha">
+      <article class="cartao">
+        <div class="cartao-topo"><span class="estado estado-disp"><span class="ponto" aria-hidden="true"></span>Disponível (Beta)</span><span class="etiqueta">Medicina Geral e Familiar</span></div>
+        <h3>Dr. Família IA</h3>
+        <p>Para o utente entre as consultas: rastreios, vacinas e dúvidas. Organização documental. Não fornece diagnósticos nem sugestão terapêutica.</p>
+        <a class="ligacao" href="https://familia.proteinaludica.com">Ver o Dr. Família IA →</a>
+      </article>
+      <article class="cartao">
+        <div class="cartao-topo"><span class="estado estado-disp"><span class="ponto" aria-hidden="true"></span>Disponível</span><span class="etiqueta">Notas clínicas</span></div>
+        <h3>Dr. Escriba IA</h3>
+        <p>Notas clínicas estruturadas a partir de notas ou de um rascunho. Para consulta, urgência, lar e visita domiciliária. Os dados ficam no computador do profissional.</p>
+        <a class="ligacao" href="https://drescribia.proteinaludica.com">Ver o Dr. Escriba IA →</a>
+      </article>
+      <article class="cartao">
+        <div class="cartao-topo"><span class="estado estado-disp"><span class="ponto" aria-hidden="true"></span>Disponível</span><span class="etiqueta">Internato de MGF</span></div>
+        <h3>Dr. Escriba IA · Internato</h3>
+        <p>Além das notas clínicas, reúne logbook, avaliações, diário e journal club, de acordo com a Portaria 125/2019.</p>
+        <a class="ligacao" href="https://internato.proteinaludica.com">Ver o Internato →</a>
+      </article>
+      <article class="cartao cartao-breve">
+        <div class="cartao-topo"><span class="estado estado-breve"><span class="ponto" aria-hidden="true"></span>Em preparação</span><span class="etiqueta">Nefrologia</span></div>
+        <h3>Dr. Nefro IA</h3>
+        <p>Organização documental em Nefrologia.</p>
+      </article>
+      <article class="cartao cartao-breve">
+        <div class="cartao-topo"><span class="estado estado-breve"><span class="ponto" aria-hidden="true"></span>Em desenvolvimento</span><span class="etiqueta">Radiologia mamária</span></div>
+        <h3>Dra. Sombra IA</h3>
+        <p>Relatórios estruturados no formato BI-RADS a partir das notas do radiologista. A classificação é sempre do radiologista.</p>
+      </article>
+    </div>
+    <div class="linha-cabeca" style="margin-top:36px">
+      <h3 id="titulo-saude-perfis">Por perfil</h3>
+    </div>
+    <div class="grelha">
+      <article class="cartao">
+        <div class="cartao-topo"><span class="estado estado-disp"><span class="ponto" aria-hidden="true"></span>Disponível</span><span class="etiqueta">Três assistentes</span></div>
+        <h3>Medicina Geral e Familiar</h3>
+        <p>Notas clínicas, internato e acompanhamento do utente entre as consultas.</p>
+        <a class="ligacao" href="/saude">Ver os assistentes →</a>
+      </article>
+      <article class="cartao">
+        <div class="cartao-topo"><span class="estado estado-breve"><span class="ponto" aria-hidden="true"></span>Em preparação</span><span class="etiqueta">Perfil</span></div>
+        <h3>Enfermagem</h3>
+        <p>Registos de enfermagem e orientações escritas ao utente.</p>
+        <a class="ligacao" href="/saude">Ver a área de saúde →</a>
+      </article>
+      <article class="cartao">
+        <div class="cartao-topo"><span class="estado estado-breve"><span class="ponto" aria-hidden="true"></span>Em preparação</span><span class="etiqueta">Perfil</span></div>
+        <h3>Psicologia e Terapias</h3>
+        <p>Notas de sessão e relatórios estruturados.</p>
+        <a class="ligacao" href="/saude">Ver a área de saúde →</a>
+      </article>
+      <article class="cartao">
+        <div class="cartao-topo"><span class="estado estado-breve"><span class="ponto" aria-hidden="true"></span>Em preparação</span><span class="etiqueta">Perfil</span></div>
+        <h3>Gestão Clínica e Secretariado</h3>
+        <p>Atendimento, marcações e comunicações administrativas da clínica.</p>
+        <a class="ligacao" href="/saude">Ver a área de saúde →</a>
+      </article>
     </div>
   </div>
 </section>
