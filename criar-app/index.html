@@ -1530,7 +1530,7 @@
          administrativa; o registo clínico fica para o catálogo de saúde. -->
     <p class="aviso-saude" id="avisoSaude" hidden>Este assistente trata do atendimento e da parte administrativa. Para o registo clínico das consultas, o catálogo de saúde tem assistentes prontos. <a href="https://proteinaludica.com/saude" target="_blank" rel="noopener">Ver o catálogo de saúde →</a></p>
 
-    <div class="pro-faixa" id="proFaixa">
+    <div class="pro-faixa" id="proFaixa" hidden>
       <span class="pro-faixa-texto" id="proFaixaTexto">✨ Com o Pro, o Bob ajuda a responder com IA, a partir do que lhe escrever · 49€</span>
       <button type="button" class="btn-accent pro-faixa-btn" onclick="goToProPricing()">Ver Pro →</button>
     </div>
@@ -2010,7 +2010,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       <p class="output-guia-texto">Receba por email o guia de instalação passo a passo, em PDF, feito para a ferramenta escolhida.</p>
       <button type="button" class="btn-accent" onclick="abrirKit()">Receber o guia · grátis</button>
     </div>
-    <p class="tier-medida output-medida">Precisa de um assistente feito por nós? <a href="#" onclick="abrirMedida(); return false;">Pedir contacto (a partir de 290€)</a></p>
+    <p class="tier-medida output-medida">Precisa de um assistente feito por nós? <a href="#" onclick="abrirMedida(); return false;">Pedir contacto</a></p>
   </div>
 </section>
 
@@ -2038,18 +2038,18 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
 
         <button class="tier-card" data-tier="kit" onclick="selectTier('kit', this)">
           <div class="tier-title">Kit completo</div>
-          <div class="tier-price">19€</div>
+          <div class="tier-price">0€</div>
           <div class="tier-desc">As instruções do assistente e o guia de instalação em PDF, feito para a ferramenta escolhida.</div>
           <ul class="tier-includes">
             <li>Instruções do assistente</li>
             <li>Guia de instalação em PDF para <span id="tierPlatformName">a ferramenta escolhida</span></li>
           </ul>
-          <div class="tier-cta">Receber o Kit · grátis por tempo limitado</div>
+          <div class="tier-cta">Receber o Kit · grátis até 28 de Fevereiro de 2027</div>
         </button>
 
       </div>
 
-      <p class="tier-medida">Precisa de um assistente feito por nós? <a href="#" onclick="selectTier('medida', null); return false;">Pedir contacto (a partir de 290€)</a></p>
+      <p class="tier-medida">Precisa de um assistente feito por nós? <a href="#" onclick="selectTier('medida', null); return false;">Pedir contacto</a></p>
 
       <!-- Escondido enquanto o Kit for grátis: não há pagamento a reembolsar. -->
     </div>
@@ -2092,7 +2092,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
 
         <div class="paywall-form">
           <div class="step-label">Finalizar</div>
-          <h1 class="screen-title" id="checkoutTitle">Kit completo<br><em>19€</em></h1>
+          <h1 class="screen-title" id="checkoutTitle">Kit completo<br><em>grátis</em></h1>
 
           <div class="paywall-includes">
             <div class="paywall-includes-title">Incluído:</div>
@@ -2546,11 +2546,11 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     },
     kit: {
       titulo: 'Kit completo',
-      preco: '19€',
+      preco: '0€',
       inclui: 'Instruções do assistente + guia de instalação em PDF',
       title: 'Kit completo<br><em>grátis</em>',
       previewTitle: 'Kit completo',
-      price: '19€',
+      price: '0€',
       includes: [
         'Instruções do assistente',
         'Guia de instalação em PDF para {plataforma}'
@@ -2570,7 +2570,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     },
     medida: {
       titulo: 'À medida',
-      preco: 'a partir de 290€',
+      preco: 'sob consulta',
       inclui: 'Falar connosco'
     }
   };
@@ -2758,7 +2758,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
   // sem escolha ainda — ou com "à medida" — mostra o default (kit).
   const STICKY_ESTADOS = {
     free: {
-      upsell: '✨ Com o Kit, recebe também o guia de instalação · 19€',
+      upsell: '',
       botao: 'Ver Kit →',
       acao: abrirKit
     },
@@ -2768,7 +2768,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       acao: abrirKit
     },
     pro: {
-      upsell: 'Precisa de algo à medida? · a partir de 290€',
+      upsell: 'Precisa de algo à medida?',
       botao: 'Falar connosco →',
       acao: goToMedida
     }
@@ -3009,7 +3009,8 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
     if (chip) chip.hidden = state.acesso !== 'pro';
     // Quem já tem o Pro deixa de ver a oferta; vê o chip da sessão activa.
     const faixa = document.getElementById('proFaixa');
-    if (faixa) faixa.hidden = state.acesso === 'pro';
+    // Período gratuito (até 28 de Fevereiro de 2027): o Pro não está à venda.
+    if (faixa) faixa.hidden = true;
   }
 
   function podeGerarIA() {
@@ -3046,7 +3047,7 @@ Gerado em 2026 · Proteína Lúdica LDA · proteinaludica.com</div>
       case 'limite':
         btn.disabled = false;
         btn.classList.add('is-limite');
-        btn.innerHTML = 'Geração grátis já usada · <a href="#" onclick="goToProPricing();return false;">ver Pro →</a>';
+        btn.textContent = 'A ajuda da IA já foi usada hoje.';
         break;
       case 'sessao':
         // Sessão Pro terminou (401). O texto no campo mantém-se editável.
