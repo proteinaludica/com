@@ -6,22 +6,22 @@
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" href="/icon-512.png" type="image/png" sizes="512x512">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<title>Assistentes digitais IA para uso pessoal · Proteína Lúdica</title>
-<meta name="description" content="Assistentes especializados numa tarefa concreta. Recebem um pedido em linguagem comum, organizam as opções, assinalam o que cada uma não inclui e devolvem uma lista pronta a rever.">
+<title>RetiroAssist · Proteína Lúdica</title>
+<meta name="description" content="Assistente digital IA especializado em escapadinhas curtas. Recebe datas, destino e orçamento, organiza as opções lado a lado, assinala o que cada uma não inclui e devolve a lista, sem escolher por ninguém.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://proteinaludica.com/assistentes-pessoais">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://proteinaludica.com/assistentes-pessoais">
-<meta property="og:title" content="Assistentes digitais IA para uso pessoal · Proteína Lúdica">
-<meta property="og:description" content="Assistentes especializados numa tarefa concreta. Recebem um pedido em linguagem comum, organizam as opções, assinalam o que cada uma não inclui e devolvem uma lista pronta a rever.">
+<meta property="og:title" content="RetiroAssist · Proteína Lúdica">
+<meta property="og:description" content="Assistente digital IA especializado em escapadinhas curtas. Recebe datas, destino e orçamento, organiza as opções lado a lado, assinala o que cada uma não inclui e devolve a lista, sem escolher por ninguém.">
 <meta property="og:locale" content="pt_PT">
 <meta property="og:image" content="https://proteinaludica.com/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Logótipo da Proteína Lúdica, uma folha que se desfaz em píxeis, e o título «Assistentes digitais IA, à medida de cada um».">
+<meta property="og:image:alt" content="Logótipo da Proteína Lúdica, uma folha que se desfaz em píxeis, e o título «RetiroAssist».">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Assistentes digitais IA para uso pessoal · Proteína Lúdica">
-<meta name="twitter:description" content="Assistentes especializados numa tarefa concreta. Recebem um pedido em linguagem comum, organizam as opções, assinalam o que cada uma não inclui e devolvem uma lista pronta a rever.">
+<meta name="twitter:title" content="RetiroAssist · Proteína Lúdica">
+<meta name="twitter:description" content="Assistente digital IA especializado em escapadinhas curtas. Recebe datas, destino e orçamento, organiza as opções lado a lado, assinala o que cada uma não inclui e devolve a lista, sem escolher por ninguém.">
 <meta name="twitter:image" content="https://proteinaludica.com/og-image.png">
 <link rel="stylesheet" href="/styles/fontes.css">
 <link rel="stylesheet" href="/styles/acessibilidade.css">
@@ -208,7 +208,9 @@
     .seccao{padding-bottom:72px}
     .demo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.55fr);gap:18px;align-items:start}
   }
+
 </style>
+<link rel="stylesheet" href="/styles/casa.css">
 </head>
 <body>
 
@@ -239,8 +241,8 @@
 
 <section class="topo">
   <div class="contentor">
-    <h1>Assistentes digitais IA para uso pessoal</h1>
-    <p>Assistentes especializados numa tarefa concreta. Recebem um pedido em linguagem comum, organizam as opções, assinalam o que cada uma não inclui e devolvem uma lista pronta a rever.</p>
+    <h1>RetiroAssist</h1>
+    <p>Assistente digital IA especializado em escapadinhas curtas. Recebe datas, destino e orçamento, organiza as opções lado a lado, assinala o que cada uma não inclui e devolve a lista, sem escolher por ninguém.</p>
   </div>
 </section>
 
@@ -249,16 +251,28 @@
     <p>Cada um determina. A IA organiza e dá forma. Cada um revê e decide. Nada nasce da máquina sozinha.</p>
   </section>
 
-  <section class="seccao">
+  <section class="seccao" aria-label="Estado">
     <article class="cartao cartao-fixo" style="max-width:640px">
       <span class="estado estado-disp"><span class="ponto" aria-hidden="true"></span>Disponível</span>
-      <h2 style="font-size:1.631rem;margin-top:4px">RetiroAssist</h2>
-      <p>Assistente digital IA especializado em escapadinhas curtas. Recebe datas, destino e orçamento, organiza as opções lado a lado, assinala o que cada uma não inclui e devolve a lista, sem escolher por ninguém.</p>
       <div class="meta">
         <span>19&nbsp;€ · pagamento único</span>
         <span>Primeiro de três assistentes pessoais</span>
       </div>
     </article>
+  </section>
+
+  <section class="seccao" aria-labelledby="como">
+    <div class="seccao-cabeca">
+      <h2 id="como">Como funciona</h2>
+    </div>
+    <div class="cartao cartao-fixo" style="max-width:640px">
+      <ol class="passos">
+        <li>Pagar por cartão, num pagamento único.</li>
+        <li>Responder a oito perguntas que configuram o assistente para uma só pessoa.</li>
+        <li>Descarregar o kit em PDF, com o guia de instalação para o Claude, o Gemini e o ChatGPT e o texto a colar.</li>
+      </ol>
+      <p class="nota">As respostas ficam escritas no próprio assistente, por isso as conversas começam sem repetir o essencial.</p>
+    </div>
   </section>
 
   <section class="seccao" aria-labelledby="demo-titulo">
@@ -269,64 +283,50 @@
     <div class="demo">
       <div class="cartao cartao-fixo">
         <span class="rotulo">Pedido de quem usa</span>
-        <p class="pedido">«Quero uma escapadinha de 4 noites em Outubro. Parto de Lisboa e vou com a minha mulher. O orçamento é de 500&nbsp;€ no total. Prefiro sítios calmos e sem escalas longas.»</p>
-        <p class="nota">Exemplo escrito por um utilizador (Dr. Silva, nome fictício).</p>
+        <p class="pedido">«Quero uma escapadinha de 4 noites em Outubro. Parto de Lisboa e vou com o meu marido. O orçamento é de 500&nbsp;€ no total. Prefiro sítios calmos e sem escalas longas.»</p>
+        <p class="nota">Exemplo escrito por uma utilizadora (Marta Silva, nome fictício).</p>
       </div>
       <div class="cartao cartao-fixo resposta">
         <span class="rotulo">Resposta do assistente digital IA</span>
-        <p class="criterios">Critérios confirmados: partida de Lisboa, 4 noites em Outubro, 2 adultos, até 500&nbsp;€ no total, sítio calmo, sem escalas longas.</p>
-        <p class="ordem">Opções ordenadas por custo total, do mais baixo para o mais alto.</p>
-        <ol class="opcoes">
-          <li class="opcao">
-            <span class="num">1.</span>
-            <div>
-              <span class="nome">Serra da Estrela, Manteigas · Casa de campo</span>
-              <span>22 a 26 de Outubro · 4 noites</span>
-              <span>Carro próprio, 3h20, sem paragens obrigatórias.</span>
-              <span class="custo">Transporte 70&nbsp;€ · Alojamento 280&nbsp;€ · Total 350&nbsp;€</span>
-              <span>Inclui pequeno-almoço e jantar. Não inclui taxa turística.</span>
-              <span>Cancelamento gratuito até 7 dias antes.</span>
-              <span class="fonte">Fonte: página do alojamento, consultada a 2 de Outubro.</span>
-            </div>
-          </li>
-          <li class="opcao">
-            <span class="num">2.</span>
-            <div>
-              <span class="nome">Ria Formosa, Olhão · Casa de hóspedes com 4 quartos</span>
-              <span>12 a 16 de Outubro · 4 noites</span>
-              <span>Carro próprio, 2h30, sem paragens obrigatórias.</span>
-              <span class="custo">Transporte 60&nbsp;€ · Alojamento 340&nbsp;€ · Total 400&nbsp;€</span>
-              <span>Inclui pequeno-almoço. Não inclui taxa turística.</span>
-              <span>Cancelamento gratuito até 48 horas antes.</span>
-              <span class="fonte">Fonte: página do alojamento, consultada a 2 de Outubro.</span>
-            </div>
-          </li>
-          <li class="opcao">
-            <span class="num">3.</span>
-            <div>
-              <span class="nome">Funchal, Madeira · Apartamento com varanda</span>
-              <span>14 a 18 de Outubro · 4 noites</span>
-              <span>Voo directo, 1h45.</span>
-              <span class="custo">Transporte 180&nbsp;€ · Alojamento 290&nbsp;€ · Total 470&nbsp;€</span>
-              <span>Inclui bagagem de mão. Não inclui mala de porão nem taxa turística.</span>
-              <span>Cancelamento gratuito do alojamento até 5 dias antes. O voo não é reembolsável.</span>
-              <span class="fonte">Fonte: páginas da companhia aérea e do alojamento, consultadas a 2 de Outubro.</span>
-            </div>
-          </li>
-        </ol>
+        <div class="lista-casa">
+          <div class="bloco-feito">
+            <h4><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2"/></svg>Critérios confirmados:</h4>
+            <ul>
+              <li>Partida de Lisboa, 4 noites em Outubro, 2 adultos.</li>
+              <li>Até 500&nbsp;€ no total.</li>
+              <li>Sítio calmo, sem escalas longas.</li>
+            </ul>
+          </div>
+          <div class="bloco-falta">
+            <h4><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 4.5V8l2.5 1.5" fill="none" stroke="currentColor" stroke-width="2"/></svg>Opções, do custo total mais baixo para o mais alto:</h4>
+            <ul>
+              <li>Serra da Estrela, Manteigas · casa de campo, de 22 a 26 de Outubro. Total 350&nbsp;€, com transporte de 70&nbsp;€ e alojamento de 280&nbsp;€.</li>
+              <li>Ria Formosa, Olhão · casa de hóspedes, de 12 a 16 de Outubro. Total 400&nbsp;€, com transporte de 60&nbsp;€ e alojamento de 340&nbsp;€.</li>
+              <li>Funchal, Madeira · apartamento com varanda, de 14 a 18 de Outubro, voo directo de 1h45. Total 470&nbsp;€, com transporte de 180&nbsp;€ e alojamento de 290&nbsp;€.</li>
+            </ul>
+          </div>
+          <div class="bloco-atras">
+            <h4><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 2l6.5 12h-13z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M8 6.5v3.5M8 11.5v1" stroke="currentColor" stroke-width="2"/></svg>O que as opções não incluem:</h4>
+            <ul>
+              <li>A taxa turística, nas três opções.</li>
+              <li>A mala de porão, no voo para o Funchal. O voo não é reembolsável.</li>
+              <li>O cancelamento gratuito tem prazo: 7 dias antes em Manteigas, 48 horas antes em Olhão e 5 dias antes no Funchal (só o alojamento).</li>
+            </ul>
+          </div>
+          <p class="seguir"><strong>A seguir:</strong> rever as três opções e escolher. Fonte: páginas dos alojamentos e da companhia aérea, consultadas a 2 de Outubro.</p>
+        </div>
         <p class="fecho">Lista pronta a rever. A decisão é de quem viaja.</p>
       </div>
     </div>
   </section>
 
-  <section class="seccao">
+  <section class="seccao" aria-label="Compra">
     <div class="compra">
       <a id="comprar" class="btn-criar" href="/api/retiroassist-comprar">Comprar o RetiroAssist · 19&nbsp;€</a>
       <span>Pagamento único. Sem subscrição.</span>
     </div>
     <p id="comprar-estado" class="estado-compra" role="status" hidden></p>
   </section>
-
 </div>
 
 </main>
