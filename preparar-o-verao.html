@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/icon-512.png" type="image/png" sizes="512x512">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<title>Preparar o verão · Proteína Lúdica</title>
+<meta name="description" content="De Abril a Setembro, em quatro fases: planear, preparar a casa, viver o verão e fechar. Recebe o que cada pessoa da casa entrega, organiza o calendário, as compras e o orçamento e devolve o passo seguinte.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://proteinaludica.com/preparar-o-verao">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://proteinaludica.com/preparar-o-verao">
+<meta property="og:title" content="Preparar o verão · Proteína Lúdica">
+<meta property="og:description" content="De Abril a Setembro, em quatro fases: planear, preparar a casa, viver o verão e fechar. Recebe o que cada pessoa da casa entrega, organiza o calendário, as compras e o orçamento e devolve o passo seguinte.">
+<meta property="og:locale" content="pt_PT">
+<meta property="og:image" content="https://proteinaludica.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Logótipo da Proteína Lúdica, uma folha que se desfaz em píxeis, e o título «Preparar o verão».">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Preparar o verão · Proteína Lúdica">
+<meta name="twitter:description" content="De Abril a Setembro, em quatro fases: planear, preparar a casa, viver o verão e fechar. Recebe o que cada pessoa da casa entrega, organiza o calendário, as compras e o orçamento e devolve o passo seguinte.">
+<meta name="twitter:image" content="https://proteinaludica.com/og-image.png">
+<link rel="stylesheet" href="/styles/fontes.css">
+<link rel="stylesheet" href="/styles/acessibilidade.css">
+<link rel="stylesheet" href="/styles/marca.css">
+<style>
+  :root{
+    --fundo:#141A10;
+    --fundo-2:#1A2214;
+    --cartao-a:#1B2315;
+    --cartao-b:#161C11;
+    --musgo:#9BB37B;
+    --musgo-claro:#A9C287;
+    --ocre:#CEB27C;
+    --texto:#E9EDE3;
+    --texto-2:#B9C2AD;
+    --texto-3:#A7AE99;
+    --linha:rgba(143,170,107,.14);
+    --linha-2:rgba(143,170,107,.35);
+    --largura:1040px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation:none!important;transition:none!important}
+  }
+  body{
+    background:var(--fundo);
+    color:var(--texto);
+    font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;
+    font-size:1.1875rem;line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-weight:600;line-height:1.15;letter-spacing:0}
+  a{color:var(--musgo-claro)}
+  a:focus-visible,button:focus-visible{outline:3px solid var(--ocre);outline-offset:3px;border-radius:4px}
+  .contentor{max-width:var(--largura);margin:0 auto;padding:0 20px}
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky;top:0;z-index:20;
+    background:rgba(20,26,16,.92);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--linha);
+  }
+  .barra{display:flex;align-items:center;justify-content:space-between;height:56px}
+  .marca{font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-weight:600;font-size:1.1875rem;color:var(--texto);text-decoration:none}
+  .marca span{color:var(--musgo)}
+  nav ul{display:flex;gap:24px;list-style:none;align-items:center}
+  nav a{color:var(--texto-2);text-decoration:none;font-size:1.0034rem;transition:color .15s ease}
+  nav a:hover,nav a[aria-current="page"]{color:var(--texto)}
+  nav a[aria-current="page"]{font-weight:600}
+  .nav-cta{
+    background:var(--musgo);color:var(--fundo)!important;
+    padding:8px 16px;border-radius:999px;font-weight:600;
+    transition:background .15s ease;
+  }
+  .nav-cta:hover{background:var(--musgo-claro)}
+  .so-desktop{display:none}
+  .menu-btn{
+    display:flex;flex-direction:column;gap:4px;justify-content:center;
+    background:none;border:0;padding:12px 8px;cursor:pointer;min-height:44px;
+  }
+  .menu-btn span{width:17px;height:1.5px;background:var(--texto);display:block;border-radius:2px;transition:transform .2s ease,opacity .2s ease}
+  .menu-btn[aria-expanded="true"] span:first-child{transform:translateY(5.5px) rotate(45deg)}
+  .menu-btn[aria-expanded="true"] span:last-child{transform:translateY(-5.5px) rotate(-45deg)}
+  #menu-movel{border-top:1px solid var(--linha);padding:10px 20px 18px}
+  #menu-movel a{
+    display:block;padding:13px 4px;color:var(--texto-2);text-decoration:none;
+    font-size:1.1519rem;border-bottom:1px solid var(--linha);
+  }
+  #menu-movel a:hover{color:var(--texto)}
+  #menu-movel a[aria-current="page"]{color:var(--texto);font-weight:600}
+  #menu-movel .nav-cta{
+    margin-top:14px;text-align:center;border-bottom:0;
+    padding:13px 16px;font-size:1.1281rem;
+  }
+  @media (min-width:761px){
+    .barra{height:60px}
+    .marca{font-size:1.2588rem}
+    .so-desktop{display:flex}
+    .menu-btn,#menu-movel{display:none}
+  }
+
+  /* ---------- Topo ---------- */
+  .topo{
+    padding:72px 0 44px;text-align:center;
+    background:radial-gradient(680px 340px at 50% -12%, rgba(143,170,107,.13), transparent 65%);
+  }
+  .topo h1{font-size:clamp(2.071rem,6.5vw,2.5rem);line-height:1.1;margin:0 auto 14px}
+  .topo p{color:var(--texto-2);max-width:52ch;margin:0 auto;font-size:clamp(1.1519rem,2vw,1.2231rem)}
+  @media (min-width:761px){ .topo{padding:96px 0 64px} .topo h1{margin-bottom:16px} }
+
+  /* ---------- Grelha de assistentes ---------- */
+  .assistentes{padding:20px 0 60px}
+  .grelha{display:flex;flex-direction:column;gap:14px}
+  .cartao{
+    position:relative;
+    background:linear-gradient(180deg,var(--cartao-a),var(--cartao-b));
+    border:1px solid rgba(143,170,107,.16);
+    border-radius:16px;
+    padding:24px 22px;
+    display:flex;flex-direction:column;gap:10px;
+    transition:border-color .15s ease,transform .15s ease;
+  }
+  .cartao:hover{border-color:rgba(143,170,107,.45);transform:translateY(-1px)}
+  .cartao h3{font-size:1.3716rem;margin-top:4px}
+  .cartao p{color:var(--texto-2);font-size:1.0747rem;flex:1}
+  .cartao .ligacao{
+    font-weight:600;text-decoration:none;font-size:1.0747rem;
+    padding:5px 0;transition:color .15s ease;
+  }
+  .cartao .ligacao:hover{color:var(--ocre)}
+  /* O cartão inteiro é clicável: a ligação estende-se por cima dele.
+     Continua a existir uma só ligação para teclado e leitores de ecrã. */
+  .cartao .ligacao::after{content:"";position:absolute;inset:0;border-radius:16px}
+  .cartao:hover .ligacao{color:var(--ocre)}
+  .cartao:has(.ligacao:focus-visible){outline:2px solid var(--ocre);outline-offset:3px}
+  .cartao:has(.ligacao:focus-visible) .ligacao{outline:none}
+  .estado{
+    align-self:flex-start;display:flex;align-items:center;gap:7px;
+    font-size:1rem;letter-spacing:.06em;text-transform:uppercase;font-weight:600;
+    padding:4px 11px;border-radius:999px;
+  }
+  .estado .ponto{width:5px;height:5px;border-radius:999px;background:var(--musgo)}
+  .estado-disp{background:rgba(143,170,107,.14);color:var(--musgo-claro)}
+  .estado-breve{background:rgba(200,168,107,.12);color:var(--ocre)}
+  .estado-breve .ponto{background:transparent;border:1px solid var(--ocre)}
+  .cartao-breve{background:transparent;border-style:dashed;border-color:rgba(200,168,107,.35)}
+  .cartao-breve:hover{transform:none;border-color:rgba(200,168,107,.35)}
+  .linha-cabeca{margin-bottom:18px}
+  .linha-cabeca h2{font-size:clamp(1.534rem,4vw,1.816rem);margin-bottom:6px}
+  .linha-cabeca p{color:var(--texto-2);font-size:1.1281rem;max-width:60ch}
+  .cartao .preco{color:var(--texto-3);font-size:1.0094rem}
+  .linha-final{color:var(--texto-3);font-size:1rem;margin-top:20px;text-align:center}
+  .cta-proprio{padding:24px 0 72px;text-align:center}
+  .cta-proprio h2{font-size:clamp(1.631rem,4.5vw,1.989rem);margin-bottom:10px}
+  .cta-proprio p{color:var(--texto-2);max-width:46ch;margin:0 auto 22px;font-size:1.1281rem}
+  .btn-criar{display:inline-block;background:var(--musgo);color:var(--fundo);text-decoration:none;font-weight:600;font-size:1.1638rem;padding:13px 26px;border-radius:999px;transition:background .15s ease}
+  .btn-criar:hover{background:var(--musgo-claro)}
+  @media (min-width:761px){
+    .assistentes{padding:24px 0 80px}
+    .grelha{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .cartao{padding:28px 26px;gap:11px}
+    .cartao h3{font-size:1.4844rem;margin-top:6px}
+    .cartao p{font-size:1.1162rem}
+    .linha-final{font-size:1.0034rem;margin-top:22px}
+  }
+  footer .legal a{color:var(--texto-2);text-decoration:none}
+  footer .legal a:hover{color:var(--texto)}
+
+  [hidden]{display:none!important}
+
+  /* ---------- Página dos assistentes pessoais ---------- */
+  .seccao{padding:0 0 56px}
+  .principio{border-left:3px solid var(--musgo);padding:2px 0 2px 20px;max-width:640px;margin:0 auto 56px}
+  .principio p{font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-weight:500;font-size:clamp(1.3063rem,3vw,1.534rem);line-height:1.45;color:var(--texto)}
+  .cartao-fixo:hover{transform:none;border-color:rgba(143,170,107,.16)}
+  .cartao .meta{display:flex;flex-wrap:wrap;gap:6px 20px;color:var(--texto-3);font-size:1.0094rem}
+  .seccao-cabeca{margin-bottom:18px}
+  .seccao-cabeca h2{font-size:clamp(1.534rem,4vw,1.816rem);margin-bottom:6px}
+  .seccao-cabeca p{color:var(--texto-2);font-size:1.1281rem;max-width:60ch}
+  .demo{display:flex;flex-direction:column;gap:14px}
+  .rotulo{font-size:1rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--texto-3)}
+  .cartao .pedido{font-size:1.2112rem;line-height:1.6;color:var(--texto)}
+  .cartao .nota{color:var(--texto-3);font-size:1rem}
+  .resposta .criterios{color:var(--texto);font-size:1.0925rem}
+  .resposta .ordem{color:var(--texto-2);font-size:1.045rem}
+  .opcoes{list-style:none;margin-top:6px}
+  .opcao{display:grid;grid-template-columns:28px 1fr;gap:12px;padding:16px 0;border-top:1px solid var(--linha)}
+  .opcao:last-child{border-bottom:1px solid var(--linha)}
+  .opcao .num{font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-weight:600;color:var(--musgo)}
+  .opcao div{display:flex;flex-direction:column;gap:3px;font-size:1.0688rem;color:var(--texto-2)}
+  .opcao .nome{font-weight:600;font-size:1.1638rem;color:var(--texto)}
+  .opcao .custo{color:var(--texto)}
+  .opcao .fonte{font-size:1rem;color:var(--texto-3)}
+  .fecho{font-weight:600;color:var(--texto);font-size:1.1281rem;margin-top:4px}
+  .compra{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px}
+  .compra span{color:var(--texto-2);font-size:1.0925rem}
+  .estado-compra{color:var(--ocre);font-size:1.0925rem;margin-top:12px}
+  .btn-criar[aria-busy="true"]{opacity:.7;cursor:progress}
+  @media (min-width:761px){
+    .seccao{padding-bottom:72px}
+    .demo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.55fr);gap:18px;align-items:start}
+  }
+
+</style>
+<link rel="stylesheet" href="/styles/casa.css">
+</head>
+<body>
+
+<header>
+  <div class="contentor barra">
+    <a class="marca" href="/"><img class="marca-logo" src="/logo-marca.png" alt="" width="44" height="44">Proteína <span>Lúdica</span></a>
+    <nav class="so-desktop" aria-label="Navegação principal">
+      <ul>
+        <li><a href="/catalogo" aria-current="page">Assistentes prontos</a></li>
+        <li><a href="/#quem-somos">Quem somos</a></li>
+        <li><a href="/#faq">Perguntas frequentes</a></li>
+        <li><a class="nav-cta" href="https://criar.proteinaludica.com">Criar o meu assistente</a></li>
+      </ul>
+    </nav>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu-movel" aria-label="Menu">
+      <span></span><span></span>
+    </button>
+  </div>
+  <nav id="menu-movel" hidden aria-label="Navegação principal">
+    <a href="/catalogo" aria-current="page">Assistentes prontos</a>
+    <a href="/#quem-somos">Quem somos</a>
+    <a href="/#faq">Perguntas frequentes</a>
+    <a class="nav-cta" href="https://criar.proteinaludica.com">Criar o meu assistente</a>
+  </nav>
+</header>
+
+<main>
+
+<section class="topo">
+  <div class="contentor">
+    <h1>Preparar o verão</h1>
+    <p>De Abril a Setembro, em quatro fases: planear, preparar a casa, viver o verão e fechar. Recebe o que cada pessoa da casa entrega, organiza o calendário, as compras e o orçamento, assinala o que pede um técnico e devolve o passo seguinte. No fim, devolve o que correu bem, para o ano seguinte começar melhor.</p>
+  </div>
+</section>
+
+<div class="contentor">
+  <section class="principio" aria-label="Princípio da secção">
+    <p>Cada um determina. A IA organiza e dá forma. Cada um revê e decide. Nada nasce da máquina sozinha.</p>
+  </section>
+
+  <section class="seccao" aria-label="Estado">
+    <article class="cartao cartao-fixo" style="max-width:640px">
+      <span class="estado estado-breve"><span class="ponto" aria-hidden="true"></span>Em preparação</span>
+      <div class="meta">
+        <span>Momento da casa</span>
+        <span>Ainda não está à venda</span>
+      </div>
+    </article>
+  </section>
+
+  <section class="seccao" aria-labelledby="como">
+    <div class="seccao-cabeca">
+      <h2 id="como">Como funciona</h2>
+    </div>
+    <div class="cartao cartao-fixo" style="max-width:640px">
+      <ol class="passos">
+        <li>Dizer o que a casa quer do verão: datas, pessoas e orçamento.</li>
+        <li>Entregar, fase a fase, o que cada pessoa da casa tem a seu cargo.</li>
+        <li>Receber, em cada fase, a lista do que falta e o passo seguinte.</li>
+      </ol>
+      <p class="nota">O assistente assinala o que pede um técnico. A decisão é sempre de quem o usa.</p>
+    </div>
+  </section>
+
+  <section class="seccao" aria-labelledby="demo-titulo">
+    <div class="seccao-cabeca">
+      <h2 id="demo-titulo">Demonstração</h2>
+      <p>Um pedido escrito à esquerda, a resposta do assistente à direita. Exemplo fixo, com valores de demonstração.</p>
+    </div>
+    <div class="demo">
+      <div class="cartao cartao-fixo">
+        <span class="rotulo">Pedido de quem usa</span>
+        <p class="pedido">«Hoje é 20 de Maio. Como estamos?»</p>
+        <p class="nota">Exemplo escrito por uma utilizadora (Marta, da casa Silva, nome fictício).</p>
+      </div>
+      <div class="cartao cartao-fixo resposta">
+        <span class="rotulo">Resposta do assistente digital IA</span>
+        <div class="lista-casa">
+          <div class="bloco-feito">
+            <h4><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2"/></svg>Já está:</h4>
+            <ul>
+              <li>O orçamento do verão está fixado em 600&nbsp;€.</li>
+              <li>As férias da casa Silva estão marcadas, de 3 a 17 de Agosto.</li>
+            </ul>
+          </div>
+          <div class="bloco-falta">
+            <h4><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 4.5V8l2.5 1.5" fill="none" stroke="currentColor" stroke-width="2"/></svg>Falta esta semana:</h4>
+            <ul>
+              <li>Chamar o técnico para rever o ar condicionado, que pede um profissional.</li>
+              <li>Comprar o protector solar e o repelente de mosquitos.</li>
+            </ul>
+          </div>
+          <div class="bloco-atras">
+            <h4><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 2l6.5 12h-13z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M8 6.5v3.5M8 11.5v1" stroke="currentColor" stroke-width="2"/></svg>Ficou para trás:</h4>
+            <ul>
+              <li>Limpar o terraço, previsto para 15 de Maio.</li>
+            </ul>
+          </div>
+          <p class="seguir"><strong>A seguir:</strong> marcar no calendário a revisão do ar condicionado, com alarme na véspera.</p>
+        </div>
+        <p class="fecho">Lista pronta a rever. A decisão é da casa.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+</main>
+
+<footer style="border-top:1px solid var(--linha);padding:32px 0 40px;color:var(--texto-2);font-size:1rem;text-align:center">
+  <div class="contentor">
+    <p class="aviso" style="max-width:70ch;margin:0 auto 10px">Não substituem aconselhamento profissional de nenhuma área.</p>
+    <p class="legal" style="color:var(--texto-3)">© 2026 Proteína Lúdica, Lda. · NIF 514411520 · Região Autónoma da Madeira, Portugal · <a href="/privacidade">Política de privacidade</a> · <a href="/termos">Termos</a></p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var btn = document.querySelector('.menu-btn');
+  var menu = document.getElementById('menu-movel');
+  if(!btn || !menu) return;
+  function fechar(){ btn.setAttribute('aria-expanded','false'); menu.hidden = true; }
+  btn.addEventListener('click', function(){
+    var aberto = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!aberto));
+    menu.hidden = aberto;
+  });
+  menu.addEventListener('click', function(e){ if(e.target.closest('a')) fechar(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') fechar(); });
+  window.addEventListener('resize', function(){ if(window.innerWidth > 760) fechar(); });
+})();
+</script>
+
+</body>
+</html>
