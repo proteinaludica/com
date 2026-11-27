@@ -7,11 +7,6 @@
   ],
   "redirects": [
     {
-      "source": "/retiroassist",
-      "destination": "/assistentes-pessoais",
-      "permanent": true
-    },
-    {
       "source": "/criar",
       "destination": "https://criar.proteinaludica.com",
       "permanent": true
