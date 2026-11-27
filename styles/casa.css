@@ -1,0 +1,25 @@
+/* Páginas da secção «Casa e vida pessoal» (RetiroAssist, Preparar o verão,
+   Renovação da casa). Segue a estrutura de /natal-ia, sem a camada de Natal.
+   Carregado depois do estilo da página. */
+
+:root{
+  --brilho-folha:rgba(155,179,123,.14);
+  --alerta-texto:#EE8A7C;
+}
+
+/* Passos de «Como funciona» com número em círculo. */
+.passos{list-style:none;margin:4px 0 0;counter-reset:passo;gap:0}
+.passos li{counter-increment:passo;display:grid;grid-template-columns:40px 1fr;gap:12px;align-items:start;padding:12px 0;border-top:1px solid var(--linha)}
+.passos li:last-child{border-bottom:1px solid var(--linha)}
+.passos li::before{content:counter(passo);display:grid;place-items:center;width:32px;height:32px;border-radius:999px;
+  background:var(--brilho-folha);color:var(--musgo-claro);font-weight:600}
+
+/* Demonstração em listas: cor e ícone próprios em cada lista. */
+.lista-casa{display:flex;flex-direction:column;gap:12px;margin-top:4px}
+.lista-casa h4{display:flex;align-items:center;gap:8px;font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;font-size:1.0688rem;font-weight:600;margin-bottom:2px}
+.lista-casa h4 svg{width:16px;height:16px;flex:0 0 16px}
+.lista-casa ul{margin-left:1.2em;color:var(--texto-2);font-size:1.0688rem;display:flex;flex-direction:column;gap:3px}
+.lista-casa .seguir{color:var(--texto);font-size:1.0688rem;border-top:1px solid var(--linha);padding-top:12px}
+.lista-casa .bloco-feito h4{color:var(--musgo-claro)}
+.lista-casa .bloco-falta h4{color:var(--ocre)}
+.lista-casa .bloco-atras h4{color:var(--alerta-texto)}
